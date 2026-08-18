@@ -48,7 +48,7 @@ export const employees = pgTable(
         jobPositionId: uuid('job_position_id').references(() => jobPositions.id, {
             onDelete: 'set null',
         }),
-        managerId: uuid('manager_id').references((): any => employees.id, {
+        managerId: uuid('manager_id').references(() => employees.id, {
             onDelete: 'set null',
         }),
         locationId: uuid('location_id').references(() => locations.id, {
