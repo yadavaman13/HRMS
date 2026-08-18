@@ -16,8 +16,8 @@ function validateRequest(req, res, next) {
 }
 
 export const registerValidator = [
-    body('firstName').trim().notEmpty().withMessage('First Name is required'),
-    body('lastName').trim().notEmpty().withMessage('Last Name is required'),
+    body('companyName').trim().notEmpty().withMessage('Company Name is required'),
+    body('name').trim().notEmpty().withMessage('Name is required'),
     body('email').trim().isEmail().withMessage('A valid email is required'),
     body('password')
         .isLength({ min: 6 })
@@ -26,7 +26,7 @@ export const registerValidator = [
 ];
 
 export const loginValidator = [
-    body('email').trim().isEmail().withMessage('A valid email is required'),
+    body('email').trim().notEmpty().withMessage('Email or Employee ID is required'),
     body('password').notEmpty().withMessage('Password is required'),
     validateRequest,
 ];
