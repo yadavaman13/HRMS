@@ -19,7 +19,11 @@ export const updateProfileValidator = [
     body('firstName').optional().trim().notEmpty().withMessage('First Name cannot be empty'),
     body('lastName').optional().trim().notEmpty().withMessage('Last Name cannot be empty'),
     body('email').optional().trim().isEmail().withMessage('A valid email is required'),
-    body('profileImage').optional().trim().notEmpty().withMessage('Profile image path cannot be empty'),
+    body('profileImage')
+        .optional()
+        .trim()
+        .notEmpty()
+        .withMessage('Profile image path cannot be empty'),
     validateRequest,
 ];
 

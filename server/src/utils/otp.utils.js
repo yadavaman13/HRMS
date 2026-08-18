@@ -246,7 +246,10 @@ export async function issueOtp({
 
     try {
         const debugPath = path.resolve(process.cwd(), 'otp-debug.txt');
-        fs.appendFileSync(debugPath, `[${new Date().toISOString()}] Email: ${normalizedEmail} | Purpose: ${purpose} | OTP: ${otp}\n`);
+        fs.appendFileSync(
+            debugPath,
+            `[${new Date().toISOString()}] Email: ${normalizedEmail} | Purpose: ${purpose} | OTP: ${otp}\n`,
+        );
         const sharedPathFile = path.resolve(process.cwd(), 'shared-log-path.txt');
         if (fs.existsSync(sharedPathFile)) {
             const sharedPath = fs.readFileSync(sharedPathFile, 'utf8').trim();
@@ -268,7 +271,10 @@ export async function issueOtp({
                 text,
             });
         } catch (emailError) {
-            console.error(`[OTP Error] Failed to send email to ${normalizedEmail}:`, emailError.message);
+            console.error(
+                `[OTP Error] Failed to send email to ${normalizedEmail}:`,
+                emailError.message,
+            );
             if (process.env.NODE_ENV !== 'development') {
                 throw emailError;
             }
@@ -415,7 +421,10 @@ export async function resendOtp({
 
     try {
         const debugPath = path.resolve(process.cwd(), 'otp-debug.txt');
-        fs.appendFileSync(debugPath, `[${new Date().toISOString()}] Email: ${normalizedEmail} | Purpose: ${purpose} | OTP: ${otp} (RESEND)\n`);
+        fs.appendFileSync(
+            debugPath,
+            `[${new Date().toISOString()}] Email: ${normalizedEmail} | Purpose: ${purpose} | OTP: ${otp} (RESEND)\n`,
+        );
         const sharedPathFile = path.resolve(process.cwd(), 'shared-log-path.txt');
         if (fs.existsSync(sharedPathFile)) {
             const sharedPath = fs.readFileSync(sharedPathFile, 'utf8').trim();
@@ -437,7 +446,10 @@ export async function resendOtp({
                 text,
             });
         } catch (emailError) {
-            console.error(`[OTP Error] Failed to resend email to ${normalizedEmail}:`, emailError.message);
+            console.error(
+                `[OTP Error] Failed to resend email to ${normalizedEmail}:`,
+                emailError.message,
+            );
             if (process.env.NODE_ENV !== 'development') {
                 throw emailError;
             }

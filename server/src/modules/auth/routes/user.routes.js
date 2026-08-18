@@ -4,10 +4,7 @@ import * as userController from '../controllers/user.controller.js';
 import { protect } from '../middleware/auth.middleware.js';
 
 const upload = multer({ storage: multer.memoryStorage() });
-import {
-    updateProfileValidator,
-    deleteAccountValidator,
-} from '../validators/user.validator.js';
+import { updateProfileValidator, deleteAccountValidator } from '../validators/user.validator.js';
 import { changePasswordValidator } from '../validators/auth.validator.js';
 
 const router = Router();

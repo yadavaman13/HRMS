@@ -2,7 +2,7 @@ import cron from 'node-cron';
 import { cleanupExpiredDeletedUsers } from '../modules/auth/services/cleanup.service.js';
 
 cron.schedule(
-    "0 0 * * *",
+    '0 0 * * *',
     async () => {
         try {
             console.log('[Cron] Starting expired users cleanup...');
@@ -13,6 +13,6 @@ cron.schedule(
         }
     },
     {
-        timezone: "Asia/Kolkata"
-    }
+        timezone: 'Asia/Kolkata',
+    },
 );

@@ -242,7 +242,7 @@ export async function adminCleanupUsers(req, res, next) {
             statusCode: 200,
             success: true,
             message: `${deletedUsers.length} expired deleted users permanently cleaned up.`,
-            deletedUsers: deletedUsers.map(user => ({
+            deletedUsers: deletedUsers.map((user) => ({
                 id: user.id,
                 email: user.email,
                 deletedAt: user.deletedAt,
@@ -272,7 +272,9 @@ export async function uploadAvatar(req, res, next) {
         const imageUrl = uploadedFile.url;
 
         // Also update the database profileImage for the user
-        const updatedUser = await userService.updateProfile(req.user.id, { profileImage: imageUrl });
+        const updatedUser = await userService.updateProfile(req.user.id, {
+            profileImage: imageUrl,
+        });
 
         // Invalidate Redis user cache
         const cacheKey = `user:${req.user.id}`;
@@ -300,8 +302,8 @@ export async function uploadAvatar(req, res, next) {
                     emailVerified: updatedUser.emailVerified,
                     createdAt: updatedUser.createdAt,
                     updatedAt: updatedUser.updatedAt,
-                }
-            }
+                },
+            },
         });
     } catch (err) {
         next(err);
