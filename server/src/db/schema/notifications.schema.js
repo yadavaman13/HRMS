@@ -1,12 +1,4 @@
-import {
-    pgTable,
-    uuid,
-    text,
-    varchar,
-    boolean,
-    timestamp,
-    index,
-} from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, varchar, boolean, timestamp, index } from 'drizzle-orm/pg-core';
 import { notificationTypeEnum } from './enums.js';
 import { users } from './users.schema.js';
 

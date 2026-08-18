@@ -50,10 +50,7 @@ export const workScheduleDays = pgTable(
     },
     (table) => {
         return {
-            scheduleDayIdx: uniqueIndex('schedule_day_idx').on(
-                table.scheduleId,
-                table.weekday,
-            ),
+            scheduleDayIdx: uniqueIndex('schedule_day_idx').on(table.scheduleId, table.weekday),
         };
     },
 );

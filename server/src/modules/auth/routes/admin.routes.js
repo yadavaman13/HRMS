@@ -1,7 +1,9 @@
 import { Router } from 'express';
 import * as userController from '../controllers/user.controller.js';
+import * as employeeController from '../controllers/employee.controller.js';
 import { protect, restrictTo } from '../middleware/auth.middleware.js';
 import { adminUpdateRoleValidator } from '../validators/user.validator.js';
+import { createEmployeeValidator } from '../validators/employee.validator.js';
 
 const router = Router();
 
@@ -15,5 +17,8 @@ router.post('/users/cleanup', userController.adminCleanupUsers);
 router.get('/users/:id', userController.adminGetUserById);
 router.patch('/users/:id/role', adminUpdateRoleValidator, userController.adminUpdateRole);
 router.delete('/users/:id', userController.adminDeleteUser);
+
+// Admin Employee Management Routes
+router.post('/employees', createEmployeeValidator, employeeController.createEmployee);
 
 export default router;
