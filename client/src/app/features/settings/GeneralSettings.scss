@@ -1,0 +1,219 @@
+@use '@/styles/variables' as variables;
+
+.general-settings-container {
+    background: variables.$color-white;
+    border-radius: variables.$radius-large;
+
+    // border: 1px solid rgba(variables.$color-gray-200, 0.6);
+    // box-shadow: variables.$shadow-md;
+    padding: 32px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    animation: settings-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+    .settings-card-header {
+        border-bottom: 1px solid variables.$color-gray-100;
+        padding-bottom: 24px;
+        margin-bottom: 28px;
+
+        .settings-card-title {
+            font-family: variables.$font-sans;
+            font-size: variables.$font-size-xl;
+            font-weight: 700;
+            color: variables.$color-primary;
+            margin: 0 0 6px;
+        }
+
+        .settings-card-subtitle {
+            font-family: variables.$font-sans;
+            font-size: variables.$font-size-sm;
+            color: variables.$color-gray-500;
+            margin: 0;
+        }
+    }
+
+    .general-settings-form {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+
+        .preference-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+
+            .section-label {
+                font-family: variables.$font-sans;
+                font-size: variables.$font-size-sm;
+                font-weight: 600;
+                color: variables.$color-gray-700;
+            }
+        }
+
+        .theme-toggle-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            width: 100%;
+
+            .theme-card {
+                background: variables.$color-white;
+                border: 1px solid variables.$color-gray-200;
+                border-radius: variables.$radius-medium;
+                padding: 16px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                cursor: pointer;
+                text-align: left;
+                box-shadow: variables.$shadow-sm;
+
+                @include variables.transition-ease;
+
+                svg {
+                    color: variables.$color-gray-500;
+
+                    @include variables.transition-ease;
+                }
+
+                .theme-info {
+                    display: flex;
+                    flex-direction: column;
+
+                    .theme-name {
+                        font-family: variables.$font-sans;
+                        font-size: variables.$font-size-sm;
+                        font-weight: 600;
+                        color: variables.$color-gray-800;
+                    }
+
+                    .theme-desc {
+                        font-family: variables.$font-sans;
+                        font-size: variables.$font-size-xs;
+                        color: variables.$color-gray-400;
+                        margin-top: 2px;
+                    }
+                }
+
+                &:hover {
+                    background: variables.$color-gray-50;
+                    border-color: variables.$color-gray-300;
+                }
+
+                &.active {
+                    border-color: variables.$color-primary;
+                    background: rgba(variables.$color-primary, 0.02);
+                    box-shadow: 0 0 0 2px variables.$color-primary;
+
+                    svg {
+                        color: variables.$color-primary;
+                    }
+                }
+            }
+        }
+
+        .localization-fields-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+
+            .dropdown-field-wrapper {
+                .shared-dropdown-container {
+                    margin: 0;
+                }
+            }
+        }
+
+        .notifications-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 16px;
+            background: variables.$color-gray-50;
+            border: 1px solid variables.$color-gray-100;
+            border-radius: variables.$radius-medium;
+
+            .notification-item {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                padding-bottom: 12px;
+                border-bottom: 1px solid rgba(variables.$color-gray-200, 0.5);
+
+                &:last-child {
+                    border-bottom: none;
+                    padding-bottom: 0;
+                }
+
+                .checkbox-custom-container {
+                    margin-bottom: 0;
+
+                    .checkbox-label-text {
+                        font-weight: 600;
+                        color: variables.$color-gray-700;
+                    }
+                }
+
+                .notif-detail-text {
+                    font-family: variables.$font-sans;
+                    font-size: variables.$font-size-xs;
+                    color: variables.$color-gray-500;
+                    margin: 0 0 0 24px; // indent to align under label
+                }
+            }
+        }
+
+        .settings-footer-actions {
+            border-top: 1px solid variables.$color-gray-100;
+            padding-top: 24px;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 12px;
+
+            button {
+                min-width: fit-content;
+                width: auto;
+                padding-inline: 20px;
+            }
+        }
+    }
+}
+
+// Responsive design
+@media (width <= 768px) {
+    .general-settings-container {
+        padding: 24px;
+
+        .general-settings-form {
+            .theme-toggle-grid {
+                grid-template-columns: 1fr; // Stack cards on mobile screens
+                gap: 10px;
+            }
+
+            .localization-fields-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .settings-footer-actions {
+                button {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@keyframes settings-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
