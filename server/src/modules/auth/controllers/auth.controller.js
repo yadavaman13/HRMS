@@ -172,9 +172,7 @@ export async function login(req, res, next) {
             });
         }
 
-        
         const user = await getUserByEmail(email.trim().toLowerCase(), true);
-
         if (!user) {
             return sendResponse({
                 res,
@@ -791,13 +789,13 @@ export async function changePassword(req, res, next) {
         }
 
         //new password cant be similar to the previous one.
-        if(currentPassword == newPassword){
+        if (currentPassword == newPassword) {
             return sendResponse({
                 res,
                 statusCode: 401,
                 message: 'New password cannot be similar to the previous password.',
                 success: false,
-            })
+            });
         }
 
         const isMatch = await bcrypt.compare(currentPassword, user.password);

@@ -28,7 +28,9 @@ export const users = pgTable(
             roleIdx: index('users_role_idx').on(table.role),
             isDeletedIdx: index('users_is_deleted_idx').on(table.isDeleted),
             deletedAtIdx: index('users_deleted_at_idx').on(table.deletedAt),
-            recoveryExpiresAtIdx: index('users_recovery_expires_at_idx').on(table.recoveryExpiresAt),
+            recoveryExpiresAtIdx: index('users_recovery_expires_at_idx').on(
+                table.recoveryExpiresAt,
+            ),
         };
     },
 );

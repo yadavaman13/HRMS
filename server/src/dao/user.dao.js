@@ -129,12 +129,7 @@ export async function recoverUser(id) {
 export async function deleteExpiredDeletedUsers() {
     const deleted = await db
         .delete(users)
-        .where(
-            and(
-                eq(users.isDeleted, true),
-                lt(users.recoveryExpiresAt, new Date())
-            )
-        )
+        .where(and(eq(users.isDeleted, true), lt(users.recoveryExpiresAt, new Date())))
         .returning();
     return deleted;
 }
