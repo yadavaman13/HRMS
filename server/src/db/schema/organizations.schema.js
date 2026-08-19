@@ -66,7 +66,7 @@ export const departments = pgTable(
             .references(() => organizations.id, { onDelete: 'cascade' }),
         name: varchar('name', { length: 255 }).notNull(),
         code: varchar('code', { length: 50 }),
-        managerEmployeeId: uuid('manager_employee_id'),
+        managerEmployeeId: uuid('manager_employee_id'), // FK added via raw SQL migration (circular dependency with employees)
         isActive: boolean('is_active').notNull().default(true),
         createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
         updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),

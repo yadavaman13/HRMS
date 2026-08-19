@@ -1,0 +1,18 @@
+@use '@/styles/variables' as variables;
+
+.hero-panel {
+    flex: 1;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+
+    .hero-placeholder-text {
+        font-family: variables.$font-sans;
+        font-size: variables.$font-size-xxl;
+        font-weight: 500;
+        color: variables.$color-gray-600;
+        letter-spacing: -0.01em;
+    }
+}

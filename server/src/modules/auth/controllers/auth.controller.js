@@ -1,5 +1,8 @@
 import bcrypt from 'bcryptjs';
 import redis from '../../../config/cache.config.js';
+import { registerCompanyWithAdmin } from '../../../dao/organization.dao.js';
+import { getEmployeeByCode } from '../../../dao/employee.dao.js';
+import { splitFullName } from '../../../utils/auth.utils.js';
 
 import {
     getUserByEmail,
@@ -27,19 +30,38 @@ import {
 /**
  * Handle user registration request
  */
+/**
+ * Handle company and system admin registration request
+ */
 export async function register(req, res, next) {
     try {
-        const { email, password, firstName, lastName, profileImage, role } = req.body || {};
+        const {
+            companyName,
+            name,
+            email,
+            password,
+            phone,
+            logoUrl,
+            companyLogo,
+            address,
+            city,
+            state,
+            country,
+            postalCode,
+            timezone,
+            currency
+        } = req.body || {};
+
         const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
         const passwordValue = typeof password === 'string' ? password : '';
-        const firstNameValue = typeof firstName === 'string' ? firstName.trim() : '';
-        const lastNameValue = typeof lastName === 'string' ? lastName.trim() : '';
+        const nameValue = typeof name === 'string' ? name.trim() : '';
+        const companyNameValue = typeof companyName === 'string' ? companyName.trim() : '';
 
-        if (!normalizedEmail || !passwordValue || !firstNameValue || !lastNameValue) {
+        if (!companyNameValue || !nameValue || !normalizedEmail || !passwordValue) {
             return sendResponse({
                 res,
                 statusCode: 400,
-                message: 'Name, email, and password are required.',
+                message: 'Company Name, Name, Email, and Password are required.',
                 success: false,
             });
         }
@@ -55,13 +77,40 @@ export async function register(req, res, next) {
         }
 
         const isVerifiedKey = `verified_email:${normalizedEmail}`;
-        const isEmailVerified = await redis.get(isVerifiedKey);
-
         let emailVerified = false;
-        if (isEmailVerified) {
-            emailVerified = true;
-            await redis.del(isVerifiedKey);
-        } else {
+        if (redis) {
+            const isEmailVerified = await redis.get(isVerifiedKey);
+            if (isEmailVerified) {
+                emailVerified = true;
+                await redis.del(isVerifiedKey);
+            }
+        }
+
+        // Split name into first and last name using utility
+        const { firstName, lastName } = splitFullName(nameValue);
+        const hashedPassword = await bcrypt.hash(passwordValue, 10);
+
+        // Run db transaction to create organization and initialize all setups via organization DAO
+        const registeredData = await registerCompanyWithAdmin({
+            companyName: companyNameValue,
+            logoUrl: logoUrl || companyLogo || null,
+            email: normalizedEmail,
+            phone: phone || null,
+            address: address || null,
+            city: city || null,
+            state: state || null,
+            country: country || 'India',
+            postalCode: postalCode || null,
+            timezone: timezone || 'Asia/Kolkata',
+            currency: currency || 'INR',
+            firstName,
+            lastName,
+            passwordHash: hashedPassword,
+            emailVerified
+        });
+
+        // Send OTP if not verified yet
+        if (!emailVerified) {
             const otpResult = await issueOtp({
                 email: normalizedEmail,
                 purpose: OTP_PURPOSES.VERIFY_EMAIL,
@@ -70,35 +119,11 @@ export async function register(req, res, next) {
             });
 
             if (!otpResult.ok) {
-                return sendResponse({
-                    res,
-                    statusCode: 400,
-                    message: 'Unable to generate OTP.',
-                    success: false,
-                });
+                console.error('Unable to send verification OTP on company registration:', normalizedEmail);
             }
         }
 
-        const hashedPassword = await bcrypt.hash(passwordValue, 10);
-
-        let mappedRole = 'user';
-        if (role === 'admin' || role === 'ADMIN') {
-            mappedRole = 'admin';
-        }
-
-        const user = await createUser({
-            email: normalizedEmail,
-            password: hashedPassword,
-            firstName: firstNameValue,
-            lastName: lastNameValue,
-            profileImage: profileImage,
-            role: mappedRole,
-            emailVerified: emailVerified,
-            isActive: true,
-            isDeleted: false,
-        });
-
-        return sendTokenResponse(res, 201, 'User registered successfully', user);
+        return sendTokenResponse(res, 201, 'Company and Admin registered successfully', registeredData.user);
     } catch (error) {
         next(error);
     }
@@ -167,17 +192,31 @@ export async function login(req, res, next) {
             return sendResponse({
                 res,
                 statusCode: 400,
-                message: 'Email and password are required.',
+                message: 'Email/Employee ID and password are required.',
                 success: false,
             });
         }
 
-        const user = await getUserByEmail(email.trim().toLowerCase(), true);
+        const identifier = email.trim();
+        let user = null;
+
+        if (identifier.includes('@')) {
+            // Find by Email
+            user = await getUserByEmail(identifier.toLowerCase(), true);
+        } else {
+            // Find by Employee ID via employee DAO
+            const employee = await getEmployeeByCode(identifier);
+            
+            if (employee && employee.userId) {
+                user = await getUserById(employee.userId, true);
+            }
+        }
+
         if (!user) {
             return sendResponse({
                 res,
                 statusCode: 401,
-                message: 'No user exists with this email',
+                message: 'No user exists with this email or Employee ID.',
                 success: false,
             });
         }
@@ -224,7 +263,7 @@ export async function login(req, res, next) {
             return sendResponse({
                 res,
                 statusCode: 401,
-                message: 'Invalid email or password.',
+                message: 'Invalid email/Employee ID or password.',
                 success: false,
             });
         }
