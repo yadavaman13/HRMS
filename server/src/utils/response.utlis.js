@@ -61,3 +61,32 @@ export async function sendTokenResponse(res, statusCode, message, user, remember
         },
     });
 }
+
+/**
+ * Send PDF buffer response with standard headers
+ *
+ * @param {object} params
+ * @param {import('express').Response} params.res - Express response object
+ * @param {Buffer} params.pdfBuffer - Generated PDF Buffer
+ * @param {string} [params.filename='document.pdf'] - Download filename
+ * @param {boolean} [params.isInline=false] - Whether to view inline in browser or trigger download
+ * @param {number} [params.statusCode=200] - HTTP status code
+ */
+export function sendPdfResponse({
+    res,
+    pdfBuffer,
+    filename = 'document.pdf',
+    isInline = false,
+    statusCode = 200,
+}) {
+    const disposition = isInline ? 'inline' : 'attachment';
+
+    res.status(statusCode).set({
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `${disposition}; filename="${filename}"`,
+        'Content-Length': pdfBuffer.length,
+        'Cache-Control': 'no-cache',
+    });
+
+    return res.send(pdfBuffer);
+}

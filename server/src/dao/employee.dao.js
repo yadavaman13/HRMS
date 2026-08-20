@@ -61,7 +61,10 @@ export async function getEmployeeByUserId(userId) {
 
 export async function listEmployees(organizationId, opts = {}) {
     const { status, departmentId, limit = 100, offset = 0 } = opts;
-    const filters = [eq(employees.organizationId, organizationId), sql`${employees.deletedAt} IS NULL`];
+    const filters = [
+        eq(employees.organizationId, organizationId),
+        sql`${employees.deletedAt} IS NULL`,
+    ];
 
     if (status) filters.push(eq(employees.employmentStatus, status));
     if (departmentId) filters.push(eq(employees.departmentId, departmentId));
@@ -147,10 +150,7 @@ export async function upsertEmployeeIdentifiers(employeeId, data) {
 // ── Documents ────────────────────────────────────────────────────────────────
 
 export async function getEmployeeDocuments(employeeId) {
-    return db
-        .select()
-        .from(employeeDocuments)
-        .where(eq(employeeDocuments.employeeId, employeeId));
+    return db.select().from(employeeDocuments).where(eq(employeeDocuments.employeeId, employeeId));
 }
 
 // ── Skills ───────────────────────────────────────────────────────────────────
@@ -170,10 +170,7 @@ export async function getEmployeeSkills(employeeId) {
 // ── Certifications ───────────────────────────────────────────────────────────
 
 export async function getEmployeeCertifications(employeeId) {
-    return db
-        .select()
-        .from(certifications)
-        .where(eq(certifications.employeeId, employeeId));
+    return db.select().from(certifications).where(eq(certifications.employeeId, employeeId));
 }
 
 // ── Dashboard Status View ────────────────────────────────────────────────────
@@ -208,20 +205,17 @@ export async function getFullEmployeeProfile(employeeId) {
         .where(and(eq(employees.id, employeeId), sql`${employees.deletedAt} IS NULL`));
     return row || null;
 }
-// import { eq } from 'drizzle-orm';
-// import { employees } from '../db/schema/employees.schema.js';
 
-// /**
-//  * Fetch employee profile by Employee Code.
-//  * @param {string} employeeCode
-//  * @returns {Promise<object|null>} The employee record or null if not found.
-//  */
-// export async function getEmployeeByCode(employeeCode) {
-//     if (typeof employeeCode !== 'string') return null;
-//     const [employee] = await db
-//         .select()
-//         .from(employees)
-//         .where(eq(employees.employeeCode, employeeCode.toUpperCase()));
-//     return employee || null;
-// }
-// >>>>>>> 5b7e10656e6142ef6dfc2462d6f1fa5d66567abb
+/**
+ * Fetch employee profile by Employee Code.
+ * @param {string} employeeCode
+ * @returns {Promise<object|null>} The employee record or null if not found.
+ */
+export async function getEmployeeByCode(employeeCode) {
+    if (typeof employeeCode !== 'string') return null;
+    const [employee] = await db
+        .select()
+        .from(employees)
+        .where(eq(employees.employeeCode, employeeCode.toUpperCase()));
+    return employee || null;
+}
