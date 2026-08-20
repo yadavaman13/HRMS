@@ -1,12 +1,4 @@
-import {
-    pgTable,
-    uuid,
-    text,
-    boolean,
-    integer,
-    timestamp,
-    index,
-} from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, boolean, integer, timestamp, index } from 'drizzle-orm/pg-core';
 import { roleEnum } from './enums.js';
 import { organizations } from './organizations.schema.js';
 

@@ -22,47 +22,40 @@ import { organizations } from './organizations.schema.js';
 import { employees } from './employees.schema.js';
 import { users } from './users.schema.js';
 
-export const payrollSettings = pgTable(
-    'payroll_settings',
-    {
-        id: uuid('id').defaultRandom().primaryKey(),
-        organizationId: uuid('organization_id')
-            .notNull()
-            .unique()
-            .references(() => organizations.id, { onDelete: 'cascade' }),
-        payrollFrequency: varchar('payroll_frequency', { length: 20 })
-            .notNull()
-            .default('MONTHLY'),
-        payrollCurrency: varchar('payroll_currency', { length: 3 })
-            .notNull()
-            .default('INR'),
-        payDay: integer('pay_day').notNull().default(1),
-        workingDaysBasis: numeric('working_days_basis', { precision: 5, scale: 2 })
-            .notNull()
-            .default('22'),
-        unpaidLeaveDeductionMethod: varchar('unpaid_leave_deduction_method', {
-            length: 50,
-        })
-            .notNull()
-            .default('PROPORTIONAL_GROSS'),
-        pfEnabled: boolean('pf_enabled').notNull().default(true),
-        employeePfRate: numeric('employee_pf_rate', { precision: 5, scale: 2 })
-            .notNull()
-            .default('12.00'),
-        employerPfRate: numeric('employer_pf_rate', { precision: 5, scale: 2 })
-            .notNull()
-            .default('12.00'),
-        professionalTaxEnabled: boolean('professional_tax_enabled').notNull().default(true),
-        professionalTaxAmount: numeric('professional_tax_amount', {
-            precision: 12,
-            scale: 2,
-        })
-            .notNull()
-            .default('200.00'),
-        createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-        updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
-    },
-);
+export const payrollSettings = pgTable('payroll_settings', {
+    id: uuid('id').defaultRandom().primaryKey(),
+    organizationId: uuid('organization_id')
+        .notNull()
+        .unique()
+        .references(() => organizations.id, { onDelete: 'cascade' }),
+    payrollFrequency: varchar('payroll_frequency', { length: 20 }).notNull().default('MONTHLY'),
+    payrollCurrency: varchar('payroll_currency', { length: 3 }).notNull().default('INR'),
+    payDay: integer('pay_day').notNull().default(1),
+    workingDaysBasis: numeric('working_days_basis', { precision: 5, scale: 2 })
+        .notNull()
+        .default('22'),
+    unpaidLeaveDeductionMethod: varchar('unpaid_leave_deduction_method', {
+        length: 50,
+    })
+        .notNull()
+        .default('PROPORTIONAL_GROSS'),
+    pfEnabled: boolean('pf_enabled').notNull().default(true),
+    employeePfRate: numeric('employee_pf_rate', { precision: 5, scale: 2 })
+        .notNull()
+        .default('12.00'),
+    employerPfRate: numeric('employer_pf_rate', { precision: 5, scale: 2 })
+        .notNull()
+        .default('12.00'),
+    professionalTaxEnabled: boolean('professional_tax_enabled').notNull().default(true),
+    professionalTaxAmount: numeric('professional_tax_amount', {
+        precision: 12,
+        scale: 2,
+    })
+        .notNull()
+        .default('200.00'),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+});
 
 export const salaryComponentDefinitions = pgTable(
     'salary_component_definitions',
@@ -197,21 +190,15 @@ export const payslips = pgTable(
             .notNull()
             .references(() => salaryStructures.id, { onDelete: 'restrict' }),
         monthlyWage: numeric('monthly_wage', { precision: 12, scale: 2 }).notNull(),
-        workingDays: numeric('working_days', { precision: 5, scale: 2 })
-            .notNull()
-            .default('0'),
-        payableDays: numeric('payable_days', { precision: 5, scale: 2 })
-            .notNull()
-            .default('0'),
+        workingDays: numeric('working_days', { precision: 5, scale: 2 }).notNull().default('0'),
+        payableDays: numeric('payable_days', { precision: 5, scale: 2 }).notNull().default('0'),
         paidLeaveDays: numeric('paid_leave_days', { precision: 5, scale: 2 })
             .notNull()
             .default('0'),
         unpaidLeaveDays: numeric('unpaid_leave_days', { precision: 5, scale: 2 })
             .notNull()
             .default('0'),
-        absentDays: numeric('absent_days', { precision: 5, scale: 2 })
-            .notNull()
-            .default('0'),
+        absentDays: numeric('absent_days', { precision: 5, scale: 2 }).notNull().default('0'),
         halfDaysCount: numeric('half_days_count', { precision: 3, scale: 1 })
             .notNull()
             .default('0'),
@@ -246,10 +233,7 @@ export const payslips = pgTable(
                 table.payrollPeriodId,
             ),
             periodIdx: index('payslips_period_idx').on(table.payrollPeriodId),
-            statusIdx: index('payslips_status_idx').on(
-                table.payrollPeriodId,
-                table.status,
-            ),
+            statusIdx: index('payslips_status_idx').on(table.payrollPeriodId, table.status),
         };
     },
 );
@@ -274,47 +258,27 @@ export const payslipLines = pgTable(
     (table) => {
         return {
             payslipIdx: index('payslip_lines_payslip_idx').on(table.payslipId),
-            typeIdx: index('payslip_lines_type_idx').on(
-                table.payslipId,
-                table.componentType,
-            ),
+            typeIdx: index('payslip_lines_type_idx').on(table.payslipId, table.componentType),
         };
     },
 );
 
-export const payslipAttendanceSummary = pgTable(
-    'payslip_attendance_summary',
-    {
-        payslipId: uuid('payslip_id')
-            .primaryKey()
-            .references(() => payslips.id, { onDelete: 'cascade' }),
-        totalCalendarDays: integer('total_calendar_days').notNull().default(0),
-        scheduledDays: numeric('scheduled_days', { precision: 5, scale: 2 })
-            .notNull()
-            .default('0'),
-        presentDays: numeric('present_days', { precision: 5, scale: 2 })
-            .notNull()
-            .default('0'),
-        paidLeaveDays: numeric('paid_leave_days', { precision: 5, scale: 2 })
-            .notNull()
-            .default('0'),
-        unpaidLeaveDays: numeric('unpaid_leave_days', { precision: 5, scale: 2 })
-            .notNull()
-            .default('0'),
-        absentDays: numeric('absent_days', { precision: 5, scale: 2 })
-            .notNull()
-            .default('0'),
-        halfDays: numeric('half_days', { precision: 3, scale: 1 }).notNull().default('0'),
-        holidayDays: numeric('holiday_days', { precision: 3, scale: 1 })
-            .notNull()
-            .default('0'),
-        weekendDays: numeric('weekend_days', { precision: 3, scale: 1 })
-            .notNull()
-            .default('0'),
-        payableDays: numeric('payable_days', { precision: 5, scale: 2 })
-            .notNull()
-            .default('0'),
-        workingMinutes: integer('working_minutes').notNull().default(0),
-        overtimeMinutes: integer('overtime_minutes').notNull().default(0),
-    },
-);
+export const payslipAttendanceSummary = pgTable('payslip_attendance_summary', {
+    payslipId: uuid('payslip_id')
+        .primaryKey()
+        .references(() => payslips.id, { onDelete: 'cascade' }),
+    totalCalendarDays: integer('total_calendar_days').notNull().default(0),
+    scheduledDays: numeric('scheduled_days', { precision: 5, scale: 2 }).notNull().default('0'),
+    presentDays: numeric('present_days', { precision: 5, scale: 2 }).notNull().default('0'),
+    paidLeaveDays: numeric('paid_leave_days', { precision: 5, scale: 2 }).notNull().default('0'),
+    unpaidLeaveDays: numeric('unpaid_leave_days', { precision: 5, scale: 2 })
+        .notNull()
+        .default('0'),
+    absentDays: numeric('absent_days', { precision: 5, scale: 2 }).notNull().default('0'),
+    halfDays: numeric('half_days', { precision: 3, scale: 1 }).notNull().default('0'),
+    holidayDays: numeric('holiday_days', { precision: 3, scale: 1 }).notNull().default('0'),
+    weekendDays: numeric('weekend_days', { precision: 3, scale: 1 }).notNull().default('0'),
+    payableDays: numeric('payable_days', { precision: 5, scale: 2 }).notNull().default('0'),
+    workingMinutes: integer('working_minutes').notNull().default(0),
+    overtimeMinutes: integer('overtime_minutes').notNull().default(0),
+});
