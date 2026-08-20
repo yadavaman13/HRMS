@@ -4,14 +4,32 @@ import { AppError } from '../../auth/utils/appError.js';
 // ── Permission matrix ────────────────────────────────────────────────────
 const PERMISSIONS = {
     employee: {
-        read: ['id', 'employeeCode', 'firstName', 'middleName', 'lastName', 'displayName',
-               'dateOfBirth', 'gender', 'phone', 'workEmail', 'userEmail', 'userProfileImage',
-               'departmentName', 'jobPositionName', 'locationName', 'managerFirstName',
-               'managerLastName', 'joiningDate', 'employmentStatus', 'employmentType',
-               'createdAt'],
+        read: [
+            'id',
+            'employeeCode',
+            'firstName',
+            'middleName',
+            'lastName',
+            'displayName',
+            'dateOfBirth',
+            'gender',
+            'phone',
+            'workEmail',
+            'userEmail',
+            'userProfileImage',
+            'departmentName',
+            'jobPositionName',
+            'locationName',
+            'managerFirstName',
+            'managerLastName',
+            'joiningDate',
+            'employmentStatus',
+            'employmentType',
+            'createdAt',
+        ],
         write: ['phone', 'workEmail'], // self-only
     },
-    'hr': { read: 'all', write: 'all' },
+    hr: { read: 'all', write: 'all' },
     admin: { read: 'all', write: 'all' },
 };
 
@@ -46,7 +64,7 @@ export async function getDirectory(organizationId, userId, userRole, opts) {
         statusMap[s.employee_id] = s.computed_status;
     }
 
-    const mapped = employees.map(emp => ({
+    const mapped = employees.map((emp) => ({
         ...filterReadable(userRole, {
             id: emp.id,
             employeeCode: emp.employeeCode,
@@ -121,11 +139,12 @@ export async function getPrivateInfo(employeeId, userRole) {
         maritalStatus: privateInfo?.maritalStatus ?? null,
         emergencyContactName: privateInfo?.emergencyContactName ?? null,
         emergencyContactPhone: privateInfo?.emergencyContactPhone ?? null,
-        bankAccounts: bankAccounts.map(b => ({
+        bankAccounts: bankAccounts.map((b) => ({
             id: b.id,
             accountHolderName: b.accountHolderName,
             // account_number_encrypted is BYTEA — return masked or handle decryption at app layer
-            maskedAccountNumber: '********' + (b.accountNumberEncrypted?.toString('utf-8').slice(-4) ?? ''),
+            maskedAccountNumber:
+                '********' + (b.accountNumberEncrypted?.toString('utf-8').slice(-4) ?? ''),
             bankName: b.bankName,
             ifscCode: b.ifscCode,
             isPrimary: b.isPrimary,
@@ -157,7 +176,7 @@ export async function updateProfile(employeeId, userId, userRole, data) {
     for (const [key, value] of Object.entries(data)) {
         if (isAdmin || writableByEmployee.includes(key)) {
             // Map camelCase controller keys to DB column names
-            const dbKey = key.replace(/[A-Z]/g, m => '_' + m.toLowerCase());
+            const dbKey = key.replace(/[A-Z]/g, (m) => '_' + m.toLowerCase());
             updates[dbKey] = value;
         }
     }

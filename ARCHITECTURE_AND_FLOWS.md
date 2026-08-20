@@ -5,6 +5,7 @@ This document provides a comprehensive technical overview of the **Dayflow Human
 ---
 
 ## Table of Contents
+
 1. [System Architecture Overview](#1-system-architecture-overview)
 2. [Entity-Relationship (ER) Diagram](#2-entity-relationship-er-diagram)
 3. [Module Breakdown & Responsibilities](#3-module-breakdown--responsibilities)
@@ -502,17 +503,17 @@ erDiagram
 
 ## 3. Module Breakdown & Responsibilities
 
-| Module | Core Tables | Key Capabilities |
-|---|---|---|
-| **01. Organization** | `organizations`, `departments`, `job_positions`, `locations`, `holidays` | Multi-tenant tenant configuration, company structure, branch locations, and official holidays. |
-| **02. Identity & Auth** | `users`, `refresh_tokens` | Authentication, password reset, login rate-limiting, and Role-Based Access Control (`admin`, `hr`, `employee`). |
-| **03. Employee Profile** | `employees`, `employee_private_info`, `employee_bank_accounts`, `employee_identifiers`, `employee_documents`, `skills`, `certifications` | Master employee profile, encrypted PII (Aadhaar, PAN, Bank Accounts via `pgcrypto`), hierarchical reporting managers. |
-| **04. Work Management** | `work_schedules`, `work_schedule_days`, `employee_schedule_assignments` | Shift definitions, working hours per weekday, break durations, and historical shift assignments. |
-| **05. Attendance** | `attendance_records`, `attendance_sessions`, `attendance_adjustments` | Daily attendance aggregation, multiple in/out punch sessions, late calculation, overtime, and manager regularization workflow. |
-| **06. Leave Management** | `leave_types`, `leave_allocations`, `leave_requests`, `leave_balance_transactions` | Paid/unpaid leave categories, quota allocations, multi-day & half-day requests, approval flows, and an **immutable balance ledger**. |
-| **07. Payroll Engine** | `payroll_settings`, `salary_component_definitions`, `salary_structures`, `salary_structure_components`, `payroll_periods`, `payslips`, `payslip_lines`, `payslip_attendance_summary` | Salary components (Earnings, Deductions, Residuals), monthly payroll cycles, automated LOP deductions from attendance/leave summaries, and payslip generation. |
-| **08. Notifications** | `notifications` | System alerts for leave status, payroll release, password changes, and punch reminders. |
-| **09. Audit Logging** | `audit_logs` | Immutable JSON audit trail capturing before/after state diffs on critical operations. |
+| Module                   | Core Tables                                                                                                                                                                          | Key Capabilities                                                                                                                                               |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **01. Organization**     | `organizations`, `departments`, `job_positions`, `locations`, `holidays`                                                                                                             | Multi-tenant tenant configuration, company structure, branch locations, and official holidays.                                                                 |
+| **02. Identity & Auth**  | `users`, `refresh_tokens`                                                                                                                                                            | Authentication, password reset, login rate-limiting, and Role-Based Access Control (`admin`, `hr`, `employee`).                                                |
+| **03. Employee Profile** | `employees`, `employee_private_info`, `employee_bank_accounts`, `employee_identifiers`, `employee_documents`, `skills`, `certifications`                                             | Master employee profile, encrypted PII (Aadhaar, PAN, Bank Accounts via `pgcrypto`), hierarchical reporting managers.                                          |
+| **04. Work Management**  | `work_schedules`, `work_schedule_days`, `employee_schedule_assignments`                                                                                                              | Shift definitions, working hours per weekday, break durations, and historical shift assignments.                                                               |
+| **05. Attendance**       | `attendance_records`, `attendance_sessions`, `attendance_adjustments`                                                                                                                | Daily attendance aggregation, multiple in/out punch sessions, late calculation, overtime, and manager regularization workflow.                                 |
+| **06. Leave Management** | `leave_types`, `leave_allocations`, `leave_requests`, `leave_balance_transactions`                                                                                                   | Paid/unpaid leave categories, quota allocations, multi-day & half-day requests, approval flows, and an **immutable balance ledger**.                           |
+| **07. Payroll Engine**   | `payroll_settings`, `salary_component_definitions`, `salary_structures`, `salary_structure_components`, `payroll_periods`, `payslips`, `payslip_lines`, `payslip_attendance_summary` | Salary components (Earnings, Deductions, Residuals), monthly payroll cycles, automated LOP deductions from attendance/leave summaries, and payslip generation. |
+| **08. Notifications**    | `notifications`                                                                                                                                                                      | System alerts for leave status, payroll release, password changes, and punch reminders.                                                                        |
+| **09. Audit Logging**    | `audit_logs`                                                                                                                                                                         | Immutable JSON audit trail capturing before/after state diffs on critical operations.                                                                          |
 
 ---
 
