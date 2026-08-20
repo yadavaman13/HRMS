@@ -12,7 +12,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 12px 20px;
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom: 1px solid variables.$color-gray-200;
         background-color: variables.$color-white;
         gap: 12px;
 
@@ -37,11 +37,11 @@
 
                 &:hover {
                     color: variables.$color-gray-900;
-                    background-color: variables.$color-gray-50;
+                    background-color: variables.$color-gray-100;
                 }
 
                 &.active {
-                    background-color: variables.$color-gray-100;
+                    background-color: variables.$color-gray-200;
                     color: variables.$color-gray-900;
                     font-weight: 600;
                 }
@@ -54,11 +54,11 @@
                     border-radius: 10px;
                     font-size: variables.$font-size-xs;
                     font-weight: 700;
-                    background-color: variables.$color-gray-200;
-                    color: variables.$color-gray-600;
+                    background-color: variables.$color-gray-100;
+                    color: variables.$color-gray-700;
 
                     &.unread {
-                        background-color: variables.$color-blue-dark;
+                        background-color: variables.$color-primary;
                         color: variables.$color-white;
                     }
                 }
@@ -79,14 +79,14 @@
                 border: 1px solid variables.$color-gray-300;
                 outline: none;
                 background-color: variables.$color-white;
-                color: variables.$color-blue-dark;
+                color: variables.$color-gray-600;
                 cursor: pointer;
                 transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
                 &:hover {
-                    background-color: variables.$color-info-light;
-                    border-color: variables.$color-blue-dark;
-                    color: variables.$color-blue-dark;
+                    background-color: variables.$color-gray-100;
+                    border-color: variables.$color-gray-400;
+                    color: variables.$color-gray-900;
                 }
             }
         }
@@ -95,7 +95,7 @@
     /* Search Box */
     .feed-search-box {
         padding: 10px 20px;
-        border-bottom: 1px solid #f8fafc;
+        border-bottom: 1px solid variables.$color-gray-200;
     }
 
     /* Collapsible Filter Panel - Ultra Compact */
@@ -103,8 +103,8 @@
         position: relative;
         z-index: variables.$z-sticky;
         padding: 8px 16px;
-        background-color: variables.$color-gray-50;
-        border-bottom: 1px solid #e2e8f0;
+        background-color: variables.$color-gray-100;
+        border-bottom: 1px solid variables.$color-gray-200;
         animation: fade-in-slide-down 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
         .filter-panel-row {
@@ -155,7 +155,7 @@
         gap: 6px;
         padding: 6px 16px;
         background-color: variables.$color-white;
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom: 1px solid variables.$color-gray-200;
         flex-wrap: wrap;
 
         .chip-remove {
@@ -221,7 +221,7 @@
         position: relative;
 
         &:hover {
-            background-color: variables.$color-gray-50;
+            background-color: variables.$color-gray-100;
 
             .item-meta-right {
                 .time-ago {
@@ -235,7 +235,7 @@
         }
 
         &.is-unread {
-            background-color: variables.$color-gray-50;
+            background-color: variables.$color-gray-100;
 
             .item-text-body {
                 .target-title {
@@ -259,45 +259,45 @@
             border: 1px solid variables.$color-gray-200;
 
             &.type-usability {
-                background-color: variables.$color-success-light;
+                background-color: color-mix(in srgb, variables.$color-success 15%, transparent);
                 color: variables.$color-success;
-                border-color: variables.$color-success-border;
+                border-color: color-mix(in srgb, variables.$color-success 35%, transparent);
             }
 
             &.type-user {
-                background-color: variables.$color-info-light;
-                color: variables.$color-blue-dark;
-                border-color: variables.$color-info-border;
+                background-color: color-mix(in srgb, variables.$color-info 15%, transparent);
+                color: variables.$color-info;
+                border-color: color-mix(in srgb, variables.$color-info 35%, transparent);
             }
 
             &.type-research {
-                background-color: variables.$color-warning-light;
+                background-color: color-mix(in srgb, variables.$color-warning 15%, transparent);
                 color: variables.$color-warning;
-                border-color: variables.$color-warning-light;
+                border-color: color-mix(in srgb, variables.$color-warning 35%, transparent);
             }
 
             &.type-project {
-                background-color: variables.$color-purple-light;
+                background-color: color-mix(in srgb, variables.$color-purple 15%, transparent);
                 color: variables.$color-purple;
-                border-color: variables.$color-purple-border;
+                border-color: color-mix(in srgb, variables.$color-purple 35%, transparent);
             }
 
             &.type-workflow {
-                background-color: variables.$color-pink-light;
+                background-color: color-mix(in srgb, variables.$color-pink 15%, transparent);
                 color: variables.$color-pink;
-                border-color: variables.$color-pink-border;
+                border-color: color-mix(in srgb, variables.$color-pink 35%, transparent);
             }
 
             &.type-thread {
-                background-color: variables.$color-teal-light;
+                background-color: color-mix(in srgb, variables.$color-teal 15%, transparent);
                 color: variables.$color-teal;
-                border-color: variables.$color-teal-border;
+                border-color: color-mix(in srgb, variables.$color-teal 35%, transparent);
             }
 
             &.type-page {
-                background-color: variables.$color-gray-50;
-                color: variables.$color-gray-600;
-                border-color: variables.$color-gray-200;
+                background-color: variables.$color-gray-100;
+                color: variables.$color-gray-400;
+                border-color: variables.$color-gray-300;
             }
 
             &.type-system {
@@ -310,22 +310,29 @@
         /* Content Text */
         .item-text-body {
             flex: 1;
+            min-width: 0;
             font-size: variables.$font-size-sm;
-            line-height: 1.45;
+            line-height: 1.4;
             color: variables.$color-gray-600;
 
             .actor-name {
-                font-weight: 700;
-                color: variables.$color-gray-900;
+                font-weight: 600;
+                color: variables.$color-gray-800;
             }
 
-            .action-desc {
+            .action-verb {
                 color: variables.$color-gray-500;
             }
 
             .target-title {
-                font-weight: 600;
                 color: variables.$color-gray-800;
+                font-weight: 500;
+                display: inline-block;
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                vertical-align: bottom;
             }
         }
 
@@ -342,6 +349,14 @@
                 white-space: nowrap;
             }
 
+            .unread-bullet-dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background-color: variables.$color-gray-400;
+                flex-shrink: 0;
+            }
+
             .item-hover-actions {
                 display: none;
                 align-items: center;
@@ -353,39 +368,23 @@
                     justify-content: center;
                     width: 26px;
                     height: 26px;
-                    border-radius: 6px;
-                    border: 1px solid variables.$color-gray-200;
-                    background-color: variables.$color-white;
-                    color: variables.$color-gray-500;
+                    border-radius: 4px;
+                    border: none;
+                    background: transparent;
+                    color: variables.$color-gray-400;
                     cursor: pointer;
+                    transition: all 0.15s ease;
 
                     &:hover {
-                        background-color: variables.$color-gray-100;
-                        color: variables.$color-gray-900;
-                    }
+                        color: variables.$color-gray-800;
+                        background-color: variables.$color-gray-200;
 
-                    &.danger:hover {
-                        background-color: color-mix(
-                            in srgb,
-                            variables.$color-danger-light 70%,
-                            white
-                        );
-                        color: variables.$color-danger;
-                        border-color: variables.$color-danger-border;
-                    }
-
-                    .highlight {
-                        color: variables.$color-blue-dark;
+                        &.btn-delete {
+                            color: variables.$color-danger;
+                            background-color: variables.$color-danger-light;
+                        }
                     }
                 }
-            }
-
-            .unread-dot {
-                width: 7px;
-                height: 7px;
-                border-radius: 50%;
-                background-color: variables.$color-blue-dark;
-                flex-shrink: 0;
             }
         }
     }
@@ -396,7 +395,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 60px 24px;
+        padding: 64px 24px;
         text-align: center;
 
         .empty-icon-wrapper {
@@ -428,23 +427,22 @@
     /* Footer */
     .feed-footer-bar {
         padding: 12px 20px;
-        border-top: 1px solid #f1f5f9;
+        border-top: 1px solid variables.$color-gray-200;
         text-align: center;
         background-color: variables.$color-white;
 
         .clear-feed-btn {
             border: none;
             background: transparent;
-            color: variables.$color-gray-500;
+            color: variables.$color-danger;
             font-size: variables.$font-size-xs;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             padding: 6px 12px;
             border-radius: 6px;
 
             &:hover {
-                color: variables.$color-danger;
-                background-color: color-mix(in srgb, variables.$color-danger-light 70%, white);
+                background-color: variables.$color-danger-light;
             }
         }
     }

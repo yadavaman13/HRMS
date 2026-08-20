@@ -17,7 +17,7 @@ export const useAuth = () => {
         setError(null);
         try {
             const data = await authService.getMe();
-            const userData = data.user || data.data?.user || null;
+            const userData = data?.user || null;
             setUser(userData);
             return userData;
         } catch (err) {
@@ -35,7 +35,7 @@ export const useAuth = () => {
         setError(null);
         try {
             const data = await authService.login({ email, password, role, rememberMe });
-            const userData = data.user || data.data?.user || null;
+            const userData = data?.user || null;
             setUser(userData);
             return data;
         } catch (err) {
