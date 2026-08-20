@@ -49,7 +49,7 @@ export async function register(req, res, next) {
             country,
             postalCode,
             timezone,
-            currency
+            currency,
         } = req.body || {};
 
         const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
@@ -106,7 +106,7 @@ export async function register(req, res, next) {
             firstName,
             lastName,
             passwordHash: hashedPassword,
-            emailVerified
+            emailVerified,
         });
 
         // Send OTP if not verified yet
@@ -119,11 +119,19 @@ export async function register(req, res, next) {
             });
 
             if (!otpResult.ok) {
-                console.error('Unable to send verification OTP on company registration:', normalizedEmail);
+                console.error(
+                    'Unable to send verification OTP on company registration:',
+                    normalizedEmail,
+                );
             }
         }
 
-        return sendTokenResponse(res, 201, 'Company and Admin registered successfully', registeredData.user);
+        return sendTokenResponse(
+            res,
+            201,
+            'Company and Admin registered successfully',
+            registeredData.user,
+        );
     } catch (error) {
         next(error);
     }
@@ -206,7 +214,7 @@ export async function login(req, res, next) {
         } else {
             // Find by Employee ID via employee DAO
             const employee = await getEmployeeByCode(identifier);
-            
+
             if (employee && employee.userId) {
                 user = await getUserById(employee.userId, true);
             }

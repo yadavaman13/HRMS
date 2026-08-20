@@ -73,10 +73,7 @@ export const departments = pgTable(
     },
     (table) => {
         return {
-            orgCodeIdx: uniqueIndex('dept_org_code_idx').on(
-                table.organizationId,
-                table.code,
-            ),
+            orgCodeIdx: uniqueIndex('dept_org_code_idx').on(table.organizationId, table.code),
             orgIdx: index('departments_org_idx').on(table.organizationId),
         };
     },

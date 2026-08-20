@@ -20,7 +20,7 @@ function cleanName(name) {
 
 /**
  * Generates an employee ID based on the employee details and joining parameters.
- * 
+ *
  * @param {Object} details - Details of the employee
  * @param {string} details.firstName - First name of the employee
  * @param {string} details.lastName - Last name of the employee
@@ -33,7 +33,10 @@ function cleanName(name) {
  * @returns {string} The generated employee ID
  * @throws {Error} If input validation fails
  */
-export function generateEmployeeId({ firstName, lastName, joiningYear, serialNumber}, options = {}) {
+export function generateEmployeeId(
+    { firstName, lastName, joiningYear, serialNumber },
+    options = {},
+) {
     const companyPrefix = (options.companyPrefix || 'OI').trim().toUpperCase();
     const padChar = (options.padChar || 'X').trim().toUpperCase().charAt(0);
     const serialLength = parseInt(options.serialLength, 10) || 4;
@@ -66,7 +69,9 @@ export function generateEmployeeId({ firstName, lastName, joiningYear, serialNum
             if (!isNaN(parsedYear) && parsedYear > 0) {
                 year = parsedYear;
             } else {
-                throw new Error('Invalid joiningYear: must be a Date object or a valid year number.');
+                throw new Error(
+                    'Invalid joiningYear: must be a Date object or a valid year number.',
+                );
             }
         }
     }
@@ -84,7 +89,7 @@ export function generateEmployeeId({ firstName, lastName, joiningYear, serialNum
 
 /**
  * Validates whether an employee ID conforms to the generated pattern.
- * 
+ *
  * @param {string} employeeId - The employee ID to validate
  * @param {Object} [options] - Configuration options matching the generator
  * @param {string} [options.companyPrefix='OI'] - Expected company prefix
@@ -93,7 +98,7 @@ export function generateEmployeeId({ firstName, lastName, joiningYear, serialNum
  */
 export function validateEmployeeId(employeeId, options = {}) {
     if (typeof employeeId !== 'string') return false;
-    
+
     const companyPrefix = (options.companyPrefix || 'OI').trim().toUpperCase();
     const serialLength = parseInt(options.serialLength, 10) || 4;
 
@@ -103,7 +108,7 @@ export function validateEmployeeId(employeeId, options = {}) {
 
 /**
  * Parses an employee ID into its constituent components.
- * 
+ *
  * @param {string} employeeId - The employee ID to parse
  * @param {Object} [options] - Configuration options matching the generator
  * @returns {Object|null} Parsed components, or null if ID format is invalid
@@ -113,7 +118,7 @@ export function parseEmployeeId(employeeId, options = {}) {
 
     const companyPrefix = (options.companyPrefix || 'OI').trim().toUpperCase();
     const cleanId = employeeId.toUpperCase();
-    
+
     const prefixLen = companyPrefix.length;
     const initials = cleanId.substring(prefixLen, prefixLen + 4);
     const year = parseInt(cleanId.substring(prefixLen + 4, prefixLen + 8), 10);
@@ -125,6 +130,6 @@ export function parseEmployeeId(employeeId, options = {}) {
         firstNameInitials: initials.substring(0, 2),
         lastNameInitials: initials.substring(2, 4),
         joiningYear: year,
-        serialNumber
+        serialNumber,
     };
 }

@@ -20,7 +20,6 @@ import { organizations } from './organizations.schema.js';
 import { employees } from './employees.schema.js';
 import { users } from './users.schema.js';
 
-
 export const leaveTypes = pgTable(
     'leave_types',
     {
@@ -118,14 +117,8 @@ export const leaveRequests = pgTable(
     },
     (table) => {
         return {
-            empStatusIdx: index('leave_requests_emp_status_idx').on(
-                table.employeeId,
-                table.status,
-            ),
-            datesIdx: index('leave_requests_dates_idx').on(
-                table.startDate,
-                table.endDate,
-            ),
+            empStatusIdx: index('leave_requests_emp_status_idx').on(table.employeeId, table.status),
+            datesIdx: index('leave_requests_dates_idx').on(table.startDate, table.endDate),
             pendingIdx: index('leave_requests_pending_idx')
                 .on(table.employeeId)
                 .where(table.status.eq('pending')),
@@ -156,11 +149,7 @@ export const leaveBalanceTransactions = pgTable(
                 table.employeeId,
                 table.leaveTypeId,
             ),
-            refIdx: index('leave_transactions_ref_idx').on(
-                table.referenceType,
-                table.referenceId,
-            ),
+            refIdx: index('leave_transactions_ref_idx').on(table.referenceType, table.referenceId),
         };
     },
 );
-
