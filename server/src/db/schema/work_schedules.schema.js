@@ -1,3 +1,4 @@
+import { isNull } from 'drizzle-orm';
 import {
     pgTable,
     uuid,
@@ -77,7 +78,7 @@ export const employeeScheduleAssignments = pgTable(
             ),
             empActiveIdx: index('emp_sched_active_idx')
                 .on(table.employeeId)
-                .where(table.effectiveTo.isNull()),
+                .where(isNull(table.effectiveTo)),
         };
     },
 );

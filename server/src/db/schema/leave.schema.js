@@ -1,3 +1,4 @@
+import { eq } from 'drizzle-orm';
 import {
     pgTable,
     uuid,
@@ -121,7 +122,7 @@ export const leaveRequests = pgTable(
             datesIdx: index('leave_requests_dates_idx').on(table.startDate, table.endDate),
             pendingIdx: index('leave_requests_pending_idx')
                 .on(table.employeeId)
-                .where(table.status.eq('pending')),
+                .where(eq(table.status, 'pending')),
         };
     },
 );
