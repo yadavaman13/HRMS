@@ -1,3 +1,4 @@
+import { eq } from 'drizzle-orm';
 import {
     pgTable,
     uuid,
@@ -118,7 +119,7 @@ export const employeeBankAccounts = pgTable(
             empIdx: index('bank_accounts_emp_idx').on(table.employeeId),
             primaryIdx: uniqueIndex('bank_accounts_primary_idx')
                 .on(table.employeeId)
-                .where(table.isPrimary.eq(true)),
+                .where(eq(table.isPrimary, true)),
         };
     },
 );
