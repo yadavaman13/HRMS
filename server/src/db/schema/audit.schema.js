@@ -1,12 +1,4 @@
-import {
-    pgTable,
-    uuid,
-    text,
-    varchar,
-    jsonb,
-    timestamp,
-    index,
-} from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, varchar, jsonb, timestamp, index } from 'drizzle-orm/pg-core';
 import { inet } from './custom_types.js';
 import { organizations } from './organizations.schema.js';
 import { users } from './users.schema.js';
@@ -34,10 +26,7 @@ export const auditLogs = pgTable(
         return {
             entityIdx: index('audit_entity_idx').on(table.entityType, table.entityId),
             actorIdx: index('audit_actor_idx').on(table.actorUserId, table.createdAt),
-            orgCreatedIdx: index('audit_org_created_idx').on(
-                table.organizationId,
-                table.createdAt,
-            ),
+            orgCreatedIdx: index('audit_org_created_idx').on(table.organizationId, table.createdAt),
         };
     },
 );

@@ -24,10 +24,7 @@ export const skills = pgTable(
     },
     (table) => {
         return {
-            orgNameIdx: uniqueIndex('skills_org_name_idx').on(
-                table.organizationId,
-                table.name,
-            ),
+            orgNameIdx: uniqueIndex('skills_org_name_idx').on(table.organizationId, table.name),
         };
     },
 );

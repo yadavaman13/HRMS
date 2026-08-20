@@ -1,0 +1,103 @@
+@use '../../../../styles/variables';
+
+// Hide native scrollbars on scroll elements using advanced scrollbar
+.advanced-scrollbar-content,
+.has-advanced-scrollbar,
+.advanced-table-scroll-wrapper {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+    }
+}
+
+.advanced-scrollbar-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    .advanced-scrollbar-content {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+    }
+}
+
+.advanced-scrollbar-track {
+    position: absolute;
+    z-index: variables.$z-sticky;
+    user-select: none;
+
+    &.vertical {
+        right: 0;
+        width: 12px;
+    }
+
+    &.horizontal {
+        left: 0;
+        bottom: 0;
+        right: 0;
+        height: 12px;
+    }
+
+    .advanced-scrollbar-thumb-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        will-change: transform;
+    }
+
+    &.vertical .advanced-scrollbar-thumb-container {
+        width: 100%;
+    }
+
+    &.horizontal .advanced-scrollbar-thumb-container {
+        height: 100%;
+    }
+
+    .advanced-scrollbar-tooltip {
+        display: block;
+        width: 100%;
+        height: 100%;
+
+        .tooltip-bubble {
+            font-weight: 600;
+            font-size: variables.$font-size-xs;
+            letter-spacing: 0.02em;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+    }
+
+    .advanced-scrollbar-thumb {
+        background-color: variables.$color-gray-300;
+        border-radius: 9999px;
+        cursor: default;
+        box-shadow: 0 1px 3px rgb(0 0 0 / 12%);
+
+        @include variables.transition-ease;
+
+        transition-property: background-color, transform;
+
+        &:hover,
+        &.is-dragging {
+            background-color: variables.$color-gray-500;
+        }
+    }
+
+    &.vertical .advanced-scrollbar-thumb {
+        width: 8px;
+        height: 100%;
+        margin: 0 auto;
+    }
+
+    &.horizontal .advanced-scrollbar-thumb {
+        height: 8px;
+        width: 100%;
+        margin: auto 0;
+    }
+}

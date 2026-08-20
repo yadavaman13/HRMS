@@ -75,11 +75,7 @@ export const leaveStatusEnum = pgEnum('leave_status', [
     'cancelled',
 ]);
 
-export const leaveHalfEnum = pgEnum('leave_half', [
-    'none',
-    'first_half',
-    'second_half',
-]);
+export const leaveHalfEnum = pgEnum('leave_half', ['none', 'first_half', 'second_half']);
 
 export const leaveTransactionTypeEnum = pgEnum('leave_transaction_type', [
     'allocation',

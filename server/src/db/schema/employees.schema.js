@@ -9,7 +9,7 @@ import {
     date,
     timestamp,
     index,
-    uniqueIndex,
+    uniqueIndex
 } from 'drizzle-orm/pg-core';
 import { bytea } from './custom_types.js';
 import {
@@ -56,12 +56,8 @@ export const employees = pgTable(
         }),
         joiningDate: date('joining_date').notNull(),
         terminationDate: date('termination_date'),
-        employmentStatus: employmentStatusEnum('employment_status')
-            .notNull()
-            .default('active'),
-        employmentType: employmentTypeEnum('employment_type')
-            .notNull()
-            .default('full_time'),
+        employmentStatus: employmentStatusEnum('employment_status').notNull().default('active'),
+        employmentType: employmentTypeEnum('employment_type').notNull().default('full_time'),
         createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
         updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
         deletedAt: timestamp('deleted_at', { withTimezone: true }),
@@ -82,31 +78,25 @@ export const employees = pgTable(
                 table.organizationId,
                 table.employmentStatus,
             ),
-            joiningIdx: index('employees_joining_idx').on(
-                table.organizationId,
-                table.joiningDate,
-            ),
+            joiningIdx: index('employees_joining_idx').on(table.organizationId, table.joiningDate),
             userIdx: index('employees_user_idx').on(table.userId),
         };
     },
 );
 
-export const employeePrivateInfo = pgTable(
-    'employee_private_info',
-    {
-        employeeId: uuid('employee_id')
-            .primaryKey()
-            .references(() => employees.id, { onDelete: 'cascade' }),
-        residentialAddress: text('residential_address'),
-        personalEmail: varchar('personal_email', { length: 255 }),
-        nationality: varchar('nationality', { length: 100 }),
-        maritalStatus: maritalStatusEnum('marital_status'),
-        emergencyContactName: varchar('emergency_contact_name', { length: 255 }),
-        emergencyContactPhone: varchar('emergency_contact_phone', { length: 20 }),
-        createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-        updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
-    },
-);
+export const employeePrivateInfo = pgTable('employee_private_info', {
+    employeeId: uuid('employee_id')
+        .primaryKey()
+        .references(() => employees.id, { onDelete: 'cascade' }),
+    residentialAddress: text('residential_address'),
+    personalEmail: varchar('personal_email', { length: 255 }),
+    nationality: varchar('nationality', { length: 100 }),
+    maritalStatus: maritalStatusEnum('marital_status'),
+    emergencyContactName: varchar('emergency_contact_name', { length: 255 }),
+    emergencyContactPhone: varchar('emergency_contact_phone', { length: 20 }),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+});
 
 export const employeeBankAccounts = pgTable(
     'employee_bank_accounts',
@@ -133,19 +123,16 @@ export const employeeBankAccounts = pgTable(
     },
 );
 
-export const employeeIdentifiers = pgTable(
-    'employee_identifiers',
-    {
-        employeeId: uuid('employee_id')
-            .primaryKey()
-            .references(() => employees.id, { onDelete: 'cascade' }),
-        panEncrypted: bytea('pan_encrypted'),
-        uanEncrypted: bytea('uan_encrypted'),
-        aadhaarEncrypted: bytea('aadhaar_encrypted'),
-        createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-        updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
-    },
-);
+export const employeeIdentifiers = pgTable('employee_identifiers', {
+    employeeId: uuid('employee_id')
+        .primaryKey()
+        .references(() => employees.id, { onDelete: 'cascade' }),
+    panEncrypted: bytea('pan_encrypted'),
+    uanEncrypted: bytea('uan_encrypted'),
+    aadhaarEncrypted: bytea('aadhaar_encrypted'),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+});
 
 export const employeeCodeSequences = pgTable(
     'employee_code_sequences',
