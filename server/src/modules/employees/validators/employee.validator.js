@@ -35,8 +35,12 @@ export const updateProfileValidator = [
     body('jobPositionId').optional().isUUID(),
     body('managerId').optional().isUUID(),
     body('locationId').optional().isUUID(),
-    body('employmentStatus').optional().isIn(['active', 'inactive', 'terminated', 'on_leave', 'probation']),
-    body('employmentType').optional().isIn(['full_time', 'part_time', 'contract', 'intern', 'consultant']),
+    body('employmentStatus')
+        .optional()
+        .isIn(['active', 'inactive', 'terminated', 'on_leave', 'probation']),
+    body('employmentType')
+        .optional()
+        .isIn(['full_time', 'part_time', 'contract', 'intern', 'consultant']),
     validateRequest,
 ];
 
@@ -54,7 +58,11 @@ export const updateBankAccountValidator = [
     body('accountHolderName').notEmpty().isString().isLength({ max: 255 }),
     body('accountNumber').notEmpty().isString(),
     body('bankName').notEmpty().isString().isLength({ max: 255 }),
-    body('ifscCode').notEmpty().isString().matches(/^[A-Z]{4}0[A-Z0-9]{6}$/).withMessage('Invalid IFSC code'),
+    body('ifscCode')
+        .notEmpty()
+        .isString()
+        .matches(/^[A-Z]{4}0[A-Z0-9]{6}$/)
+        .withMessage('Invalid IFSC code'),
     body('isPrimary').optional().isBoolean(),
     validateRequest,
 ];
