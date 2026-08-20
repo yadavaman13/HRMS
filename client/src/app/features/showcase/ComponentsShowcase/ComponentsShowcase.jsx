@@ -54,6 +54,8 @@ import {
     IndianRupee as RupeeIcon,
     Star as StarIcon,
     Users as UsersIcon,
+    Sun,
+    Moon,
 } from 'lucide-react';
 
 import './ComponentsShowcase.scss';
@@ -453,6 +455,30 @@ function ComponentsShowcase() {
     const [demoViewModeMd, setDemoViewModeMd] = useState('table');
     const [demoViewModeSm, setDemoViewModeSm] = useState('grid');
 
+    // Theme toggle state
+    const [currentTheme, setCurrentTheme] = useState(() => {
+        return (
+            document.documentElement.getAttribute('data-theme') ||
+            localStorage.getItem('app-theme') ||
+            'light'
+        );
+    });
+
+    useEffect(() => {
+        const activeTheme =
+            document.documentElement.getAttribute('data-theme') ||
+            localStorage.getItem('app-theme') ||
+            'light';
+        setCurrentTheme(activeTheme);
+    }, []);
+
+    const toggleTheme = () => {
+        const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        setCurrentTheme(nextTheme);
+        document.documentElement.setAttribute('data-theme', nextTheme);
+        localStorage.setItem('app-theme', nextTheme);
+    };
+
     return (
         <div className="showcase-page-container">
             <header className="showcase-page-header">
@@ -462,13 +488,25 @@ function ComponentsShowcase() {
                         A comprehensive catalogue of modular workspace elements and widgets.
                     </p>
                 </div>
-                <button
-                    type="button"
-                    className="back-dashboard-btn"
-                    onClick={() => navigate('/dashboard')}
-                >
-                    Back to Dashboard
-                </button>
+                <div className="header-actions-group">
+                    <button
+                        type="button"
+                        className="theme-toggle-btn"
+                        onClick={toggleTheme}
+                        title={`Switch to ${currentTheme === 'dark' ? 'light' : 'dark'} mode`}
+                        aria-label={`Switch to ${currentTheme === 'dark' ? 'light' : 'dark'} mode`}
+                    >
+                        {currentTheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+                        <span>{currentTheme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+                    </button>
+                    <button
+                        type="button"
+                        className="back-dashboard-btn"
+                        onClick={() => navigate('/dashboard')}
+                    >
+                        Back to Dashboard
+                    </button>
+                </div>
             </header>
 
             <div className="components-showcase-wrapper">
@@ -889,14 +927,7 @@ function ComponentsShowcase() {
                     <h3 className="showcase-section-title">
                         KanbanBoard Component (Applicants Board)
                     </h3>
-                    <div
-                        style={{
-                            background: '#ffffff',
-                            padding: '24px',
-                            borderRadius: '20px',
-                            border: '1px solid #e2e8f0',
-                        }}
-                    >
+                    <div className="showcase-card">
                         <KanbanBoard
                             columns={applicantKanbanColumns}
                             items={applicantKanbanItems}
@@ -976,14 +1007,11 @@ function ComponentsShowcase() {
                 <div className="showcase-section">
                     <h3 className="showcase-section-title">DatePicker Component</h3>
                     <div
+                        className="showcase-card"
                         style={{
                             display: 'grid',
                             gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
                             gap: '24px',
-                            background: '#ffffff',
-                            padding: '24px',
-                            borderRadius: '16px',
-                            border: '1px solid #e5e7eb',
                         }}
                     >
                         <div>
@@ -1015,14 +1043,11 @@ function ComponentsShowcase() {
                 <div className="showcase-section">
                     <h3 className="showcase-section-title">Textarea Component</h3>
                     <div
+                        className="showcase-card"
                         style={{
                             display: 'grid',
                             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
                             gap: '24px',
-                            background: '#ffffff',
-                            padding: '24px',
-                            borderRadius: '16px',
-                            border: '1px solid #e5e7eb',
                         }}
                     >
                         {/* Default with hint */}
@@ -1193,18 +1218,11 @@ function ComponentsShowcase() {
                     <h3 className="showcase-section-title">
                         Advanced Scrollbar (Horizontal & Vertical with Number Tooltips)
                     </h3>
-                    <div
-                        style={{
-                            backgroundColor: '#ffffff',
-                            padding: '20px',
-                            borderRadius: '12px',
-                            border: '1px solid #e5e7eb',
-                        }}
-                    >
+                    <div className="showcase-card">
                         <p
                             style={{
                                 fontSize: '0.85rem',
-                                color: '#6b7280',
+                                color: 'var(--color-gray-600)',
                                 marginBottom: '12px',
                             }}
                         >
@@ -1892,24 +1910,8 @@ function ComponentsShowcase() {
                         </div>
 
                         {/* Interactive Controls for Position and Size */}
-                        <div
-                            style={{
-                                padding: '20px',
-                                background: '#f8fafc',
-                                borderRadius: '12px',
-                                border: '1px solid #e2e8f0',
-                            }}
-                        >
-                            <h4
-                                style={{
-                                    margin: '0 0 16px 0',
-                                    fontSize: '0.9rem',
-                                    fontWeight: 700,
-                                    color: '#334155',
-                                }}
-                            >
-                                Interactive Position & Size Testbed:
-                            </h4>
+                        <div className="showcase-testbed-panel">
+                            <h4 className="testbed-title">Interactive Position & Size Testbed:</h4>
 
                             <div
                                 style={{
@@ -1920,44 +1922,13 @@ function ComponentsShowcase() {
                                 }}
                             >
                                 <div>
-                                    <div
-                                        style={{
-                                            fontSize: '0.78rem',
-                                            fontWeight: 700,
-                                            color: '#64748b',
-                                            textTransform: 'uppercase',
-                                            marginBottom: '8px',
-                                        }}
-                                    >
-                                        Slide Direction:
-                                    </div>
+                                    <div className="testbed-label">Slide Direction:</div>
                                     {['right', 'left', 'top', 'bottom'].map((pos) => (
                                         <button
                                             key={pos}
                                             type="button"
                                             onClick={() => setDemoDrawerPosition(pos)}
-                                            style={{
-                                                padding: '6px 14px',
-                                                marginRight: '6px',
-                                                marginBottom: '6px',
-                                                borderRadius: '6px',
-                                                border:
-                                                    demoDrawerPosition === pos
-                                                        ? '2px solid #2563eb'
-                                                        : '1px solid #cbd5e1',
-                                                background:
-                                                    demoDrawerPosition === pos
-                                                        ? '#eff6ff'
-                                                        : '#ffffff',
-                                                color:
-                                                    demoDrawerPosition === pos
-                                                        ? '#2563eb'
-                                                        : '#475569',
-                                                fontWeight: demoDrawerPosition === pos ? 700 : 500,
-                                                cursor: 'pointer',
-                                                textTransform: 'capitalize',
-                                                fontSize: '0.8125rem',
-                                            }}
+                                            className={`testbed-btn ${demoDrawerPosition === pos ? 'active' : ''}`}
                                         >
                                             {pos}
                                         </button>
@@ -1965,40 +1936,13 @@ function ComponentsShowcase() {
                                 </div>
 
                                 <div>
-                                    <div
-                                        style={{
-                                            fontSize: '0.78rem',
-                                            fontWeight: 700,
-                                            color: '#64748b',
-                                            textTransform: 'uppercase',
-                                            marginBottom: '8px',
-                                        }}
-                                    >
-                                        Drawer Size:
-                                    </div>
+                                    <div className="testbed-label">Drawer Size:</div>
                                     {['sm', 'md', 'lg', 'xl', 'full'].map((sz) => (
                                         <button
                                             key={sz}
                                             type="button"
                                             onClick={() => setDemoDrawerSize(sz)}
-                                            style={{
-                                                padding: '6px 14px',
-                                                marginRight: '6px',
-                                                marginBottom: '6px',
-                                                borderRadius: '6px',
-                                                border:
-                                                    demoDrawerSize === sz
-                                                        ? '2px solid #2563eb'
-                                                        : '1px solid #cbd5e1',
-                                                background:
-                                                    demoDrawerSize === sz ? '#eff6ff' : '#ffffff',
-                                                color:
-                                                    demoDrawerSize === sz ? '#2563eb' : '#475569',
-                                                fontWeight: demoDrawerSize === sz ? 700 : 500,
-                                                cursor: 'pointer',
-                                                textTransform: 'uppercase',
-                                                fontSize: '0.8125rem',
-                                            }}
+                                            className={`testbed-btn ${demoDrawerSize === sz ? 'active' : ''}`}
                                         >
                                             {sz}
                                         </button>
@@ -2014,16 +1958,7 @@ function ComponentsShowcase() {
                                     <button
                                         type="button"
                                         onClick={() => setIsDemoDrawerOpen(true)}
-                                        style={{
-                                            padding: '8px 18px',
-                                            borderRadius: '8px',
-                                            background: '#2563eb',
-                                            color: '#ffffff',
-                                            border: 'none',
-                                            fontWeight: 600,
-                                            cursor: 'pointer',
-                                            fontSize: '0.84rem',
-                                        }}
+                                        className="testbed-launch-btn"
                                     >
                                         Launch Drawer ({demoDrawerPosition} /{' '}
                                         {demoDrawerSize.toUpperCase()})
@@ -2079,15 +2014,7 @@ function ComponentsShowcase() {
                 {/* Button-Only Variant Showcase */}
                 <div className="showcase-section">
                     <h3 className="showcase-section-title">Upload (Button-Only Variant)</h3>
-                    <div
-                        style={{
-                            padding: '24px',
-                            background: '#ffffff',
-                            borderRadius: '12px',
-                            border: '1px solid #e2e8f0',
-                            boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-                        }}
-                    >
+                    <div className="showcase-card">
                         <ButtonUpload
                             multiple={true}
                             accept="application/pdf,image/*,text/plain"
@@ -2873,10 +2800,10 @@ function ComponentsShowcase() {
                 }
             >
                 <div style={{ padding: '24px' }}>
-                    <h4 style={{ margin: '0 0 12px 0', color: '#0f172a' }}>
+                    <h4 style={{ margin: '0 0 12px 0', color: 'var(--color-gray-900)' }}>
                         Modular Content Container
                     </h4>
-                    <p style={{ color: '#475569', lineHeight: 1.6 }}>
+                    <p style={{ color: 'var(--color-gray-600)', lineHeight: 1.6 }}>
                         This drawer is currently rendered with{' '}
                         <strong>Position = "{demoDrawerPosition}"</strong> and{' '}
                         <strong>Size = "{demoDrawerSize}"</strong>.
@@ -2884,9 +2811,9 @@ function ComponentsShowcase() {
                     <div
                         style={{
                             padding: '16px',
-                            background: '#f8fafc',
+                            background: 'var(--color-gray-100)',
                             borderRadius: '8px',
-                            border: '1px dashed #cbd5e1',
+                            border: '1px dashed var(--color-gray-300)',
                             marginTop: '16px',
                         }}
                     >
@@ -2894,7 +2821,7 @@ function ComponentsShowcase() {
                             style={{
                                 margin: 0,
                                 fontSize: '0.875rem',
-                                color: '#64748b',
+                                color: 'var(--color-gray-500)',
                             }}
                         >
                             You can put any React components inside the body, including data tables,

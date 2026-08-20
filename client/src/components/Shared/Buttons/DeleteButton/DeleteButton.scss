@@ -6,9 +6,9 @@
     justify-content: center;
     gap: 6px;
     padding: 8px 14px;
-    background-color: color-mix(in srgb, variables.$color-danger-light 50%, white);
-    border: 1.5px solid transparent;
-    border-radius: variables.$radius-small; // 10px to match standard components
+    background-color: variables.$color-danger-light;
+    border: 1px solid variables.$color-danger-border;
+    border-radius: variables.$radius-small;
     color: variables.$color-danger;
     font-family: variables.$font-sans;
     font-size: variables.$font-size-sm;
@@ -26,13 +26,14 @@
     }
 
     &:hover:not(:disabled) {
-        background-color: variables.$color-danger-light;
+        background-color: color-mix(in srgb, variables.$color-danger 22%, transparent);
+        border-color: variables.$color-danger;
         color: variables.$color-danger;
     }
 
     &:focus-visible {
         border-color: variables.$color-danger-border;
-        box-shadow: 0 0 0 2px rgb(225 29 72 / 5%);
+        box-shadow: 0 0 0 2px rgb(225 29 72 / 15%);
     }
 
     &:disabled {

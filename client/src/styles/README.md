@@ -33,6 +33,7 @@ Primitives are raw, contextless values declared under `:root`. They define the a
 Semantic tokens map primitives to context-specific roles or UI intents (e.g., `--color-primary`, `--color-bg-app`). This tier supports runtime themes (like Light/Dark mode transitions) by swapping custom property definitions without modifying components.
 
 - `_light.scss`: Mappings for the default light theme under `:root` (e.g., `--color-primary: var(--primi-gray-900);`).
+- `_dark.scss`: Mappings for the dark theme activated under `[data-theme='dark']` and `@media (prefers-color-scheme: dark)` (e.g., inverted neutral scales, adjusted status tints, and deeper shadows).
 
 ### 3. Sass Variable Bridge (`variables.scss`)
 
