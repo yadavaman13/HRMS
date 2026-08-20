@@ -1,3 +1,4 @@
+import { eq } from 'drizzle-orm';
 import { pgTable, uuid, text, boolean, integer, timestamp, index } from 'drizzle-orm/pg-core';
 import { roleEnum } from './enums.js';
 import { organizations } from './organizations.schema.js';
@@ -41,7 +42,7 @@ export const users = pgTable(
             ),
             orgActiveIdx: index('users_org_active_idx')
                 .on(table.organizationId, table.isActive)
-                .where(table.isDeleted.eq(false)),
+                .where(eq(table.isDeleted, false)),
         };
     },
 );

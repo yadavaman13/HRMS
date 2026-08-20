@@ -1,3 +1,4 @@
+import { eq } from 'drizzle-orm';
 import {
     pgTable,
     uuid,
@@ -105,7 +106,7 @@ export const salaryStructures = pgTable(
         return {
             empActiveIdx: index('salary_structures_emp_active_idx')
                 .on(table.employeeId)
-                .where(table.status.eq('ACTIVE')),
+                .where(eq(table.status, 'ACTIVE')),
             empEffectiveIdx: index('salary_structures_emp_effective_idx').on(
                 table.employeeId,
                 table.effectiveFrom,

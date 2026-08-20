@@ -1,3 +1,4 @@
+import { eq } from 'drizzle-orm';
 import { pgTable, uuid, text, varchar, boolean, timestamp, index } from 'drizzle-orm/pg-core';
 import { notificationTypeEnum } from './enums.js';
 import { users } from './users.schema.js';
@@ -22,7 +23,7 @@ export const notifications = pgTable(
         return {
             userUnreadIdx: index('notifications_user_unread_idx')
                 .on(table.userId, table.isRead)
-                .where(table.isRead.eq(false)),
+                .where(eq(table.isRead, false)),
             userCreatedIdx: index('notifications_user_created_idx').on(
                 table.userId,
                 table.createdAt,
