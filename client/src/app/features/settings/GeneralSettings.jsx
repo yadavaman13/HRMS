@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@/components/Shared/Buttons/Button/Button';
 import { useToast } from '@/components/Shared/Feedback/Toast';
 import { Moon, Sun, Monitor } from 'lucide-react';
@@ -8,7 +8,30 @@ export default function GeneralSettings() {
     const { success } = useToast();
 
     // Local settings states
-    const [theme, setTheme] = useState('light');
+    const [theme, setTheme] = useState(() => {
+        return localStorage.getItem('app-theme') || 'system';
+    });
+
+    useEffect(() => {
+        const saved = localStorage.getItem('app-theme') || 'system';
+        setTheme(saved);
+        if (saved === 'dark' || saved === 'light') {
+            document.documentElement.setAttribute('data-theme', saved);
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+        }
+    }, []);
+
+    const handleThemeChange = (selectedTheme) => {
+        setTheme(selectedTheme);
+        if (selectedTheme === 'system') {
+            document.documentElement.removeAttribute('data-theme');
+            localStorage.setItem('app-theme', 'system');
+        } else {
+            document.documentElement.setAttribute('data-theme', selectedTheme);
+            localStorage.setItem('app-theme', selectedTheme);
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -32,7 +55,7 @@ export default function GeneralSettings() {
                         <button
                             type="button"
                             className={`theme-card ${theme === 'light' ? 'active' : ''}`}
-                            onClick={() => setTheme('light')}
+                            onClick={() => handleThemeChange('light')}
                         >
                             <Sun size={20} />
                             <div className="theme-info">
@@ -44,7 +67,7 @@ export default function GeneralSettings() {
                         <button
                             type="button"
                             className={`theme-card ${theme === 'dark' ? 'active' : ''}`}
-                            onClick={() => setTheme('dark')}
+                            onClick={() => handleThemeChange('dark')}
                         >
                             <Moon size={20} />
                             <div className="theme-info">
@@ -56,7 +79,7 @@ export default function GeneralSettings() {
                         <button
                             type="button"
                             className={`theme-card ${theme === 'system' ? 'active' : ''}`}
-                            onClick={() => setTheme('system')}
+                            onClick={() => handleThemeChange('system')}
                         >
                             <Monitor size={20} />
                             <div className="theme-info">

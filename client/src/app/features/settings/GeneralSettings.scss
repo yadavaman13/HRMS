@@ -103,11 +103,16 @@
 
                 &.active {
                     border-color: variables.$color-primary;
-                    background: rgba(variables.$color-primary, 0.02);
-                    box-shadow: 0 0 0 2px variables.$color-primary;
+                    background: color-mix(in srgb, variables.$color-primary 8%, transparent);
+                    box-shadow: 0 0 0 1px variables.$color-primary;
 
                     svg {
                         color: variables.$color-primary;
+                    }
+
+                    .theme-info .theme-name {
+                        color: variables.$color-primary;
+                        font-weight: 700;
                     }
                 }
             }
@@ -140,7 +145,7 @@
                 flex-direction: column;
                 gap: 4px;
                 padding-bottom: 12px;
-                border-bottom: 1px solid rgba(variables.$color-gray-200, 0.5);
+                border-bottom: 1px solid variables.$color-gray-200;
 
                 &:last-child {
                     border-bottom: none;

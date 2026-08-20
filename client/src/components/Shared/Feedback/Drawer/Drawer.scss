@@ -53,7 +53,7 @@
         bottom: 0;
         height: 100vh;
         height: 100dvh;
-        border-left: 1px solid #e2e8f0;
+        border-left: 1px solid variables.$color-gray-200;
         animation: slide-in-right 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
         /* Sizes for Right/Left Panel */
@@ -88,7 +88,7 @@
         bottom: 0;
         height: 100vh;
         height: 100dvh;
-        border-right: 1px solid #e2e8f0;
+        border-right: 1px solid variables.$color-gray-200;
         animation: slide-in-left 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
         &.size-sm {
@@ -121,7 +121,7 @@
         left: 0;
         right: 0;
         width: 100vw;
-        border-bottom: 1px solid #e2e8f0;
+        border-bottom: 1px solid variables.$color-gray-200;
         animation: slide-in-top 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
         &.size-sm {
@@ -154,7 +154,7 @@
         left: 0;
         right: 0;
         width: 100vw;
-        border-top: 1px solid #e2e8f0;
+        border-top: 1px solid variables.$color-gray-200;
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
         animation: slide-in-bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -233,7 +233,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 20px 24px;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid variables.$color-gray-200;
     background-color: variables.$color-white;
     min-height: 68px;
     box-sizing: border-box;
@@ -313,11 +313,11 @@
     }
 
     &::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
+        background: variables.$color-gray-300;
         border-radius: 99px;
 
         &:hover {
-            background: #94a3b8;
+            background: variables.$color-gray-400;
         }
     }
 }
@@ -325,7 +325,7 @@
 /* Footer Area */
 .shared-drawer-footer {
     padding: 16px 24px;
-    border-top: 1px solid #f1f5f9;
+    border-top: 1px solid variables.$color-gray-200;
     background-color: variables.$color-white;
     display: flex;
     align-items: center;
