@@ -21,7 +21,11 @@ import {
     employeeScheduleAssignments,
     holidays,
 } from './work_schedules.schema.js';
-import { attendanceRecords, attendanceSessions, attendanceAdjustments } from './attendance.schema.js';
+import {
+    attendanceRecords,
+    attendanceSessions,
+    attendanceAdjustments,
+} from './attendance.schema.js';
 import {
     leaveTypes,
     leaveAllocations,

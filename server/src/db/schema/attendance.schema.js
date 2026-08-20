@@ -9,11 +9,7 @@ import {
     index,
     uniqueIndex,
 } from 'drizzle-orm/pg-core';
-import {
-    attendanceStatusEnum,
-    attendanceSourceEnum,
-    adjustmentStatusEnum,
-} from './enums.js';
+import { attendanceStatusEnum, attendanceSourceEnum, adjustmentStatusEnum } from './enums.js';
 import { employees } from './employees.schema.js';
 import { users } from './users.schema.js';
 
@@ -42,10 +38,7 @@ export const attendanceRecords = pgTable(
                 table.employeeId,
                 table.attendanceDate,
             ),
-            empStatusIdx: index('attendance_emp_status_idx').on(
-                table.employeeId,
-                table.status,
-            ),
+            empStatusIdx: index('attendance_emp_status_idx').on(table.employeeId, table.status),
             dateStatusIdx: index('attendance_date_status_idx').on(
                 table.attendanceDate,
                 table.status,
@@ -69,9 +62,7 @@ export const attendanceSessions = pgTable(
     },
     (table) => {
         return {
-            recordIdx: index('attendance_sessions_record_idx').on(
-                table.attendanceRecordId,
-            ),
+            recordIdx: index('attendance_sessions_record_idx').on(table.attendanceRecordId),
             checkinIdx: index('attendance_sessions_checkin_idx').on(table.checkInAt),
         };
     },
