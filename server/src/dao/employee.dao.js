@@ -8,10 +8,17 @@ import {
     employeeSkills,
     skills,
     certifications,
+    employeeCodeSequences,
+    employeeScheduleAssignments,
+    notifications,
+    auditLogs,
 } from '../db/schema/schema.js';
 import { users } from '../db/schema/schema.js';
 import { departments, jobPositions, locations } from '../db/schema/schema.js';
 import { eq, and, sql } from 'drizzle-orm';
+import bcrypt from 'bcryptjs';
+import { generateEmployeeId } from '../utils/employeeId.utils.js';
+import { generateTemporaryPassword } from '../utils/auth.utils.js';
 
 const employeeProfileSelect = {
     id: employees.id,
@@ -218,4 +225,181 @@ export async function getEmployeeByCode(employeeCode) {
         .from(employees)
         .where(eq(employees.employeeCode, employeeCode.toUpperCase()));
     return employee || null;
+}
+
+/**
+ * Handle creation of employee, user account, temporary password,
+ * audit logging, and notification in a single transaction.
+ */
+export async function createEmployeeTx({
+    organizationId,
+    orgCode,
+    firstName,
+    lastName,
+    email, // personal email
+    phone,
+    profilePicture,
+    departmentId,
+    jobPositionId,
+    managerId,
+    joiningDate,
+    locationId,
+    employmentType,
+    workScheduleId,
+    actorUserId,
+    ipAddress,
+    userAgent,
+}) {
+    const currentYear = new Date(joiningDate).getFullYear();
+
+    return await db.transaction(async (tx) => {
+        // 1. Fetch or create sequence for organization and year
+        const [existingSeq] = await tx
+            .select()
+            .from(employeeCodeSequences)
+            .where(
+                and(
+                    eq(employeeCodeSequences.organizationId, organizationId),
+                    eq(employeeCodeSequences.joiningYear, currentYear),
+                ),
+            );
+
+        let serialNumber;
+        if (existingSeq) {
+            serialNumber = existingSeq.lastSequence + 1;
+            await tx
+                .update(employeeCodeSequences)
+                .set({ lastSequence: serialNumber })
+                .where(eq(employeeCodeSequences.id, existingSeq.id));
+        } else {
+            serialNumber = 1;
+            await tx.insert(employeeCodeSequences).values({
+                organizationId,
+                joiningYear: currentYear,
+                lastSequence: 1,
+            });
+        }
+
+        // 2. Generate Employee Code (Login ID) using helper
+        const empCode = generateEmployeeId(
+            {
+                firstName,
+                lastName: lastName || '',
+                joiningYear: currentYear,
+                serialNumber,
+            },
+            {
+                companyPrefix: orgCode.slice(0, 4),
+            },
+        );
+
+        // 3. Generate Temporary Password
+        const tempPassword = generateTemporaryPassword(email);
+        const hashedPassword = await bcrypt.hash(tempPassword, 10);
+
+        // 4. Generate unique work email
+        const cleanFirst = firstName.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const cleanLast = (lastName || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const baseWorkEmail = `${cleanFirst}${cleanLast ? '.' + cleanLast : ''}@${orgCode.toLowerCase()}.dayflow.com`;
+
+        let workEmail = baseWorkEmail;
+        let emailUnique = false;
+        let emailCounter = 1;
+        while (!emailUnique) {
+            const [existingUser] = await tx.select().from(users).where(eq(users.email, workEmail));
+            if (!existingUser) {
+                emailUnique = true;
+            } else {
+                workEmail = `${cleanFirst}${cleanLast ? '.' + cleanLast : ''}${emailCounter}@${orgCode.toLowerCase()}.dayflow.com`;
+                emailCounter++;
+            }
+        }
+
+        // 5. Create user record
+        const [newUser] = await tx
+            .insert(users)
+            .values({
+                organizationId,
+                firstName,
+                lastName: lastName || '',
+                email: workEmail,
+                password: hashedPassword,
+                profileImage:
+                    profilePicture || 'https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg',
+                role: 'employee',
+                emailVerified: true,
+                isActive: true,
+                mustChangePassword: true,
+            })
+            .returning();
+
+        // 6. Create employee profile
+        const [newEmployee] = await tx
+            .insert(employees)
+            .values({
+                organizationId,
+                userId: newUser.id,
+                employeeCode: empCode,
+                firstName,
+                lastName: lastName || null,
+                displayName: `${firstName} ${lastName || ''}`.trim(),
+                phone: phone || null,
+                workEmail,
+                departmentId: departmentId || null,
+                jobPositionId: jobPositionId || null,
+                managerId: managerId || null,
+                locationId: locationId || null,
+                joiningDate: joiningDate,
+                employmentStatus: 'active',
+                employmentType: employmentType || 'full_time',
+            })
+            .returning();
+
+        // 7. Create private info record for personal email
+        await tx.insert(employeePrivateInfo).values({
+            employeeId: newEmployee.id,
+            personalEmail: email || null,
+        });
+
+        // 8. Assign work schedule if schedule ID is provided
+        if (workScheduleId) {
+            await tx.insert(employeeScheduleAssignments).values({
+                employeeId: newEmployee.id,
+                scheduleId: workScheduleId,
+                effectiveFrom: joiningDate,
+            });
+        }
+
+        // 9. Log audit log
+        await tx.insert(auditLogs).values({
+            organizationId,
+            actorUserId,
+            action: 'employee_created',
+            entityType: 'employee',
+            entityId: newEmployee.id,
+            newData: {
+                userId: newUser.id,
+                employeeId: newEmployee.id,
+                firstName,
+                lastName,
+                workEmail,
+                employeeCode: empCode,
+                joiningDate,
+            },
+            ipAddress,
+            userAgent,
+        });
+
+        // 10. Insert notification
+        await tx.insert(notifications).values({
+            userId: newUser.id,
+            type: 'employee_created',
+            title: 'Welcome to Dayflow!',
+            message:
+                'Your employee account has been created successfully. Please log in using your Employee ID and temporary password.',
+            isRead: false,
+        });
+
+        return { newUser, newEmployee, empCode, workEmail, tempPassword };
+    });
 }
