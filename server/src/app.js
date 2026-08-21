@@ -8,6 +8,7 @@ import aiRouter from './modules/ai/routes/ai.routes.js';
 import { ragRouter } from './modules/rag/index.js';
 import { pdfRouter } from './modules/pdf/index.js';
 import { employeeRouter } from './modules/employees/index.js';
+import { attendanceRouter } from './modules/attendance/index.js';
 import { errorHandler } from './modules/auth/middleware/errorHandler.js';
 
 const app = express();
@@ -29,6 +30,7 @@ app.use('/api/ai', aiRouter);
 app.use('/api/rag', ragRouter);
 app.use('/api/pdf', pdfRouter);
 app.use('/api/employees', employeeRouter);
+app.use('/api/attendance', attendanceRouter);
 
 app.use(errorHandler);
 
