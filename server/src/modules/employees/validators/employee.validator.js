@@ -1,4 +1,4 @@
-import { query, body, validationResult } from 'express-validator';
+import { query, body, param, validationResult } from 'express-validator';
 import { sendResponse } from '../../../utils/response.utlis.js';
 
 function validateRequest(req, res, next) {
@@ -15,9 +15,73 @@ function validateRequest(req, res, next) {
     next();
 }
 
-export const directoryValidator = [
+export const createEmployeeValidator = [
+    // Personal fields
+    body('firstName').trim().notEmpty().withMessage('First Name is required'),
+    body('lastName').optional().trim(),
+    body('email')
+        .optional({ checkFalsy: true })
+        .trim()
+        .isEmail()
+        .withMessage('A valid personal email is required'),
+    body('phone').optional({ checkFalsy: true }).trim(),
+    body('profilePicture').optional({ checkFalsy: true }).trim(),
+
+    // Job fields
+    body('departmentId')
+        .optional({ checkFalsy: true })
+        .isUUID()
+        .withMessage('Invalid department ID format'),
+    body('jobPositionId')
+        .optional({ checkFalsy: true })
+        .isUUID()
+        .withMessage('Invalid job position ID format'),
+    body('managerId')
+        .optional({ checkFalsy: true })
+        .isUUID()
+        .withMessage('Invalid manager ID format'),
+    body('joiningDate')
+        .trim()
+        .notEmpty()
+        .withMessage('Joining date is required')
+        .isISO8601()
+        .withMessage('Joining date must be in YYYY-MM-DD format'),
+    body('locationId')
+        .optional({ checkFalsy: true })
+        .isUUID()
+        .withMessage('Invalid location ID format'),
+    body('employmentType')
+        .optional()
+        .isIn(['full_time', 'part_time', 'contract', 'intern', 'consultant'])
+        .withMessage('Invalid employment type'),
+
+    // Work fields
+    body('workScheduleId')
+        .optional({ checkFalsy: true })
+        .isUUID()
+        .withMessage('Invalid work schedule ID format'),
+
+    // Salary (optional)
+    body('salary').optional().custom((val) => {
+        if (typeof val === 'number') return true;
+        if (typeof val === 'string' && !isNaN(Number(val))) return true;
+        if (typeof val === 'object' && val !== null) {
+            if (val.monthlyWage !== undefined && isNaN(Number(val.monthlyWage))) {
+                throw new Error('monthlyWage must be a number');
+            }
+            return true;
+        }
+        throw new Error('salary must be a number or an object containing monthlyWage');
+    }),
+
+    validateRequest,
+];
+
+export const listEmployeesValidator = [
     query('status').optional().isIn(['active', 'inactive', 'terminated', 'on_leave', 'probation']),
-    query('departmentId').optional().isUUID(),
+    query('department').optional().isString(),
+    query('search').optional().isString(),
+    query('managerId').optional().isUUID(),
     query('limit').optional().isInt({ min: 1, max: 200 }),
     query('offset').optional().isInt({ min: 0 }),
     validateRequest,
@@ -71,5 +135,11 @@ export const updateIdentifiersValidator = [
     body('pan').optional().isString(),
     body('uan').optional().isString(),
     body('aadhaar').optional().isString(),
+    validateRequest,
+];
+
+export const employeeIdParamValidator = [
+    param('employeeId').optional().isUUID().withMessage('Invalid employee ID format'),
+    param('id').optional().isUUID().withMessage('Invalid ID format'),
     validateRequest,
 ];
