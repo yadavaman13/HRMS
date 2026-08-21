@@ -1,11 +1,11 @@
-import * as employeeService from '../services/employee.service.js';
-import * as employeeDao from '../../../dao/employee.dao.js';
-import { getOrganizationById } from '../../../dao/organization.dao.js';
-import { sendEmail } from '../../../services/mail/mail.service.js';
 import { sendResponse } from '../../../utils/response.utlis.js';
+import { sendEmail } from '../../../services/mail/mail.service.js';
+import { getOrganizationById } from '../../../dao/organization.dao.js';
+import { createEmployeeTx } from '../../../dao/employee.dao.js';
 
 /**
- * Create a new employee (Admin/HR only)
+ * Admin creates an employee, creates their user account, generates credentials,
+ * logs audit trails, and dispatches a welcome email.
  */
 export async function createEmployee(req, res, next) {
     try {
@@ -14,7 +14,7 @@ export async function createEmployee(req, res, next) {
             return sendResponse({
                 res,
                 statusCode: 400,
-                message: 'Actor must belong to an organization.',
+                message: 'Admin must belong to an organization.',
                 success: false,
             });
         }
@@ -44,11 +44,9 @@ export async function createEmployee(req, res, next) {
             locationId,
             employmentType,
             workScheduleId,
-            salary,
-            role,
         } = req.body;
 
-        const registeredData = await employeeDao.createEmployeeTx({
+        const registeredData = await createEmployeeTx({
             organizationId,
             orgCode,
             firstName,
@@ -63,8 +61,6 @@ export async function createEmployee(req, res, next) {
             locationId,
             employmentType,
             workScheduleId,
-            salary,
-            role: role || 'employee',
             actorUserId: req.user.id,
             ipAddress: req.ip,
             userAgent: req.headers['user-agent'],
@@ -130,126 +126,6 @@ export async function createEmployee(req, res, next) {
                     temporaryPassword: registeredData.tempPassword,
                 },
             },
-        });
-    } catch (error) {
-        next(error);
-    }
-}
-
-/**
- * List / search employees
- */
-export async function listEmployees(req, res, next) {
-    try {
-        const { search, department, status, managerId, limit, offset } = req.query;
-        const data = await employeeDao.listEmployees(req.user.organizationId, {
-            search,
-            department,
-            status,
-            managerId,
-            limit: +limit || 100,
-            offset: +offset || 0,
-        });
-
-        // Get status dash (optional system stats fallback)
-        let statusMap = {};
-        try {
-            const statusRows = await employeeDao.getEmployeeDashboardStatus(req.user.organizationId);
-            for (const s of statusRows) {
-                statusMap[s.employee_id] = s.computed_status;
-            }
-        } catch (err) {
-            console.warn('Dashboard status view error, skipping:', err.message);
-        }
-
-        const mapped = data.map((emp) => ({
-            id: emp.id,
-            employeeCode: emp.employeeCode,
-            firstName: emp.firstName,
-            lastName: emp.lastName,
-            displayName: emp.displayName,
-            workEmail: emp.workEmail,
-            joiningDate: emp.joiningDate,
-            employmentStatus: emp.employmentStatus,
-            departmentId: emp.departmentId,
-            departmentName: emp.departmentName || null,
-            jobPositionId: emp.jobPositionId,
-            jobPositionName: emp.jobPositionName || null,
-            locationId: emp.locationId,
-            locationName: emp.locationName || null,
-            status: statusMap[emp.id] || 'absent',
-        }));
-
-        return sendResponse({
-            res,
-            statusCode: 200,
-            message: 'Employee directory retrieved successfully',
-            success: true,
-            data: { employees: mapped },
-        });
-    } catch (error) {
-        next(error);
-    }
-}
-
-/**
- * Get detailed employee profile by ID
- */
-export async function getEmployeeById(req, res, next) {
-    try {
-        const data = await employeeService.getProfile(req.params.employeeId || req.params.id, req.user.role);
-        return sendResponse({
-            res,
-            statusCode: 200,
-            message: 'Employee profile retrieved successfully',
-            success: true,
-            data,
-        });
-    } catch (error) {
-        next(error);
-    }
-}
-
-/**
- * Update employee profile details (Admin/HR only)
- */
-export async function updateEmployee(req, res, next) {
-    try {
-        const data = await employeeService.updateProfile(
-            req.params.employeeId || req.params.id,
-            req.user.id,
-            req.user.role,
-            req.body,
-        );
-        return sendResponse({
-            res,
-            statusCode: 200,
-            message: 'Employee profile updated successfully',
-            success: true,
-            data: { employee: data },
-        });
-    } catch (error) {
-        next(error);
-    }
-}
-
-/**
- * Soft delete an employee (Admin/HR restricted)
- */
-export async function deleteEmployee(req, res, next) {
-    try {
-        const data = await employeeDao.softDeleteEmployee(
-            req.params.employeeId || req.params.id,
-            req.user.id,
-            req.ip,
-            req.headers['user-agent'],
-        );
-        return sendResponse({
-            res,
-            statusCode: 200,
-            message: 'Employee soft-deleted successfully',
-            success: true,
-            data: { employee: data },
         });
     } catch (error) {
         next(error);

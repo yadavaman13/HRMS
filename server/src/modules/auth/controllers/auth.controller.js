@@ -7,7 +7,6 @@ import { splitFullName } from '../../../utils/auth.utils.js';
 import {
     getUserByEmail,
     getUserById,
-    createUser,
     updateUser,
     getDeletedUserByEmail,
     recoverUser,

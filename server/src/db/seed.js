@@ -902,7 +902,7 @@ async function seed() {
             }
 
             // Leave Allocations
-            for (const [code, ltype] of Object.entries(leaveTypeMap)) {
+            for (const [, ltype] of Object.entries(leaveTypeMap)) {
                 if (ltype.defaultDays > 0) {
                     const [existingAlloc] = await db
                         .select()
@@ -1167,7 +1167,7 @@ async function seed() {
 
             if (dayOfWeek === 0 || dayOfWeek === 6) continue; // Skip weekends
 
-            for (const { emp, item } of seededEmployees.slice(0, 10)) {
+            for (const { emp } of seededEmployees.slice(0, 10)) {
                 const isLate = Math.random() < 0.2;
                 const status = isLate ? 'present' : Math.random() < 0.9 ? 'present' : 'absent';
                 const workMins = status === 'present' ? (isLate ? 510 : 540) : 0;

@@ -1,6 +1,6 @@
 import { db } from '../config/database.config.js';
-import { eq, and, sql, desc, asc, gte, lte } from 'drizzle-orm';
-import { employees, employeePrivateInfo } from '../db/schema/employees.schema.js';
+import { eq, and, sql, desc, asc } from 'drizzle-orm';
+import { employees } from '../db/schema/employees.schema.js';
 import { departments, jobPositions, locations } from '../db/schema/organizations.schema.js';
 import {
     attendanceRecords,

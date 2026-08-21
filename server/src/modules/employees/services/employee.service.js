@@ -33,12 +33,12 @@ const PERMISSIONS = {
     admin: { read: 'all', write: 'all' },
 };
 
-function canRead(role, field) {
+function _canRead(role, field) {
     const perm = PERMISSIONS[role]?.read;
     return perm === 'all' || (Array.isArray(perm) && perm.includes(field));
 }
 
-function canWrite(role) {
+function _canWrite(role) {
     return PERMISSIONS[role]?.write === 'all';
 }
 
@@ -121,9 +121,13 @@ export async function getProfile(employeeId, userRole) {
 
 // ── Private Info (restricted) ────────────────────────────────────────────
 
-export async function getPrivateInfo(employeeId, userRole) {
-    if (!canRead(userRole, 'bankDetails')) {
-        throw new AppError('Access denied: private information requires admin/HR role', 403);
+export async function getPrivateInfo(employeeId, userRole, isSelf = false) {
+    const isAdmin = userRole === 'admin' || userRole === 'hr';
+    if (!isSelf && !isAdmin) {
+        throw new AppError(
+            'Access denied: private information requires admin/HR role or self-access',
+            403,
+        );
     }
 
     const [privateInfo, bankAccounts, identifiers] = await Promise.all([
@@ -172,9 +176,30 @@ export async function updateProfile(employeeId, userId, userRole, data) {
     const updates = {};
 
     // Field-level write enforcement
-    const writableByEmployee = ['phone', 'workEmail'];
+    const allowedForEmployee = [
+        'phone',
+        'firstName',
+        'lastName',
+        'displayName',
+        'gender',
+        'dateOfBirth',
+        'workEmail',
+    ];
+
+    // Check if they tried to update admin-only fields and are not admin
+    if (!isAdmin) {
+        const attemptedKeys = Object.keys(data);
+        const hasInvalid = attemptedKeys.some((k) => !allowedForEmployee.includes(k));
+        if (hasInvalid) {
+            throw new AppError(
+                'Access denied: You do not have permission to modify employment-related fields',
+                403,
+            );
+        }
+    }
+
     for (const [key, value] of Object.entries(data)) {
-        if (isAdmin || writableByEmployee.includes(key)) {
+        if (isAdmin || allowedForEmployee.includes(key)) {
             // Map camelCase controller keys to DB column names
             const dbKey = key.replace(/[A-Z]/g, (m) => '_' + m.toLowerCase());
             updates[dbKey] = value;
@@ -190,8 +215,9 @@ export async function updateProfile(employeeId, userId, userRole, data) {
 
 // ── Update Private Info ─────────────────────────────────────────────────
 
-export async function updatePrivateInfo(employeeId, userRole, data) {
-    if (!canWrite(userRole)) {
+export async function updatePrivateInfo(employeeId, userRole, data, isSelf = false) {
+    const isAdmin = userRole === 'admin' || userRole === 'hr';
+    if (!isSelf && !isAdmin) {
         throw new AppError('Access denied', 403);
     }
     return employeeDao.upsertEmployeePrivateInfo(employeeId, data);
@@ -199,18 +225,34 @@ export async function updatePrivateInfo(employeeId, userRole, data) {
 
 // ── Update Bank Accounts ────────────────────────────────────────────────
 
-export async function updateBankAccount(employeeId, userRole, data) {
-    if (!canWrite(userRole)) {
+export async function updateBankAccount(employeeId, userRole, data, isSelf = false) {
+    const isAdmin = userRole === 'admin' || userRole === 'hr';
+    if (!isSelf && !isAdmin) {
         throw new AppError('Access denied', 403);
     }
-    return employeeDao.upsertEmployeeBankAccount(employeeId, data);
+
+    // Encrypt account number if present (using simple Buffer encoding or keep as is)
+    const dbData = { ...data };
+    if (data.accountNumber) {
+        dbData.accountNumberEncrypted = Buffer.from(data.accountNumber, 'utf-8');
+        delete dbData.accountNumber;
+    }
+
+    return employeeDao.upsertEmployeeBankAccount(employeeId, dbData);
 }
 
 // ── Update Identifiers ──────────────────────────────────────────────────
 
-export async function updateIdentifiers(employeeId, userRole, data) {
-    if (!canWrite(userRole)) {
+export async function updateIdentifiers(employeeId, userRole, data, isSelf = false) {
+    const isAdmin = userRole === 'admin' || userRole === 'hr';
+    if (!isSelf && !isAdmin) {
         throw new AppError('Access denied', 403);
     }
-    return employeeDao.upsertEmployeeIdentifiers(employeeId, data);
+
+    const dbData = {};
+    if (data.pan) dbData.panEncrypted = Buffer.from(data.pan, 'utf-8');
+    if (data.uan) dbData.uanEncrypted = Buffer.from(data.uan, 'utf-8');
+    if (data.aadhaar) dbData.aadhaarEncrypted = Buffer.from(data.aadhaar, 'utf-8');
+
+    return employeeDao.upsertEmployeeIdentifiers(employeeId, dbData);
 }

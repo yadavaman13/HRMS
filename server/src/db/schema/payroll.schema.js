@@ -2,7 +2,6 @@ import { eq } from 'drizzle-orm';
 import {
     pgTable,
     uuid,
-    text,
     varchar,
     boolean,
     integer,

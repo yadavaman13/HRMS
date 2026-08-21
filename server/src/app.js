@@ -7,12 +7,14 @@ import { authRouter, userRouter, adminRouter } from './modules/auth/index.js';
 import aiRouter from './modules/ai/routes/ai.routes.js';
 import { ragRouter } from './modules/rag/index.js';
 import { pdfRouter } from './modules/pdf/index.js';
-import { employeeRouter } from './modules/employees/index.js';
 import { companyRouter } from './modules/company/index.js';
 import { auditRouter } from './modules/audit/index.js';
 import { notificationRouter } from './modules/notifications/index.js';
 import { settingsRouter } from './modules/settings/index.js';
 import { dashboardRouter } from './modules/dashboard/index.js';
+import { employeeRouter, profileRouter } from './modules/employees/index.js';
+import { attendanceRouter } from './modules/attendance/index.js';
+import { leaveRouter } from './modules/leave/index.js';
 import { errorHandler } from './modules/auth/middleware/errorHandler.js';
 
 const app = express();
@@ -40,10 +42,13 @@ app.use('/api/audit-logs', auditRouter);
 app.use('/api/notifications', notificationRouter);
 app.use('/api/settings', settingsRouter);
 
-// Auxiliary Modules
+// Auxiliary & Operational Modules
 app.use('/api/ai', aiRouter);
 app.use('/api/rag', ragRouter);
 app.use('/api/pdf', pdfRouter);
+app.use('/api/profile', profileRouter);
+app.use('/api/attendance', attendanceRouter);
+app.use('/api/leave', leaveRouter);
 
 app.use(errorHandler);
 
