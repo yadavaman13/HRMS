@@ -284,24 +284,38 @@ export default function LeadsPage() {
 
 ---
 
-### Step 6: Configure Nested Route in `App.routes.jsx`
+### Step 6: Define Zero-Conflict Route (`leads.routes.jsx`)
 
-Wrap the feature with its Context Provider at the route or layout level:
+Each feature defines its own routes in `src/app/features/<feature>/<feature>.routes.jsx`. `App.routes.jsx` automatically discovers and mounts it into the route tree via Vite's `import.meta.glob` — **developers never need to edit `App.routes.jsx` directly!**
 
 ```jsx
-// src/app/App.routes.jsx
-import { LeadsProvider } from '@/app/features/leads/context/leads.context';
-import LeadsPage from '@/app/features/leads/pages/LeadsPage';
+// src/app/features/leads/leads.routes.jsx
+import { LeadsProvider } from './context/leads.context';
+import LeadsPage from './pages/LeadsPage';
 
-// Inside your router children:
-{
-    path: 'leads',
-    element: (
-        <LeadsProvider>
-            <LeadsPage />
-        </LeadsProvider>
-    )
-}
+export default {
+    // Injects into /dashboard/user/leads and /dashboard/admin/leads
+    userRoutes: [
+        {
+            path: 'leads',
+            element: (
+                <LeadsProvider>
+                    <LeadsPage />
+                </LeadsProvider>
+            ),
+        },
+    ],
+    adminRoutes: [
+        {
+            path: 'leads',
+            element: (
+                <LeadsProvider>
+                    <LeadsPage />
+                </LeadsProvider>
+            ),
+        },
+    ],
+};
 ```
 
 ---

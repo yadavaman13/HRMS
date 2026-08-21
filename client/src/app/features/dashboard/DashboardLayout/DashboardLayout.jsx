@@ -6,12 +6,14 @@ import Topbar from '@/components/Shared/Navigation/Topbar/Topbar';
 import Dialog from '@/components/Shared/Feedback/Dialog';
 import { Drawer, NotificationFeed } from '@/components/Shared/Feedback/Drawer';
 import { useAuth } from '../../auth/hooks/useAuth';
+import { useDerivedProfile } from '../../auth/hooks/useDerivedProfile';
 import { Home as HomeIcon, TrendingUp as AnalyticsIcon, Bot as BotIcon } from 'lucide-react';
 import './DashboardLayout.scss';
 
 function DashboardLayout({ onLogout }) {
     const navigate = useNavigate();
-    const { handleLogout } = useAuth();
+    const { user, handleLogout } = useAuth();
+    const derivedProfile = useDerivedProfile();
 
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
         return localStorage.getItem('sidebar-collapsed') === 'true';
@@ -31,6 +33,8 @@ function DashboardLayout({ onLogout }) {
 
     const isVisuallyCollapsed =
         windowWidth <= 600 ? false : windowWidth <= 900 ? true : isSidebarCollapsed;
+
+    const roleSegment = user?.role?.toLowerCase() === 'admin' ? 'admin' : 'user';
 
     const sidebarNavItems = [
         {
@@ -87,6 +91,10 @@ function DashboardLayout({ onLogout }) {
                 onMobileClose={() => setIsMobileMenuOpen(false)}
                 onLogoutRequest={handleLogoutTrigger}
                 navItems={sidebarNavItems}
+                userRole={user?.role}
+                profile={derivedProfile}
+                onNavigateGeneral={() => navigate(`/dashboard/${roleSegment}/settings/general`)}
+                onNavigateAccount={() => navigate(`/dashboard/${roleSegment}/settings/account`)}
             />
 
             <div className="dashboard-right-pane">

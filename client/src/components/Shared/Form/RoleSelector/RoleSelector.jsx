@@ -1,4 +1,4 @@
-import { LockKeyhole, User } from 'lucide-react';
+import { User } from 'lucide-react';
 import Dropdown from '@/components/Shared/Form/Dropdown/Dropdown';
 import RoleCard from './RoleCard/RoleCard';
 import './RoleSelector.scss';
@@ -8,11 +8,6 @@ const ROLES = [
         value: 'user',
         label: 'User',
         icon: User,
-    },
-    {
-        value: 'admin',
-        label: 'Administrator',
-        icon: LockKeyhole,
     },
 ];
 

@@ -4,14 +4,21 @@ import ProfileCard from './ProfileCard/ProfileCard';
 import './Sidebar.scss';
 
 function Sidebar({
-    isCollapsed,
+    isCollapsed = false,
     onToggleCollapse,
-    isMobileOpen,
+    isMobileOpen = false,
     onMobileClose,
     onLogoutRequest,
     pinnedTabs,
     onPinToggle,
-    navItems,
+    navItems = [],
+    userRole = '',
+    profile = {},
+    onNavigateGeneral,
+    onNavigateAccount,
+    onItemClick,
+    onSubItemClick,
+    onAddItem,
 }) {
     return (
         <aside
@@ -28,8 +35,18 @@ function Sidebar({
                 pinnedTabs={pinnedTabs}
                 onPinToggle={onPinToggle}
                 navItems={navItems}
+                userRole={userRole}
+                onItemClick={onItemClick}
+                onSubItemClick={onSubItemClick}
+                onAddItem={onAddItem}
             />
-            <ProfileCard isCollapsed={isCollapsed} onLogoutRequest={onLogoutRequest} />
+            <ProfileCard
+                profile={profile}
+                isCollapsed={isCollapsed}
+                onLogoutRequest={onLogoutRequest}
+                onNavigateGeneral={onNavigateGeneral}
+                onNavigateAccount={onNavigateAccount}
+            />
         </aside>
     );
 }
