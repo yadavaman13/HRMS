@@ -441,13 +441,14 @@ export async function createEmployeeTx({
 
         // 8.2 Create salary configuration if provided
         if (salary !== undefined && salary !== null) {
-            let monthlyWage = '0.00';
-            let wageType = 'fixed';
+            let monthlyWage;
+            let wageType;
             if (typeof salary === 'object') {
                 monthlyWage = String(salary.monthlyWage || salary.salary || '0.00');
                 wageType = salary.wageType || 'fixed';
             } else {
                 monthlyWage = String(salary);
+                wageType = 'fixed';
             }
 
             await tx.insert(salaryStructures).values({
@@ -550,7 +551,13 @@ export async function softDeleteEmployee(employeeId, actorUserId, ipAddress, use
 /**
  * Activate or deactivate an employee account
  */
-export async function updateEmployeeStatus(employeeId, isActive, actorUserId, ipAddress, userAgent) {
+export async function updateEmployeeStatus(
+    employeeId,
+    isActive,
+    actorUserId,
+    ipAddress,
+    userAgent,
+) {
     return await db.transaction(async (tx) => {
         const [employee] = await tx
             .select()
@@ -591,7 +598,13 @@ export async function updateEmployeeStatus(employeeId, isActive, actorUserId, ip
 /**
  * Reset employee password
  */
-export async function resetEmployeePassword(employeeId, hashedPassword, actorUserId, ipAddress, userAgent) {
+export async function resetEmployeePassword(
+    employeeId,
+    hashedPassword,
+    actorUserId,
+    ipAddress,
+    userAgent,
+) {
     return await db.transaction(async (tx) => {
         const [employee] = await tx
             .select()

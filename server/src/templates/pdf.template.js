@@ -628,6 +628,250 @@ export function receiptTemplate(data = {}) {
       Apex Platform · Automatic Billing System · Keep this receipt for your records
     </div>
   </div>
+ </body>
+ </html>`;
+}
+
+export function payslipTemplate(data = {}) {
+    const { payslip, lines, attendanceSummary, employee, organization, period } = data;
+    const empName = `${employee.firstName || ''} ${employee.lastName || ''}`.trim();
+    const currency = organization.currency || 'INR';
+
+    // Split lines into earnings and deductions
+    const earnings = lines.filter((l) => l.componentType === 'earning');
+    const deductions = lines.filter((l) => l.componentType === 'employee_deduction');
+
+    // Format period dates
+    const startDateFormatted = formatDate(period.periodStart);
+    const endDateFormatted = formatDate(period.periodEnd);
+
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payslip - ${escapeHtml(empName)}</title>
+  <style>
+    ${SHARED_PDF_STYLES}
+    
+    .payslip-details-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      border: 1px solid #E5E7EB;
+    }
+    
+    .payslip-details-table td {
+      padding: 6px 10px;
+      font-size: 9pt;
+      border: 1px solid #E5E7EB;
+    }
+    
+    .details-hdr {
+      font-weight: bold;
+      background-color: #F9FAFB;
+      width: 25%;
+    }
+    
+    .details-val {
+      width: 25%;
+    }
+
+    .breakdown-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    
+    .breakdown-table td {
+      vertical-align: top;
+      width: 50%;
+      padding: 0;
+      border: none;
+    }
+    
+    .inner-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid #000000;
+    }
+    
+    .inner-table th {
+      background-color: #000000;
+      color: #FFFFFF;
+      text-align: left;
+      padding: 6px 10px;
+      font-size: 9.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    
+    .inner-table td {
+      padding: 6px 10px;
+      font-size: 9pt;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    
+    .summary-row {
+      font-weight: bold;
+      background-color: #F3F4F6;
+      border-top: 1.5px solid #000000;
+      border-bottom: 1.5px solid #000000;
+    }
+    
+    .net-pay-box {
+      width: 100%;
+      border: 2px solid #000000;
+      padding: 12px;
+      margin-bottom: 24px;
+      text-align: center;
+      background-color: #F9FAFB;
+    }
+    
+    .net-pay-title {
+      font-size: 10pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      color: #374151;
+    }
+    
+    .net-pay-amount {
+      font-size: 18pt;
+      font-weight: 900;
+      color: #000000;
+    }
+  </style>
+</head>
+<body>
+  <div class="doc-container">
+    <table class="header-table">
+      <tr>
+        <td class="brand-cell">
+          <div class="brand-logo-wrap">
+            ${MONOCHROME_LOGO_SVG}
+          </div>
+          <div class="brand-text-wrap">
+            <div class="company-title">${escapeHtml(organization.name || 'HRMS Platform')}</div>
+            <div class="company-sub">${escapeHtml(organization.email || '')} | ${escapeHtml(organization.phone || '')}</div>
+          </div>
+        </td>
+        <td class="meta-cell">
+          <div class="doc-title">Payslip</div>
+          <div class="company-sub">Period: ${escapeHtml(startDateFormatted)} to ${escapeHtml(endDateFormatted)}</div>
+          <div style="margin-top: 6px;">
+            <span class="status-badge">${escapeHtml(payslip.status.toUpperCase())}</span>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <table class="payslip-details-table">
+      <tr>
+        <td class="details-hdr">Employee Name</td>
+        <td class="details-val">${escapeHtml(empName)}</td>
+        <td class="details-hdr">Employee Code</td>
+        <td class="details-val">${escapeHtml(employee.employeeCode || '')}</td>
+      </tr>
+      <tr>
+        <td class="details-hdr">Department</td>
+        <td class="details-val">${escapeHtml(employee.departmentName || 'General')}</td>
+        <td class="details-hdr">Job Position</td>
+        <td class="details-val">${escapeHtml(employee.jobPositionName || '')}</td>
+      </tr>
+      <tr>
+        <td class="details-hdr">Joining Date</td>
+        <td class="details-val">${escapeHtml(formatDate(employee.joiningDate))}</td>
+        <td class="details-hdr">Payment Mode</td>
+        <td class="details-val">Bank Transfer</td>
+      </tr>
+    </table>
+
+    <h3 style="font-size: 10pt; text-transform: uppercase; margin-bottom: 8px; border-bottom: 1.5px solid #000000; padding-bottom: 4px;">Attendance Summary</h3>
+    <table class="payslip-details-table" style="margin-bottom: 24px;">
+      <tr>
+        <td class="details-hdr" style="width: 16.6%;">Calendar Days</td>
+        <td class="details-val" style="width: 16.6%;">${escapeHtml(attendanceSummary?.totalCalendarDays || 0)}</td>
+        <td class="details-hdr" style="width: 16.6%;">Scheduled Days</td>
+        <td class="details-val" style="width: 16.6%;">${escapeHtml(attendanceSummary?.scheduledDays || 0)}</td>
+        <td class="details-hdr" style="width: 16.6%;">Payable Days</td>
+        <td class="details-val" style="width: 16.6%; font-weight: bold;">${escapeHtml(attendanceSummary?.payableDays || 0)}</td>
+      </tr>
+      <tr>
+        <td class="details-hdr">Present Days</td>
+        <td class="details-val">${escapeHtml(attendanceSummary?.presentDays || 0)}</td>
+        <td class="details-hdr">Paid Leaves</td>
+        <td class="details-val">${escapeHtml(attendanceSummary?.paidLeaveDays || 0)}</td>
+        <td class="details-hdr">Unpaid Leaves / Absences</td>
+        <td class="details-val" style="color: #DC2626;">${escapeHtml(Number(attendanceSummary?.unpaidLeaveDays || 0) + Number(attendanceSummary?.absentDays || 0))}</td>
+      </tr>
+    </table>
+
+    <table class="breakdown-table">
+      <tr>
+        <td style="padding-right: 10px;">
+          <table class="inner-table">
+            <thead>
+              <tr>
+                <th style="width: 70%;">Earnings Component</th>
+                <th style="width: 30%; text-align: right;">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${earnings
+                  .map(
+                      (line) => `
+                <tr>
+                  <td>${escapeHtml(line.componentName)}</td>
+                  <td style="text-align: right;">${escapeHtml(formatCurrency(line.amount, currency))}</td>
+                </tr>
+              `,
+                  )
+                  .join('')}
+              <tr class="summary-row">
+                <td>Gross Earnings</td>
+                <td style="text-align: right;">${escapeHtml(formatCurrency(payslip.grossEarnings, currency))}</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td style="padding-left: 10px;">
+          <table class="inner-table">
+            <thead>
+              <tr>
+                <th style="width: 70%;">Deductions Component</th>
+                <th style="width: 30%; text-align: right;">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${deductions
+                  .map(
+                      (line) => `
+                <tr>
+                  <td>${escapeHtml(line.componentName)}</td>
+                  <td style="text-align: right;">${escapeHtml(formatCurrency(line.amount, currency))}</td>
+                </tr>
+              `,
+                  )
+                  .join('')}
+              <tr class="summary-row">
+                <td>Total Deductions</td>
+                <td style="text-align: right;">${escapeHtml(formatCurrency(Number(payslip.totalEmployeeDeductions) + Number(payslip.unpaidDeduction), currency))}</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <div class="net-pay-box">
+      <div class="net-pay-title">Net Take-Home Pay</div>
+      <div class="net-pay-amount">${escapeHtml(formatCurrency(payslip.netPay, currency))}</div>
+    </div>
+
+    <div class="footer" style="margin-top: 40px; text-align: center; font-size: 8pt; color: #6B7280; border-top: 1px solid #E5E7EB; padding-top: 12px;">
+      This is a system-generated document and does not require a physical signature.
+    </div>
+  </div>
 </body>
 </html>`;
 }
