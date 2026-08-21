@@ -1,0 +1,133 @@
+@use '@/styles/variables' as variables;
+
+.admin-attendance-page {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+    padding: variables.$spacing-lg;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: variables.$spacing-md;
+    }
+
+    &__title {
+        font-size: variables.$font-size-xxl;
+        font-weight: 700;
+        color: variables.$color-gray-900;
+    }
+
+    &__subtitle {
+        font-size: variables.$font-size-sm;
+        color: variables.$color-gray-600;
+        margin-top: 4px;
+    }
+
+    &__view-tabs {
+        display: flex;
+        align-items: center;
+        background-color: variables.$color-gray-100;
+        padding: 4px;
+        border-radius: variables.$radius-medium;
+        gap: 4px;
+    }
+
+    .view-tab-btn {
+        padding: variables.$spacing-xs variables.$spacing-md;
+        font-size: variables.$font-size-sm;
+        font-weight: 500;
+        color: variables.$color-gray-700;
+        background: transparent;
+        border: none;
+        border-radius: variables.$radius-small;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &.active {
+            background-color: variables.$color-white;
+            color: variables.$color-gray-900;
+            font-weight: 600;
+            box-shadow: variables.$shadow-sm;
+        }
+    }
+
+    &__stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: variables.$spacing-md;
+    }
+
+    &__table-section,
+    &__adjustments-section {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-md;
+    }
+
+    .table-toolbar {
+        background-color: variables.$color-white;
+        border: 1px solid variables.$color-gray-200;
+        border-radius: variables.$radius-large;
+        padding: variables.$spacing-md;
+    }
+
+    .filters-row {
+        display: flex;
+        align-items: flex-end;
+        gap: variables.$spacing-md;
+        flex-wrap: wrap;
+    }
+
+    .records-table-wrap {
+        background-color: variables.$color-white;
+        border: 1px solid variables.$color-gray-200;
+        border-radius: variables.$radius-large;
+        overflow-x: auto;
+    }
+
+    &__loading {
+        padding: variables.$spacing-xxl 0;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.admin-records-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: variables.$font-size-sm;
+
+    th {
+        text-align: left;
+        padding: variables.$spacing-sm variables.$spacing-md;
+        background-color: variables.$color-gray-50;
+        color: variables.$color-gray-600;
+        font-weight: 600;
+        border-bottom: 1px solid variables.$color-gray-200;
+        white-space: nowrap;
+    }
+
+    td {
+        padding: variables.$spacing-md;
+        border-bottom: 1px solid variables.$color-gray-100;
+        color: variables.$color-gray-800;
+        white-space: nowrap;
+    }
+
+    tr:hover td {
+        background-color: variables.$color-gray-50;
+    }
+
+    .code-sub {
+        font-size: variables.$font-size-xs;
+        color: variables.$color-gray-500;
+    }
+
+    .action-btn-group {
+        display: inline-flex;
+        gap: variables.$spacing-xs;
+    }
+}

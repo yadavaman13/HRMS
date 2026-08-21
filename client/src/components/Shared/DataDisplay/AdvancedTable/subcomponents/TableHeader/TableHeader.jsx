@@ -11,7 +11,8 @@ import {
 import './TableHeader.scss';
 
 function TableHeader({
-    selectable = true,
+    selectable = false,
+    showSerialNumber = false,
     isAllPageRowsSelected = false,
     handleSelectAll,
     effectiveColumns = [],
@@ -21,8 +22,9 @@ function TableHeader({
     hasRows = null,
     collapsedKeys = new Set(),
     toggleCollapse = null,
-    showColumnToggleIcon = true,
-    reorderable = true,
+    showColumnToggleIcon = false,
+    reorderable = false,
+    showColumnSorting = false,
     onColumnReorder = null,
 }) {
     const [draggedKey, setDraggedKey] = useState(null);
@@ -144,12 +146,26 @@ function TableHeader({
                         )}
                     </th>
                 )}
+                {showSerialNumber && (
+                    <th
+                        className="advanced-table-header-cell serial-number-cell"
+                        style={{
+                            width: '56px',
+                            minWidth: '56px',
+                            maxWidth: '56px',
+                            textAlign: 'center',
+                        }}
+                    >
+                        #
+                    </th>
+                )}
                 <th className="advanced-table-header-cell badge-column-header"></th>
                 {effectiveColumns.map((col) => {
                     const isCollapsed = collapsedKeys.has(col.key);
                     const isSorted = sortConfig.key === col.key;
                     const sortDir = isSorted ? sortConfig.direction : null;
                     const isActuallySortable =
+                        showColumnSorting &&
                         col.sortable !== false &&
                         col.key !== 'action' &&
                         col.key !== 'actions' &&

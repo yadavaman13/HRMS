@@ -1,0 +1,113 @@
+@use '@/styles/variables' as variables;
+
+.employee-card {
+    background-color: variables.$color-white;
+    border: 1px solid variables.$color-gray-200;
+    border-radius: variables.$radius-large;
+    padding: variables.$spacing-md;
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-sm;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+        border-color: variables.$color-blue-accent;
+        box-shadow: variables.$shadow-md;
+        transform: translateY(-2px);
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: variables.$spacing-md;
+    }
+
+    &__avatar-wrap {
+        position: relative;
+        display: inline-block;
+    }
+
+    &__status-indicator {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background-color: variables.$color-white;
+        border-radius: 50%;
+        padding: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__identity {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    &__name {
+        font-size: variables.$font-size-md;
+        font-weight: 600;
+        color: variables.$color-gray-900;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__code {
+        font-size: variables.$font-size-xs;
+        color: variables.$color-gray-500;
+        font-family: monospace;
+    }
+
+    &__body {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-xs;
+        padding-top: variables.$spacing-xs;
+        border-top: 1px solid variables.$color-gray-100;
+    }
+
+    &__info-row {
+        display: flex;
+        align-items: center;
+        gap: variables.$spacing-xs;
+        font-size: variables.$font-size-sm;
+        color: variables.$color-gray-700;
+    }
+
+    &__designation {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__icon {
+        color: variables.$color-gray-400;
+        flex-shrink: 0;
+    }
+
+    &__footer {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding-top: variables.$spacing-xs;
+        border-top: 1px dashed variables.$color-gray-100;
+    }
+
+    &__contact-row {
+        display: flex;
+        align-items: center;
+        gap: variables.$spacing-xs;
+        font-size: variables.$font-size-xs;
+        color: variables.$color-gray-600;
+        overflow: hidden;
+    }
+
+    &__contact-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

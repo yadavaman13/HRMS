@@ -1,3 +1,4 @@
+import { isValidElement } from 'react';
 import './Button.scss';
 
 function Button({
@@ -6,6 +7,8 @@ function Button({
     variant = 'primary',
     size = 'lg',
     circle = false,
+    fullWidth = false,
+    icon,
     onClick,
     disabled = false,
     loading = false,
@@ -19,6 +22,7 @@ function Button({
         `btn-${variant}`,
         size !== 'lg' ? `btn-${size}` : '',
         circle ? 'btn-circle' : '',
+        fullWidth ? 'btn-full-width' : '',
         isButtonDisabled ? 'is-disabled' : '',
         loading ? 'btn-loading' : '',
         className,
@@ -27,6 +31,16 @@ function Button({
         .join(' ');
 
     const showChildren = !(loading && (size === 'icon' || size === 'icon-sm'));
+
+    const renderIcon = () => {
+        if (!icon || loading) return null;
+        if (isValidElement(icon)) return icon;
+        if (typeof icon === 'function' || (typeof icon === 'object' && icon.$$typeof)) {
+            const IconComp = icon;
+            return <IconComp size={16} className="btn-icon" />;
+        }
+        return null;
+    };
 
     return (
         <button
@@ -43,6 +57,7 @@ function Button({
                     <span />
                 </span>
             )}
+            {renderIcon()}
             {showChildren && children}
         </button>
     );

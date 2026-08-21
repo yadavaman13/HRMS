@@ -7,7 +7,15 @@ import Dialog from '@/components/Shared/Feedback/Dialog';
 import { Drawer, NotificationFeed } from '@/components/Shared/Feedback/Drawer';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { useDerivedProfile } from '../../auth/hooks/useDerivedProfile';
-import { Home as HomeIcon, TrendingUp as AnalyticsIcon, Bot as BotIcon } from 'lucide-react';
+import {
+    Home as HomeIcon,
+    Users as EmployeesIcon,
+    Clock as AttendanceIcon,
+    Calendar as LeaveIcon,
+    DollarSign as PayrollIcon,
+    Sliders as SettingsIcon,
+    Bot as BotIcon,
+} from 'lucide-react';
 import './DashboardLayout.scss';
 
 function DashboardLayout({ onLogout }) {
@@ -40,15 +48,37 @@ function DashboardLayout({ onLogout }) {
         {
             label: 'Home',
             icon: <HomeIcon />,
+            path: `/dashboard/${roleSegment}`,
         },
         {
-            label: 'AI',
+            label: 'Employees',
+            icon: <EmployeesIcon />,
+            path: `/dashboard/${roleSegment}/employees`,
+        },
+        {
+            label: 'Attendance',
+            icon: <AttendanceIcon />,
+            path: `/dashboard/${roleSegment}/attendance`,
+        },
+        {
+            label: 'Leave',
+            icon: <LeaveIcon />,
+            path: `/dashboard/${roleSegment}/leave`,
+        },
+        {
+            label: 'Payroll',
+            icon: <PayrollIcon />,
+            path: `/dashboard/${roleSegment}/payroll`,
+        },
+        {
+            label: 'AI Copilot',
             icon: <BotIcon />,
+            path: `/dashboard/${roleSegment}/ai`,
         },
         {
-            label: 'Analytics',
-            subTabs: ['Insight', 'Reports'],
-            icon: <AnalyticsIcon />,
+            label: 'Settings',
+            icon: <SettingsIcon />,
+            path: `/dashboard/${roleSegment}/settings/general`,
         },
     ];
 

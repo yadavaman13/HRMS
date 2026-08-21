@@ -1,0 +1,75 @@
+@use '@/styles/variables' as variables;
+
+.apply-leave-modal {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-md;
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-md;
+    }
+
+    &__row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: variables.$spacing-md;
+
+        @include variables.mobile {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &__summary-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: variables.$spacing-sm variables.$spacing-md;
+        background-color: variables.$color-gray-50;
+        border: 1px dashed variables.$color-gray-300;
+        border-radius: variables.$radius-medium;
+
+        .summary-col {
+            display: flex;
+            align-items: center;
+            gap: variables.$spacing-xs;
+        }
+
+        .summary-label {
+            font-size: variables.$font-size-xs;
+            color: variables.$color-gray-600;
+            font-weight: 500;
+        }
+
+        .summary-val {
+            font-size: variables.$font-size-sm;
+            font-weight: 700;
+            color: variables.$color-blue-accent;
+        }
+
+        .summary-note {
+            font-size: variables.$font-size-xs;
+            color: variables.$color-gray-500;
+        }
+    }
+
+    &__note {
+        display: flex;
+        align-items: center;
+        gap: variables.$spacing-xs;
+        font-size: variables.$font-size-xs;
+        color: variables.$color-warning-dark;
+        background-color: variables.$color-warning-light;
+        padding: variables.$spacing-xs variables.$spacing-sm;
+        border-radius: variables.$radius-small;
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: variables.$spacing-sm;
+        padding-top: variables.$spacing-sm;
+        border-top: 1px solid variables.$color-gray-200;
+    }
+}

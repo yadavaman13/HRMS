@@ -1,14 +1,17 @@
+import EmployeeDashboardHome from './components/EmployeeDashboardHome/EmployeeDashboardHome';
+import AdminDashboardHome from './components/AdminDashboardHome/AdminDashboardHome';
+
 export default {
     userRoutes: [
         {
             path: 'home',
-            element: <div className="main-dashboard-placeholder">This is main dashboard</div>,
+            element: <EmployeeDashboardHome />,
         },
     ],
     adminRoutes: [
         {
             path: 'home',
-            element: <div className="main-dashboard-placeholder">This is Admin dashboard</div>,
+            element: <AdminDashboardHome />,
         },
     ],
 };

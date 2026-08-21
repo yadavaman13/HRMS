@@ -24,7 +24,12 @@ const ProtectedRoute = ({ children, allowedRoles, fallbackPath }) => {
         return <Navigate to="/login" replace />;
     }
 
-    // 3. Multi-Role RBAC check (case-insensitive)
+    // 3. Forced first-time password change check
+    if (user?.mustChangePassword && window.location.pathname !== '/change-password') {
+        return <Navigate to="/change-password" replace />;
+    }
+
+    // 4. Multi-Role RBAC check (case-insensitive)
     if (allowedRoles && user) {
         const userRole = user.role?.toLowerCase() || '';
         const hasRoleAccess = allowedRoles.some((role) => role.toLowerCase() === userRole);

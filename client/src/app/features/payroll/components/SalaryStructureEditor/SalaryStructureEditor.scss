@@ -1,0 +1,161 @@
+@use '@/styles/variables' as variables;
+
+.salary-structure-editor {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+}
+
+.salary-hero-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: variables.$spacing-md;
+}
+
+.salary-hero-card {
+    background: linear-gradient(
+        135deg,
+        variables.$color-gray-900 0%,
+        variables.$color-gray-800 100%
+    );
+    color: variables.$color-white;
+    border-radius: variables.$radius-large;
+    padding: variables.$spacing-lg;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    &--residual {
+        background: linear-gradient(
+            135deg,
+            color-mix(in srgb, variables.$color-blue-accent 85%, black) 0%,
+            variables.$color-blue-dark 100%
+        );
+    }
+
+    &--net {
+        background: linear-gradient(
+            135deg,
+            color-mix(in srgb, variables.$color-success 80%, black) 0%,
+            color-mix(in srgb, variables.$color-success 60%, black) 100%
+        );
+    }
+
+    .label {
+        font-size: variables.$font-size-xs;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        opacity: 0.8;
+    }
+
+    .val {
+        font-size: variables.$font-size-xxl;
+        font-weight: 700;
+        font-family: monospace;
+    }
+
+    .sub {
+        font-size: variables.$font-size-xs;
+        opacity: 0.85;
+    }
+
+    .flex-between {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.salary-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: variables.$spacing-lg;
+
+    @include variables.tablet {
+        grid-template-columns: 1fr;
+    }
+
+    @include variables.mobile {
+        grid-template-columns: 1fr;
+    }
+}
+
+.salary-input-panel,
+.salary-breakdown-panel {
+    background-color: variables.$color-white;
+    border: 1px solid variables.$color-gray-200;
+    border-radius: variables.$radius-large;
+    padding: variables.$spacing-lg;
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-md;
+
+    .panel-title {
+        font-size: variables.$font-size-md;
+        font-weight: 600;
+        color: variables.$color-gray-900;
+    }
+}
+
+.input-group-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-md;
+}
+
+.grid-2-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: variables.$spacing-md;
+
+    @include variables.mobile {
+        grid-template-columns: 1fr;
+    }
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.breakdown-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: variables.$font-size-sm;
+
+    th {
+        text-align: left;
+        padding: variables.$spacing-xs variables.$spacing-sm;
+        background-color: variables.$color-gray-50;
+        color: variables.$color-gray-600;
+        font-weight: 600;
+        border-bottom: 1px solid variables.$color-gray-200;
+    }
+
+    td {
+        padding: variables.$spacing-xs variables.$spacing-sm;
+        border-bottom: 1px solid variables.$color-gray-100;
+        color: variables.$color-gray-800;
+    }
+
+    .residual-row {
+        background-color: color-mix(in srgb, variables.$color-blue-accent 8%, transparent);
+    }
+
+    .gross-row {
+        background-color: variables.$color-gray-50;
+        font-weight: 700;
+        border-top: 2px solid variables.$color-gray-300;
+    }
+
+    .net-row {
+        background-color: color-mix(in srgb, variables.$color-success 10%, transparent);
+        font-weight: 700;
+        border-top: 2px solid variables.$color-success-border;
+    }
+}
+
+.salary-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: variables.$spacing-sm;
+}

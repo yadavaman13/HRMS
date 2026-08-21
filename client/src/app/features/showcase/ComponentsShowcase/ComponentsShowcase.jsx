@@ -31,7 +31,6 @@ import InputField from '@/components/Shared/Form/InputField/InputField';
 import Textarea from '@/components/Shared/Form/Textarea/Textarea';
 import ButtonUpload from '@/components/Shared/Form/Upload/ButtonUpload/ButtonUpload';
 import AdvancedTable from '@/components/Shared/DataDisplay/AdvancedTable/AdvancedTable';
-import DataView from '@/components/Shared/DataDisplay/DataView/DataView';
 import AdvancedScrollbar from '@/components/Shared/DataDisplay/AdvancedScrollbar/AdvancedScrollbar';
 import MetricCard, { MetricCardGrid } from '@/components/Shared/DataDisplay/MetricCard/MetricCard';
 import ActivitiesFeedCard from '@/components/Shared/DataDisplay/ActivitiesFeed/ActivitiesFeedCard';
@@ -1167,39 +1166,41 @@ function ComponentsShowcase() {
                     </div>
                 </div>
 
-                {/* AdvancedTable Showcase Section */}
+                {/* AdvancedTable — Minimal Default Mode */}
+                <div className="showcase-section">
+                    <h3 className="showcase-section-title">AdvancedTable — Minimal Default Mode</h3>
+                    <AdvancedTable
+                        columns={displayColumns}
+                        data={tableData.length > 0 ? tableData : mockTableData}
+                        loading={tableLoading}
+                    />
+                </div>
+
+                {/* AdvancedTable — Full-Featured Power Mode */}
                 <div className="showcase-section">
                     <h3 className="showcase-section-title">
-                        AdvancedTable — Generic Backend-Ready Table
+                        AdvancedTable — Full-Featured Power Mode (Sort Dropdown, Serial #, Grid
+                        Switcher)
                     </h3>
                     <AdvancedTable
                         columns={displayColumns}
                         data={tableData.length > 0 ? tableData : mockTableData}
                         loading={tableLoading}
                         tabFilterKey="status"
+                        showSerialNumber={true}
+                        showSortDropdown={true}
+                        showColumnSorting={true}
+                        showColumnToggle={true}
+                        showFilter={true}
                         searchable={true}
                         searchPlaceholder="Search records..."
                         initialRowsPerPage={5}
                         selectable={true}
-                        onRefresh={tableRefetch}
-                    />
-                </div>
-
-                {/* DataView Showcase Section */}
-                <div className="showcase-section">
-                    <h3 className="showcase-section-title">
-                        DataView — Table / Grid View Switcher
-                    </h3>
-                    <DataView
-                        defaultView="table"
-                        columns={displayColumns}
-                        data={tableData.length > 0 ? tableData : mockTableData}
-                        loading={tableLoading}
-                        tabFilterKey="status"
-                        searchable={true}
-                        searchPlaceholder="Search records..."
-                        initialRowsPerPage={5}
-                        selectable={true}
+                        showRefresh={true}
+                        showExport={true}
+                        showRowsPerPage={true}
+                        showResultsCount={true}
+                        showViewToggle={true}
                         gridColumns={4}
                         cardTitleKey="name"
                         cardSubtitleKey="role"
@@ -1210,7 +1211,7 @@ function ComponentsShowcase() {
                             Inactive: 'neutral',
                             Pending: 'warning',
                         }}
-                        onCardClick={(row) => alert(`Clicked: ${row.name} — ${row.role}`)}
+                        onRefresh={tableRefetch}
                     />
                 </div>
 

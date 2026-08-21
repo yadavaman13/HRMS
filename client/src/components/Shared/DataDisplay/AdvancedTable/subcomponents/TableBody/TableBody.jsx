@@ -13,12 +13,15 @@ function TableBody({
     clearedNewRowIds,
     effectiveColumns = [],
     collapsedKeys = new Set(),
-    selectable = true,
+    selectable = false,
+    showSerialNumber = false,
+    safeCurrentPage = 1,
+    rowsPerPage = 5,
     searchTerm = '',
     onRowFieldChange,
     onCellContextMenu,
 }) {
-    const colSpan = effectiveColumns.length + (selectable ? 1 : 0) + 1;
+    const colSpan = effectiveColumns.length + (selectable ? 1 : 0) + (showSerialNumber ? 1 : 0) + 1;
 
     return (
         <tbody>
@@ -26,6 +29,7 @@ function TableBody({
                 <TableSkeletonRows
                     dynamicSkeletonCount={dynamicSkeletonCount}
                     selectable={selectable}
+                    showSerialNumber={showSerialNumber}
                     effectiveColumns={effectiveColumns}
                     collapsedKeys={collapsedKeys}
                 />
@@ -33,12 +37,15 @@ function TableBody({
                 paginatedData.map((row, rowIndex) => {
                     const isChecked = selectedIds.includes(row.id);
                     const isEditing = isChecked && isEditingSelected;
+                    const serialNumber = (safeCurrentPage - 1) * rowsPerPage + rowIndex + 1;
 
                     return (
                         <TableRow
                             key={row.id || rowIndex}
                             row={row}
                             rowIndex={rowIndex}
+                            serialNumber={serialNumber}
+                            showSerialNumber={showSerialNumber}
                             selectable={selectable}
                             isChecked={isChecked}
                             isEditing={isEditing}

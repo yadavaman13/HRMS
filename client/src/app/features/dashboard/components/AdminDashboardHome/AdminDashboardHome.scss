@@ -1,0 +1,128 @@
+@use '@/styles/variables' as variables;
+
+.admin-dashboard-home {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+    padding: variables.$spacing-lg;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: variables.$spacing-md;
+    }
+
+    &__title {
+        font-size: variables.$font-size-xxl;
+        font-weight: 700;
+        color: variables.$color-gray-900;
+    }
+
+    &__subtitle {
+        font-size: variables.$font-size-sm;
+        color: variables.$color-gray-600;
+        margin-top: 4px;
+    }
+
+    &__stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: variables.$spacing-md;
+    }
+
+    &__action-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: variables.$spacing-lg;
+        margin-top: variables.$spacing-sm;
+    }
+}
+
+.action-banner-card {
+    background-color: variables.$color-white;
+    border: 1px solid variables.$color-gray-200;
+    border-radius: variables.$radius-large;
+    padding: variables.$spacing-xl;
+    display: flex;
+    gap: variables.$spacing-md;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: variables.$shadow-md;
+    }
+
+    .banner-icon-box {
+        width: 48px;
+        height: 48px;
+        border-radius: variables.$radius-medium;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    &--blue {
+        &:hover {
+            border-color: variables.$color-blue-accent;
+        }
+
+        .banner-icon-box {
+            background-color: color-mix(in srgb, variables.$color-blue-accent 12%, transparent);
+            color: variables.$color-blue-accent;
+        }
+    }
+
+    &--purple {
+        &:hover {
+            border-color: variables.$color-purple;
+        }
+
+        .banner-icon-box {
+            background-color: variables.$color-purple-light;
+            color: variables.$color-purple;
+        }
+    }
+
+    &--green {
+        &:hover {
+            border-color: variables.$color-success;
+        }
+
+        .banner-icon-box {
+            background-color: variables.$color-success-light;
+            color: variables.$color-success;
+        }
+    }
+
+    .banner-content {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        h3 {
+            font-size: variables.$font-size-md;
+            font-weight: 600;
+            color: variables.$color-gray-900;
+        }
+
+        p {
+            font-size: variables.$font-size-sm;
+            color: variables.$color-gray-600;
+            line-height: 1.4;
+        }
+
+        .banner-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: variables.$font-size-xs;
+            font-weight: 600;
+            color: variables.$color-blue-accent;
+            margin-top: 6px;
+        }
+    }
+}

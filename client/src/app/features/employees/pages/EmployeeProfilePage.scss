@@ -1,0 +1,160 @@
+@use '@/styles/variables' as variables;
+
+.employee-profile-page {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+    padding: variables.$spacing-lg;
+
+    &__top-nav {
+        display: flex;
+        align-items: center;
+    }
+
+    &__loading {
+        padding: variables.$spacing-xxl 0;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.employee-profile-hero {
+    background-color: variables.$color-white;
+    border: 1px solid variables.$color-gray-200;
+    border-radius: variables.$radius-large;
+    padding: variables.$spacing-xl;
+
+    &__main {
+        display: flex;
+        align-items: center;
+        gap: variables.$spacing-xl;
+
+        @include variables.mobile {
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+        }
+    }
+
+    &__avatar-wrap {
+        position: relative;
+        display: inline-block;
+    }
+
+    &__status {
+        position: absolute;
+        bottom: 4px;
+        right: 4px;
+        background-color: variables.$color-white;
+        border-radius: 50%;
+        padding: 2px;
+    }
+
+    &__details {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-xs;
+    }
+
+    &__title-row {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: variables.$spacing-sm;
+
+        @include variables.mobile {
+            justify-content: center;
+        }
+    }
+
+    &__name {
+        font-size: variables.$font-size-xl;
+        font-weight: 700;
+        color: variables.$color-gray-900;
+    }
+
+    &__code {
+        font-size: variables.$font-size-sm;
+        font-family: monospace;
+        color: variables.$color-gray-500;
+        background-color: variables.$color-gray-100;
+        padding: 2px 8px;
+        border-radius: variables.$radius-tiny;
+    }
+
+    &__meta-row {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: variables.$spacing-md;
+        font-size: variables.$font-size-sm;
+        color: variables.$color-gray-700;
+        margin-top: 4px;
+
+        @include variables.mobile {
+            justify-content: center;
+        }
+
+        .meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+    }
+
+    &__contact-row {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: variables.$spacing-lg;
+        font-size: variables.$font-size-sm;
+        color: variables.$color-gray-600;
+        margin-top: variables.$spacing-xs;
+
+        @include variables.mobile {
+            justify-content: center;
+        }
+
+        .contact-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+    }
+}
+
+.employee-profile-tabs-header {
+    display: flex;
+    align-items: center;
+    gap: variables.$spacing-xs;
+    border-bottom: 1px solid variables.$color-gray-200;
+    padding-bottom: 2px;
+    overflow-x: auto;
+}
+
+.employee-profile-tab-btn {
+    padding: variables.$spacing-sm variables.$spacing-md;
+    font-size: variables.$font-size-sm;
+    font-weight: 500;
+    color: variables.$color-gray-600;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+
+    &:hover {
+        color: variables.$color-gray-900;
+    }
+
+    &.active {
+        color: variables.$color-blue-accent;
+        border-bottom-color: variables.$color-blue-accent;
+        font-weight: 600;
+    }
+}
+
+.employee-profile-tabs-body {
+    margin-top: variables.$spacing-sm;
+}

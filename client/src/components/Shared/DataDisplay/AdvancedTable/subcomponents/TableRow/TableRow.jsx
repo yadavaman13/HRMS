@@ -6,7 +6,9 @@ import { isColumnMatchingSearch, highlightReactTree } from '../../utils/searchHi
 function TableRow({
     row,
     rowIndex,
-    selectable = true,
+    serialNumber,
+    showSerialNumber = false,
+    selectable = false,
     isChecked = false,
     isEditing = false,
     selectedCount = 0,
@@ -56,6 +58,22 @@ function TableRow({
                         checked={isChecked}
                         onChange={() => handleSelectRow(row.id)}
                     />
+                </td>
+            )}
+            {showSerialNumber && (
+                <td
+                    className="advanced-table-body-cell serial-number-cell"
+                    style={{
+                        width: '56px',
+                        minWidth: '56px',
+                        maxWidth: '56px',
+                        textAlign: 'center',
+                        color: '#6b7280',
+                        fontSize: '0.875rem',
+                        fontWeight: 500,
+                    }}
+                >
+                    {serialNumber}
                 </td>
             )}
             <td className="advanced-table-body-cell badge-column-cell">

@@ -1,0 +1,74 @@
+@use '@/styles/variables' as variables;
+
+.organization-settings-container {
+    background-color: variables.$color-white;
+    border: 1px solid variables.$color-gray-200;
+    border-radius: variables.$radius-large;
+    padding: variables.$spacing-xl;
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+}
+
+.settings-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: variables.$spacing-md;
+    border-bottom: 1px solid variables.$color-gray-200;
+}
+
+.settings-card-title {
+    font-size: variables.$font-size-xl;
+    font-weight: 700;
+    color: variables.$color-gray-900;
+}
+
+.settings-card-subtitle {
+    font-size: variables.$font-size-sm;
+    color: variables.$color-gray-600;
+    margin-top: 2px;
+}
+
+.organization-settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-xl;
+}
+
+.org-settings-section {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-md;
+    padding-bottom: variables.$spacing-lg;
+    border-bottom: 1px solid variables.$color-gray-100;
+
+    .section-title {
+        font-size: variables.$font-size-md;
+        font-weight: 600;
+        color: variables.$color-gray-800;
+        display: flex;
+        align-items: center;
+        gap: variables.$spacing-xs;
+    }
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: variables.$spacing-md;
+
+    @include variables.mobile {
+        grid-template-columns: 1fr;
+    }
+}
+
+.settings-footer-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: variables.$spacing-sm;
+}
+
+.icon-primary {
+    color: variables.$color-blue-accent;
+}

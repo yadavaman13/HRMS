@@ -1,0 +1,41 @@
+@use '@/styles/variables' as variables;
+
+.employee-status-dot-container {
+    display: inline-flex;
+    align-items: center;
+    gap: variables.$spacing-xs;
+}
+
+.employee-status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+
+    &--present {
+        background-color: variables.$color-success;
+        box-shadow: 0 0 0 2px color-mix(in srgb, variables.$color-success 25%, transparent);
+    }
+
+    &--leave {
+        background-color: variables.$color-purple;
+        box-shadow: 0 0 0 2px color-mix(in srgb, variables.$color-purple 25%, transparent);
+    }
+
+    &--absent {
+        background-color: variables.$color-warning;
+        box-shadow: 0 0 0 2px color-mix(in srgb, variables.$color-warning 25%, transparent);
+    }
+
+    &--half-day {
+        background-color: variables.$color-info;
+        box-shadow: 0 0 0 2px color-mix(in srgb, variables.$color-info 25%, transparent);
+    }
+
+    &__label {
+        font-size: variables.$font-size-xs;
+        color: variables.$color-gray-700;
+        font-weight: 500;
+    }
+}

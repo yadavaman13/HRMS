@@ -4,6 +4,7 @@ import Pagination from '@/components/Shared/Navigation/Pagination/Pagination';
 import Tooltip from '@/components/Shared/DataDisplay/Tooltip/Tooltip';
 import PrevButton from '@/components/Shared/Buttons/PrevButton/PrevButton';
 import NextButton from '@/components/Shared/Buttons/NextButton/NextButton';
+import ViewToggle from '@/components/Shared/Buttons/ViewToggle/ViewToggle';
 
 import { parseDate, parseNumeric } from './utils/tableUtils';
 import { useTableFilters } from './hooks/useTableFilters';
@@ -18,26 +19,27 @@ import TableBody from './subcomponents/TableBody/TableBody';
 import TableContextMenu from './subcomponents/TableContextMenu/TableContextMenu';
 import TableExportMenu from './subcomponents/TableExportMenu/TableExportMenu';
 import AdvancedScrollbar from '@/components/Shared/DataDisplay/AdvancedScrollbar/AdvancedScrollbar';
-import GridView from '../DataView/components/GridView/GridView';
+import GridView from './subcomponents/GridView/GridView';
 import Dialog from '@/components/Shared/Feedback/Dialog';
 
 import './AdvancedTable.scss';
 
 /**
- * Main AdvancedTable component
+ * AdvancedTable — Highly modular, configurable data table with minimal defaults.
  */
 function AdvancedTable({
     columns = [],
     data = [],
     tabs = [],
     tabFilterKey = 'status',
-    searchable = true,
+    showTabs = null, // auto-detected from tabs.length if null
+    searchable = false,
     searchPlaceholder = 'Search records...',
     searchPlaceholderPrefix = 'Search by ',
     searchOptions = null,
     searchPlaceholderInterval = 3500,
     initialRowsPerPage = 5,
-    selectable = true,
+    selectable = false,
     selectedRows = [],
     onSelectedRowsChange,
     onDataChange = null,
@@ -49,13 +51,26 @@ function AdvancedTable({
     totalCount = null,
     onTableChange = null,
     onRefresh = null,
-    showRefresh = true,
-    showExport = true,
+    showRefresh = false,
+    showExport = false,
     onExport = null,
     filterConfig = null,
+    showFilter = false,
+    filterable = false,
+    showSortDropdown = false,
+    showColumnSorting = false,
+    showSerialNumber = false,
+    showRowsPerPage = false,
+    showResultsCount = false,
+    showPagination = true,
+    enableContextMenu = false,
+    showScrollButtons = false,
+    enableAdvancedScrollbar = true,
     className = '',
-    // Column Visibility props
-    showColumnToggle = true,
+    // Column Visibility & Reorder props
+    showColumnToggle = false,
+    showManageColumns = false,
+    enableColumnReorder = false,
     defaultHiddenColumns = [],
     defaultCollapsedColumns = [],
     visibleColumns: controlledVisibleColumns = null,
@@ -63,7 +78,10 @@ function AdvancedTable({
     onColumnVisibilityChange = null,
     onColumnCollapseChange = null,
     // View mode & Grid props
-    viewMode = 'table',
+    showViewToggle = false,
+    viewMode: controlledViewMode = null,
+    defaultViewMode = 'table',
+    onViewModeChange = null,
     itemsPerPageLabel = null,
     gridColumns = 4,
     cardTitleKey,
@@ -76,8 +94,17 @@ function AdvancedTable({
     renderCard,
     gridSkeletonCount = 8,
 }) {
+    // ── View Mode state (Table vs Grid) ───────────────────────────────────────
+    const [internalViewMode, setInternalViewMode] = useState(defaultViewMode);
+    const activeView = controlledViewMode || internalViewMode;
+
+    const handleViewChange = (newView) => {
+        if (!controlledViewMode) setInternalViewMode(newView);
+        if (onViewModeChange) onViewModeChange(newView);
+    };
+
     const effectiveItemsPerPageLabel =
-        itemsPerPageLabel || (viewMode === 'grid' ? 'Cards per page' : 'Rows per page');
+        itemsPerPageLabel || (activeView === 'grid' ? 'Cards per page' : 'Rows per page');
     const [searchTerm, setSearchTerm] = useState('');
     const [activeTab, setActiveTab] = useState('all');
     const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
@@ -155,11 +182,6 @@ function AdvancedTable({
         controlledCollapsedColumns: controlledCollapsedColumns || controlledVisibleColumns,
         onColumnCollapseChange: onColumnCollapseChange || onColumnVisibilityChange,
     });
-
-    // Derived visible columns for compatibility
-    const visibleColumns = useMemo(() => {
-        return orderedEffectiveColumns.filter((c) => !collapsedKeys.has(c.key));
-    }, [orderedEffectiveColumns, collapsedKeys]);
 
     // ── Auto-generate filterConfig from columns if not provided ───────────────
     const effectiveFilterConfig = useMemo(() => {
@@ -296,6 +318,8 @@ function AdvancedTable({
         onFilterChange: () => setCurrentPage(1),
     });
 
+    const isFilterActive = showFilter || filterable;
+
     const processedData = useMemo(() => {
         if (serverSide) return internalData;
 
@@ -310,7 +334,7 @@ function AdvancedTable({
         }
 
         // 2. Text search
-        if (searchTerm.trim() !== '') {
+        if (searchable && searchTerm.trim() !== '') {
             const lowerSearch = searchTerm.toLowerCase();
             const cleanSearch = searchTerm.replace(/[₹$€£¥\s,]/g, '').toLowerCase();
             result = result.filter((row) =>
@@ -329,47 +353,49 @@ function AdvancedTable({
         }
 
         // 3. Column multi-select filters
-        Object.entries(columnFilters).forEach(([key, vals]) => {
-            if (!vals || vals.length === 0) return;
-            result = result.filter((row) => vals.includes(String(row[key])));
-        });
-
-        // 4. Date range filters
-        Object.entries(dateRangeFilters).forEach(([key, range]) => {
-            if (!range || (!range.from && !range.to)) return;
-            const fromDate = range.from ? parseDate(range.from) : null;
-            const toDate = range.to ? parseDate(range.to) : null;
-            if (toDate) toDate.setHours(23, 59, 59, 999);
-
-            result = result.filter((row) => {
-                const cellDate = parseDate(row[key]);
-                if (!cellDate) return false;
-                if (fromDate && cellDate < fromDate) return false;
-                if (toDate && cellDate > toDate) return false;
-                return true;
+        if (isFilterActive) {
+            Object.entries(columnFilters).forEach(([key, vals]) => {
+                if (!vals || vals.length === 0) return;
+                result = result.filter((row) => vals.includes(String(row[key])));
             });
-        });
 
-        // 5. Numeric range filters
-        Object.entries(numericFilters).forEach(([key, range]) => {
-            if (!range) return;
-            const minVal =
-                range.min !== '' && range.min !== null && range.min !== undefined
-                    ? parseFloat(range.min)
-                    : null;
-            const maxVal =
-                range.max !== '' && range.max !== null && range.max !== undefined
-                    ? parseFloat(range.max)
-                    : null;
-            if (minVal === null && maxVal === null) return;
-            result = result.filter((row) => {
-                const n = parseNumeric(row[key]);
-                if (n === null) return false;
-                if (minVal !== null && n < minVal) return false;
-                if (maxVal !== null && n > maxVal) return false;
-                return true;
+            // 4. Date range filters
+            Object.entries(dateRangeFilters).forEach(([key, range]) => {
+                if (!range || (!range.from && !range.to)) return;
+                const fromDate = range.from ? parseDate(range.from) : null;
+                const toDate = range.to ? parseDate(range.to) : null;
+                if (toDate) toDate.setHours(23, 59, 59, 999);
+
+                result = result.filter((row) => {
+                    const cellDate = parseDate(row[key]);
+                    if (!cellDate) return false;
+                    if (fromDate && cellDate < fromDate) return false;
+                    if (toDate && cellDate > toDate) return false;
+                    return true;
+                });
             });
-        });
+
+            // 5. Numeric range filters
+            Object.entries(numericFilters).forEach(([key, range]) => {
+                if (!range) return;
+                const minVal =
+                    range.min !== '' && range.min !== null && range.min !== undefined
+                        ? parseFloat(range.min)
+                        : null;
+                const maxVal =
+                    range.max !== '' && range.max !== null && range.max !== undefined
+                        ? parseFloat(range.max)
+                        : null;
+                if (minVal === null && maxVal === null) return;
+                result = result.filter((row) => {
+                    const n = parseNumeric(row[key]);
+                    if (n === null) return false;
+                    if (minVal !== null && n < minVal) return false;
+                    if (maxVal !== null && n > maxVal) return false;
+                    return true;
+                });
+            });
+        }
 
         // 6. Sorting
         if (sortConfig.key && sortConfig.direction) {
@@ -413,6 +439,8 @@ function AdvancedTable({
         activeTab,
         tabFilterKey,
         searchTerm,
+        searchable,
+        isFilterActive,
         sortConfig,
         serverSide,
         columnFilters,
@@ -427,7 +455,6 @@ function AdvancedTable({
         rowsPerPage,
         totalRows,
         rowsOptions,
-        showRowsPerPage,
         totalPages,
         safeCurrentPage,
         paginatedData,
@@ -507,10 +534,12 @@ function AdvancedTable({
     }, []);
 
     useEffect(() => {
-        checkScrollable();
-        window.addEventListener('resize', checkScrollable);
-        return () => window.removeEventListener('resize', checkScrollable);
-    }, [internalData, visibleColumns, checkScrollable]);
+        if (showScrollButtons) {
+            checkScrollable();
+            window.addEventListener('resize', checkScrollable);
+            return () => window.removeEventListener('resize', checkScrollable);
+        }
+    }, [internalData, orderedEffectiveColumns, checkScrollable, showScrollButtons]);
 
     const handleScrollLeft = () =>
         tableWrapperRef.current?.scrollBy({ left: -250, behavior: 'smooth' });
@@ -524,7 +553,7 @@ function AdvancedTable({
         }
     }, [currentPage, rowsPerPage, searchTerm, activeTab, sortConfig, onTableChange]);
 
-    // ── Sort handler ──────────────────────────────────────────────────────────
+    // ── Sort handlers ─────────────────────────────────────────────────────────
     const handleSort = (columnKey, sortable) => {
         if (!sortable) return;
         setSortConfig((prev) => {
@@ -537,7 +566,17 @@ function AdvancedTable({
         setCurrentPage(1);
     };
 
+    const handleSortDropdownChange = (key, direction) => {
+        setSortConfig({ key, direction });
+        setCurrentPage(1);
+    };
+
     // ── Tab counts & tab handlers ─────────────────────────────────────────────
+    const shouldRenderTabs =
+        showTabs !== null
+            ? showTabs
+            : tabs.length > 0 || (effectiveTabs.length > 1 && tabs.length > 0);
+
     const tabCounts = useMemo(() => {
         const counts = {};
         effectiveTabs.forEach((tab) => {
@@ -613,18 +652,45 @@ function AdvancedTable({
         setTimeout(() => setToastMessage(null), 2500);
     }, []);
 
-    const handleCellContextMenu = useCallback((e, row, col) => {
-        setContextMenu({
-            x: e.clientX,
-            y: e.clientY,
-            row,
-            col,
-        });
-    }, []);
+    const handleCellContextMenu = useCallback(
+        (e, row, col) => {
+            if (!enableContextMenu) return;
+            setContextMenu({
+                x: e.clientX,
+                y: e.clientY,
+                row,
+                col,
+            });
+        },
+        [enableContextMenu],
+    );
 
-    // ── Header Actions (Download Icon + ViewToggle / Custom Actions) ─────────
-    const renderExportInHeader = showExport && (effectiveTabs.length > 0 || headerActions);
-    const hasHeaderActions = effectiveTabs.length > 0 || headerActions || renderExportInHeader;
+    // ── Header Actions (ViewToggle + Download Icon + Custom Actions) ─────────
+    const viewToggleAction = showViewToggle ? (
+        <ViewToggle view={activeView} onViewChange={handleViewChange} size="sm" />
+    ) : null;
+
+    const renderExportInHeader =
+        showExport && (shouldRenderTabs || headerActions || showViewToggle);
+    const hasHeaderActions =
+        shouldRenderTabs || headerActions || renderExportInHeader || showViewToggle;
+
+    const combinedHeaderActions = (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {renderExportInHeader && orderedEffectiveColumns.length > 0 && (
+                <TableExportMenu
+                    data={processedData}
+                    columns={orderedEffectiveColumns}
+                    buttonVariant="icon"
+                    filenamePrefix="table-export"
+                    reportTitle="Data Table Report"
+                    onExport={onExport}
+                />
+            )}
+            {headerActions}
+            {viewToggleAction}
+        </div>
+    );
 
     // ─────────────────────────────────────────────────────────────────────────
     return (
@@ -632,28 +698,14 @@ function AdvancedTable({
             {/* Tabs / Top-Right Header Actions */}
             {hasHeaderActions && (
                 <TableTabs
-                    tabs={tabsWithCounts}
+                    tabs={shouldRenderTabs ? tabsWithCounts : []}
                     activeTab={activeTab}
                     onTabChange={handleTabClick}
-                    actions={
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            {renderExportInHeader && effectiveColumns.length > 0 && (
-                                <TableExportMenu
-                                    data={processedData}
-                                    columns={effectiveColumns}
-                                    buttonVariant="icon"
-                                    filenamePrefix="table-export"
-                                    reportTitle="Data Table Report"
-                                    onExport={onExport}
-                                />
-                            )}
-                            {headerActions}
-                        </div>
-                    }
+                    actions={combinedHeaderActions}
                 />
             )}
 
-            {/* Controls row with zero layout shift in-place Selection Bar */}
+            {/* Controls row */}
             <TableControls
                 searchable={searchable}
                 searchTerm={searchTerm}
@@ -662,6 +714,8 @@ function AdvancedTable({
                 searchPlaceholderPrefix={searchPlaceholderPrefix}
                 autoSearchOptions={autoSearchOptions}
                 searchPlaceholderInterval={searchPlaceholderInterval}
+                // Filter props
+                showFilter={isFilterActive}
                 effectiveFilterConfig={effectiveFilterConfig}
                 filterToggleRef={filterToggleRef}
                 filterPanelOpen={filterPanelOpen}
@@ -680,13 +734,21 @@ function AdvancedTable({
                 setNumericFilters={setNumericFilters}
                 columnUniqueValues={columnUniqueValues}
                 onFilterValueChange={() => setCurrentPage(1)}
+                // Sort dropdown props
+                showSortDropdown={showSortDropdown}
+                sortConfig={sortConfig}
+                onSortChange={handleSortDropdownChange}
+                sortData={internalData}
+                // Action props
                 showRefresh={showRefresh}
-                showExport={showExport && !effectiveTabs.length && !headerActions}
+                showExport={showExport && !shouldRenderTabs && !headerActions && !showViewToggle}
                 exportData={processedData}
                 onExport={onExport}
                 isRefreshing={isRefreshing}
                 loading={loading}
                 handleRefreshClick={handleRefreshClick}
+                // Showing results & Pagination
+                showResultsCount={showResultsCount}
                 totalRows={totalRows}
                 safeCurrentPage={safeCurrentPage}
                 rowsPerPage={rowsPerPage}
@@ -694,9 +756,9 @@ function AdvancedTable({
                 rowsOptions={rowsOptions}
                 handleRowsPerPageChange={handleRowsPerPageChange}
                 itemsPerPageLabel={effectiveItemsPerPageLabel}
-                // Column Collapse props
-                showColumnToggle={showColumnToggle}
-                effectiveColumns={effectiveColumns}
+                // Column Toggle props
+                showColumnToggle={showColumnToggle || showManageColumns}
+                effectiveColumns={orderedEffectiveColumns}
                 collapsedKeys={collapsedKeys}
                 columnToggleOpen={columnToggleOpen}
                 setColumnToggleOpen={setColumnToggleOpen}
@@ -717,15 +779,19 @@ function AdvancedTable({
             />
 
             {/* Active filter chips bar */}
-            <TableFilterChips activeChips={activeChips} clearAllFilters={clearAllFilters} />
+            {isFilterActive && (
+                <TableFilterChips activeChips={activeChips} clearAllFilters={clearAllFilters} />
+            )}
 
             {/* Main content area: Grid or Table view */}
-            {viewMode === 'grid' ? (
+            {activeView === 'grid' ? (
                 <div className="advanced-table-grid-viewport">
                     <div className="advanced-table-grid-scroll-wrapper" ref={gridWrapperRef}>
                         <GridView
                             data={paginatedData}
-                            columns={effectiveColumns.filter((c) => !collapsedKeys.has(c.key))}
+                            columns={orderedEffectiveColumns.filter(
+                                (c) => !collapsedKeys.has(c.key),
+                            )}
                             gridColumns={gridColumns}
                             cardTitleKey={cardTitleKey}
                             cardSubtitleKey={cardSubtitleKey}
@@ -739,17 +805,19 @@ function AdvancedTable({
                             skeletonCount={dynamicSkeletonCount || gridSkeletonCount}
                         />
                     </div>
-                    <AdvancedScrollbar
-                        targetRef={gridWrapperRef}
-                        vertical={true}
-                        horizontal={false}
-                        showVerticalTooltip={false}
-                        verticalHeaderOffset={0}
-                    />
+                    {enableAdvancedScrollbar && (
+                        <AdvancedScrollbar
+                            targetRef={gridWrapperRef}
+                            vertical={true}
+                            horizontal={false}
+                            showVerticalTooltip={false}
+                            verticalHeaderOffset={0}
+                        />
+                    )}
                 </div>
             ) : (
                 <div className="advanced-table-viewport-wrapper">
-                    {showLeftScroll && (
+                    {showScrollButtons && showLeftScroll && (
                         <Tooltip
                             content="Scroll left"
                             position="top"
@@ -763,7 +831,7 @@ function AdvancedTable({
                             />
                         </Tooltip>
                     )}
-                    {showRightScroll && (
+                    {showScrollButtons && showRightScroll && (
                         <Tooltip
                             content="Scroll right"
                             position="top"
@@ -781,11 +849,14 @@ function AdvancedTable({
                     <div
                         className={`advanced-table-scroll-wrapper ${shouldUseVerticalScroll ? 'has-vertical-scroll' : ''}`}
                         ref={tableWrapperRef}
-                        onScroll={checkScrollable}
+                        onScroll={showScrollButtons ? checkScrollable : undefined}
                     >
                         <table className="advanced-table-main">
                             <colgroup>
                                 {selectable && <col style={{ width: '50px', minWidth: '50px' }} />}
+                                {showSerialNumber && (
+                                    <col style={{ width: '56px', minWidth: '56px' }} />
+                                )}
                                 <col style={{ width: '30px', minWidth: '30px' }} />
                                 {orderedEffectiveColumns.map((col) => (
                                     <col
@@ -803,16 +874,19 @@ function AdvancedTable({
                             </colgroup>
                             <TableHeader
                                 selectable={selectable}
+                                showSerialNumber={showSerialNumber}
                                 isAllPageRowsSelected={isAllPageRowsSelected}
                                 handleSelectAll={handleSelectAll}
                                 effectiveColumns={orderedEffectiveColumns}
                                 collapsedKeys={collapsedKeys}
                                 sortConfig={sortConfig}
                                 handleSort={handleSort}
+                                showColumnSorting={showColumnSorting}
                                 data={internalData}
                                 hasRows={paginatedData.length > 0}
                                 toggleCollapse={toggleCollapse}
-                                reorderable={true}
+                                showColumnToggleIcon={showColumnToggle || showManageColumns}
+                                reorderable={enableColumnReorder}
                                 onColumnReorder={handleColumnReorder}
                             />
                             <TableBody
@@ -826,6 +900,9 @@ function AdvancedTable({
                                 effectiveColumns={orderedEffectiveColumns}
                                 collapsedKeys={collapsedKeys}
                                 selectable={selectable}
+                                showSerialNumber={showSerialNumber}
+                                safeCurrentPage={safeCurrentPage}
+                                rowsPerPage={rowsPerPage}
                                 searchTerm={searchTerm}
                                 onRowFieldChange={handleRowFieldChange}
                                 onCellContextMenu={handleCellContextMenu}
@@ -833,16 +910,18 @@ function AdvancedTable({
                         </table>
                     </div>
 
-                    <AdvancedScrollbar
-                        targetRef={tableWrapperRef}
-                        totalRows={paginatedData.length > 0 ? paginatedData.length : totalRows}
-                        totalCols={orderedEffectiveColumns.length}
-                    />
+                    {enableAdvancedScrollbar && (
+                        <AdvancedScrollbar
+                            targetRef={tableWrapperRef}
+                            totalRows={paginatedData.length > 0 ? paginatedData.length : totalRows}
+                            totalCols={orderedEffectiveColumns.length}
+                        />
+                    )}
                 </div>
             )}
 
             {/* Pagination footer */}
-            {totalPages > 1 && (
+            {showPagination && totalPages > 1 && (
                 <div className="advanced-table-footer">
                     <Pagination
                         currentPage={safeCurrentPage}
@@ -853,7 +932,7 @@ function AdvancedTable({
             )}
 
             {/* Context Menu for right-click copy */}
-            {contextMenu && (
+            {enableContextMenu && contextMenu && (
                 <TableContextMenu
                     x={contextMenu.x}
                     y={contextMenu.y}

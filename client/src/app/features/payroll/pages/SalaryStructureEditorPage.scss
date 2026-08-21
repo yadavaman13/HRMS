@@ -1,0 +1,44 @@
+@use '@/styles/variables' as variables;
+
+.salary-editor-page {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+    padding: variables.$spacing-lg;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: variables.$spacing-md;
+    }
+
+    &__title {
+        font-size: variables.$font-size-xxl;
+        font-weight: 700;
+        color: variables.$color-gray-900;
+    }
+
+    &__subtitle {
+        font-size: variables.$font-size-sm;
+        color: variables.$color-gray-600;
+        margin-top: 4px;
+        max-width: 680px;
+    }
+
+    .employee-select-box {
+        min-width: 280px;
+    }
+
+    &__loading {
+        padding: variables.$spacing-xxl 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+    }
+}

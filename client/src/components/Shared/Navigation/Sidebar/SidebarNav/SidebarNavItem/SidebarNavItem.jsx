@@ -1,3 +1,4 @@
+import { isValidElement } from 'react';
 import { Plus as PlusIcon, Pin as PinIcon } from 'lucide-react';
 import './SidebarNavItem.scss';
 
@@ -12,13 +13,23 @@ function SidebarNavItem({
     onPinClick,
 }) {
     const handleAddClick = (e) => {
-        e.stopPropagation(); // Prevent selecting the nav item when clicking the "+" button
+        e.stopPropagation();
         if (onAddClick) onAddClick();
     };
 
     const handlePinClick = (e) => {
-        e.stopPropagation(); // Prevent selecting the nav item when clicking the pin button
+        e.stopPropagation();
         if (onPinClick) onPinClick();
+    };
+
+    const renderNavIcon = () => {
+        if (!icon) return null;
+        if (isValidElement(icon)) return icon;
+        if (typeof icon === 'function' || (typeof icon === 'object' && icon.$$typeof)) {
+            const IconComp = icon;
+            return <IconComp size={18} />;
+        }
+        return null;
     };
 
     return (
@@ -27,12 +38,11 @@ function SidebarNavItem({
             onClick={onClick}
         >
             <div className="nav-item-left">
-                <span className="nav-icon">{icon}</span>
+                <span className="nav-icon">{renderNavIcon()}</span>
                 <span className="nav-label">{label}</span>
             </div>
             <div className="nav-item-actions">
                 {onPinClick && (
-                    // <Tooltip content={isPinned ? 'Unpin' : 'Pin'} position="top">
                     <button
                         type="button"
                         className={`nav-pin-btn ${isPinned ? 'pinned' : ''}`}
@@ -41,7 +51,6 @@ function SidebarNavItem({
                     >
                         <PinIcon size={16} strokeWidth={1.2} />
                     </button>
-                    // </Tooltip>
                 )}
                 {showAdd && (
                     <button

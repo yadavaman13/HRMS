@@ -1,0 +1,192 @@
+@use '@/styles/variables' as variables;
+
+.employee-dashboard-home {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+    padding: variables.$spacing-lg;
+
+    &__welcome-banner {
+        background-color: variables.$color-white;
+        border: 1px solid variables.$color-gray-200;
+        border-radius: variables.$radius-large;
+        padding: variables.$spacing-xl;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: variables.$spacing-md;
+
+        .welcome-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .welcome-greeting {
+            font-size: variables.$font-size-sm;
+            color: variables.$color-gray-600;
+        }
+
+        .welcome-name {
+            font-size: variables.$font-size-xxl;
+            font-weight: 700;
+            color: variables.$color-gray-900;
+        }
+
+        .welcome-meta {
+            display: flex;
+            align-items: center;
+            gap: variables.$spacing-xs;
+            margin-top: 4px;
+        }
+
+        .welcome-code {
+            font-size: variables.$font-size-xs;
+            color: variables.$color-gray-500;
+            background-color: variables.$color-gray-100;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    }
+
+    &__main-grid {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: variables.$spacing-lg;
+        align-items: start;
+
+        @include variables.tablet {
+            grid-template-columns: 1fr;
+        }
+
+        @include variables.mobile {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .main-left-col {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-lg;
+    }
+
+    .section-block {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-sm;
+    }
+
+    .section-title {
+        font-size: variables.$font-size-md;
+        font-weight: 600;
+        color: variables.$color-gray-800;
+        display: flex;
+        align-items: center;
+        gap: variables.$spacing-xs;
+    }
+
+    .section-title-between {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .shortcuts-card {
+        background-color: variables.$color-white;
+        border: 1px solid variables.$color-gray-200;
+        border-radius: variables.$radius-large;
+        padding: variables.$spacing-lg;
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-md;
+
+        .shortcuts-title {
+            font-size: variables.$font-size-md;
+            font-weight: 600;
+            color: variables.$color-gray-900;
+        }
+
+        .shortcuts-list {
+            display: flex;
+            flex-direction: column;
+            gap: variables.$spacing-xs;
+        }
+
+        .shortcut-btn {
+            display: flex;
+            align-items: center;
+            gap: variables.$spacing-sm;
+            padding: variables.$spacing-sm;
+            border: 1px solid transparent;
+            border-radius: variables.$radius-medium;
+            background: transparent;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background-color: variables.$color-gray-50;
+                border-color: variables.$color-gray-200;
+
+                .arrow {
+                    transform: translateX(3px);
+                    color: variables.$color-blue-accent;
+                }
+            }
+
+            .shortcut-icon-box {
+                width: 36px;
+                height: 36px;
+                border-radius: variables.$radius-medium;
+                background-color: color-mix(in srgb, variables.$color-blue-accent 12%, transparent);
+                color: variables.$color-blue-accent;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+
+                &.icon-purple {
+                    background-color: variables.$color-purple-light;
+                    color: variables.$color-purple;
+                }
+
+                &.icon-green {
+                    background-color: variables.$color-success-light;
+                    color: variables.$color-success;
+                }
+
+                &.icon-blue {
+                    background-color: variables.$color-gray-100;
+                    color: variables.$color-gray-700;
+                }
+            }
+
+            .shortcut-text {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                overflow: hidden;
+
+                .shortcut-name {
+                    font-size: variables.$font-size-sm;
+                    font-weight: 600;
+                    color: variables.$color-gray-900;
+                }
+
+                .shortcut-desc {
+                    font-size: variables.$font-size-xs;
+                    color: variables.$color-gray-500;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+
+            .arrow {
+                color: variables.$color-gray-400;
+                transition: transform 0.2s ease;
+            }
+        }
+    }
+}

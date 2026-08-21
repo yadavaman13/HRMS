@@ -1,0 +1,50 @@
+@use '@/styles/variables' as variables;
+
+.attendance-reg-modal {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-md;
+
+    &__info {
+        display: flex;
+        align-items: center;
+        gap: variables.$spacing-xs;
+        padding: variables.$spacing-xs variables.$spacing-sm;
+        background-color: variables.$color-gray-50;
+        border-radius: variables.$radius-small;
+        font-size: variables.$font-size-sm;
+    }
+
+    &__date-label {
+        color: variables.$color-gray-600;
+    }
+
+    &__date-val {
+        font-weight: 600;
+        color: variables.$color-gray-900;
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-md;
+    }
+
+    &__row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: variables.$spacing-md;
+
+        @include variables.mobile {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: variables.$spacing-sm;
+        padding-top: variables.$spacing-sm;
+        border-top: 1px solid variables.$color-gray-200;
+    }
+}

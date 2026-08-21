@@ -1,0 +1,119 @@
+@use '@/styles/variables' as variables;
+
+.create-employee-modal {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-md;
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-md;
+    }
+
+    &__preview-id {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: variables.$spacing-sm variables.$spacing-md;
+        background-color: variables.$color-gray-50;
+        border: 1px dashed variables.$color-gray-300;
+        border-radius: variables.$radius-medium;
+    }
+
+    &__preview-label {
+        font-size: variables.$font-size-xs;
+        color: variables.$color-gray-600;
+        font-weight: 500;
+    }
+
+    &__preview-code {
+        font-size: variables.$font-size-sm;
+        font-weight: 700;
+        font-family: monospace;
+        color: variables.$color-blue-accent;
+    }
+
+    &__row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: variables.$spacing-md;
+
+        @include variables.mobile {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: variables.$spacing-sm;
+        margin-top: variables.$spacing-md;
+        padding-top: variables.$spacing-md;
+        border-top: 1px solid variables.$color-gray-200;
+    }
+
+    &__success {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: variables.$spacing-sm;
+        padding: variables.$spacing-lg 0;
+    }
+
+    &__success-badge {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background-color: variables.$color-success-light;
+        color: variables.$color-success;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: variables.$spacing-xs;
+    }
+
+    &__success-desc {
+        font-size: variables.$font-size-sm;
+        color: variables.$color-gray-600;
+        max-width: 380px;
+    }
+
+    &__cred-box {
+        width: 100%;
+        background-color: variables.$color-gray-50;
+        border: 1px solid variables.$color-gray-200;
+        border-radius: variables.$radius-medium;
+        padding: variables.$spacing-md;
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-xs;
+        margin-top: variables.$spacing-sm;
+        text-align: left;
+    }
+
+    &__cred-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: variables.$font-size-sm;
+    }
+
+    &__cred-label {
+        color: variables.$color-gray-600;
+    }
+
+    &__cred-value {
+        font-weight: 600;
+        color: variables.$color-gray-900;
+        font-family: monospace;
+
+        &.code-highlight {
+            color: variables.$color-danger;
+            background-color: variables.$color-danger-light;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    }
+}

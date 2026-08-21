@@ -1,0 +1,62 @@
+@use '@/styles/variables' as variables;
+
+.settings-module-page {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+    padding: variables.$spacing-lg;
+
+    &__header {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    &__title {
+        font-size: variables.$font-size-xxl;
+        font-weight: 700;
+        color: variables.$color-gray-900;
+    }
+
+    &__subtitle {
+        font-size: variables.$font-size-sm;
+        color: variables.$color-gray-600;
+    }
+}
+
+.settings-nav-tabs {
+    display: flex;
+    align-items: center;
+    gap: variables.$spacing-xs;
+    border-bottom: 1px solid variables.$color-gray-200;
+    padding-bottom: 2px;
+    overflow-x: auto;
+}
+
+.settings-nav-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: variables.$spacing-sm variables.$spacing-md;
+    font-size: variables.$font-size-sm;
+    font-weight: 500;
+    color: variables.$color-gray-600;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+
+    &:hover {
+        color: variables.$color-gray-900;
+    }
+
+    &.active {
+        color: variables.$color-blue-accent;
+        border-bottom-color: variables.$color-blue-accent;
+        font-weight: 600;
+    }
+}
+
+.settings-tab-outlet {
+    margin-top: variables.$spacing-xs;
+}

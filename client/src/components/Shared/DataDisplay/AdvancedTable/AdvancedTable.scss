@@ -89,6 +89,26 @@ mark.at-search-highlight {
         overflow: visible;
         padding-bottom: 20px; // clearance for custom horizontal scrollbar track
 
+        &:first-child {
+            border-top-left-radius: inherit;
+            border-top-right-radius: inherit;
+
+            .advanced-table-scroll-wrapper {
+                border-top-left-radius: inherit;
+                border-top-right-radius: inherit;
+            }
+        }
+
+        &:last-child {
+            border-bottom-left-radius: inherit;
+            border-bottom-right-radius: inherit;
+
+            .advanced-table-scroll-wrapper {
+                border-bottom-left-radius: inherit;
+                border-bottom-right-radius: inherit;
+            }
+        }
+
         // Viewport Scroll Buttons (Centered left/right absolute)
         .scroll-arrow-tooltip {
             position: absolute;
@@ -177,6 +197,21 @@ mark.at-search-highlight {
         width: 100%;
         overflow: visible;
 
+        &:first-child {
+            border-top-left-radius: inherit;
+            border-top-right-radius: inherit;
+
+            .advanced-table-grid-scroll-wrapper {
+                border-top-left-radius: inherit;
+                border-top-right-radius: inherit;
+            }
+
+            .grid-view-root {
+                border-top-left-radius: inherit;
+                border-top-right-radius: inherit;
+            }
+        }
+
         .advanced-table-grid-scroll-wrapper {
             width: 100%;
             max-height: 520px;
@@ -264,82 +299,9 @@ mark.at-search-highlight {
 
         .advanced-table-footer {
             flex-direction: column;
-            gap: 12px;
-            padding: 12px 16px;
+            gap: 10px;
+            padding: 10px 12px;
             align-items: center;
         }
-    }
-
-    .advanced-table-component {
-        border-radius: 8px;
-
-        .advanced-table-viewport-wrapper {
-            padding-bottom: 8px;
-
-            .scroll-arrow-tooltip {
-                display: none; // Native swipe gestures work best on small phones
-            }
-        }
-
-        .advanced-table-scroll-wrapper {
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .advanced-table-footer {
-            padding: 10px 12px;
-            gap: 10px;
-        }
-    }
-
-    .priority-low-col,
-    th.priority-low-col,
-    td.priority-low-col {
-        display: none;
-    }
-}
-
-// ── Copy Toast Notification ──────────────────────────────────────────────
-.advanced-table-toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: variables.$z-tooltip;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
-    background-color: variables.$color-gray-900;
-    color: variables.$color-white;
-    font-family: variables.$font-sans;
-    font-size: variables.$font-size-sm;
-    font-weight: 500;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px -5px rgb(0 0 0 / 25%);
-    animation: toast-slide-up 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-
-    .toast-icon {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        background-color: variables.$color-success;
-        color: variables.$color-white;
-        font-size: variables.$font-size-xs;
-        font-weight: 700;
-    }
-}
-
-@keyframes toast-slide-up {
-    from {
-        opacity: 0;
-        transform: translate(-50%, 12px) scale(0.95);
-    }
-
-    to {
-        opacity: 1;
-        transform: translate(-50%, 0) scale(1);
     }
 }

@@ -1,0 +1,133 @@
+@use '@/styles/variables' as variables;
+
+.payslip-detail-modal {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-md;
+}
+
+.payslip-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: variables.$spacing-sm;
+    border-bottom: 1px solid variables.$color-gray-200;
+    flex-wrap: wrap;
+    gap: variables.$spacing-sm;
+}
+
+.payslip-emp-info {
+    display: flex;
+    align-items: center;
+    gap: variables.$spacing-sm;
+
+    h3 {
+        font-size: variables.$font-size-md;
+        font-weight: 600;
+        color: variables.$color-gray-900;
+    }
+
+    .code {
+        font-size: variables.$font-size-xs;
+        color: variables.$color-gray-500;
+        background-color: variables.$color-gray-100;
+        padding: 2px 6px;
+        border-radius: 4px;
+    }
+
+    .dept {
+        font-size: variables.$font-size-xs;
+        color: variables.$color-gray-600;
+    }
+}
+
+.payslip-status-download {
+    display: flex;
+    align-items: center;
+    gap: variables.$spacing-sm;
+}
+
+.payslip-attendance-summary {
+    display: flex;
+    align-items: center;
+    gap: variables.$spacing-lg;
+    padding: variables.$spacing-sm variables.$spacing-md;
+    background-color: variables.$color-gray-50;
+    border-radius: variables.$radius-medium;
+
+    .metric {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: variables.$font-size-sm;
+
+        .label {
+            color: variables.$color-gray-600;
+        }
+
+        .val {
+            font-weight: 600;
+        }
+    }
+}
+
+.payslip-breakdown-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: variables.$spacing-md;
+
+    @include variables.mobile {
+        grid-template-columns: 1fr;
+    }
+}
+
+.breakdown-col {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-xs;
+
+    .col-title {
+        font-size: variables.$font-size-sm;
+        font-weight: 600;
+        color: variables.$color-gray-700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+}
+
+.mini-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: variables.$font-size-sm;
+
+    td {
+        padding: 6px variables.$spacing-xs;
+        border-bottom: 1px solid variables.$color-gray-100;
+    }
+
+    .total-tr {
+        background-color: variables.$color-gray-50;
+        border-top: 1px solid variables.$color-gray-300;
+    }
+}
+
+.payslip-net-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: variables.$spacing-md;
+    background-color: color-mix(in srgb, variables.$color-success 10%, transparent);
+    border: 1px solid variables.$color-success-border;
+    border-radius: variables.$radius-medium;
+    margin-top: variables.$spacing-xs;
+
+    .net-label {
+        font-size: variables.$font-size-md;
+        font-weight: 600;
+        color: variables.$color-gray-900;
+    }
+
+    .net-val {
+        font-size: variables.$font-size-xl;
+    }
+}

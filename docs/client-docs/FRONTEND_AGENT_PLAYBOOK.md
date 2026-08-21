@@ -46,7 +46,7 @@ src/
 │   ├── Shared/               <-- Reusable presentational design system primitives
 │   │   ├── Buttons/          <-- Button, ToggleButton, ViewToggle, etc.
 │   │   ├── Form/             <-- InputField, Textarea, Dropdown, DatePicker, etc.
-│   │   ├── DataDisplay/      <-- AdvancedTable, StatCard, DataView, Kanban, etc.
+│   │   ├── DataDisplay/      <-- AdvancedTable (Table & Grid modes), StatCard, Kanban, etc.
 │   │   ├── Feedback/         <-- Dialog, Toast, DeleteToast, Drawer, Popover, etc.
 │   │   ├── Navigation/       <-- Sidebar, Topbar, Pagination, TableTabs, etc.
 │   │   ├── ErrorPages/       <-- 403, 404, 500 status views

@@ -1,0 +1,59 @@
+@use '@/styles/variables' as variables;
+
+.leave-dashboard-page {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+    padding: variables.$spacing-lg;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: variables.$spacing-md;
+    }
+
+    &__title {
+        font-size: variables.$font-size-xxl;
+        font-weight: 700;
+        color: variables.$color-gray-900;
+    }
+
+    &__subtitle {
+        font-size: variables.$font-size-sm;
+        color: variables.$color-gray-600;
+        margin-top: 4px;
+    }
+
+    &__balances-section {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-md;
+    }
+
+    &__history-section {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-md;
+        margin-top: variables.$spacing-sm;
+    }
+
+    .history-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .history-title {
+        font-size: variables.$font-size-lg;
+        font-weight: 600;
+        color: variables.$color-gray-900;
+    }
+
+    &__loading {
+        padding: variables.$spacing-xxl 0;
+        display: flex;
+        justify-content: center;
+    }
+}

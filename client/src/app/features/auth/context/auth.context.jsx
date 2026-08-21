@@ -19,7 +19,7 @@ const AuthProvider = ({ children }) => {
                 const userData = data.user || data.data?.user || null;
                 setUser(userData);
             } catch (err) {
-                console.error('Error in initialization:', err);
+                // Unauthenticated or network error on initial session check
                 setUser(null);
             } finally {
                 setLoading(false);

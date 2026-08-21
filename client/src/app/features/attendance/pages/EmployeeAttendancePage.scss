@@ -1,0 +1,77 @@
+@use '@/styles/variables' as variables;
+
+.employee-attendance-page {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+    padding: variables.$spacing-lg;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__title {
+        font-size: variables.$font-size-xxl;
+        font-weight: 700;
+        color: variables.$color-gray-900;
+    }
+
+    &__subtitle {
+        font-size: variables.$font-size-sm;
+        color: variables.$color-gray-600;
+        margin-top: 4px;
+    }
+
+    &__stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: variables.$spacing-md;
+    }
+
+    &__content-grid {
+        display: grid;
+        grid-template-columns: 340px 1fr;
+        gap: variables.$spacing-lg;
+        align-items: start;
+
+        @include variables.tablet {
+            grid-template-columns: 1fr;
+        }
+
+        @include variables.mobile {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &__punch-col {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-md;
+    }
+
+    &__timesheet-col {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-md;
+    }
+
+    .timesheet-header-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .timesheet-title {
+        font-size: variables.$font-size-lg;
+        font-weight: 600;
+        color: variables.$color-gray-900;
+    }
+
+    &__loading {
+        padding: variables.$spacing-xxl 0;
+        display: flex;
+        justify-content: center;
+    }
+}

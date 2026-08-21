@@ -6,16 +6,18 @@ import TableFilterPanel from '../TableFilterPanel/TableFilterPanel';
 import TableSelectionBar from '../TableSelectionBar/TableSelectionBar';
 import TableColumnToggle from '../TableColumnToggle/TableColumnToggle';
 import TableExportMenu from '../TableExportMenu/TableExportMenu';
+import TableSortDropdown from '../TableSortDropdown/TableSortDropdown';
 import './TableControls.scss';
 
 function TableControls({
-    searchable = true,
+    searchable = false,
     searchTerm,
     onSearchChange,
     searchPlaceholder,
     searchPlaceholderPrefix,
     autoSearchOptions,
     searchPlaceholderInterval,
+    showFilter = false,
     effectiveFilterConfig = [],
     filterToggleRef,
     filterPanelOpen,
@@ -34,13 +36,21 @@ function TableControls({
     setNumericFilters,
     columnUniqueValues,
     onFilterValueChange,
-    showRefresh = true,
-    showExport = true,
+    // Sort dropdown props
+    showSortDropdown = false,
+    sortConfig,
+    onSortChange,
+    sortData = [],
+    // Actions
+    showRefresh = false,
+    showExport = false,
     exportData = [],
     onExport,
     isRefreshing = false,
     loading = false,
     handleRefreshClick,
+    // Showing results & Rows per page
+    showResultsCount = false,
     totalRows = 0,
     safeCurrentPage = 1,
     rowsPerPage = 5,
@@ -49,7 +59,7 @@ function TableControls({
     handleRowsPerPageChange,
     itemsPerPageLabel = 'Rows per page',
     // Column Toggle props
-    showColumnToggle = true,
+    showColumnToggle = false,
     effectiveColumns = [],
     hiddenKeys,
     collapsedKeys,
@@ -72,6 +82,20 @@ function TableControls({
     onDeleteSelected,
     onSaveEdits,
 }) {
+    const hasLeftControls =
+        searchable ||
+        (showFilter && effectiveFilterConfig.length > 0) ||
+        (showSortDropdown && effectiveColumns.length > 0) ||
+        (showColumnToggle && effectiveColumns.length > 0) ||
+        (showExport && effectiveColumns.length > 0) ||
+        showRefresh;
+
+    const hasRightControls = showResultsCount || showRowsPerPage;
+
+    if (selectedCount === 0 && !hasLeftControls && !hasRightControls) {
+        return null;
+    }
+
     return (
         <div className="advanced-table-controls">
             {selectedCount > 0 ? (
@@ -102,7 +126,7 @@ function TableControls({
                     )}
 
                     {/* Filter toggle button */}
-                    {effectiveFilterConfig.length > 0 && (
+                    {showFilter && effectiveFilterConfig.length > 0 && (
                         <div className="at-filter-toggle-wrapper">
                             <button
                                 ref={filterToggleRef}
@@ -138,6 +162,16 @@ function TableControls({
                                 />
                             )}
                         </div>
+                    )}
+
+                    {/* Sort By Dropdown (Beside Filter) */}
+                    {showSortDropdown && effectiveColumns.length > 0 && (
+                        <TableSortDropdown
+                            columns={effectiveColumns}
+                            sortConfig={sortConfig}
+                            onSortChange={onSortChange}
+                            data={sortData}
+                        />
                     )}
 
                     {/* Column Toggle dropdown */}
@@ -197,36 +231,40 @@ function TableControls({
                 </div>
             )}
 
-            <div className="advanced-table-showing-results">
-                <span className="showing-text">
-                    {totalRows === 0 ? (
-                        'Showing 0 results'
-                    ) : (
+            {hasRightControls && (
+                <div className="advanced-table-showing-results">
+                    {showResultsCount && (
+                        <span className="showing-text">
+                            {totalRows === 0 ? (
+                                'Showing 0 results'
+                            ) : (
+                                <>
+                                    Showing {(safeCurrentPage - 1) * rowsPerPage + 1}–
+                                    {Math.min(safeCurrentPage * rowsPerPage, totalRows)} of{' '}
+                                    <strong className="showing-total-count">
+                                        {Number(totalRows).toLocaleString()}
+                                    </strong>{' '}
+                                    results
+                                </>
+                            )}
+                        </span>
+                    )}
+                    {showRowsPerPage && (
                         <>
-                            Showing {(safeCurrentPage - 1) * rowsPerPage + 1}–
-                            {Math.min(safeCurrentPage * rowsPerPage, totalRows)} of{' '}
-                            <strong className="showing-total-count">
-                                {Number(totalRows).toLocaleString()}
-                            </strong>{' '}
-                            results
+                            {showResultsCount && <span className="showing-divider">|</span>}
+                            <div className="rows-select-wrapper">
+                                <span className="showing-text">{itemsPerPageLabel}:</span>
+                                <Dropdown
+                                    options={rowsOptions}
+                                    value={rowsPerPage}
+                                    onChange={handleRowsPerPageChange}
+                                    className="showing-select-dropdown"
+                                />
+                            </div>
                         </>
                     )}
-                </span>
-                {showRowsPerPage && (
-                    <>
-                        <span className="showing-divider">|</span>
-                        <div className="rows-select-wrapper">
-                            <span className="showing-text">{itemsPerPageLabel}:</span>
-                            <Dropdown
-                                options={rowsOptions}
-                                value={rowsPerPage}
-                                onChange={handleRowsPerPageChange}
-                                className="showing-select-dropdown"
-                            />
-                        </div>
-                    </>
-                )}
-            </div>
+                </div>
+            )}
         </div>
     );
 }

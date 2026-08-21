@@ -1,0 +1,94 @@
+@use '@/styles/variables' as variables;
+
+.attendance-punch-widget {
+    background: variables.$color-white;
+    border: 1px solid variables.$color-gray-200;
+    border-radius: variables.$radius-large;
+    padding: variables.$spacing-lg;
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-md;
+    box-shadow: variables.$shadow-sm;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__title-box {
+        display: flex;
+        align-items: center;
+        gap: variables.$spacing-xs;
+    }
+
+    &__icon {
+        color: variables.$color-blue-accent;
+    }
+
+    &__title {
+        font-size: variables.$font-size-md;
+        font-weight: 600;
+        color: variables.$color-gray-900;
+    }
+
+    &__timer-display {
+        text-align: center;
+        padding: variables.$spacing-md 0;
+        background-color: variables.$color-gray-50;
+        border-radius: variables.$radius-medium;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    &__timer-val {
+        font-size: variables.$font-size-display-sm;
+        font-weight: 700;
+        font-family: monospace;
+        color: variables.$color-gray-900;
+        letter-spacing: 1px;
+    }
+
+    &__timer-label {
+        font-size: variables.$font-size-xs;
+        color: variables.$color-gray-600;
+    }
+
+    &__punch-details {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: variables.$spacing-xs 0;
+    }
+
+    &__detail-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+
+        .detail-label {
+            font-size: variables.$font-size-xs;
+            color: variables.$color-gray-500;
+            text-transform: uppercase;
+        }
+
+        .detail-val {
+            font-size: variables.$font-size-sm;
+            font-weight: 600;
+            color: variables.$color-gray-800;
+            font-family: monospace;
+        }
+    }
+
+    &__detail-divider {
+        width: 1px;
+        height: 28px;
+        background-color: variables.$color-gray-200;
+    }
+
+    &__action {
+        margin-top: variables.$spacing-xs;
+    }
+}
