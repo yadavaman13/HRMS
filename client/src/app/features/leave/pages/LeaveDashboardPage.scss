@@ -1,0 +1,198 @@
+@use '@/styles/variables' as variables;
+
+.leave-dashboard-page {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-xl;
+    padding: variables.$spacing-lg;
+
+    .page-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: variables.$spacing-md;
+
+        .page-title {
+            font-size: variables.$font-size-xxl;
+            font-weight: 700;
+            color: variables.$color-text-primary;
+            margin: 0;
+        }
+
+        .page-subtitle {
+            font-size: variables.$font-size-sm;
+            color: variables.$color-text-secondary;
+            margin: 4px 0 0;
+        }
+    }
+
+    .balances-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: variables.$spacing-md;
+
+        .balance-hero-card {
+            background-color: variables.$color-bg-card;
+            border: 1px solid variables.$color-border-strong;
+            border-radius: variables.$radius-medium;
+            padding: variables.$spacing-lg;
+            display: flex;
+            flex-direction: column;
+            gap: variables.$spacing-sm;
+            box-shadow: variables.$shadow-sm;
+
+            @include variables.transition-ease;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: variables.$shadow-md;
+                border-color: variables.$color-primary;
+            }
+
+            .card-top {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .type-title {
+                    font-size: variables.$font-size-sm;
+                    font-weight: 600;
+                    color: variables.$color-text-secondary;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+
+                .type-icon {
+                    color: variables.$color-primary;
+                }
+            }
+
+            .card-numbers {
+                display: flex;
+                align-items: baseline;
+                gap: 6px;
+
+                .available-num {
+                    font-size: variables.$font-size-display-sm;
+                    font-weight: 700;
+                    color: variables.$color-text-primary;
+                }
+
+                .total-label {
+                    font-size: variables.$font-size-sm;
+                    color: variables.$color-text-secondary;
+                }
+            }
+
+            .card-breakdown-row {
+                display: flex;
+                justify-content: space-between;
+                font-size: variables.$font-size-xs;
+                color: variables.$color-text-secondary;
+                margin-top: 4px;
+                padding-top: variables.$spacing-xs;
+                border-top: 1px solid variables.$color-border-subtle;
+
+                .pending-stat {
+                    color: variables.$color-warning;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+
+    .requests-history-card {
+        background-color: variables.$color-bg-card;
+        border: 1px solid variables.$color-border-strong;
+        border-radius: variables.$radius-medium;
+        overflow: hidden;
+        box-shadow: variables.$shadow-sm;
+
+        .card-header {
+            padding: variables.$spacing-lg;
+            border-bottom: 1px solid variables.$color-border-subtle;
+
+            .title-group {
+                display: flex;
+                align-items: center;
+                gap: variables.$spacing-xs;
+
+                .header-icon {
+                    color: variables.$color-primary;
+                }
+
+                h2 {
+                    font-size: variables.$font-size-md;
+                    font-weight: 600;
+                    color: variables.$color-text-primary;
+                    margin: 0;
+                }
+            }
+        }
+
+        .duration-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+
+            .dates-range {
+                font-size: variables.$font-size-sm;
+                font-weight: 500;
+                color: variables.$color-text-primary;
+            }
+
+            .days-tag {
+                font-size: variables.$font-size-xs;
+                color: variables.$color-text-secondary;
+            }
+        }
+
+        .reason-text {
+            font-size: variables.$font-size-sm;
+            color: variables.$color-text-primary;
+        }
+
+        .leave-status-pill {
+            padding: 3px 8px;
+            border-radius: variables.$radius-full;
+            font-size: variables.$font-size-xs;
+            font-weight: 600;
+
+            &.approved {
+                background-color: color-mix(in srgb, variables.$color-success 15%, transparent);
+                color: variables.$color-success;
+            }
+
+            &.pending {
+                background-color: color-mix(in srgb, variables.$color-warning 15%, transparent);
+                color: variables.$color-warning;
+            }
+
+            &.rejected {
+                background-color: color-mix(in srgb, variables.$color-danger 15%, transparent);
+                color: variables.$color-danger;
+            }
+
+            &.cancelled {
+                background-color: color-mix(in srgb, variables.$color-gray-500 15%, transparent);
+                color: variables.$color-text-secondary;
+            }
+        }
+
+        .cancel-btn {
+            color: variables.$color-danger;
+
+            &:hover {
+                background-color: color-mix(in srgb, variables.$color-danger 10%, transparent);
+            }
+        }
+    }
+
+    .empty-balances-box {
+        display: flex;
+        justify-content: center;
+        padding: variables.$spacing-xl;
+        color: variables.$color-text-secondary;
+    }
+}

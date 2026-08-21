@@ -1,0 +1,150 @@
+@use '@/styles/variables' as variables;
+
+.audit-logs-page {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-xl;
+    padding: variables.$spacing-lg;
+
+    .page-header-row {
+        .page-title {
+            font-size: variables.$font-size-xxl;
+            font-weight: 700;
+            color: variables.$color-text-primary;
+            margin: 0;
+        }
+
+        .page-subtitle {
+            font-size: variables.$font-size-sm;
+            color: variables.$color-text-secondary;
+            margin: 4px 0 0;
+        }
+    }
+
+    .audit-kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: variables.$spacing-md;
+    }
+
+    .audit-filters-bar {
+        display: flex;
+        align-items: center;
+        gap: variables.$spacing-md;
+        flex-wrap: wrap;
+
+        .search-wrap {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .action-dropdown-wrap {
+            min-width: 200px;
+        }
+    }
+
+    .audit-table-card {
+        background-color: variables.$color-bg-card;
+        border: 1px solid variables.$color-border-strong;
+        border-radius: variables.$radius-medium;
+        overflow: hidden;
+        box-shadow: variables.$shadow-sm;
+
+        .actor-cell {
+            display: flex;
+            flex-direction: column;
+
+            .actor-name {
+                font-size: variables.$font-size-sm;
+                color: variables.$color-text-primary;
+            }
+
+            .actor-role {
+                color: variables.$color-text-secondary;
+            }
+        }
+
+        .audit-action-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: variables.$radius-tiny;
+            font-family: monospace;
+            font-size: variables.$font-size-xxs;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+
+            &.badge-auth {
+                background-color: color-mix(in srgb, variables.$color-primary 12%, transparent);
+                color: variables.$color-primary;
+            }
+
+            &.badge-payroll {
+                background-color: color-mix(in srgb, variables.$color-success 12%, transparent);
+                color: variables.$color-success;
+            }
+
+            &.badge-leave {
+                background-color: color-mix(
+                    in srgb,
+                    variables.$color-purple-accent 12%,
+                    transparent
+                );
+                color: variables.$color-purple-accent;
+            }
+
+            &.badge-system {
+                background-color: color-mix(in srgb, variables.$color-warning 12%, transparent);
+                color: variables.$color-warning;
+            }
+        }
+
+        .entity-cell {
+            display: flex;
+            flex-direction: column;
+
+            .entity-type {
+                font-size: variables.$font-size-sm;
+                color: variables.$color-text-primary;
+            }
+
+            .entity-id {
+                color: variables.$color-text-secondary;
+            }
+        }
+    }
+
+    .json-modal-content {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-md;
+
+        .event-meta-banner {
+            display: flex;
+            justify-content: space-between;
+            background-color: variables.$color-bg-app;
+            padding: variables.$spacing-sm variables.$spacing-md;
+            border-radius: variables.$radius-small;
+            font-size: variables.$font-size-sm;
+            color: variables.$color-text-primary;
+        }
+
+        .json-code-block {
+            background-color: variables.$color-bg-app;
+            border: 1px solid variables.$color-border-strong;
+            border-radius: variables.$radius-small;
+            padding: variables.$spacing-md;
+            font-size: variables.$font-size-xs;
+            color: variables.$color-text-primary;
+            max-height: 350px;
+            overflow: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .dialog-close-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: variables.$spacing-xs;
+        }
+    }
+}

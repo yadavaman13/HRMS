@@ -756,6 +756,145 @@ async function seed() {
                 bank: { name: 'Axis Bank Ltd', ifsc: 'UTIB0000037', account: '919010067890123' },
             },
             {
+                firstName: 'Aman',
+                lastName: 'Yadav',
+                email: 'work.yadavaman@gmail.com',
+                role: 'employee',
+                code: `OIAMYA20240091`,
+                dept: 'ENG',
+                position: 'Senior Full Stack Engineer',
+                location: 'Mumbai HQ - Nesco IT Park',
+                wage: '120000.00',
+                joiningDate: '2024-01-10',
+                gender: 'male',
+                address:
+                    '702, Silver Arch, Powai Plaza Lane, Hiranandani Gardens, Powai, Mumbai 400076',
+                phone: '+91 98334 11223',
+                pan: 'DFPYA2345J',
+                bank: { name: 'HDFC Bank Ltd', ifsc: 'HDFC0000128', account: '50100345678991' },
+            },
+            {
+                firstName: 'Aryan',
+                lastName: 'Patel',
+                email: 'aryanpatel.me@gmail.com',
+                role: 'admin',
+                code: `OIARPA20230092`,
+                dept: 'EXEC',
+                position: 'Chief Technology Officer (CTO)',
+                location: 'Mumbai HQ - Nesco IT Park',
+                wage: '190000.00',
+                joiningDate: '2023-01-01',
+                gender: 'male',
+                address:
+                    'Flat 1402, Oberoi Woods, Mohan Gokhale Rd, Goregaon (East), Mumbai 400063',
+                phone: '+91 98201 99887',
+                pan: 'ARPS1234F',
+                bank: { name: 'HDFC Bank Ltd', ifsc: 'HDFC0000060', account: '50100234567892' },
+            },
+            {
+                firstName: 'Itesh',
+                lastName: 'Patel',
+                email: 'iteshofficial@gmail.com',
+                role: 'admin',
+                code: `OIITPA20230093`,
+                dept: 'EXEC',
+                position: 'VP of Engineering',
+                location: 'Mumbai HQ - Nesco IT Park',
+                wage: '185000.00',
+                joiningDate: '2023-02-01',
+                gender: 'male',
+                address: 'Lokhandwala Complex, Andheri (West), Mumbai 400053',
+                phone: '+91 98202 88776',
+                pan: 'ITPS5678G',
+                bank: { name: 'ICICI Bank Ltd', ifsc: 'ICIC0000104', account: '002401567893' },
+            },
+            {
+                firstName: 'Aman',
+                lastName: 'Yadav',
+                email: 'yadavaman1948@gmail.com',
+                role: 'hr',
+                code: `OIAMYA20240094`,
+                dept: 'HR',
+                position: 'Head of Human Resources',
+                location: 'Mumbai HQ - Nesco IT Park',
+                wage: '140000.00',
+                joiningDate: '2024-03-01',
+                gender: 'male',
+                address: 'Sea Green Heights, Palm Beach Road, Vashi, Navi Mumbai 400703',
+                phone: '+91 98192 77665',
+                pan: 'AMYA8910H',
+                bank: { name: 'Axis Bank Ltd', ifsc: 'UTIB0000004', account: '918010045678994' },
+            },
+            {
+                firstName: 'Leo',
+                lastName: 'Patel',
+                email: 'leopatel967@gmail.com',
+                role: 'hr',
+                code: `OILEPA20240095`,
+                dept: 'HR',
+                position: 'HR Operations Specialist',
+                location: 'Mumbai HQ - Nesco IT Park',
+                wage: '85000.00',
+                joiningDate: '2024-04-01',
+                gender: 'male',
+                address: 'Green Acres, Lokhandwala Complex, Andheri (West), Mumbai 400053',
+                phone: '+91 98701 66554',
+                pan: 'LEPA2345J',
+                bank: { name: 'HDFC Bank Ltd', ifsc: 'HDFC0000128', account: '50100345678995' },
+            },
+            {
+                firstName: 'Doom',
+                lastName: 'Wiser',
+                email: 'doomwiser@gmail.com',
+                role: 'hr',
+                code: `OIDOWI20240096`,
+                dept: 'HR',
+                position: 'Talent Acquisition Lead',
+                location: 'Pune Development Hub - EON Free Zone',
+                wage: '90000.00',
+                joiningDate: '2024-05-01',
+                gender: 'male',
+                address: 'EON Free Zone, Kharadi, Pune, Maharashtra 411014',
+                phone: '+91 98901 55443',
+                pan: 'DOWI6789K',
+                bank: { name: 'Kotak Mahindra Bank', ifsc: 'KKBK0000712', account: '6712345696' },
+            },
+            {
+                firstName: 'Sky',
+                lastName: 'High',
+                email: 'skyh53624@gmail.com',
+                role: 'employee',
+                code: `OISKH120250097`,
+                dept: 'ENG',
+                position: 'DevOps & Cloud Architect',
+                location: 'Bengaluru Tech Center - Manyata Park',
+                wage: '130000.00',
+                joiningDate: '2025-01-15',
+                gender: 'male',
+                address: 'Manyata Tech Park, Hebbal, Bengaluru 560045',
+                phone: '+91 97401 44332',
+                pan: 'SKHI1234L',
+                bank: { name: 'HDFC Bank Ltd', ifsc: 'HDFC0000085', account: '50100456789097' },
+            },
+            {
+                firstName: 'Asr',
+                lastName: 'Singh',
+                email: 'asr24983@gmail.com',
+                role: 'admin',
+                code: `OIASSI20230098`,
+                dept: 'EXEC',
+                position: 'Chief Technology Officer (CTO)',
+                location: 'Mumbai HQ - Nesco IT Park',
+                wage: '200000.00',
+                joiningDate: '2023-01-01',
+                gender: 'male',
+                address:
+                    'Tower B, Nesco IT Park, Western Express Highway, Goregaon (East), Mumbai 400063',
+                phone: '+91 98201 33221',
+                pan: 'ASSI5678M',
+                bank: { name: 'HDFC Bank Ltd', ifsc: 'HDFC0000060', account: '50100234567898' },
+            },
+            {
                 firstName: 'Neha',
                 lastName: 'Joshi',
                 email: 'neha.j@example.com',
@@ -777,8 +916,12 @@ async function seed() {
         const seededEmployees = [];
 
         for (const item of indianEmployees) {
+            const userPassword =
+                item.email === 'admin@example.com' ? 'Admin@123' : `${item.firstName}@123`;
+            const userPasswordHash = await bcrypt.hash(userPassword, 10);
+
             console.log(
-                `👤 Processing Employee [${item.code}]: ${item.firstName} ${item.lastName} (${item.email})...`,
+                `👤 Processing Employee [${item.code}]: ${item.firstName} ${item.lastName} (${item.email}) - Password: ${userPassword}...`,
             );
             let [user] = await db.select().from(users).where(eq(users.email, item.email)).limit(1);
 
@@ -790,7 +933,7 @@ async function seed() {
                         firstName: item.firstName,
                         lastName: item.lastName,
                         email: item.email,
-                        password: passwordHash,
+                        password: userPasswordHash,
                         role: item.role,
                         emailVerified: true,
                         isActive: true,
@@ -806,7 +949,7 @@ async function seed() {
                         firstName: item.firstName,
                         lastName: item.lastName,
                         role: item.role,
-                        password: passwordHash,
+                        password: userPasswordHash,
                         isActive: true,
                         isDeleted: false,
                     })
@@ -1434,17 +1577,47 @@ async function seed() {
         console.log('🎉 REALISTIC INDIAN HRMS DATA SEEDING COMPLETE!');
         console.log('===============================================================');
         console.log('🏢 Company:       Dayflow Technologies India Pvt. Ltd. (OI)');
-        console.log('👥 Employees:     15 Indian Profiles across Exec, Eng, HR, Fin, Sales, Mktg');
+        console.log(
+            `👥 Employees:     ${seededEmployees.length} Indian Profiles across Exec, Eng, HR, Fin, Sales, Mktg`,
+        );
         console.log('📅 Attendance:    Past 7 Days Logs & Real Check-In Sessions');
         console.log('🌴 Leaves:        CL, SL, PL + Approved & Pending Requests');
         console.log('💰 Payroll:       July 2026 Run with Itemized Payslips & PF/PT');
         console.log('---------------------------------------------------------------');
-        console.log('🔑 TEST LOGIN CREDENTIALS (Password for all: Admin@123):');
-        console.log('   1. ADMIN:    admin@example.com    (Aarav Sharma - CTO)');
-        console.log('   2. HR:       hr@example.com       (Priya Nair - Head of HR)');
-        console.log('   3. HR:       ananya.d@example.com (Ananya Deshmukh - HR Ops)');
-        console.log('   4. EMPLOYEE: employee@example.com (Aman Yadav - Sr. Full Stack)');
-        console.log('   5. EMPLOYEE: vikram.roy@example.com (Vikramaditya Roy - Lead)');
+        console.log('🔑 TEST LOGIN CREDENTIALS:');
+        console.log(
+            '   1. ADMIN:    aryanpatel.me@gmail.com   (Aryan Patel)       -> Password: Aryan@123',
+        );
+        console.log(
+            '   2. ADMIN:    iteshofficial@gmail.com   (Itesh Patel)       -> Password: Itesh@123',
+        );
+        console.log(
+            '   3. ADMIN:    asr24983@gmail.com        (Asr Singh)         -> Password: Asr@123',
+        );
+        console.log(
+            '   4. ADMIN:    admin@example.com         (Aarav Sharma)      -> Password: Admin@123',
+        );
+        console.log(
+            '   5. HR:       yadavaman1948@gmail.com   (Aman Yadav)        -> Password: Aman@123',
+        );
+        console.log(
+            '   6. HR:       leopatel967@gmail.com     (Leo Patel)         -> Password: Leo@123',
+        );
+        console.log(
+            '   7. HR:       doomwiser@gmail.com       (Doom Wiser)        -> Password: Doom@123',
+        );
+        console.log(
+            '   8. HR:       hr@example.com            (Priya Nair)        -> Password: Priya@123',
+        );
+        console.log(
+            '   9. EMPLOYEE: work.yadavaman@gmail.com  (Aman Yadav)        -> Password: Aman@123',
+        );
+        console.log(
+            '  10. EMPLOYEE: skyh53624@gmail.com       (Sky High)          -> Password: Sky@123',
+        );
+        console.log(
+            '  11. EMPLOYEE: employee@example.com      (Aman Yadav)        -> Password: Aman@123',
+        );
         console.log('===============================================================\n');
     } catch (error) {
         console.error('❌ Error during seeding:', error);

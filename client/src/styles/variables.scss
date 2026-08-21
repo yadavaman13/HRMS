@@ -54,11 +54,20 @@ $color-violet: var(--color-violet);
 $color-purple: var(--color-purple);
 $color-purple-light: var(--color-purple-light);
 $color-purple-border: var(--color-purple-border);
+$color-purple-accent: var(--color-purple);
 $color-pink: var(--color-pink);
 $color-pink-light: var(--color-pink-light);
 $color-pink-border: var(--color-pink-border);
 $color-orange-light: var(--color-orange-light);
 $color-orange-border: var(--color-orange-border);
+
+// ─── Semantic Aliases ─────────────────────────────────────────────────────────
+$color-text-primary: var(--color-gray-900);
+$color-text-secondary: var(--color-gray-500);
+$color-bg-app: var(--color-gray-50);
+$color-bg-card: var(--color-white);
+$color-border-strong: var(--color-gray-200);
+$color-border-subtle: var(--color-gray-100);
 
 // ─── Spacing ──────────────────────────────────────────────────────────────────
 $spacing-xs: var(--spacing-xs);
@@ -67,6 +76,7 @@ $spacing-md: var(--spacing-md);
 $spacing-lg: var(--spacing-lg);
 $spacing-xl: var(--spacing-xl);
 $spacing-xxl: var(--spacing-xxl);
+$spacing-2xl: var(--spacing-xxl);
 
 // ─── Border Radius ────────────────────────────────────────────────────────────
 $radius-modal: var(--radius-modal);
@@ -75,6 +85,7 @@ $radius-large: var(--radius-large);
 $radius-medium: var(--radius-medium);
 $radius-small: var(--radius-small);
 $radius-tiny: var(--radius-tiny);
+$radius-full: 9999px;
 
 // ─── Shadows ──────────────────────────────────────────────────────────────────
 $shadow-sm: var(--shadow-sm);

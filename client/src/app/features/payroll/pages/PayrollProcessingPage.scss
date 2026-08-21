@@ -1,0 +1,239 @@
+@use '@/styles/variables' as variables;
+
+.payroll-processing-page {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-xl;
+    padding: variables.$spacing-lg;
+
+    .page-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: variables.$spacing-md;
+
+        .page-title {
+            font-size: variables.$font-size-xxl;
+            font-weight: 700;
+            color: variables.$color-text-primary;
+            margin: 0;
+        }
+
+        .page-subtitle {
+            font-size: variables.$font-size-sm;
+            color: variables.$color-text-secondary;
+            margin: 4px 0 0;
+        }
+    }
+
+    .period-control-card {
+        background-color: variables.$color-bg-card;
+        border: 1px solid variables.$color-border-strong;
+        border-radius: variables.$radius-medium;
+        padding: variables.$spacing-xl;
+        box-shadow: variables.$shadow-sm;
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-lg;
+
+        .period-selector-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: variables.$spacing-md;
+
+            .selector-group {
+                flex: 1;
+                min-width: 280px;
+
+                .group-label {
+                    display: block;
+                    font-size: variables.$font-size-sm;
+                    font-weight: 600;
+                    color: variables.$color-text-secondary;
+                    margin-bottom: variables.$spacing-xs;
+                }
+            }
+
+            .period-status-badge {
+                padding: 6px 14px;
+                border-radius: variables.$radius-full;
+                font-size: variables.$font-size-sm;
+                font-weight: 700;
+
+                &.draft {
+                    background-color: color-mix(
+                        in srgb,
+                        variables.$color-gray-500 15%,
+                        transparent
+                    );
+                    color: variables.$color-text-secondary;
+                }
+
+                &.calculated {
+                    background-color: color-mix(in srgb, variables.$color-primary 15%, transparent);
+                    color: variables.$color-primary;
+                }
+
+                &.locked {
+                    background-color: color-mix(in srgb, variables.$color-warning 15%, transparent);
+                    color: variables.$color-warning;
+                }
+
+                &.paid {
+                    background-color: color-mix(in srgb, variables.$color-success 15%, transparent);
+                    color: variables.$color-success;
+                }
+            }
+        }
+
+        .processing-actions-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: variables.$spacing-sm;
+            padding-top: variables.$spacing-md;
+            border-top: 1px solid variables.$color-border-subtle;
+
+            .disburse-btn {
+                background-color: color-mix(in srgb, variables.$color-success 12%, transparent);
+                color: variables.$color-success;
+                border-color: color-mix(in srgb, variables.$color-success 30%, transparent);
+
+                &:hover:not(:disabled) {
+                    background-color: variables.$color-success;
+                    color: variables.$color-white;
+                }
+            }
+        }
+
+        .batch-summary-tiles-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: variables.$spacing-md;
+            padding-top: variables.$spacing-md;
+            border-top: 1px solid variables.$color-border-subtle;
+
+            .sum-tile {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                background-color: variables.$color-bg-app;
+                padding: variables.$spacing-md;
+                border-radius: variables.$radius-small;
+                border: 1px solid variables.$color-border-subtle;
+
+                .tile-label {
+                    font-size: variables.$font-size-xs;
+                    color: variables.$color-text-secondary;
+                }
+
+                .tile-value {
+                    font-size: variables.$font-size-lg;
+                    font-weight: 700;
+                    color: variables.$color-text-primary;
+                }
+
+                &.highlight-tile {
+                    background-color: color-mix(in srgb, variables.$color-success 8%, transparent);
+                    border-color: color-mix(in srgb, variables.$color-success 25%, transparent);
+
+                    .tile-value {
+                        color: variables.$color-success;
+                    }
+                }
+            }
+        }
+    }
+
+    .batches-table-card {
+        background-color: variables.$color-bg-card;
+        border: 1px solid variables.$color-border-strong;
+        border-radius: variables.$radius-medium;
+        overflow: hidden;
+        box-shadow: variables.$shadow-sm;
+
+        .card-header {
+            padding: variables.$spacing-lg;
+            border-bottom: 1px solid variables.$color-border-subtle;
+
+            h2 {
+                font-size: variables.$font-size-md;
+                font-weight: 600;
+                color: variables.$color-text-primary;
+                margin: 0;
+            }
+        }
+
+        .emp-cell {
+            display: flex;
+            align-items: center;
+            gap: variables.$spacing-sm;
+
+            .emp-avatar {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            .emp-names {
+                display: flex;
+                flex-direction: column;
+
+                .emp-name {
+                    font-size: variables.$font-size-sm;
+                    color: variables.$color-text-primary;
+                }
+
+                .emp-code {
+                    font-family: monospace;
+                    font-size: variables.$font-size-xs;
+                    color: variables.$color-text-secondary;
+                }
+            }
+        }
+
+        .attendance-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+
+            .days-worked {
+                font-size: variables.$font-size-sm;
+                color: variables.$color-text-primary;
+            }
+
+            .lop-tag {
+                font-size: variables.$font-size-xs;
+                color: variables.$color-danger;
+            }
+        }
+    }
+
+    .create-period-form {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-md;
+
+        .form-row-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: variables.$spacing-md;
+
+            @include variables.mobile {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .modal-actions-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: variables.$spacing-sm;
+            margin-top: variables.$spacing-sm;
+            padding-top: variables.$spacing-md;
+            border-top: 1px solid variables.$color-border-subtle;
+        }
+    }
+}
