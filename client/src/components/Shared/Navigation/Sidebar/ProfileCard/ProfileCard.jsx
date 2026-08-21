@@ -1,10 +1,7 @@
 import { useState, useRef } from 'react';
-import { useNavigate } from 'react-router';
 import Tooltip from '@/components/Shared/DataDisplay/Tooltip/Tooltip';
 import CircularAvatar from '@/components/Shared/DataDisplay/CircularAvatar/CircularAvatar';
 import { useClickOutside } from '@/hooks/useClickOutside';
-import { useAuth } from '@/app/features/auth/hooks/useAuth';
-import { useDerivedProfile } from '@/app/features/auth/hooks/useDerivedProfile';
 import {
     Settings as SettingsIcon,
     LogOut as LogoutIcon,
@@ -13,12 +10,22 @@ import {
 } from 'lucide-react';
 import './ProfileCard.scss';
 
-function ProfileCard({ isCollapsed, onLogoutRequest }) {
-    const navigate = useNavigate();
-    const { user } = useAuth();
-    const { name, role, username, avatarUrl, initials } = useDerivedProfile();
+function ProfileCard({
+    profile = {},
+    isCollapsed = false,
+    onLogoutRequest,
+    onNavigateGeneral,
+    onNavigateAccount,
+}) {
+    const {
+        name = 'User',
+        role = 'Member',
+        username = '',
+        avatarUrl = '',
+        initials = 'U',
+    } = profile;
 
-    const displayRole = role || username || 'Admin';
+    const displayRole = role || username || 'Member';
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const cardRef = useRef(null);
 
@@ -31,17 +38,13 @@ function ProfileCard({ isCollapsed, onLogoutRequest }) {
     const handleOpenGeneral = (e) => {
         e.stopPropagation();
         setIsSettingsOpen(false);
-        const role = user?.role?.toLowerCase() || 'user';
-        const rolePath = role === 'admin' ? 'admin' : 'user';
-        navigate(`/dashboard/${rolePath}/settings/general`);
+        if (onNavigateGeneral) onNavigateGeneral();
     };
 
     const handleOpenAccount = (e) => {
         e.stopPropagation();
         setIsSettingsOpen(false);
-        const role = user?.role?.toLowerCase() || 'user';
-        const rolePath = role === 'admin' ? 'admin' : 'user';
-        navigate(`/dashboard/${rolePath}/settings/account`);
+        if (onNavigateAccount) onNavigateAccount();
     };
 
     const handleLogout = (e) => {

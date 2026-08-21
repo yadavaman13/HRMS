@@ -4,7 +4,6 @@ import FormHeader from '@/components/Shared/DataDisplay/FormHeader/FormHeader';
 import Button from '@/components/Shared/Buttons/Button/Button';
 import OtpInput from '@/components/Shared/Form/OtpInput/OtpInput';
 import Tooltip from '@/components/Shared/DataDisplay/Tooltip/Tooltip';
-import { resendOtp } from '@/app/features/auth/services/api';
 import { useToast } from '@/components/Shared/Feedback/Toast';
 import './OtpVerificationForm.scss';
 
@@ -90,8 +89,6 @@ export default function OtpVerificationForm({
         try {
             if (onResend) {
                 await onResend();
-            } else if (email && purpose) {
-                await resendOtp({ email, purpose });
                 toastSuccess('Verification OTP code resent successfully.');
             }
             // Reset timers upon successful resend

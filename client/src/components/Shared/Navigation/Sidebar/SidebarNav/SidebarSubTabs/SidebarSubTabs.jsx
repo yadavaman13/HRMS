@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from 'react-router';
 import { useActiveNavTab } from '@/hooks/useActiveNavTab';
 import './SidebarSubTabs.scss';
 
-function SidebarSubTabs({ subTabs, parentLabel }) {
+function SidebarSubTabs({ subTabs, parentLabel, onSubTabClick }) {
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const { activeSubTab } = useActiveNavTab();
@@ -13,6 +13,11 @@ function SidebarSubTabs({ subTabs, parentLabel }) {
 
     const handleSubTabClick = (sub, e) => {
         e.stopPropagation();
+        if (onSubTabClick) {
+            onSubTabClick(parentLabel, sub);
+            return;
+        }
+
         const segment = sub.toLowerCase();
         if (parentLabel === 'Analytics') {
             navigate(`/dashboard/${roleSegment}/analytics/${segment}`);

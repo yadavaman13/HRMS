@@ -24,16 +24,24 @@ The `Sidebar` is composed of three modular subcomponents:
 
 ## 3. Props Specification
 
-| Prop Name          | Type        | Default | Required | Description                                         |
-| ------------------ | ----------- | ------- | -------- | --------------------------------------------------- |
-| `isCollapsed`      | `boolean`   | `false` | Yes      | Collapsed sidebar state (`64px` icon-only view).    |
-| `onToggleCollapse` | `function`  | —       | Yes      | Toggle collapse callback: `() => void`.             |
-| `isMobileOpen`     | `boolean`   | `false` | No       | Controls mobile slide-in drawer overlay.            |
-| `onMobileClose`    | `function`  | —       | No       | Callback to close mobile slide-out view.            |
-| `onLogoutRequest`  | `function`  | —       | No       | Callback triggered when user clicks logout.         |
-| `pinnedTabs`       | `string[]`  | `[]`    | No       | List of pinned route keys/identifiers.              |
-| `onPinToggle`      | `function`  | —       | No       | Handler for pinning/unpinning nav items.            |
-| `navItems`         | `NavItem[]` | `null`  | No       | Optional custom navigation items override for RBAC. |
+As a shared primitive, `Sidebar` is 100% pure and decoupled from domain state:
+
+| Prop Name           | Type          | Default | Required | Description                                                                 |
+| ------------------- | ------------- | ------- | -------- | --------------------------------------------------------------------------- |
+| `isCollapsed`       | `boolean`     | `false` | Yes      | Collapsed sidebar state (`64px` icon-only view).                            |
+| `onToggleCollapse`  | `function`    | —       | Yes      | Toggle collapse callback: `() => void`.                                     |
+| `isMobileOpen`      | `boolean`     | `false` | No       | Controls mobile slide-in drawer overlay.                                    |
+| `onMobileClose`     | `function`    | —       | No       | Callback to close mobile slide-out view.                                    |
+| `navItems`          | `NavItem[]`   | `[]`    | No       | Array of navigation item definitions (`label`, `icon`, `subTabs`, `roles`). |
+| `userRole`          | `string`      | `''`    | No       | Current user's role used to filter `navItems` (case-insensitive).           |
+| `profile`           | `UserProfile` | `{}`    | No       | Pure profile payload (`{ name, role, username, avatarUrl, initials }`).     |
+| `onLogoutRequest`   | `function`    | —       | No       | Callback triggered when user clicks logout in ProfileCard.                  |
+| `onNavigateGeneral` | `function`    | —       | No       | Callback for General Settings menu item.                                    |
+| `onNavigateAccount` | `function`    | —       | No       | Callback for Account Settings menu item.                                    |
+| `pinnedTabs`        | `string[]`    | `[]`    | No       | List of pinned route keys/identifiers.                                      |
+| `onPinToggle`       | `function`    | —       | No       | Handler for pinning/unpinning nav items.                                    |
+| `onItemClick`       | `function`    | —       | No       | Custom item click callback override `(item) => void`.                       |
+| `onSubItemClick`    | `function`    | —       | No       | Custom sub-tab click callback override `(parent, sub) => void`.             |
 
 ---
 
@@ -51,19 +59,23 @@ To ensure seamless navigation and browser history/bookmark support, sidebar acti
 /dashboard/settings/account    ==> activeTab="Settings", activeSubTab="Account"
 ```
 
-### Layout Integration Example
+### Layout Integration Example (Feature Layer: `DashboardLayout.jsx`)
 
 ```jsx
 import { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
 import Sidebar from '@/components/Shared/Navigation/Sidebar/Sidebar';
 import { useAuth } from '@/app/features/auth/hooks/useAuth';
+import { useDerivedProfile } from '@/app/features/auth/hooks/useDerivedProfile';
 
 export default function DashboardLayout() {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
-    const { handleLogout } = useAuth();
+    const { user, handleLogout } = useAuth();
+    const derivedProfile = useDerivedProfile();
     const navigate = useNavigate();
+
+    const roleSegment = user?.role?.toLowerCase() === 'admin' ? 'admin' : 'user';
 
     return (
         <div className="dashboard-layout">
@@ -72,10 +84,14 @@ export default function DashboardLayout() {
                 onToggleCollapse={() => setIsCollapsed(!isCollapsed)}
                 isMobileOpen={isMobileOpen}
                 onMobileClose={() => setIsMobileOpen(false)}
+                userRole={user?.role}
+                profile={derivedProfile}
                 onLogoutRequest={async () => {
                     await handleLogout();
                     navigate('/login');
                 }}
+                onNavigateGeneral={() => navigate(`/dashboard/${roleSegment}/settings/general`)}
+                onNavigateAccount={() => navigate(`/dashboard/${roleSegment}/settings/account`)}
             />
             <main className="dashboard-main">
                 <Outlet />
@@ -87,30 +103,46 @@ export default function DashboardLayout() {
 
 ---
 
-## 5. Role-Based Access Control (RBAC)
+## 5. Role-Based Access Control (RBAC) in Sidebar
 
-When defining navigation items, filter items based on the authenticated user's permissions:
+`SidebarNav` filters `navItems` against the `userRole` prop (case-insensitive). If an item omits `roles`, it is visible to all authenticated users.
 
 ```javascript
-const allNavItems = [
+// Passed via navItems prop:
+const sidebarNavItems = [
     {
-        label: 'Dashboard',
-        path: '/dashboard',
-        icon: 'LayoutDashboard',
-        roles: ['admin', 'manager', 'user'],
+        label: 'Home',
+        icon: <HomeIcon />,
+        // No roles defined = visible to all authenticated users
     },
     {
-        label: 'Analytics',
-        path: '/analytics',
-        icon: 'BarChart2',
-        subTabs: ['Insights', 'Reports'],
-        roles: ['admin', 'manager'],
+        label: 'Leads',
+        icon: <UsersIcon />,
+        roles: ['admin', 'manager', 'sales_rep'], // Hidden from Support & Accountant
     },
-    { label: 'Settings', path: '/settings', icon: 'Settings', roles: ['admin'] },
+    {
+        label: 'Invoices',
+        icon: <FileTextIcon />,
+        roles: ['admin', 'manager', 'accountant'], // Hidden from Sales Rep & Support
+    },
+    {
+        label: 'Settings',
+        icon: <SettingsIcon />,
+        roles: ['admin'], // Hidden from everyone except Admin
+    },
 ];
+```
 
-// In layout / container:
-const visibleNavItems = allNavItems.filter((item) => item.roles.includes(user.role));
+Inside `SidebarNav.jsx`, items are filtered before rendering:
+
+```javascript
+const { user } = useAuth();
+const userRole = user?.role?.toLowerCase() || '';
+
+const authorizedNavItems = (navItems || []).filter((item) => {
+    if (!item.roles || item.roles.length === 0) return true;
+    return item.roles.some((role) => role.toLowerCase() === userRole);
+});
 ```
 
 ---

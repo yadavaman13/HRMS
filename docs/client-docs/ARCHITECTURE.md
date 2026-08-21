@@ -304,3 +304,27 @@ export const logout = async () => {
 | **Hooks**  | • State Layer (consumes **setters only**)<br>• API Layer (calls service methods)                                           | ❌ Returning state variables or setters<br>❌ JSX / DOM<br>❌ Direct Route redirects                         |
 | **State**  | None (Passive Memory Container)                                                                                            | ❌ API Services<br>❌ Hooks<br>❌ Async / HTTP Logic                                                         |
 | **API**    | Backend Server only                                                                                                        | ❌ React State<br>❌ React Hooks<br>❌ UI / Toasts                                                           |
+
+---
+
+## 6. Dynamic Routing & Multi-Role RBAC (Role-Based Access Control)
+
+### A. Zero-Conflict Feature Route Discovery
+
+To avoid merge conflicts during multi-developer and hackathon development, `src/app/App.routes.jsx` never contains hardcoded feature routes.
+
+- **Engine:** `src/app/routes.loader.js` scans all `src/app/features/**/*.routes.jsx` files using Vite's `import.meta.glob`.
+- **Developer Flow:** Each feature folder exports its own `userRoutes`, `adminRoutes`, or `publicRoutes`. Developers **never** edit `App.routes.jsx`.
+
+### B. Multi-Role RBAC Architecture
+
+Our routing and navigation implement enterprise-grade Unified RBAC:
+
+1. **Route Level (`ProtectedRoute.jsx`)**:
+    - Accepts `allowedRoles` (e.g. `allowedRoles={['admin', 'manager', 'sales_rep']}`).
+    - Automatically checks `user.role` (case-insensitive).
+    - If unauthorized, displays `<ForbiddenPage />` (403) with a safe return CTA without triggering redirect loops.
+
+2. **Navigation Level (`SidebarNav.jsx`)**:
+    - Inspects each `navItem.roles` array against `user.role`.
+    - Unauthorized navigation items are automatically filtered and hidden from the sidebar.
