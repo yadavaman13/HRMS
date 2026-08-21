@@ -3,7 +3,7 @@ import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import app from '../app.js';
 import redis from '../config/cache.config.js';
-import { db, pool } from '../config/database.config.js';
+import { db } from '../config/database.config.js';
 import { signToken } from '../modules/auth/utils/jwt.js';
 import {
     users,
@@ -14,15 +14,13 @@ import {
     leaveTypes,
     leaveBalanceTransactions,
 } from '../db/schema/schema.js';
-import { eq, and } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
 
 describe('Employee & Profile Management Flow Tests', () => {
     let server;
     let baseUrl;
     let testOrg;
-    let adminUser;
-    let hrUser;
     let adminToken;
     let hrToken;
 
@@ -66,9 +64,27 @@ describe('Employee & Profile Management Flow Tests', () => {
 
         // Seed some active leave types for default allocations
         await db.insert(leaveTypes).values([
-            { organizationId: org.id, code: 'CL', name: 'Casual Leave', requiresAllocation: true, isActive: true },
-            { organizationId: org.id, code: 'PL', name: 'Privilege Leave', requiresAllocation: true, isActive: true },
-            { organizationId: org.id, code: 'LWP', name: 'Leave Without Pay', requiresAllocation: false, isActive: true },
+            {
+                organizationId: org.id,
+                code: 'CL',
+                name: 'Casual Leave',
+                requiresAllocation: true,
+                isActive: true,
+            },
+            {
+                organizationId: org.id,
+                code: 'PL',
+                name: 'Privilege Leave',
+                requiresAllocation: true,
+                isActive: true,
+            },
+            {
+                organizationId: org.id,
+                code: 'LWP',
+                name: 'Leave Without Pay',
+                requiresAllocation: false,
+                isActive: true,
+            },
         ]);
 
         // 3. Create Admin user
@@ -86,7 +102,6 @@ describe('Employee & Profile Management Flow Tests', () => {
                 isActive: true,
             })
             .returning();
-        adminUser = admin;
         adminToken = signToken({ id: admin.id });
 
         // 4. Create HR user
@@ -103,7 +118,6 @@ describe('Employee & Profile Management Flow Tests', () => {
                 isActive: true,
             })
             .returning();
-        hrUser = hr;
         hrToken = signToken({ id: hr.id });
     });
 
@@ -129,7 +143,7 @@ describe('Employee & Profile Management Flow Tests', () => {
 
         try {
             if (redis) await redis.quit();
-        } catch (err) {
+        } catch (_err) {
             // Ignore redis quit failure
         }
     });
@@ -161,7 +175,7 @@ describe('Employee & Profile Management Flow Tests', () => {
         const body = await res.json();
         assert.equal(body.success, true);
         assert.ok(body.data.employee.id);
-        
+
         // Code format verify: prefix + initials + year + serial. e.g. TCORJODO20260002 (serial 2 since admin register org seeds serial 1 in sequences)
         // TC (companyPrefix is TCORP -> sliced to first 4 characters: TCOR) + JO (John) + DO (Doe) + 2026 + 0002
         assert.ok(body.data.employee.employeeCode.startsWith('TCORJODO2026'));
@@ -193,7 +207,7 @@ describe('Employee & Profile Management Flow Tests', () => {
         });
         assert.equal(resSearch.status, 200);
         const bodySearch = await resSearch.json();
-        assert.ok(bodySearch.data.employees.some(e => e.firstName === 'John'));
+        assert.ok(bodySearch.data.employees.some((e) => e.firstName === 'John'));
 
         // Filter by status
         const resStatus = await fetch(`${baseUrl}/api/employees?status=active`, {
@@ -232,10 +246,13 @@ describe('Employee & Profile Management Flow Tests', () => {
 
     test('POST /api/employees/:id/deactivate and activate - Toggles account state', async () => {
         // Deactivate account
-        const resDeactivate = await fetch(`${baseUrl}/api/employees/${createdEmployee.id}/deactivate`, {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${adminToken}` },
-        });
+        const resDeactivate = await fetch(
+            `${baseUrl}/api/employees/${createdEmployee.id}/deactivate`,
+            {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${adminToken}` },
+            },
+        );
         assert.equal(resDeactivate.status, 200);
 
         // Verify employee cannot log in / authenticate
@@ -253,10 +270,13 @@ describe('Employee & Profile Management Flow Tests', () => {
     });
 
     test('POST /api/employees/:id/reset-password - Admin resets credentials', async () => {
-        const resReset = await fetch(`${baseUrl}/api/employees/${createdEmployee.id}/reset-password`, {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${adminToken}` },
-        });
+        const resReset = await fetch(
+            `${baseUrl}/api/employees/${createdEmployee.id}/reset-password`,
+            {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${adminToken}` },
+            },
+        );
         assert.equal(resReset.status, 200);
         const bodyReset = await resReset.json();
         assert.ok(bodyReset.data.temporaryPassword);
@@ -275,6 +295,9 @@ describe('Employee & Profile Management Flow Tests', () => {
         });
         assert.equal(resSearch.status, 200);
         const bodySearch = await resSearch.json();
-        assert.ok(!bodySearch.data.employees.some(e => e.id === createdEmployee.id), 'Employee should be soft-deleted and removed from list');
+        assert.ok(
+            !bodySearch.data.employees.some((e) => e.id === createdEmployee.id),
+            'Employee should be soft-deleted and removed from list',
+        );
     });
 });

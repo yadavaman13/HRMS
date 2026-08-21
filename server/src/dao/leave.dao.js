@@ -5,7 +5,6 @@ import {
     leaveRequests,
     leaveBalanceTransactions,
     employees,
-    users,
     departments,
     workSchedules,
     workScheduleDays,
@@ -15,8 +14,7 @@ import {
     auditLogs,
     notifications,
 } from '../db/schema/schema.js';
-import { eq, and, or, sql, desc, inArray, gte, lte, isNull } from 'drizzle-orm';
-import { calculateLeaveWorkingDays } from '../utils/leave.utils.js';
+import { eq, and, sql, desc, inArray, gte, lte, isNull } from 'drizzle-orm';
 
 // ── Leave Types DAO ─────────────────────────────────────────────────────────
 

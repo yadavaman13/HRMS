@@ -33,12 +33,12 @@ const PERMISSIONS = {
     admin: { read: 'all', write: 'all' },
 };
 
-function canRead(role, field) {
+function _canRead(role, field) {
     const perm = PERMISSIONS[role]?.read;
     return perm === 'all' || (Array.isArray(perm) && perm.includes(field));
 }
 
-function canWrite(role) {
+function _canWrite(role) {
     return PERMISSIONS[role]?.write === 'all';
 }
 
@@ -124,7 +124,10 @@ export async function getProfile(employeeId, userRole) {
 export async function getPrivateInfo(employeeId, userRole, isSelf = false) {
     const isAdmin = userRole === 'admin' || userRole === 'hr';
     if (!isSelf && !isAdmin) {
-        throw new AppError('Access denied: private information requires admin/HR role or self-access', 403);
+        throw new AppError(
+            'Access denied: private information requires admin/HR role or self-access',
+            403,
+        );
     }
 
     const [privateInfo, bankAccounts, identifiers] = await Promise.all([
@@ -173,14 +176,25 @@ export async function updateProfile(employeeId, userId, userRole, data) {
     const updates = {};
 
     // Field-level write enforcement
-    const allowedForEmployee = ['phone', 'firstName', 'lastName', 'displayName', 'gender', 'dateOfBirth', 'workEmail'];
-    
+    const allowedForEmployee = [
+        'phone',
+        'firstName',
+        'lastName',
+        'displayName',
+        'gender',
+        'dateOfBirth',
+        'workEmail',
+    ];
+
     // Check if they tried to update admin-only fields and are not admin
     if (!isAdmin) {
         const attemptedKeys = Object.keys(data);
-        const hasInvalid = attemptedKeys.some(k => !allowedForEmployee.includes(k));
+        const hasInvalid = attemptedKeys.some((k) => !allowedForEmployee.includes(k));
         if (hasInvalid) {
-            throw new AppError('Access denied: You do not have permission to modify employment-related fields', 403);
+            throw new AppError(
+                'Access denied: You do not have permission to modify employment-related fields',
+                403,
+            );
         }
     }
 
@@ -216,14 +230,14 @@ export async function updateBankAccount(employeeId, userRole, data, isSelf = fal
     if (!isSelf && !isAdmin) {
         throw new AppError('Access denied', 403);
     }
-    
+
     // Encrypt account number if present (using simple Buffer encoding or keep as is)
     const dbData = { ...data };
     if (data.accountNumber) {
         dbData.accountNumberEncrypted = Buffer.from(data.accountNumber, 'utf-8');
         delete dbData.accountNumber;
     }
-    
+
     return employeeDao.upsertEmployeeBankAccount(employeeId, dbData);
 }
 
@@ -234,11 +248,11 @@ export async function updateIdentifiers(employeeId, userRole, data, isSelf = fal
     if (!isSelf && !isAdmin) {
         throw new AppError('Access denied', 403);
     }
-    
+
     const dbData = {};
     if (data.pan) dbData.panEncrypted = Buffer.from(data.pan, 'utf-8');
     if (data.uan) dbData.uanEncrypted = Buffer.from(data.uan, 'utf-8');
     if (data.aadhaar) dbData.aadhaarEncrypted = Buffer.from(data.aadhaar, 'utf-8');
-    
+
     return employeeDao.upsertEmployeeIdentifiers(employeeId, dbData);
 }
