@@ -284,7 +284,7 @@ export default function LeadsPage() {
 
 ---
 
-### Step 6: Define Zero-Conflict Route (`leads.routes.jsx`)
+### Step 6: Define Zero-Conflict Route & Navigation (`leads.routes.jsx`)
 
 Each feature defines its own routes in `src/app/features/<feature>/<feature>.routes.jsx`. `App.routes.jsx` automatically discovers and mounts it into the route tree via Vite's `import.meta.glob` — **developers never need to edit `App.routes.jsx` directly!**
 
@@ -294,18 +294,19 @@ import { LeadsProvider } from './context/leads.context';
 import LeadsPage from './pages/LeadsPage';
 
 export default {
-    // Injects into /dashboard/user/leads and /dashboard/admin/leads
-    userRoutes: [
-        {
-            path: 'leads',
-            element: (
-                <LeadsProvider>
-                    <LeadsPage />
-                </LeadsProvider>
-            ),
-        },
-    ],
-    adminRoutes: [
+    // Multi-Role RBAC: specify which roles can access this feature
+    allowedRoles: ['admin', 'manager', 'sales_rep'],
+
+    // Optional Navigation Metadata for the Sidebar
+    navItem: {
+        label: 'Leads',
+        path: '/dashboard/user/leads',
+        icon: 'Users',
+        roles: ['admin', 'manager', 'sales_rep'],
+    },
+
+    // Feature Routes
+    routes: [
         {
             path: 'leads',
             element: (
