@@ -1,4 +1,4 @@
-import { users, refreshTokens } from './users.schema.js';
+import { users } from './users.schema.js';
 import { payments } from './payments.schema.js';
 import { chats } from './chats.schema.js';
 import { messages } from './messages.schema.js';
@@ -47,7 +47,6 @@ import { auditLogs } from './audit.schema.js';
 
 export {
     users,
-    refreshTokens,
     payments,
     chats,
     messages,
