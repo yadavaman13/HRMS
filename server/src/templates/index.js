@@ -1,6 +1,7 @@
 export {
     invoiceTemplate,
     receiptTemplate,
+    payslipTemplate,
     escapeHtml,
     formatCurrency,
     formatDate,
