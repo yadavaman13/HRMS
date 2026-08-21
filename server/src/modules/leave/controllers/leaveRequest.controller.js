@@ -1,5 +1,5 @@
 import * as leaveDao from '../../../dao/leave.dao.js';
-import { getEmployeeByUserId, getEmployeeById } from '../../../dao/employee.dao.js';
+import { getEmployeeByUserId } from '../../../dao/employee.dao.js';
 import { calculateLeaveWorkingDays } from '../../../utils/leave.utils.js';
 import { sendResponse } from '../../../utils/response.utlis.js';
 

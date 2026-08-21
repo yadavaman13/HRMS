@@ -8,7 +8,6 @@ import {
     index,
     uniqueIndex,
 } from 'drizzle-orm/pg-core';
-import { users } from './users.schema.js';
 
 export const organizations = pgTable(
     'organizations',

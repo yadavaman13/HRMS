@@ -64,6 +64,13 @@
             "when": 1786176445317,
             "tag": "0008_oval_katie_power",
             "breakpoints": true
+        },
+        {
+            "idx": 9,
+            "version": "7",
+            "when": 1787303006906,
+            "tag": "0009_supreme_sersi",
+            "breakpoints": true
         }
     ]
 }
