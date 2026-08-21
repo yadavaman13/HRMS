@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as userController from '../controllers/user.controller.js';
-import * as employeeController from '../controllers/employee.controller.js';
+import * as adminController from '../controllers/admin.controller.js';
 import { protect, restrictTo } from '../middleware/auth.middleware.js';
 import { adminUpdateRoleValidator } from '../validators/user.validator.js';
 import { createEmployeeValidator } from '../validators/employee.validator.js';
@@ -19,6 +19,6 @@ router.patch('/users/:id/role', adminUpdateRoleValidator, userController.adminUp
 router.delete('/users/:id', userController.adminDeleteUser);
 
 // Admin Employee Management Routes
-router.post('/employees', createEmployeeValidator, employeeController.createEmployee);
+router.post('/employees', createEmployeeValidator, adminController.createEmployee);
 
 export default router;
