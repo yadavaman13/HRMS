@@ -1,19 +1,11 @@
 import './SignupPrompt.scss';
 
-function SignupPrompt({ onSignUp }) {
+function SignupPrompt() {
     return (
         <div className="form-footer">
-            Don't have an account?
-            <a
-                href="#"
-                className="footer-link"
-                onClick={(e) => {
-                    e.preventDefault();
-                    onSignUp();
-                }}
-            >
-                Sign Up
-            </a>
+            <span>
+                Employee account credentials are provisioned by your HR or System Administrator.
+            </span>
         </div>
     );
 }

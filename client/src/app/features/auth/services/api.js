@@ -10,67 +10,34 @@ const userApiInstance = axios.create({
     withCredentials: true,
 });
 
-export async function register({ firstName, lastName, email, password, profileImage, role }) {
-    const response = await authApiInstance.post('/register', {
-        firstName,
-        lastName,
-        email,
-        password,
-        profileImage,
-        role,
-    });
-    return response.data;
-}
-
-export async function sendVerificationOtp({ email }) {
-    const response = await authApiInstance.post('/send-verification-otp', {
-        email,
-    });
-    return response.data;
-}
-
-export async function updateProfile({ firstName, lastName, profileImage }) {
-    const response = await userApiInstance.patch('/profile', {
-        firstName,
-        lastName,
-        profileImage,
-    });
-    return response.data;
-}
-
-export async function uploadAvatar(file) {
-    const formData = new FormData();
-    formData.append('avatar', file);
-    const response = await userApiInstance.patch('/profile/avatar', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    });
-    return response.data;
-}
-
-export async function login({ email, password, role, rememberMe }) {
+export async function login({ email, password, rememberMe }) {
     const response = await authApiInstance.post('/login', {
         email,
         password,
-        role,
         rememberMe,
     });
     return response.data;
 }
 
-export async function verifyEmail({ email, otp }) {
-    const response = await authApiInstance.post('/verify-email', {
-        email,
-        otp,
-    });
+export async function logout() {
+    try {
+        const response = await authApiInstance.post('/logout');
+        return response.data;
+    } catch (err) {
+        console.error('Logout Failed', err);
+        throw err;
+    }
+}
+
+export async function getMe() {
+    const response = await authApiInstance.get('/get-me');
     return response.data;
 }
 
-export async function resendOtp({ email, purpose }) {
-    const response = await authApiInstance.post('/resend-otp', {
-        email,
-        purpose,
+export async function changePassword({ currentPassword, newPassword }) {
+    const response = await authApiInstance.patch('/change-password', {
+        currentPassword,
+        newPassword,
     });
     return response.data;
 }
@@ -100,16 +67,26 @@ export async function resetPassword({ email, otp, password, confirmPassword }) {
     return response.data;
 }
 
-export async function logout() {
-    try {
-        await authApiInstance.post('/logout');
-    } catch (err) {
-        console.error('Logout Failed', err);
-    }
+export async function sendVerificationOtp({ email }) {
+    const response = await authApiInstance.post('/send-verification-otp', {
+        email,
+    });
+    return response.data;
 }
 
-export async function getMe() {
-    const response = await authApiInstance.get('/get-me');
+export async function verifyEmail({ email, otp }) {
+    const response = await authApiInstance.post('/verify-email', {
+        email,
+        otp,
+    });
+    return response.data;
+}
+
+export async function resendOtp({ email, purpose }) {
+    const response = await authApiInstance.post('/resend-otp', {
+        email,
+        purpose,
+    });
     return response.data;
 }
 
@@ -128,10 +105,34 @@ export async function verifyAccountRecovery({ email, otp }) {
     return response.data;
 }
 
-export async function changePassword({ currentPassword, newPassword }) {
-    const response = await userApiInstance.patch('/change-password', {
-        currentPassword,
-        newPassword,
+export async function updateProfile({ firstName, lastName, profileImage }) {
+    const response = await userApiInstance.patch('/profile', {
+        firstName,
+        lastName,
+        profileImage,
+    });
+    return response.data;
+}
+
+export async function uploadAvatar(file) {
+    const formData = new FormData();
+    formData.append('avatar', file);
+    const response = await userApiInstance.patch('/profile/avatar', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+    return response.data;
+}
+
+export async function register({ firstName, lastName, email, password, profileImage, role }) {
+    const response = await authApiInstance.post('/register', {
+        firstName,
+        lastName,
+        email,
+        password,
+        profileImage,
+        role,
     });
     return response.data;
 }

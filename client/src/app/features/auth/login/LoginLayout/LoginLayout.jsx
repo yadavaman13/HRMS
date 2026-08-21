@@ -1,23 +1,30 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import HeroPanel from '@/components/Shared/HeroPanel/HeroPanel';
 import LoginForm from './LoginForm/LoginForm';
 import ForgotPasswordForm from './ForgotPasswordForm/ForgotPasswordForm';
 import RecoverAccountForm from './RecoverAccountForm/RecoverAccountForm';
-import { useAuth } from '@/app/features/auth/hooks/useAuth';
+import { AuthContext } from '@/app/features/auth/context/AuthContext';
 import Spinner from '@/components/Shared/Feedback/Spinner/Spinner';
 import './LoginLayout.scss';
 
 function LoginLayout() {
     const location = useLocation();
     const navigate = useNavigate();
-    const { user, loading } = useAuth();
+    const { user, loading, mustChangePassword } = useContext(AuthContext);
 
     useEffect(() => {
         if (!loading && user) {
-            navigate('/dashboard', { replace: true });
+            if (mustChangePassword) {
+                navigate('/change-password', { replace: true });
+            } else {
+                const role = (user.role || '').toLowerCase();
+                const target =
+                    role === 'admin' || role === 'hr' ? '/dashboard/admin' : '/dashboard/user';
+                navigate(target, { replace: true });
+            }
         }
-    }, [user, loading, navigate]);
+    }, [user, loading, mustChangePassword, navigate]);
 
     if (loading || user) {
         return <Spinner label="Loading..." fullScreen />;

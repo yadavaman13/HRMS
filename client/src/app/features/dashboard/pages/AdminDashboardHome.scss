@@ -1,0 +1,362 @@
+@use '@/styles/variables' as variables;
+
+.admin-dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-xl;
+    padding: variables.$spacing-lg;
+
+    .dashboard-header-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: variables.$spacing-md;
+
+        .welcome-text {
+            .page-title {
+                font-size: variables.$font-size-xxl;
+                font-weight: 700;
+                color: variables.$color-text-primary;
+                margin: 0;
+            }
+
+            .page-subtitle {
+                font-size: variables.$font-size-sm;
+                color: variables.$color-text-secondary;
+                margin: 4px 0 0;
+            }
+        }
+
+        .quick-actions {
+            display: flex;
+            align-items: center;
+            gap: variables.$spacing-sm;
+        }
+    }
+
+    .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: variables.$spacing-md;
+    }
+
+    .dashboard-card {
+        background-color: variables.$color-bg-card;
+        border: 1px solid variables.$color-border-strong;
+        border-radius: variables.$radius-medium;
+        padding: variables.$spacing-lg;
+        box-shadow: variables.$shadow-sm;
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: variables.$spacing-md;
+
+            .title-group {
+                display: flex;
+                align-items: center;
+                gap: variables.$spacing-xs;
+
+                .header-icon {
+                    color: variables.$color-primary;
+                }
+
+                h2 {
+                    font-size: variables.$font-size-md;
+                    font-weight: 600;
+                    color: variables.$color-text-primary;
+                    margin: 0;
+                }
+            }
+        }
+    }
+
+    .dashboard-mid-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: variables.$spacing-lg;
+
+        @include variables.tablet {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .live-attendance-card {
+        .attendance-pills-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: variables.$spacing-sm;
+            margin-bottom: variables.$spacing-lg;
+
+            .attendance-pill {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                padding: 6px 12px;
+                border-radius: variables.$radius-small;
+                font-size: variables.$font-size-sm;
+
+                .dot {
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                }
+
+                .count {
+                    font-weight: 700;
+                }
+
+                &.status-present {
+                    background-color: color-mix(in srgb, variables.$color-success 12%, transparent);
+                    color: variables.$color-success;
+
+                    .dot {
+                        background-color: variables.$color-success;
+                    }
+                }
+
+                &.status-leave {
+                    background-color: color-mix(
+                        in srgb,
+                        variables.$color-purple-accent 12%,
+                        transparent
+                    );
+                    color: variables.$color-purple-accent;
+
+                    .dot {
+                        background-color: variables.$color-purple-accent;
+                    }
+                }
+
+                &.status-absent {
+                    background-color: color-mix(in srgb, variables.$color-warning 12%, transparent);
+                    color: variables.$color-warning;
+
+                    .dot {
+                        background-color: variables.$color-warning;
+                    }
+                }
+
+                &.status-halfday {
+                    background-color: color-mix(
+                        in srgb,
+                        variables.$color-blue-accent 12%,
+                        transparent
+                    );
+                    color: variables.$color-blue-accent;
+
+                    .dot {
+                        background-color: variables.$color-blue-accent;
+                    }
+                }
+
+                &.status-late {
+                    background-color: color-mix(in srgb, variables.$color-danger 12%, transparent);
+                    color: variables.$color-danger;
+
+                    .dot {
+                        background-color: variables.$color-danger;
+                    }
+                }
+            }
+        }
+
+        .proportion-bar-wrapper {
+            .proportion-bar {
+                display: flex;
+                height: 10px;
+                border-radius: variables.$radius-full;
+                overflow: hidden;
+                background-color: variables.$color-border-subtle;
+
+                .segment {
+                    height: 100%;
+
+                    @include variables.transition-ease;
+
+                    &.present {
+                        background-color: variables.$color-success;
+                    }
+
+                    &.leave {
+                        background-color: variables.$color-purple-accent;
+                    }
+
+                    &.halfday {
+                        background-color: variables.$color-blue-accent;
+                    }
+
+                    &.absent {
+                        background-color: variables.$color-warning;
+                    }
+                }
+            }
+        }
+    }
+
+    .pending-inbox-card {
+        .pending-list {
+            display: flex;
+            flex-direction: column;
+            gap: variables.$spacing-sm;
+
+            .pending-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: variables.$spacing-sm variables.$spacing-md;
+                background-color: variables.$color-bg-app;
+                border: 1px solid variables.$color-border-subtle;
+                border-radius: variables.$radius-small;
+
+                .pending-info {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2px;
+
+                    .emp-name {
+                        font-size: variables.$font-size-sm;
+                        font-weight: 600;
+                        color: variables.$color-text-primary;
+                    }
+
+                    .leave-details {
+                        font-size: variables.$font-size-xs;
+                        color: variables.$color-text-secondary;
+                    }
+                }
+            }
+
+            .empty-pending {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: variables.$spacing-xl 0;
+                gap: variables.$spacing-xs;
+                color: variables.$color-text-secondary;
+
+                .check-icon {
+                    color: variables.$color-success;
+                }
+            }
+        }
+    }
+
+    .dashboard-bottom-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: variables.$spacing-lg;
+
+        @include variables.tablet {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .department-card {
+        .department-list {
+            display: flex;
+            flex-direction: column;
+            gap: variables.$spacing-md;
+
+            .department-row {
+                display: flex;
+                flex-direction: column;
+                gap: variables.$spacing-xs;
+
+                .dept-label-group {
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: variables.$font-size-sm;
+
+                    .dept-name {
+                        font-weight: 600;
+                        color: variables.$color-text-primary;
+                    }
+
+                    .dept-count {
+                        color: variables.$color-text-secondary;
+                    }
+                }
+
+                .dept-progress-track {
+                    height: 6px;
+                    border-radius: variables.$radius-full;
+                    background-color: variables.$color-border-subtle;
+                    overflow: hidden;
+
+                    .dept-progress-fill {
+                        height: 100%;
+                        background-color: variables.$color-primary;
+                        border-radius: variables.$radius-full;
+                    }
+                }
+            }
+        }
+    }
+
+    .holidays-card {
+        .holidays-list {
+            display: flex;
+            flex-direction: column;
+            gap: variables.$spacing-sm;
+
+            .holiday-item {
+                display: flex;
+                align-items: center;
+                gap: variables.$spacing-md;
+                padding: variables.$spacing-sm variables.$spacing-md;
+                background-color: variables.$color-bg-app;
+                border-radius: variables.$radius-small;
+
+                .holiday-date-badge {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    width: 42px;
+                    height: 42px;
+                    background-color: color-mix(in srgb, variables.$color-primary 10%, transparent);
+                    color: variables.$color-primary;
+                    border-radius: variables.$radius-small;
+
+                    .holiday-day {
+                        font-size: variables.$font-size-md;
+                        font-weight: 700;
+                        line-height: 1;
+                    }
+
+                    .holiday-month {
+                        font-size: variables.$font-size-xxs;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                    }
+                }
+
+                .holiday-details {
+                    display: flex;
+                    flex-direction: column;
+
+                    .holiday-name {
+                        font-size: variables.$font-size-sm;
+                        font-weight: 600;
+                        color: variables.$color-text-primary;
+                    }
+
+                    .holiday-weekday {
+                        font-size: variables.$font-size-xs;
+                        color: variables.$color-text-secondary;
+                    }
+                }
+            }
+        }
+    }
+
+    .empty-text {
+        color: variables.$color-text-secondary;
+        font-size: variables.$font-size-sm;
+        margin: 0;
+    }
+}

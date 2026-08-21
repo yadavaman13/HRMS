@@ -1,0 +1,171 @@
+@use '@/styles/variables' as variables;
+
+.payslip-modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+
+    .payslip-company-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: variables.$spacing-md;
+        border-bottom: 2px solid variables.$color-border-strong;
+
+        .company-name {
+            font-size: variables.$font-size-xl;
+            font-weight: 700;
+            color: variables.$color-text-primary;
+            margin: 0;
+        }
+
+        .company-addr {
+            font-size: variables.$font-size-sm;
+            color: variables.$color-text-secondary;
+            margin: 2px 0 0;
+        }
+
+        .payslip-period-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+
+            .period-label {
+                font-size: variables.$font-size-xs;
+                color: variables.$color-text-secondary;
+            }
+
+            .period-value {
+                font-size: variables.$font-size-lg;
+                font-weight: 700;
+                color: variables.$color-primary;
+            }
+        }
+    }
+
+    .payslip-emp-meta-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: variables.$spacing-md;
+        background-color: variables.$color-bg-app;
+        padding: variables.$spacing-md;
+        border-radius: variables.$radius-small;
+
+        @include variables.mobile {
+            grid-template-columns: 1fr;
+        }
+
+        .meta-col {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            .meta-row {
+                display: flex;
+                font-size: variables.$font-size-sm;
+                gap: variables.$spacing-sm;
+
+                .label {
+                    color: variables.$color-text-secondary;
+                    min-width: 110px;
+                }
+
+                .val {
+                    color: variables.$color-text-primary;
+                }
+            }
+        }
+    }
+
+    .payslip-table-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: variables.$spacing-md;
+
+        @include variables.mobile {
+            grid-template-columns: 1fr;
+        }
+
+        .breakdown-col {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid variables.$color-border-strong;
+            border-radius: variables.$radius-small;
+            overflow: hidden;
+
+            .col-header {
+                padding: variables.$spacing-xs variables.$spacing-md;
+                background-color: variables.$color-bg-app;
+                font-weight: 600;
+                font-size: variables.$font-size-sm;
+                text-transform: uppercase;
+                color: variables.$color-text-secondary;
+                border-bottom: 1px solid variables.$color-border-strong;
+            }
+
+            .item-row {
+                display: flex;
+                justify-content: space-between;
+                padding: 6px variables.$spacing-md;
+                font-size: variables.$font-size-sm;
+                border-bottom: 1px solid variables.$color-border-subtle;
+                color: variables.$color-text-primary;
+            }
+
+            .col-total-row {
+                display: flex;
+                justify-content: space-between;
+                padding: variables.$spacing-sm variables.$spacing-md;
+                background-color: variables.$color-bg-app;
+                font-size: variables.$font-size-sm;
+                font-weight: 600;
+                color: variables.$color-text-primary;
+            }
+        }
+    }
+
+    .payslip-net-banner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(
+            135deg,
+            variables.$color-bg-app 0%,
+            color-mix(in srgb, variables.$color-success 12%, variables.$color-bg-app) 100%
+        );
+        border: 1px solid color-mix(in srgb, variables.$color-success 30%, transparent);
+        border-radius: variables.$radius-small;
+        padding: variables.$spacing-md variables.$spacing-lg;
+
+        .net-left {
+            display: flex;
+            flex-direction: column;
+
+            .net-title {
+                font-size: variables.$font-size-sm;
+                font-weight: 600;
+                color: variables.$color-text-primary;
+            }
+
+            .net-words {
+                font-size: variables.$font-size-xs;
+                color: variables.$color-text-secondary;
+            }
+        }
+
+        .net-amount {
+            font-size: variables.$font-size-xxl;
+            font-weight: 800;
+            color: variables.$color-success;
+        }
+    }
+
+    .payslip-actions-footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: variables.$spacing-sm;
+        padding-top: variables.$spacing-sm;
+        border-top: 1px solid variables.$color-border-subtle;
+    }
+}

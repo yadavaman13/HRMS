@@ -1,0 +1,79 @@
+@use '@/styles/variables' as variables;
+
+.employee-payslips-page {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-xl;
+    padding: variables.$spacing-lg;
+
+    .page-header-row {
+        .page-title {
+            font-size: variables.$font-size-xxl;
+            font-weight: 700;
+            color: variables.$color-text-primary;
+            margin: 0;
+        }
+
+        .page-subtitle {
+            font-size: variables.$font-size-sm;
+            color: variables.$color-text-secondary;
+            margin: 4px 0 0;
+        }
+    }
+
+    .payslips-table-card {
+        background-color: variables.$color-bg-card;
+        border: 1px solid variables.$color-border-strong;
+        border-radius: variables.$radius-medium;
+        overflow: hidden;
+        box-shadow: variables.$shadow-sm;
+
+        .card-header {
+            padding: variables.$spacing-lg;
+            border-bottom: 1px solid variables.$color-border-subtle;
+
+            .title-group {
+                display: flex;
+                align-items: center;
+                gap: variables.$spacing-xs;
+
+                .header-icon {
+                    color: variables.$color-primary;
+                }
+
+                h2 {
+                    font-size: variables.$font-size-md;
+                    font-weight: 600;
+                    color: variables.$color-text-primary;
+                    margin: 0;
+                }
+            }
+        }
+
+        .period-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+
+            .period-title {
+                font-size: variables.$font-size-sm;
+            }
+
+            .period-dates {
+                font-size: variables.$font-size-xs;
+            }
+        }
+
+        .status-badge-paid {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: variables.$radius-full;
+            font-size: variables.$font-size-xs;
+            font-weight: 700;
+            background-color: color-mix(in srgb, variables.$color-success 15%, transparent);
+            color: variables.$color-success;
+        }
+    }
+}

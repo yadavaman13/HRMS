@@ -1,0 +1,280 @@
+@use '@/styles/variables' as variables;
+
+.admin-attendance-page {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+    padding: variables.$spacing-lg;
+
+    .page-header-block {
+        .page-title {
+            font-size: variables.$font-size-xxl;
+            font-weight: 700;
+            color: variables.$color-text-primary;
+            margin: 0;
+        }
+
+        .page-subtitle {
+            font-size: variables.$font-size-sm;
+            color: variables.$color-text-secondary;
+            margin: 4px 0 0;
+        }
+    }
+
+    .attendance-kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: variables.$spacing-md;
+    }
+
+    .tabs-navigation-bar {
+        display: flex;
+        gap: variables.$spacing-xs;
+        border-bottom: 1px solid variables.$color-border-strong;
+
+        .nav-tab-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: variables.$spacing-sm variables.$spacing-md;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            font-size: variables.$font-size-sm;
+            font-weight: 500;
+            color: variables.$color-text-secondary;
+            cursor: pointer;
+
+            @include variables.transition-ease;
+
+            &:hover {
+                color: variables.$color-text-primary;
+            }
+
+            &.active {
+                color: variables.$color-primary;
+                border-bottom-color: variables.$color-primary;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .tab-pane-container {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-md;
+
+        .filter-controls-row {
+            display: flex;
+            align-items: center;
+            gap: variables.$spacing-md;
+            flex-wrap: wrap;
+
+            .date-picker-wrap {
+                min-width: 180px;
+            }
+
+            .status-dropdown-wrap {
+                min-width: 180px;
+            }
+        }
+
+        .table-card {
+            background-color: variables.$color-bg-card;
+            border: 1px solid variables.$color-border-strong;
+            border-radius: variables.$radius-medium;
+            overflow: hidden;
+            box-shadow: variables.$shadow-sm;
+
+            .emp-meta-cell {
+                display: flex;
+                align-items: center;
+                gap: variables.$spacing-sm;
+
+                .emp-avatar {
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+
+                .emp-names {
+                    display: flex;
+                    flex-direction: column;
+
+                    .emp-full-name {
+                        font-size: variables.$font-size-sm;
+                        font-weight: 600;
+                        color: variables.$color-text-primary;
+                    }
+
+                    .emp-code {
+                        font-family: monospace;
+                        font-size: variables.$font-size-xs;
+                        color: variables.$color-text-secondary;
+                    }
+                }
+            }
+
+            .dept-text {
+                font-size: variables.$font-size-sm;
+                color: variables.$color-text-primary;
+            }
+
+            .time-text {
+                font-size: variables.$font-size-sm;
+                color: variables.$color-text-primary;
+            }
+
+            .duration-text {
+                font-size: variables.$font-size-sm;
+                color: variables.$color-primary;
+            }
+
+            .status-pill {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 3px 8px;
+                border-radius: variables.$radius-full;
+                font-size: variables.$font-size-xs;
+                font-weight: 600;
+
+                .pill-dot {
+                    width: 6px;
+                    height: 6px;
+                    border-radius: 50%;
+                }
+
+                &.badge-present {
+                    background-color: color-mix(in srgb, variables.$color-success 15%, transparent);
+                    color: variables.$color-success;
+
+                    .pill-dot {
+                        background-color: variables.$color-success;
+                    }
+                }
+
+                &.badge-leave {
+                    background-color: color-mix(
+                        in srgb,
+                        variables.$color-purple-accent 15%,
+                        transparent
+                    );
+                    color: variables.$color-purple-accent;
+
+                    .pill-dot {
+                        background-color: variables.$color-purple-accent;
+                    }
+                }
+
+                &.badge-half {
+                    background-color: color-mix(
+                        in srgb,
+                        variables.$color-blue-accent 15%,
+                        transparent
+                    );
+                    color: variables.$color-blue-accent;
+
+                    .pill-dot {
+                        background-color: variables.$color-blue-accent;
+                    }
+                }
+
+                &.badge-absent {
+                    background-color: color-mix(in srgb, variables.$color-warning 15%, transparent);
+                    color: variables.$color-warning;
+
+                    .pill-dot {
+                        background-color: variables.$color-warning;
+                    }
+                }
+            }
+
+            .reason-text {
+                font-size: variables.$font-size-sm;
+                color: variables.$color-text-primary;
+            }
+
+            .review-badge {
+                padding: 3px 8px;
+                border-radius: variables.$radius-full;
+                font-size: variables.$font-size-xs;
+                font-weight: 600;
+
+                &.pending {
+                    background-color: color-mix(in srgb, variables.$color-warning 15%, transparent);
+                    color: variables.$color-warning;
+                }
+
+                &.approved {
+                    background-color: color-mix(in srgb, variables.$color-success 15%, transparent);
+                    color: variables.$color-success;
+                }
+
+                &.rejected {
+                    background-color: color-mix(in srgb, variables.$color-danger 15%, transparent);
+                    color: variables.$color-danger;
+                }
+            }
+
+            .review-action-btns {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+
+                .review-btn {
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                    padding: 4px 8px;
+                    border-radius: variables.$radius-tiny;
+                    font-size: variables.$font-size-xs;
+                    font-weight: 600;
+                    cursor: pointer;
+                    border: 1px solid transparent;
+
+                    @include variables.transition-ease;
+
+                    &.approve-btn {
+                        background-color: color-mix(
+                            in srgb,
+                            variables.$color-success 12%,
+                            transparent
+                        );
+                        color: variables.$color-success;
+                        border-color: color-mix(in srgb, variables.$color-success 30%, transparent);
+
+                        &:hover {
+                            background-color: variables.$color-success;
+                            color: variables.$color-white;
+                        }
+                    }
+
+                    &.reject-btn {
+                        background-color: color-mix(
+                            in srgb,
+                            variables.$color-danger 12%,
+                            transparent
+                        );
+                        color: variables.$color-danger;
+                        border-color: color-mix(in srgb, variables.$color-danger 30%, transparent);
+
+                        &:hover {
+                            background-color: variables.$color-danger;
+                            color: variables.$color-white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .review-dialog-content {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-md;
+        font-size: variables.$font-size-sm;
+        color: variables.$color-text-primary;
+    }
+}

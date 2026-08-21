@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import { useAuth } from './useAuth';
+import { useMemo, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import { getAvatarUrl } from '@/utils/avatar';
 
 /**
@@ -10,7 +10,7 @@ import { getAvatarUrl } from '@/utils/avatar';
  * @returns {{ id, name, role, username, avatarUrl, initials, email }}
  */
 export function useDerivedProfile() {
-    const { user } = useAuth();
+    const { user } = useContext(AuthContext);
 
     return useMemo(() => {
         const name =

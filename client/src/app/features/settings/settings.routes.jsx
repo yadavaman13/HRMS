@@ -1,44 +1,60 @@
-import { Navigate } from 'react-router';
+import { SettingsProvider } from './context/settings.context';
+import CompanySettingsPage from './pages/CompanySettingsPage';
+import WorkSchedulePage from './pages/WorkSchedulePage';
+import LeavePolicyPage from './pages/LeavePolicyPage';
 import GeneralSettings from './GeneralSettings';
-import AccountSettings from './AccountSettings';
 
 export default {
-    userRoutes: [
-        {
-            path: 'settings',
-            children: [
-                {
-                    index: true,
-                    element: <Navigate to="general" replace />,
-                },
-                {
-                    path: 'general',
-                    element: <GeneralSettings />,
-                },
-                {
-                    path: 'account',
-                    element: <AccountSettings />,
-                },
-            ],
-        },
-    ],
     adminRoutes: [
         {
             path: 'settings',
-            children: [
-                {
-                    index: true,
-                    element: <Navigate to="general" replace />,
-                },
-                {
-                    path: 'general',
-                    element: <GeneralSettings />,
-                },
-                {
-                    path: 'account',
-                    element: <AccountSettings />,
-                },
-            ],
+            element: (
+                <SettingsProvider>
+                    <CompanySettingsPage />
+                </SettingsProvider>
+            ),
+        },
+        {
+            path: 'settings/general',
+            element: (
+                <SettingsProvider>
+                    <CompanySettingsPage />
+                </SettingsProvider>
+            ),
+        },
+        {
+            path: 'settings/schedules',
+            element: (
+                <SettingsProvider>
+                    <WorkSchedulePage />
+                </SettingsProvider>
+            ),
+        },
+        {
+            path: 'settings/policies',
+            element: (
+                <SettingsProvider>
+                    <LeavePolicyPage />
+                </SettingsProvider>
+            ),
+        },
+    ],
+    userRoutes: [
+        {
+            path: 'settings',
+            element: (
+                <SettingsProvider>
+                    <GeneralSettings />
+                </SettingsProvider>
+            ),
+        },
+        {
+            path: 'settings/general',
+            element: (
+                <SettingsProvider>
+                    <GeneralSettings />
+                </SettingsProvider>
+            ),
         },
     ],
 };

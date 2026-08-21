@@ -1,0 +1,189 @@
+@use '@/styles/variables' as variables;
+
+.employee-attendance-page {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-xl;
+    padding: variables.$spacing-lg;
+
+    .attendance-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: variables.$spacing-md;
+
+        .page-title {
+            font-size: variables.$font-size-xxl;
+            font-weight: 700;
+            color: variables.$color-text-primary;
+            margin: 0;
+        }
+
+        .page-subtitle {
+            font-size: variables.$font-size-sm;
+            color: variables.$color-text-secondary;
+            margin: 4px 0 0;
+        }
+    }
+
+    .attendance-top-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: variables.$spacing-lg;
+
+        @include variables.tablet {
+            grid-template-columns: 1fr;
+        }
+
+        .stat-cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: variables.$spacing-md;
+        }
+    }
+
+    .timesheet-table-card {
+        background-color: variables.$color-bg-card;
+        border: 1px solid variables.$color-border-strong;
+        border-radius: variables.$radius-medium;
+        overflow: hidden;
+        box-shadow: variables.$shadow-sm;
+
+        .card-header {
+            padding: variables.$spacing-lg;
+            border-bottom: 1px solid variables.$color-border-subtle;
+
+            .title-group {
+                display: flex;
+                align-items: center;
+                gap: variables.$spacing-xs;
+
+                .header-icon {
+                    color: variables.$color-primary;
+                }
+
+                h2 {
+                    font-size: variables.$font-size-md;
+                    font-weight: 600;
+                    color: variables.$color-text-primary;
+                    margin: 0;
+                }
+            }
+        }
+
+        .date-text {
+            color: variables.$color-text-primary;
+        }
+
+        .time-text {
+            font-family: monospace;
+            font-size: variables.$font-size-sm;
+            color: variables.$color-text-primary;
+        }
+
+        .duration-text {
+            font-family: monospace;
+            font-size: variables.$font-size-sm;
+            color: variables.$color-primary;
+        }
+
+        .overtime-text {
+            font-family: monospace;
+            font-size: variables.$font-size-sm;
+            color: variables.$color-text-secondary;
+
+            &.has-ot {
+                color: variables.$color-success;
+                font-weight: 600;
+            }
+        }
+
+        .attendance-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 8px;
+            border-radius: variables.$radius-full;
+            font-size: variables.$font-size-xs;
+            font-weight: 600;
+
+            .badge-dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+            }
+
+            &.badge-present {
+                background-color: color-mix(in srgb, variables.$color-success 15%, transparent);
+                color: variables.$color-success;
+
+                .badge-dot {
+                    background-color: variables.$color-success;
+                }
+            }
+
+            &.badge-leave {
+                background-color: color-mix(
+                    in srgb,
+                    variables.$color-purple-accent 15%,
+                    transparent
+                );
+                color: variables.$color-purple-accent;
+
+                .badge-dot {
+                    background-color: variables.$color-purple-accent;
+                }
+            }
+
+            &.badge-half {
+                background-color: color-mix(in srgb, variables.$color-blue-accent 15%, transparent);
+                color: variables.$color-blue-accent;
+
+                .badge-dot {
+                    background-color: variables.$color-blue-accent;
+                }
+            }
+
+            &.badge-absent {
+                background-color: color-mix(in srgb, variables.$color-warning 15%, transparent);
+                color: variables.$color-warning;
+
+                .badge-dot {
+                    background-color: variables.$color-warning;
+                }
+            }
+        }
+    }
+
+    .regularization-form {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-md;
+
+        .dialog-desc {
+            font-size: variables.$font-size-sm;
+            color: variables.$color-text-secondary;
+            margin: 0;
+        }
+
+        .form-row-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: variables.$spacing-md;
+
+            @include variables.mobile {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .dialog-actions-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: variables.$spacing-sm;
+            margin-top: variables.$spacing-sm;
+            padding-top: variables.$spacing-md;
+            border-top: 1px solid variables.$color-border-subtle;
+        }
+    }
+}

@@ -1,0 +1,320 @@
+@use '@/styles/variables' as variables;
+
+.employee-directory-page {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+    padding: variables.$spacing-lg;
+
+    .page-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: variables.$spacing-md;
+
+        .title-area {
+            .page-title {
+                font-size: variables.$font-size-xxl;
+                font-weight: 700;
+                color: variables.$color-text-primary;
+                margin: 0;
+            }
+
+            .page-subtitle {
+                font-size: variables.$font-size-sm;
+                color: variables.$color-text-secondary;
+                margin: 4px 0 0;
+            }
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: variables.$spacing-md;
+        }
+    }
+
+    .filters-bar {
+        display: flex;
+        align-items: center;
+        gap: variables.$spacing-md;
+        flex-wrap: wrap;
+
+        .search-field-wrapper {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .dropdown-filter {
+            min-width: 180px;
+        }
+    }
+
+    .table-container-card {
+        background-color: variables.$color-bg-card;
+        border: 1px solid variables.$color-border-strong;
+        border-radius: variables.$radius-medium;
+        overflow: hidden;
+        box-shadow: variables.$shadow-sm;
+
+        .emp-cell {
+            display: flex;
+            align-items: center;
+            gap: variables.$spacing-sm;
+
+            .emp-avatar-circle {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 1px solid variables.$color-border-strong;
+            }
+
+            .emp-names {
+                display: flex;
+                flex-direction: column;
+
+                .emp-full-name {
+                    font-size: variables.$font-size-sm;
+                    font-weight: 600;
+                    color: variables.$color-text-primary;
+                }
+
+                .emp-code {
+                    font-family: monospace;
+                    font-size: variables.$font-size-xs;
+                    color: variables.$color-text-secondary;
+                }
+            }
+        }
+
+        .dept-cell {
+            display: flex;
+            flex-direction: column;
+
+            .dept-name {
+                font-size: variables.$font-size-sm;
+                font-weight: 500;
+                color: variables.$color-text-primary;
+            }
+
+            .position-name {
+                font-size: variables.$font-size-xs;
+                color: variables.$color-text-secondary;
+            }
+        }
+
+        .contact-cell {
+            display: flex;
+            flex-direction: column;
+            font-size: variables.$font-size-sm;
+
+            .email {
+                color: variables.$color-text-primary;
+            }
+
+            .phone {
+                color: variables.$color-text-secondary;
+                font-size: variables.$font-size-xs;
+            }
+        }
+
+        .attendance-status-cell {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: variables.$font-size-sm;
+
+            .live-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+
+                &.dot-present {
+                    background-color: variables.$color-success;
+                    box-shadow: 0 0 6px variables.$color-success;
+                }
+
+                &.dot-leave {
+                    background-color: variables.$color-purple-accent;
+                }
+
+                &.dot-absent {
+                    background-color: variables.$color-warning;
+                }
+            }
+        }
+
+        .status-badge {
+            padding: 3px 8px;
+            border-radius: variables.$radius-full;
+            font-size: variables.$font-size-xs;
+            font-weight: 600;
+
+            &.badge-active {
+                background-color: color-mix(in srgb, variables.$color-success 15%, transparent);
+                color: variables.$color-success;
+            }
+
+            &.badge-inactive {
+                background-color: color-mix(in srgb, variables.$color-danger 15%, transparent);
+                color: variables.$color-danger;
+            }
+        }
+
+        .table-row-actions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+
+            .action-icon-btn {
+                background: none;
+                border: none;
+                padding: 6px;
+                border-radius: variables.$radius-tiny;
+                cursor: pointer;
+                color: variables.$color-text-secondary;
+
+                @include variables.transition-ease;
+
+                &:hover {
+                    background-color: variables.$color-border-subtle;
+                    color: variables.$color-primary;
+                }
+
+                &.danger:hover {
+                    color: variables.$color-danger;
+                }
+
+                &.success:hover {
+                    color: variables.$color-success;
+                }
+            }
+        }
+    }
+
+    .employee-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: variables.$spacing-md;
+
+        .employee-card {
+            background-color: variables.$color-bg-card;
+            border: 1px solid variables.$color-border-strong;
+            border-radius: variables.$radius-medium;
+            padding: variables.$spacing-lg;
+            display: flex;
+            flex-direction: column;
+            gap: variables.$spacing-md;
+            box-shadow: variables.$shadow-sm;
+
+            @include variables.transition-ease;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: variables.$shadow-md;
+            }
+
+            .card-top {
+                display: flex;
+                align-items: center;
+                gap: variables.$spacing-md;
+
+                .avatar-wrapper {
+                    position: relative;
+
+                    .card-avatar {
+                        width: 48px;
+                        height: 48px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        border: 2px solid variables.$color-border-strong;
+                    }
+
+                    .live-status-dot {
+                        position: absolute;
+                        bottom: 0;
+                        right: 0;
+                        width: 12px;
+                        height: 12px;
+                        border-radius: 50%;
+                        border: 2px solid variables.$color-bg-card;
+
+                        &.dot-present {
+                            background-color: variables.$color-success;
+                        }
+
+                        &.dot-leave {
+                            background-color: variables.$color-purple-accent;
+                        }
+
+                        &.dot-absent {
+                            background-color: variables.$color-warning;
+                        }
+                    }
+                }
+
+                .card-titles {
+                    display: flex;
+                    flex-direction: column;
+
+                    .card-emp-name {
+                        font-size: variables.$font-size-md;
+                        font-weight: 600;
+                        color: variables.$color-text-primary;
+                        margin: 0;
+                    }
+
+                    .card-emp-code {
+                        font-family: monospace;
+                        font-size: variables.$font-size-xs;
+                        color: variables.$color-text-secondary;
+                    }
+                }
+            }
+
+            .card-details {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                padding: variables.$spacing-sm 0;
+                border-top: 1px solid variables.$color-border-subtle;
+                border-bottom: 1px solid variables.$color-border-subtle;
+
+                .detail-line {
+                    display: flex;
+                    align-items: center;
+                    gap: variables.$spacing-xs;
+                    font-size: variables.$font-size-sm;
+                    color: variables.$color-text-secondary;
+
+                    .detail-icon {
+                        color: variables.$color-text-secondary;
+                        flex-shrink: 0;
+                    }
+
+                    .text-truncate {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                }
+            }
+
+            .card-footer {
+                .profile-cta {
+                    width: 100%;
+                    justify-content: center;
+                }
+            }
+        }
+    }
+
+    .empty-results-box {
+        display: flex;
+        justify-content: center;
+        padding: variables.$spacing-xxl;
+        color: variables.$color-text-secondary;
+    }
+}

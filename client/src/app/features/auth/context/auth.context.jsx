@@ -1,8 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { AuthContext } from './AuthContext';
 import * as authService from '../services/api';
 
-const AuthProvider = ({ children }) => {
+export { AuthContext };
+
+export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -28,14 +30,22 @@ const AuthProvider = ({ children }) => {
         initializeAuth();
     }, []);
 
-    const value = {
-        user,
-        setUser,
-        loading,
-        setLoading,
-        error,
-        setError,
-    };
+    const value = useMemo(
+        () => ({
+            // Read-only state (consumed by UI via useContext)
+            user,
+            isAuthenticated: Boolean(user),
+            mustChangePassword: Boolean(user?.mustChangePassword || user?.must_change_password),
+            loading,
+            error,
+
+            // Setters (consumed strictly by Hooks layer)
+            setUser,
+            setLoading,
+            setError,
+        }),
+        [user, loading, error],
+    );
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
