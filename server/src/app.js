@@ -15,6 +15,7 @@ import { dashboardRouter } from './modules/dashboard/index.js';
 import { employeeRouter, profileRouter } from './modules/employees/index.js';
 import { attendanceRouter } from './modules/attendance/index.js';
 import { leaveRouter } from './modules/leave/index.js';
+import { payrollRouter } from './modules/payroll/index.js';
 import { errorHandler } from './modules/auth/middleware/errorHandler.js';
 
 const app = express();
@@ -49,6 +50,7 @@ app.use('/api/pdf', pdfRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/attendance', attendanceRouter);
 app.use('/api/leave', leaveRouter);
+app.use('/api/payroll', payrollRouter);
 
 app.use(errorHandler);
 

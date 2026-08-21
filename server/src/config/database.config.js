@@ -2,7 +2,7 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import envConfig from './env.config.js';
 
-const shouldUseSsl = /sslmode=require/i.test(envConfig.DATABASE_URL);
+const shouldUseSsl = /sslmode=(require|verify-full|verify-ca)/i.test(envConfig.DATABASE_URL);
 const pool = new Pool({
     connectionString: envConfig.DATABASE_URL,
     ssl: shouldUseSsl ? { rejectUnauthorized: false } : undefined,

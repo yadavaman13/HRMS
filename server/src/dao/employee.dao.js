@@ -441,11 +441,15 @@ export async function createEmployeeTx({
 
         // 8.2 Create salary configuration if provided
         if (salary !== undefined && salary !== null) {
-            const monthlyWage =
-                typeof salary === 'object'
-                    ? String(salary.monthlyWage || salary.salary || '0.00')
-                    : String(salary);
-            const wageType = typeof salary === 'object' ? salary.wageType || 'fixed' : 'fixed';
+            let monthlyWage;
+            let wageType;
+            if (typeof salary === 'object') {
+                monthlyWage = String(salary.monthlyWage || salary.salary || '0.00');
+                wageType = salary.wageType || 'fixed';
+            } else {
+                monthlyWage = String(salary);
+                wageType = 'fixed';
+            }
 
             await tx.insert(salaryStructures).values({
                 employeeId: newEmployee.id,
