@@ -4,7 +4,7 @@ We are team **ByteBuilders** and we selected **Dayflow HRMS** (Human Resource Ma
 
 Dayflow HRMS is a robust, multi-tenant enterprise resource planning system tailored for managing employee lifecycles, attendance tracking with regularization workflows, double-entry leave ledgers, automatic salary calculations with loss-of-pay (LOP) deductions, and an integrated AI policy advisor assistant. Built with React (Vite) on the frontend, Node.js & Express on the backend, and powered by PostgreSQL (Drizzle ORM) and Redis caching.
 
-- **Project Hosted Link:** [Localhost Development Server](http://localhost:5173) or [[Staging/Production Demo](#)]
+- **Project Hosted Link:** [Localhost Development Server](http://localhost:5173)
 - **Presentation Video Link:** [[Video Walkthrough](#)]
 
 ---
@@ -139,6 +139,14 @@ flowchart TB
 ```
 
 For detailed ER diagrams and business workflows (Onboarding, Attendance Tracking, Leave Ledgers, and Monthly Payroll processing), please refer to the dedicated [ARCHITECTURE_AND_FLOWS.md](file:///home/iteshprajapati/HackathonPractice/HRMS/ARCHITECTURE_AND_FLOWS.md) document.
+
+![Activity Flowchart 1](https://ik.imagekit.io/hci5kelnn/readme/hrms/Activity/flow1.svg)
+
+![Activity Flowchart 2](https://ik.imagekit.io/hci5kelnn/readme/hrms/Activity/flow2.svg)
+
+![Activity Flowchart 3](https://ik.imagekit.io/hci5kelnn/readme/hrms/Activity/flow3.svg)
+
+![Activity Flowchart 5](https://ik.imagekit.io/hci5kelnn/readme/hrms/Activity/flow4.svg)
 
 ---
 
