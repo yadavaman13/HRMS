@@ -314,9 +314,44 @@ export const logout = async () => {
 To avoid merge conflicts during multi-developer and hackathon development, `src/app/App.routes.jsx` never contains hardcoded feature routes.
 
 - **Engine:** `src/app/routes.loader.js` scans all `src/app/features/**/*.routes.jsx` files using Vite's `import.meta.glob`.
-- **Developer Flow:** Each feature folder exports its own `userRoutes`, `adminRoutes`, or `publicRoutes`. Developers **never** edit `App.routes.jsx`.
+- **Developer Flow:** Each feature folder exports its own `<feature>.routes.jsx`. Developers **never** edit `App.routes.jsx`.
 
-### B. Multi-Role RBAC Architecture
+### B. Standard `<feature>.routes.jsx` Structure
+
+Every new feature defines its RBAC permissions, optional sidebar metadata, and routes in a single file:
+
+```jsx
+// src/app/features/leads/leads.routes.jsx
+import { LeadsProvider } from './context/leads.context';
+import LeadsPage from './pages/LeadsPage';
+
+export default {
+    // 🛡️ Multi-Role RBAC: roles authorized to access this feature
+    allowedRoles: ['admin', 'manager', 'sales_rep'],
+
+    // 🧭 Optional Navigation Metadata for the Sidebar
+    navItem: {
+        label: 'Leads',
+        path: '/dashboard/user/leads',
+        icon: 'Users',
+        roles: ['admin', 'manager', 'sales_rep'],
+    },
+
+    // 🛣️ Feature Routes (automatically wrapped with ProtectedRoute)
+    routes: [
+        {
+            path: 'leads',
+            element: (
+                <LeadsProvider>
+                    <LeadsPage />
+                </LeadsProvider>
+            ),
+        },
+    ],
+};
+```
+
+### C. Multi-Role RBAC Architecture
 
 Our routing and navigation implement enterprise-grade Unified RBAC:
 

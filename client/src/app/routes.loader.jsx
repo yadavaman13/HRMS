@@ -1,3 +1,5 @@
+import ProtectedRoute from '@/app/features/auth/components/ProtectedRoute';
+
 /**
  * Dynamic Feature Route Loader for Apex Template
  *
@@ -7,16 +9,21 @@
  * - `userRoutes`: Injected into `/dashboard/user/`
  * - `adminRoutes`: Injected into `/dashboard/admin/`
  * - `publicRoutes`: Injected at root level `/`
+ * - `featureNavItems`: Aggregated sidebar navigation item metadata
  *
  * Supported feature export formats:
- * 1. Object with named route arrays:
- *    `export default { userRoutes: [...], adminRoutes: [...], publicRoutes: [...] }`
+ * 1. Unified Multi-Role RBAC Format (Recommended):
+ *    export default {
+ *        allowedRoles: ['admin', 'manager', 'sales_rep'],
+ *        navItem: { label: 'Leads', path: '/dashboard/user/leads', icon: 'Users', roles: [...] },
+ *        routes: [ { path: 'leads', element: <LeadsPage /> } ]
+ *    }
  *
- * 2. Object with target and routes:
- *    `export default { target: 'user' | 'admin' | 'both' | 'public', routes: [...] }`
+ * 2. Explicit named route arrays:
+ *    export default { userRoutes: [...], adminRoutes: [...], publicRoutes: [...] }
  *
- * 3. Array of target configs:
- *    `export default [ { target: 'user', routes: [...] }, { target: 'admin', routes: [...] } ]`
+ * 3. Target-based format:
+ *    export default { target: 'user' | 'admin' | 'both' | 'public', routes: [...] }
  */
 
 export function loadFeatureRoutes() {
@@ -25,9 +32,15 @@ export function loadFeatureRoutes() {
     const userRoutes = [];
     const adminRoutes = [];
     const publicRoutes = [];
+    const featureNavItems = [];
 
     const processRouteConfig = (config) => {
         if (!config) return;
+
+        // Collect navItem metadata if present
+        if (config.navItem) {
+            featureNavItems.push(config.navItem);
+        }
 
         // Format 1: Explicit target arrays (userRoutes, adminRoutes, publicRoutes)
         if (config.userRoutes) {
@@ -48,7 +61,23 @@ export function loadFeatureRoutes() {
             );
         }
 
-        // Format 2: target & routes specification
+        // Format 2: Unified Multi-Role RBAC (allowedRoles & routes)
+        if (config.allowedRoles && config.routes) {
+            const rawRoutes = Array.isArray(config.routes) ? config.routes : [config.routes];
+            const protectedRoutes = rawRoutes.map((route) => ({
+                ...route,
+                element: (
+                    <ProtectedRoute allowedRoles={config.allowedRoles}>
+                        {route.element}
+                    </ProtectedRoute>
+                ),
+            }));
+
+            userRoutes.push(...protectedRoutes);
+            adminRoutes.push(...protectedRoutes);
+        }
+
+        // Format 3: target & routes specification
         if (config.target && config.routes) {
             const routesList = Array.isArray(config.routes) ? config.routes : [config.routes];
 
@@ -79,5 +108,6 @@ export function loadFeatureRoutes() {
         userRoutes,
         adminRoutes,
         publicRoutes,
+        featureNavItems,
     };
 }
