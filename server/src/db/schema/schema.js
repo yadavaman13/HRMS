@@ -47,7 +47,6 @@ import { auditLogs } from './audit.schema.js';
 
 export {
     users,
-    refreshTokens,
     payments,
     chats,
     messages,
