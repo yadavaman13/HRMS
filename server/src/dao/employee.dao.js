@@ -12,6 +12,9 @@ import {
     employeeScheduleAssignments,
     notifications,
     auditLogs,
+    leaveTypes,
+    leaveAllocations,
+    salaryStructures,
 } from '../db/schema/schema.js';
 import { users } from '../db/schema/schema.js';
 import { departments, jobPositions, locations } from '../db/schema/schema.js';
@@ -67,18 +70,55 @@ export async function getEmployeeByUserId(userId) {
 }
 
 export async function listEmployees(organizationId, opts = {}) {
-    const { status, departmentId, limit = 100, offset = 0 } = opts;
+    const { status, departmentId, department, search, managerId, limit = 100, offset = 0 } = opts;
     const filters = [
         eq(employees.organizationId, organizationId),
         sql`${employees.deletedAt} IS NULL`,
     ];
 
-    if (status) filters.push(eq(employees.employmentStatus, status));
-    if (departmentId) filters.push(eq(employees.departmentId, departmentId));
+    if (status) {
+        filters.push(eq(employees.employmentStatus, status));
+    }
+    if (departmentId) {
+        filters.push(eq(employees.departmentId, departmentId));
+    }
+    if (managerId) {
+        filters.push(eq(employees.managerId, managerId));
+    }
+    if (search) {
+        const cleanSearch = `%${search.toLowerCase()}%`;
+        filters.push(sql`(
+            LOWER(${employees.firstName}) LIKE ${cleanSearch} OR
+            LOWER(${employees.lastName}) LIKE ${cleanSearch} OR
+            LOWER(${employees.workEmail}) LIKE ${cleanSearch} OR
+            LOWER(${employees.employeeCode}) LIKE ${cleanSearch}
+        )`);
+    }
 
-    return db
-        .select(employeeProfileSelect)
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (department) {
+        if (isUuid.test(department)) {
+            filters.push(eq(employees.departmentId, department));
+        }
+    }
+
+    let queryBuilder = db
+        .select({
+            ...employeeProfileSelect,
+            departmentName: departments.name,
+            jobPositionName: jobPositions.name,
+            locationName: locations.name,
+        })
         .from(employees)
+        .leftJoin(departments, eq(employees.departmentId, departments.id))
+        .leftJoin(jobPositions, eq(employees.jobPositionId, jobPositions.id))
+        .leftJoin(locations, eq(employees.locationId, locations.id));
+
+    if (department && !isUuid.test(department)) {
+        filters.push(eq(sql`LOWER(${departments.name})`, department.toLowerCase()));
+    }
+
+    return queryBuilder
         .where(and(...filters))
         .limit(limit)
         .offset(offset)
@@ -249,6 +289,8 @@ export async function createEmployeeTx({
     actorUserId,
     ipAddress,
     userAgent,
+    salary,
+    role = 'employee',
 }) {
     const currentYear = new Date(joiningDate).getFullYear();
 
@@ -326,7 +368,7 @@ export async function createEmployeeTx({
                 password: hashedPassword,
                 profileImage:
                     profilePicture || 'https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg',
-                role: 'employee',
+                role: role,
                 emailVerified: true,
                 isActive: true,
                 mustChangePassword: true,
@@ -370,6 +412,54 @@ export async function createEmployeeTx({
             });
         }
 
+        // 8.1 Create default leave allocations
+        const activeLeaveTypes = await tx
+            .select()
+            .from(leaveTypes)
+            .where(
+                and(
+                    eq(leaveTypes.organizationId, organizationId),
+                    eq(leaveTypes.requiresAllocation, true),
+                    eq(leaveTypes.isActive, true),
+                ),
+            );
+
+        for (const lt of activeLeaveTypes) {
+            let allocatedDays = '12.00';
+            if (lt.code === 'PL') allocatedDays = '15.00';
+
+            await tx.insert(leaveAllocations).values({
+                employeeId: newEmployee.id,
+                leaveTypeId: lt.id,
+                periodStart: `${currentYear}-01-01`,
+                periodEnd: `${currentYear}-12-31`,
+                allocatedDays,
+                carriedForwardDays: '0.00',
+                createdBy: actorUserId,
+            });
+        }
+
+        // 8.2 Create salary configuration if provided
+        if (salary !== undefined && salary !== null) {
+            let monthlyWage = '0.00';
+            let wageType = 'fixed';
+            if (typeof salary === 'object') {
+                monthlyWage = String(salary.monthlyWage || salary.salary || '0.00');
+                wageType = salary.wageType || 'fixed';
+            } else {
+                monthlyWage = String(salary);
+            }
+
+            await tx.insert(salaryStructures).values({
+                employeeId: newEmployee.id,
+                monthlyWage,
+                wageType,
+                effectiveFrom: joiningDate,
+                status: 'ACTIVE',
+                createdBy: actorUserId,
+            });
+        }
+
         // 9. Log audit log
         await tx.insert(auditLogs).values({
             organizationId,
@@ -401,5 +491,143 @@ export async function createEmployeeTx({
         });
 
         return { newUser, newEmployee, empCode, workEmail, tempPassword };
+    });
+}
+
+/**
+ * Soft delete an employee and their user account in a transaction
+ */
+export async function softDeleteEmployee(employeeId, actorUserId, ipAddress, userAgent) {
+    return await db.transaction(async (tx) => {
+        const [employee] = await tx
+            .select()
+            .from(employees)
+            .where(and(eq(employees.id, employeeId), sql`${employees.deletedAt} IS NULL`));
+
+        if (!employee) {
+            throw new Error('Employee not found or already deleted');
+        }
+
+        const now = new Date();
+
+        // 1. Soft delete employee
+        await tx
+            .update(employees)
+            .set({ deletedAt: now, updatedAt: now, employmentStatus: 'terminated' })
+            .where(eq(employees.id, employeeId));
+
+        // 2. Soft delete user
+        if (employee.userId) {
+            const recoveryExpiresAt = new Date(now.getTime() + 15 * 24 * 60 * 60 * 1000);
+            await tx
+                .update(users)
+                .set({
+                    isDeleted: true,
+                    isActive: false,
+                    deletedAt: now,
+                    recoveryExpiresAt,
+                    updatedAt: now,
+                })
+                .where(eq(users.id, employee.userId));
+        }
+
+        // 3. Log audit event
+        await tx.insert(auditLogs).values({
+            organizationId: employee.organizationId,
+            actorUserId,
+            action: 'employee_deleted',
+            entityType: 'employee',
+            entityId: employeeId,
+            newData: { deletedAt: now },
+            ipAddress,
+            userAgent,
+        });
+
+        return employee;
+    });
+}
+
+/**
+ * Activate or deactivate an employee account
+ */
+export async function updateEmployeeStatus(employeeId, isActive, actorUserId, ipAddress, userAgent) {
+    return await db.transaction(async (tx) => {
+        const [employee] = await tx
+            .select()
+            .from(employees)
+            .where(and(eq(employees.id, employeeId), sql`${employees.deletedAt} IS NULL`));
+
+        if (!employee) {
+            throw new Error('Employee not found');
+        }
+
+        if (!employee.userId) {
+            throw new Error('No user account linked to this employee');
+        }
+
+        // 1. Update user active status
+        const [updatedUser] = await tx
+            .update(users)
+            .set({ isActive, updatedAt: new Date() })
+            .where(eq(users.id, employee.userId))
+            .returning();
+
+        // 2. Log audit event
+        await tx.insert(auditLogs).values({
+            organizationId: employee.organizationId,
+            actorUserId,
+            action: isActive ? 'employee_activated' : 'employee_deactivated',
+            entityType: 'employee',
+            entityId: employeeId,
+            newData: { isActive },
+            ipAddress,
+            userAgent,
+        });
+
+        return { employee, user: updatedUser };
+    });
+}
+
+/**
+ * Reset employee password
+ */
+export async function resetEmployeePassword(employeeId, hashedPassword, actorUserId, ipAddress, userAgent) {
+    return await db.transaction(async (tx) => {
+        const [employee] = await tx
+            .select()
+            .from(employees)
+            .where(and(eq(employees.id, employeeId), sql`${employees.deletedAt} IS NULL`));
+
+        if (!employee) {
+            throw new Error('Employee not found');
+        }
+
+        if (!employee.userId) {
+            throw new Error('No user account linked to this employee');
+        }
+
+        // 1. Update user password
+        const [updatedUser] = await tx
+            .update(users)
+            .set({
+                password: hashedPassword,
+                mustChangePassword: true,
+                updatedAt: new Date(),
+            })
+            .where(eq(users.id, employee.userId))
+            .returning();
+
+        // 2. Log audit event
+        await tx.insert(auditLogs).values({
+            organizationId: employee.organizationId,
+            actorUserId,
+            action: 'employee_password_reset',
+            entityType: 'employee',
+            entityId: employeeId,
+            ipAddress,
+            userAgent,
+        });
+
+        return { employee, user: updatedUser };
     });
 }

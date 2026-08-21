@@ -1,53 +1,118 @@
 import { Router } from 'express';
 import * as employeeController from '../controllers/employee.controller.js';
+import * as employeeCredentialController from '../controllers/employeeCredential.controller.js';
+import * as profileController from '../controllers/profile.controller.js';
+import * as privateInfoController from '../controllers/privateInfo.controller.js';
 import { protect, restrictTo } from '../../auth/middleware/auth.middleware.js';
 import {
-    directoryValidator,
+    createEmployeeValidator,
+    listEmployeesValidator,
     updateProfileValidator,
     updatePrivateInfoValidator,
     updateBankAccountValidator,
     updateIdentifiersValidator,
+    employeeIdParamValidator,
 } from '../validators/employee.validator.js';
 
 const router = Router();
+
+// Protect all employee routes
 router.use(protect);
 
-// ── Employee Directory ───────────────────────────────────────────────────
-router.get('/', directoryValidator, employeeController.getDirectory);
-
-// ── My Profile (self-service) ────────────────────────────────────────────
-router.get('/me', employeeController.getMyProfile);
-router.get('/me/private-info', employeeController.getMyPrivateInfo);
-router.patch('/me/profile', updateProfileValidator, employeeController.updateProfile);
-
-// ── Employee Profile (admin/hr only for writes) ──────────────────────────
-router.get('/:id', employeeController.getProfile);
-router.get('/:id/private-info', employeeController.getPrivateInfo);
-
-// Admin/HR restricted write routes
-router.patch(
-    '/:id/profile',
+// ── Employee CRUD & Directory Search ─────────────────────────────────────
+router.post(
+    '/',
     restrictTo('admin', 'hr'),
+    createEmployeeValidator,
+    employeeController.createEmployee,
+);
+
+router.get('/', listEmployeesValidator, employeeController.listEmployees);
+
+router.get('/:employeeId', employeeIdParamValidator, employeeController.getEmployeeById);
+
+router.patch(
+    '/:employeeId',
+    restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
     updateProfileValidator,
-    employeeController.updateEmployeeProfile,
+    employeeController.updateEmployee,
 );
-router.patch(
-    '/:id/private-info',
+
+router.delete(
+    '/:employeeId',
     restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
+    employeeController.deleteEmployee,
+);
+
+// ── Account lifecycle (Activation / Deactivation / Password Reset) ────────
+router.post(
+    '/:employeeId/activate',
+    restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
+    employeeCredentialController.activateAccount,
+);
+
+router.post(
+    '/:employeeId/deactivate',
+    restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
+    employeeCredentialController.deactivateAccount,
+);
+
+router.post(
+    '/:employeeId/reset-password',
+    restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
+    employeeCredentialController.resetPassword,
+);
+
+// ── Admin-facing employee profile management ──────────────────────────────
+router.get(
+    '/:employeeId/profile',
+    restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
+    profileController.getEmployeeProfile,
+);
+
+router.patch(
+    '/:employeeId/profile',
+    restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
+    updateProfileValidator,
+    profileController.updateEmployeeProfile,
+);
+
+router.get(
+    '/:employeeId/private-info',
+    restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
+    privateInfoController.getPrivateInfo,
+);
+
+router.patch(
+    '/:employeeId/private-info',
+    restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
     updatePrivateInfoValidator,
-    employeeController.updatePrivateInfo,
+    privateInfoController.updatePrivateInfo,
 );
+
 router.patch(
-    '/:id/bank-account',
+    '/:employeeId/bank-account',
     restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
     updateBankAccountValidator,
-    employeeController.updateBankAccount,
+    privateInfoController.updateBankAccount,
 );
+
 router.patch(
-    '/:id/identifiers',
+    '/:employeeId/identifiers',
     restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
     updateIdentifiersValidator,
-    employeeController.updateIdentifiers,
+    privateInfoController.updateIdentifiers,
 );
 
 export default router;
