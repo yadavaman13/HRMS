@@ -6,4 +6,3 @@ node_modules/
 .todo
 # Ignore stylelint error output log
 client/stylelint-errors.txt
-docs
