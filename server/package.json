@@ -5,7 +5,9 @@
     "main": "index.js",
     "scripts": {
         "test": "node --test src/tests/**/*.test.js",
+        "test:hrms": "node --test src/tests/dashboard/*.test.js src/tests/company/*.test.js src/tests/audit/*.test.js src/tests/notifications/*.test.js",
         "test:pdf": "node --test src/tests/pdf/*.test.js src/tests/templates/*.test.js",
+        "seed": "node src/db/seed.js",
         "dev": "npx nodemon server.js",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
