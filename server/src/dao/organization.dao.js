@@ -201,3 +201,14 @@ export async function registerCompanyWithAdmin({
         return { user, org, employee: emp };
     });
 }
+
+/**
+ * Retrieve organization details by ID.
+ * @param {string} id - Organization ID
+ * @returns {Promise<object|null>} Organization details or null if not found
+ */
+export async function getOrganizationById(id) {
+    if (!id) return null;
+    const [org] = await db.select().from(organizations).where(eq(organizations.id, id));
+    return org || null;
+}

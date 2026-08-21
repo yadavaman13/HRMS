@@ -46,24 +46,3 @@ export const users = pgTable(
         };
     },
 );
-
-export const refreshTokens = pgTable(
-    'refresh_tokens',
-    {
-        id: uuid('id').defaultRandom().primaryKey(),
-        userId: uuid('user_id')
-            .notNull()
-            .references(() => users.id, { onDelete: 'cascade' }),
-        tokenHash: text('token_hash').notNull(),
-        expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
-        revokedAt: timestamp('revoked_at', { withTimezone: true }),
-        createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-    },
-    (table) => {
-        return {
-            userIdIdx: index('refresh_tokens_user_idx').on(table.userId),
-            tokenHashIdx: index('refresh_tokens_hash_idx').on(table.tokenHash),
-            expiresIdx: index('refresh_tokens_expires_idx').on(table.userId, table.expiresAt),
-        };
-    },
-);
