@@ -8,7 +8,7 @@ Welcome to the **Apex Backend Server Documentation Hub**. This directory contain
 
 Use this section to determine exactly which reference document is required based on your current task or query.
 
-### 📂 File 1: [Server Architecture Guide](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/server-architecture.md)
+### 📂 File 1: [Server Architecture Guide](server-architecture.md)
 
 - **Filename:** `server-architecture.md`
 - **Core Purpose:** Provides the high-level master architectural blueprint of the backend application, serving as the baseline entry point.
@@ -26,7 +26,7 @@ Use this section to determine exactly which reference document is required based
 
 ---
 
-### 📂 File 2: [Auth Module Routing Reference Guide](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/auth-routes-guide.md)
+### 📂 File 2: [Auth Module Routing Reference Guide](auth-routes-guide.md)
 
 - **Filename:** `auth-routes-guide.md`
 - **Core Purpose:** A deep dive into the authentication, authorization, admin, and user profile management endpoint routes.
@@ -41,7 +41,7 @@ Use this section to determine exactly which reference document is required based
 
 ---
 
-### 📂 File 3: [PostgreSQL Database & Drizzle ORM Manual](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/pg-db.md)
+### 📂 File 3: [PostgreSQL Database & Drizzle ORM Manual](pg-db.md)
 
 - **Filename:** `pg-db.md`
 - **Core Purpose:** Complete guide dedicated to database schemas, relational designs, migration pipelines, and queries.
@@ -57,7 +57,7 @@ Use this section to determine exactly which reference document is required based
 
 ---
 
-### 📂 File 4: [HTML-to-PDF Service Architecture Guide](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/pdf-service-guide.md)
+### 📂 File 4: [HTML-to-PDF Service Architecture Guide](pdf-service-guide.md)
 
 - **Filename:** `pdf-service-guide.md`
 - **Core Purpose:** Specialized manual for the lightweight, chromium-free PDF generation engine (`makePDF`).
@@ -74,18 +74,32 @@ Use this section to determine exactly which reference document is required based
 
 ---
 
+### 📂 File 5: [Server Implementation Reference Guide](implementation_server.md)
+
+- **Filename:** `implementation_server.md` (located in this directory)
+- **Core Purpose:** Acts as the live record of implemented backend features, API contracts, routing definitions, database schemas, edge cases, and core business logic.
+- **🤖 When to Use & Maintenance Rules (Agent Instructions):**
+  - **SCAN FIRST:** You **MUST** scan the entire [`implementation_server.md`](implementation_server.md) file before writing or modifying any backend code to check if that information or route already exists.
+  - **AVOID REDUNDANCY:** If an endpoint or feature is already defined, do not create duplicate logic or conflicting routes.
+  - **KEEP IT UPDATED:** Based on each new feature development or enhancement, you **MUST** update this file so that it keeps on updating along with the codebase. Add details of the new API contracts, routings, description, schemas involved, edge cases, and business logic involved.
+  - **ENHANCE EXISTING:** If your task modifies/extends an existing feature, append/enhance its section in [`implementation_server.md`](implementation_server.md) accordingly.
+
+---
+
 ## 2. Agent Decision Matrix
 
-| Target Development / Debugging Task                                | Primary File to Consult                                                                                                                | Secondary File for Context                                                                                                   |
-| :----------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------- |
-| **Adding a new database table or changing columns**                | [`pg-db.md`](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/pg-db.md)                                                    | [`server-architecture.md`](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/server-architecture.md)              |
-| **Writing queries, inserts, updates, or deletes**                  | [`pg-db.md`](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/pg-db.md) _(DAO Blueprint)_                                  | –                                                                                                                            |
-| **Adding, modifying, or testing REST API routes**                  | [`auth-routes-guide.md`](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/auth-routes-guide.md)                            | [`server-architecture.md`](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/server-architecture.md)              |
-| **Fixing JWT cookies, authorization middleware, or CORS**          | [`server-architecture.md`](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/server-architecture.md) _(Global Middleware)_  | [`auth-routes-guide.md`](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/auth-routes-guide.md)                  |
-| **Implementing rate limiting or caching operations**               | [`server-architecture.md`](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/server-architecture.md) _(Redis cache)_        | [`auth-routes-guide.md`](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/auth-routes-guide.md)                  |
-| **Debugging AI chat streaming, Pinecone indexing, or RAG vectors** | [`server-architecture.md`](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/server-architecture.md) _(AI Streaming & RAG)_ | –                                                                                                                            |
-| **Creating templates or rendering PDF invoices / receipts**        | [`pdf-service-guide.md`](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/pdf-service-guide.md)                            | [`server-architecture.md`](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/server-architecture.md) _(PDF flow)_ |
-| **Troubleshooting background schedules (crons)**                   | [`server-architecture.md`](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/server-architecture.md) _(Background Cron)_    | –                                                                                                                            |
+| Target Development / Debugging Task                                | Primary File to Consult                                                          | Secondary File for Context                                      |
+| :----------------------------------------------------------------- | :------------------------------------------------------------------------------- | :-------------------------------------------------------------- |
+| **Adding a new feature or endpoint**                               | [`implementation_server.md`](implementation_server.md) (Scan first, then update) | [`server-architecture.md`](server-architecture.md)              |
+| **Reviewing active API routes/contracts**                          | [`implementation_server.md`](implementation_server.md)                           | –                                                               |
+| **Adding a new database table or changing columns**                | [`pg-db.md`](pg-db.md)                                                           | [`server-architecture.md`](server-architecture.md)              |
+| **Writing queries, inserts, updates, or deletes**                  | [`pg-db.md`](pg-db.md) _(DAO Blueprint)_                                         | –                                                               |
+| **Adding, modifying, or testing REST API routes**                  | [`auth-routes-guide.md`](auth-routes-guide.md)                                   | [`server-architecture.md`](server-architecture.md)              |
+| **Fixing JWT cookies, authorization middleware, or CORS**          | [`server-architecture.md`](server-architecture.md) _(Global Middleware)_         | [`auth-routes-guide.md`](auth-routes-guide.md)                  |
+| **Implementing rate limiting or caching operations**               | [`server-architecture.md`](server-architecture.md) _(Redis cache)_               | [`auth-routes-guide.md`](auth-routes-guide.md)                  |
+| **Debugging AI chat streaming, Pinecone indexing, or RAG vectors** | [`server-architecture.md`](server-architecture.md) _(AI Streaming & RAG)_        | –                                                               |
+| **Creating templates or rendering PDF invoices / receipts**        | [`pdf-service-guide.md`](pdf-service-guide.md)                                   | [`server-architecture.md`](server-architecture.md) _(PDF flow)_ |
+| **Troubleshooting background schedules (crons)**                   | [`server-architecture.md`](server-architecture.md) _(Background Cron)_           | –                                                               |
 
 ---
 
@@ -96,12 +110,14 @@ Human developers and AI agents must adhere to the following coding conventions e
 1.  **Strict Layer Separation:**
     - **Routes:** Define URLs, call middlewares, apply validator arrays, and mount controller handlers.
     - **Validators:** Use `express-validator` to validate and sanitize incoming payloads before controller execution.
-    - **Controllers:** Parse requests, invoke DAOs/services, wrap executions in `try/catch(next)` blocks, and return responses using [`response.utils.js`](file:///c:/Users/Aman/Desktop/apex-template/server/src/utils/response.utlis.js).
+    - **Controllers:** Parse requests, invoke DAOs/services, wrap executions in `try/catch(next)` blocks, and return responses using [`response.utils.js`](../../server/src/utils/response.utlis.js).
     - **DAOs (Data Access Objects):** Execute Drizzle queries (`db.select()`, `db.insert()`, etc.) against PostgreSQL tables. **Controllers must not access the Drizzle database object `db` directly.**
 2.  **PDF Safety:**
     - Always validate HTML parameters using template functions.
     - Wrap variables inside template functions in `escapeHtml()`.
-    - Ensure all CSS properties used inside templates match supported styles outlined in [`pdf-service-guide.md`](file:///c:/Users/Aman/Desktop/apex-template/docs/server-docs/pdf-service-guide.md).
+    - Ensure all CSS properties used inside templates match supported styles outlined in [`pdf-service-guide.md`](pdf-service-guide.md).
 3.  **Testing & Visual Regressions:**
     - Write and run automated tests using Node's native test runner (`node --test`).
     - Store tests inside `src/tests/` matching target service or helper boundaries.
+4.  **Keep Server Docs Up to Date:**
+    - Always update the [`implementation_server.md`](implementation_server.md) file after completing or modifying any API route, database schema, or backend business logic. Scan it first to avoid redundancy.
