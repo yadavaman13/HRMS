@@ -35,7 +35,11 @@ jobs:
       - name: 📦 Install Client & Server Dependencies
         run: |
           npm ci --prefix client
-          npm ci --prefix server
+          if [ -f server/package-lock.json ]; then
+            npm ci --prefix server
+          else
+            npm install --prefix server
+          fi
 
       - name: 🎨 Code Formatting Check (Prettier)
         run: npm run format:check
