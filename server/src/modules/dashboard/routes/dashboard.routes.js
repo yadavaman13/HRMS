@@ -13,4 +13,10 @@ router.get('/admin', restrictTo('admin', 'hr'), dashboardController.getAdminDash
 router.get('/employee', dashboardController.getEmployeeDashboard);
 router.get('/me', dashboardController.getEmployeeDashboard);
 
+// Section-specific dashboard analytics (Admin/HR)
+router.get('/attendance', restrictTo('admin', 'hr'), dashboardController.getAttendanceDashboard);
+router.get('/leave', restrictTo('admin', 'hr'), dashboardController.getLeaveDashboard);
+router.get('/employees', restrictTo('admin', 'hr'), dashboardController.getEmployeesDashboard);
+router.get('/payroll', restrictTo('admin', 'hr'), dashboardController.getPayrollDashboard);
+
 export default router;

@@ -150,10 +150,20 @@ function LoginForm() {
         setIsSubmitting(true);
 
         try {
-            await handleLogin(trimmedEmail, trimmedPassword, rememberMe);
+            const data = await handleLogin(trimmedEmail, trimmedPassword, rememberMe);
             sessionStorage.removeItem(FAILED_LOGIN_EMAIL_KEY);
             success(`Successfully logged in!`);
-            navigate('/dashboard');
+            const loggedInUser = data?.user || data?.data?.user;
+            if (loggedInUser?.mustChangePassword || loggedInUser?.must_change_password) {
+                navigate('/change-password');
+            } else {
+                const role = (loggedInUser?.role || '').toLowerCase();
+                if (role === 'admin' || role === 'hr') {
+                    navigate('/dashboard/admin');
+                } else {
+                    navigate('/dashboard/user');
+                }
+            }
         } catch (err) {
             console.error('Login error:', err);
             const status = err.response?.status;
@@ -182,10 +192,6 @@ function LoginForm() {
 
     const handleForgotPassword = () => {
         navigate('/reset-password');
-    };
-
-    const handleSignUp = () => {
-        navigate('/register');
     };
 
     return (
@@ -283,7 +289,7 @@ function LoginForm() {
                     </Button>
                 </form>
 
-                <SignupPrompt onSignUp={handleSignUp} />
+                <SignupPrompt />
 
                 <Dialog
                     isOpen={isRecoveryModalOpen}

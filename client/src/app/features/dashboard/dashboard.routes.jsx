@@ -1,14 +1,29 @@
+import { DashboardProvider } from './context/dashboard.context';
+import { AttendanceProvider } from '@/app/features/attendance/context/attendance.context';
+import AdminDashboardHome from './pages/AdminDashboardHome';
+import EmployeeDashboardHome from './pages/EmployeeDashboardHome';
+
 export default {
     userRoutes: [
         {
             path: 'home',
-            element: <div className="main-dashboard-placeholder">This is main dashboard</div>,
+            element: (
+                <DashboardProvider>
+                    <AttendanceProvider>
+                        <EmployeeDashboardHome />
+                    </AttendanceProvider>
+                </DashboardProvider>
+            ),
         },
     ],
     adminRoutes: [
         {
             path: 'home',
-            element: <div className="main-dashboard-placeholder">This is Admin dashboard</div>,
+            element: (
+                <DashboardProvider>
+                    <AdminDashboardHome />
+                </DashboardProvider>
+            ),
         },
     ],
 };

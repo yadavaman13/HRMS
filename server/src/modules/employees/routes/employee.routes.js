@@ -3,6 +3,8 @@ import * as employeeController from '../controllers/employee.controller.js';
 import * as employeeCredentialController from '../controllers/employeeCredential.controller.js';
 import * as profileController from '../controllers/profile.controller.js';
 import * as privateInfoController from '../controllers/privateInfo.controller.js';
+import * as payrollController from '../../payroll/controllers/payroll.controller.js';
+import * as leaveBalanceController from '../../leave/controllers/leaveBalance.controller.js';
 import { protect, restrictTo } from '../../auth/middleware/auth.middleware.js';
 import {
     createEmployeeValidator,
@@ -13,6 +15,7 @@ import {
     updateIdentifiersValidator,
     employeeIdParamValidator,
 } from '../validators/employee.validator.js';
+import { salaryStructureValidator } from '../../payroll/validators/payroll.validator.js';
 
 const router = Router();
 
@@ -113,6 +116,38 @@ router.patch(
     employeeIdParamValidator,
     updateIdentifiersValidator,
     privateInfoController.updateIdentifiers,
+);
+
+// ── Salary Structure Management (Admin only) ──────────────────────────────
+router.get(
+    '/:employeeId/salary',
+    restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
+    payrollController.getSalaryStructure,
+);
+
+router.post(
+    '/:employeeId/salary',
+    restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
+    salaryStructureValidator,
+    payrollController.setSalaryStructure,
+);
+
+router.patch(
+    '/:employeeId/salary',
+    restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
+    salaryStructureValidator,
+    payrollController.setSalaryStructure,
+);
+
+// ── Leave Balances Alias (Admin/HR) ───────────────────────────────────────
+router.get(
+    '/:employeeId/leave-balances',
+    restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
+    leaveBalanceController.getEmployeeBalances,
 );
 
 export default router;

@@ -21,7 +21,7 @@ export async function checkIn(req, res, next) {
             });
         }
 
-        const checkInAt = req.body.checkInTime ? new Date(req.body.checkInTime) : new Date();
+        const checkInAt = req.body?.checkInTime ? new Date(req.body.checkInTime) : new Date();
         const attendanceDate = checkInAt.toISOString().split('T')[0];
 
         // 1. Get or create today's attendance record
@@ -119,9 +119,9 @@ export async function checkOut(req, res, next) {
             });
         }
 
-        const checkOutAt = req.body.checkOutTime ? new Date(req.body.checkOutTime) : new Date();
+        const checkOutAt = req.body?.checkOutTime ? new Date(req.body.checkOutTime) : new Date();
         const attendanceDate = checkOutAt.toISOString().split('T')[0];
-        const breakMinutes = Number(req.body.breakMinutes) || 0;
+        const breakMinutes = Number(req.body?.breakMinutes) || 0;
 
         // 1. Get attendance record for today
         const record = await attendanceDao.getAttendanceRecordByEmployeeAndDate(

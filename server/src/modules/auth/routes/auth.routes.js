@@ -56,7 +56,12 @@ router.post(
 // Authenticated Routes
 router.use(protect);
 
+router.get('/me', authController.getMe);
 router.get('/get-me', authController.getMe);
+router.post('/change-password', changePasswordValidator, authController.changePassword);
 router.patch('/change-password', changePasswordValidator, authController.changePassword);
+
+router.get('/roles', authController.getRoles);
+router.get('/permissions', authController.getPermissions);
 
 export default router;

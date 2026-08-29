@@ -10,10 +10,10 @@ The database layer utilizes `pg` (Node-Postgres) for connection pooling and **Dr
 
 ### Connection Bootstrap Lifecycle
 
-1. **Environment Initialization:** The schema configuration is loaded and validated at server boot time from `src/config/env.config.js` which verifies the `DATABASE_URL`.
-2. **Pool Creation (`src/config/database.config.js`):** A connection pool (`pg.Pool`) is established. It detects if the connection string requires SSL (e.g., in production/managed databases) and configures connection parameters accordingly.
+1. **Environment Initialization:** The schema configuration is loaded and validated at server boot time from [`src/config/env.config.js`](../../server/src/config/env.config.js) which verifies the `DATABASE_URL`.
+2. **Pool Creation ([`src/config/database.config.js`](../../server/src/config/database.config.js)):** A connection pool (`pg.Pool`) is established. It detects if the connection string requires SSL (e.g., in production/managed databases) and configures connection parameters accordingly.
 3. **Drizzle Initialization:** Drizzle wraps the connection pool (`drizzle(pool)`) to expose type-safe queries.
-4. **Boot Check (`server.js`):** During server start, `connectToDatabase()` is executed, sending a simple `select 1` query to verify database liveness before starting the Express listener.
+4. **Boot Check ([`server.js`](../../server/server.js)):** During server start, `connectToDatabase()` is executed, sending a simple `select 1` query to verify database liveness before starting the Express listener.
 
 ```text
   ┌────────────────────────────────────────────────────────┐
@@ -235,7 +235,7 @@ erDiagram
 
 #### 1. `users` Table
 
-- **Schema File:** [`src/db/schema/users.schema.js`](file:///c:/Users/Aman/Desktop/apex-template/server/src/db/schema/users.schema.js)
+- **Schema File:** [`src/db/schema/users.schema.js`](../../server/src/db/schema/users.schema.js)
 - **Primary Key:** `id` (UUID, auto-generated using `defaultRandom()`).
 - **Indices:**
   - `users_email_idx` on `email`
@@ -248,7 +248,7 @@ erDiagram
 
 #### 2. `chats` Table
 
-- **Schema File:** [`src/db/schema/chats.schema.js`](file:///c:/Users/Aman/Desktop/apex-template/server/src/db/schema/chats.schema.js)
+- **Schema File:** [`src/db/schema/chats.schema.js`](../../server/src/db/schema/chats.schema.js)
 - **Primary Key:** `id` (UUID).
 - **Foreign Keys:**
   - `user_id` references `users.id` with `onDelete: 'cascade'`.
@@ -258,7 +258,7 @@ erDiagram
 
 #### 3. `messages` Table
 
-- **Schema File:** [`src/db/schema/messages.schema.js`](file:///c:/Users/Aman/Desktop/apex-template/server/src/db/schema/messages.schema.js)
+- **Schema File:** [`src/db/schema/messages.schema.js`](../../server/src/db/schema/messages.schema.js)
 - **Primary Key:** `id` (UUID).
 - **Foreign Keys:**
   - `chat_id` references `chats.id` with `onDelete: 'cascade'`.
@@ -268,7 +268,7 @@ erDiagram
 
 #### 4. `files` Table
 
-- **Schema File:** [`src/db/schema/files.schema.js`](file:///c:/Users/Aman/Desktop/apex-template/server/src/db/schema/files.schema.js)
+- **Schema File:** [`src/db/schema/files.schema.js`](../../server/src/db/schema/files.schema.js)
 - **Primary Key:** `id` (UUID).
 - **Foreign Keys:**
   - `message_id` references `messages.id` with `onDelete: 'cascade'`.
@@ -280,7 +280,7 @@ erDiagram
 
 #### 5. `rag_files` Table
 
-- **Schema File:** [`src/db/schema/rag_files.schema.js`](file:///c:/Users/Aman/Desktop/apex-template/server/src/db/schema/rag_files.schema.js)
+- **Schema File:** [`src/db/schema/rag_files.schema.js`](../../server/src/db/schema/rag_files.schema.js)
 - **Primary Key:** `id` (UUID).
 - **Foreign Keys:**
   - `uploaded_by` references `users.id` with `onDelete: 'set null'`.
@@ -288,7 +288,7 @@ erDiagram
 
 #### 6. `chunks` Table
 
-- **Schema File:** [`src/db/schema/chunks.schema.js`](file:///c:/Users/Aman/Desktop/apex-template/server/src/db/schema/chunks.schema.js)
+- **Schema File:** [`src/db/schema/chunks.schema.js`](../../server/src/db/schema/chunks.schema.js)
 - **Primary Key:** `id` (UUID).
 - **Foreign Keys:**
   - `file_id` references `files.id` with `onDelete: 'cascade'`.
@@ -302,7 +302,7 @@ erDiagram
 
 #### 7. `payments` Table
 
-- **Schema File:** [`src/db/schema/payments.schema.js`](file:///c:/Users/Aman/Desktop/apex-template/server/src/db/schema/payments.schema.js)
+- **Schema File:** [`src/db/schema/payments.schema.js`](../../server/src/db/schema/payments.schema.js)
 - **Primary Key:** `id` (UUID).
 - **Constraints:** `order_id` is unique and non-nullable.
 - **Indices:**
@@ -360,7 +360,7 @@ export const posts = pgTable(
 
 ### Step 2: Register the Schema in the Aggregator
 
-Open [`src/db/schema/schema.js`](file:///c:/Users/Aman/Desktop/apex-template/server/src/db/schema/schema.js) and import/export the newly created schema table:
+Open [`src/db/schema/schema.js`](../../server/src/db/schema/schema.js) and import/export the newly created schema table:
 
 ```javascript
 // File: src/db/schema/schema.js
@@ -447,7 +447,7 @@ export async function updatePost(id, updates) {
 
 ### Step 6: Update Seed Scripts
 
-If the table requires initial bootstrap data (e.g., lookup values or default items), edit the database seed file [`src/db/seed.js`](file:///c:/Users/Aman/Desktop/apex-template/server/src/db/seed.js):
+If the table requires initial bootstrap data (e.g., lookup values or default items), edit the database seed file [`src/db/seed.js`](../../server/src/db/seed.js):
 
 ```javascript
 // File: src/db/seed.js

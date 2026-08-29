@@ -785,6 +785,7 @@ export async function getMe(req, res, next) {
             success: true,
             user: {
                 id: user.id,
+                organizationId: user.organizationId,
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
@@ -792,13 +793,14 @@ export async function getMe(req, res, next) {
                 profileImage: user.profileImage,
                 isActive: user.isActive,
                 emailVerified: user.emailVerified,
+                mustChangePassword: user.mustChangePassword ?? false,
                 createdAt: user.createdAt,
                 updatedAt: user.updatedAt,
             },
-            //TODO: remove
             data: {
                 user: {
                     id: user.id,
+                    organizationId: user.organizationId,
                     firstName: user.firstName,
                     lastName: user.lastName,
                     email: user.email,
@@ -806,6 +808,7 @@ export async function getMe(req, res, next) {
                     profileImage: user.profileImage,
                     isActive: user.isActive,
                     emailVerified: user.emailVerified,
+                    mustChangePassword: user.mustChangePassword ?? false,
                     createdAt: user.createdAt,
                     updatedAt: user.updatedAt,
                 },
@@ -855,7 +858,7 @@ export async function changePassword(req, res, next) {
         }
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-        await updateUser(userId, { password: hashedPassword });
+        await updateUser(userId, { password: hashedPassword, mustChangePassword: false });
 
         // Invalidate Redis user cache
         const cacheKey = `user:${userId}`;
@@ -1059,6 +1062,94 @@ export async function verifyAccountRecovery(req, res, next) {
             statusCode: 200,
             success: true,
             message: 'Account recovered successfully! You can now login.',
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+/**
+ * Get all available roles in the system
+ */
+export async function getRoles(req, res, next) {
+    try {
+        const roles = [
+            {
+                role: 'admin',
+                name: 'Administrator',
+                description: 'Full administrative access to employees, payroll, configurations, and company settings.',
+            },
+            {
+                role: 'hr',
+                name: 'HR / Time-Off Officer',
+                description: 'Access to manage employees, attendance, leave approvals, and view profiles.',
+            },
+            {
+                role: 'employee',
+                name: 'Employee',
+                description: 'Access to personal profile, check-in/out, leave applications, and payslips.',
+            },
+        ];
+
+        return sendResponse({
+            res,
+            statusCode: 200,
+            message: 'Roles retrieved successfully',
+            success: true,
+            data: { roles },
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+/**
+ * Get role-based permissions matrix
+ */
+export async function getPermissions(req, res, next) {
+    try {
+        const permissions = {
+            admin: {
+                employees: ['create', 'read', 'update', 'delete', 'activate', 'deactivate', 'reset-password'],
+                profile: ['read-all', 'update-all', 'private-info', 'salary-info'],
+                attendance: ['check-in', 'check-out', 'read-all', 'adjust-all', 'correct-record'],
+                leave: ['view-all', 'approve', 'reject', 'configure-types', 'allocate'],
+                salary: ['view-all', 'configure-structures', 'manage-components'],
+                payroll: ['run-payroll', 'calculate', 'finalize', 'download-all-payslips', 'recalculate', 'lock'],
+                company: ['manage-settings', 'work-schedules', 'leave-policies', 'payroll-config'],
+                audit: ['view-all-logs', 'view-stats'],
+                notifications: ['broadcast', 'read-all'],
+            },
+            hr: {
+                employees: ['create', 'read', 'update', 'activate', 'deactivate', 'reset-password'],
+                profile: ['read-all', 'update-profile'],
+                attendance: ['check-in', 'check-out', 'read-all', 'adjust-all'],
+                leave: ['view-all', 'approve', 'reject', 'allocate'],
+                salary: ['view-structures'],
+                payroll: ['process-periods', 'view-payslips'],
+                company: ['view-settings', 'work-schedules'],
+                audit: ['view-all-logs'],
+                notifications: ['broadcast'],
+            },
+            employee: {
+                employees: ['read-directory'],
+                profile: ['read-self', 'update-self-limited', 'upload-avatar'],
+                attendance: ['check-in', 'check-out', 'read-self', 'request-adjustment'],
+                leave: ['read-self-balances', 'apply-leave', 'cancel-self-request'],
+                salary: ['read-self-payslips'],
+                payroll: ['view-self-payslip', 'download-self-payslip'],
+                company: ['view-basic'],
+                audit: [],
+                notifications: ['read-self'],
+            },
+        };
+
+        return sendResponse({
+            res,
+            statusCode: 200,
+            message: 'Permissions retrieved successfully',
+            success: true,
+            data: { permissions, currentRole: req.user?.role || 'anonymous' },
         });
     } catch (error) {
         next(error);

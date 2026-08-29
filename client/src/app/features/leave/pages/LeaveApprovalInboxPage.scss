@@ -1,0 +1,223 @@
+@use '@/styles/variables' as variables;
+
+.leave-approval-inbox-page {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-lg;
+    padding: variables.$spacing-lg;
+
+    .page-header-row {
+        .page-title {
+            font-size: variables.$font-size-xxl;
+            font-weight: 700;
+            color: variables.$color-text-primary;
+            margin: 0;
+        }
+
+        .page-subtitle {
+            font-size: variables.$font-size-sm;
+            color: variables.$color-text-secondary;
+            margin: 4px 0 0;
+        }
+    }
+
+    .status-tabs-bar {
+        display: flex;
+        gap: variables.$spacing-xs;
+        border-bottom: 1px solid variables.$color-border-strong;
+
+        .tab-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: variables.$spacing-sm variables.$spacing-md;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            font-size: variables.$font-size-sm;
+            font-weight: 500;
+            color: variables.$color-text-secondary;
+            cursor: pointer;
+
+            @include variables.transition-ease;
+
+            &:hover {
+                color: variables.$color-text-primary;
+            }
+
+            &.active {
+                color: variables.$color-primary;
+                border-bottom-color: variables.$color-primary;
+                font-weight: 600;
+            }
+
+            .badge-count {
+                background-color: variables.$color-primary;
+                color: variables.$color-white;
+                font-size: variables.$font-size-xxs;
+                font-weight: 700;
+                padding: 1px 6px;
+                border-radius: variables.$radius-full;
+            }
+        }
+    }
+
+    .search-filter-row {
+        max-width: 400px;
+    }
+
+    .queue-table-card {
+        background-color: variables.$color-bg-card;
+        border: 1px solid variables.$color-border-strong;
+        border-radius: variables.$radius-medium;
+        overflow: hidden;
+        box-shadow: variables.$shadow-sm;
+
+        .applicant-cell {
+            display: flex;
+            align-items: center;
+            gap: variables.$spacing-sm;
+
+            .applicant-avatar {
+                width: 34px;
+                height: 34px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            .applicant-info {
+                display: flex;
+                flex-direction: column;
+
+                .applicant-name {
+                    font-size: variables.$font-size-sm;
+                    font-weight: 600;
+                    color: variables.$color-text-primary;
+                }
+
+                .applicant-meta {
+                    font-size: variables.$font-size-xs;
+                    color: variables.$color-text-secondary;
+                }
+            }
+        }
+
+        .type-cell {
+            display: flex;
+            flex-direction: column;
+
+            .type-title {
+                font-size: variables.$font-size-sm;
+                font-weight: 600;
+                color: variables.$color-text-primary;
+            }
+
+            .balance-hint {
+                font-size: variables.$font-size-xs;
+                color: variables.$color-text-secondary;
+            }
+        }
+
+        .dates-cell {
+            display: flex;
+            flex-direction: column;
+
+            .dates-range {
+                font-size: variables.$font-size-sm;
+                color: variables.$color-text-primary;
+            }
+
+            .days-calc {
+                font-size: variables.$font-size-xs;
+                color: variables.$color-primary;
+            }
+        }
+
+        .reason-text {
+            font-size: variables.$font-size-sm;
+            color: variables.$color-text-primary;
+        }
+
+        .status-chip {
+            padding: 3px 8px;
+            border-radius: variables.$radius-full;
+            font-size: variables.$font-size-xs;
+            font-weight: 600;
+
+            &.chip-approved {
+                background-color: color-mix(in srgb, variables.$color-success 15%, transparent);
+                color: variables.$color-success;
+            }
+
+            &.chip-pending {
+                background-color: color-mix(in srgb, variables.$color-warning 15%, transparent);
+                color: variables.$color-warning;
+            }
+
+            &.chip-rejected {
+                background-color: color-mix(in srgb, variables.$color-danger 15%, transparent);
+                color: variables.$color-danger;
+            }
+
+            &.chip-cancelled {
+                background-color: color-mix(in srgb, variables.$color-gray-500 15%, transparent);
+                color: variables.$color-text-secondary;
+            }
+        }
+
+        .reviewed-tag {
+            font-size: variables.$font-size-xs;
+            color: variables.$color-text-secondary;
+        }
+
+        .decision-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            .decision-btn {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                padding: 4px 8px;
+                border-radius: variables.$radius-tiny;
+                font-size: variables.$font-size-xs;
+                font-weight: 600;
+                cursor: pointer;
+                border: 1px solid transparent;
+
+                @include variables.transition-ease;
+
+                &.approve {
+                    background-color: color-mix(in srgb, variables.$color-success 12%, transparent);
+                    color: variables.$color-success;
+                    border-color: color-mix(in srgb, variables.$color-success 30%, transparent);
+
+                    &:hover {
+                        background-color: variables.$color-success;
+                        color: variables.$color-white;
+                    }
+                }
+
+                &.reject {
+                    background-color: color-mix(in srgb, variables.$color-danger 12%, transparent);
+                    color: variables.$color-danger;
+                    border-color: color-mix(in srgb, variables.$color-danger 30%, transparent);
+
+                    &:hover {
+                        background-color: variables.$color-danger;
+                        color: variables.$color-white;
+                    }
+                }
+            }
+        }
+    }
+
+    .review-dialog-content {
+        display: flex;
+        flex-direction: column;
+        gap: variables.$spacing-md;
+        font-size: variables.$font-size-sm;
+        color: variables.$color-text-primary;
+    }
+}

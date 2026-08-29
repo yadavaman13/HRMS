@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
                         children: [
                             {
                                 index: true,
-                                element: <Navigate to="analytics" replace />,
+                                element: <Navigate to="home" replace />,
                             },
                             // Auto-discovered user feature routes
                             ...userRoutes,
@@ -45,14 +45,14 @@ export const router = createBrowserRouter([
                     {
                         path: 'admin',
                         element: (
-                            <ProtectedRoute allowedRoles={['admin']}>
+                            <ProtectedRoute allowedRoles={['admin', 'hr']}>
                                 <Outlet />
                             </ProtectedRoute>
                         ),
                         children: [
                             {
                                 index: true,
-                                element: <Navigate to="analytics" replace />,
+                                element: <Navigate to="home" replace />,
                             },
                             // Auto-discovered admin feature routes
                             ...adminRoutes,

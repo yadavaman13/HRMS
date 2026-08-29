@@ -1,0 +1,166 @@
+@use '@/styles/variables' as variables;
+
+.attendance-punch-widget {
+    background-color: variables.$color-bg-card;
+    border: 1px solid variables.$color-border-strong;
+    border-radius: variables.$radius-medium;
+    padding: variables.$spacing-lg;
+    box-shadow: variables.$shadow-sm;
+
+    @include variables.transition-ease;
+
+    &.is-active {
+        border-color: color-mix(in srgb, variables.$color-success 40%, transparent);
+        background: linear-gradient(
+            135deg,
+            variables.$color-bg-card 0%,
+            color-mix(in srgb, variables.$color-success 4%, variables.$color-bg-card) 100%
+        );
+    }
+
+    .widget-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: variables.$spacing-md;
+
+        .time-info {
+            display: flex;
+            flex-direction: column;
+            gap: variables.$spacing-xs;
+
+            .live-time {
+                display: flex;
+                align-items: center;
+                gap: variables.$spacing-xs;
+                font-size: variables.$font-size-lg;
+                font-weight: 600;
+                color: variables.$color-text-primary;
+                font-variant-numeric: tabular-nums;
+
+                .clock-icon {
+                    color: variables.$color-primary;
+                }
+            }
+
+            .live-date {
+                display: flex;
+                align-items: center;
+                gap: variables.$spacing-xs;
+                font-size: variables.$font-size-sm;
+                color: variables.$color-text-secondary;
+            }
+        }
+
+        .status-indicator-pill {
+            display: flex;
+            align-items: center;
+            gap: variables.$spacing-xs;
+            padding: 4px 10px;
+            border-radius: variables.$radius-full;
+            font-size: variables.$font-size-xs;
+            font-weight: 600;
+
+            .status-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+            }
+
+            &.status-online {
+                background-color: color-mix(in srgb, variables.$color-success 15%, transparent);
+                color: variables.$color-success;
+
+                .status-dot {
+                    background-color: variables.$color-success;
+                    box-shadow: 0 0 6px variables.$color-success;
+                    animation: pulse 2s infinite ease-in-out;
+                }
+            }
+
+            &.status-offline {
+                background-color: color-mix(in srgb, variables.$color-gray-500 15%, transparent);
+                color: variables.$color-text-secondary;
+
+                .status-dot {
+                    background-color: variables.$color-gray-400;
+                }
+            }
+        }
+    }
+
+    .widget-body {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: variables.$spacing-md;
+
+        @include variables.mobile {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .stopwatch-display {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+
+            .stopwatch-label {
+                font-size: variables.$font-size-sm;
+                color: variables.$color-text-secondary;
+            }
+
+            .stopwatch-digits {
+                font-family: monospace;
+                font-size: variables.$font-size-display-sm;
+                font-weight: 700;
+                color: variables.$color-text-primary;
+                letter-spacing: 1px;
+            }
+
+            .checkin-time-tag {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                font-size: variables.$font-size-xs;
+                color: variables.$color-success;
+                margin-top: 2px;
+            }
+        }
+
+        .punch-cta-container {
+            .punch-button {
+                display: flex;
+                align-items: center;
+                gap: variables.$spacing-xs;
+                padding: variables.$spacing-sm variables.$spacing-lg;
+                font-weight: 600;
+                border-radius: variables.$radius-small;
+
+                &.punch-out {
+                    background-color: color-mix(in srgb, variables.$color-danger 10%, transparent);
+                    color: variables.$color-danger;
+                    border: 1px solid color-mix(in srgb, variables.$color-danger 30%, transparent);
+
+                    &:hover:not(:disabled) {
+                        background-color: variables.$color-danger;
+                        color: variables.$color-white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(1.2);
+    }
+}

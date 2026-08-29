@@ -67,3 +67,79 @@ export async function getEmployeeDashboard(req, res, next) {
         next(error);
     }
 }
+
+export async function getAttendanceDashboard(req, res, next) {
+    try {
+        const fullDashboard = await dashboardService.getAdminDashboard(req.user.organizationId);
+        return sendResponse({
+            res,
+            statusCode: 200,
+            message: 'Attendance dashboard analytics retrieved',
+            success: true,
+            data: {
+                todayAttendance: fullDashboard.todayAttendance,
+                past7DaysAttendance: fullDashboard.past7DaysAttendance,
+                pendingAdjustments: fullDashboard.pendingAdjustments,
+                upcomingHolidays: fullDashboard.upcomingHolidays,
+            },
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export async function getLeaveDashboard(req, res, next) {
+    try {
+        const fullDashboard = await dashboardService.getAdminDashboard(req.user.organizationId);
+        return sendResponse({
+            res,
+            statusCode: 200,
+            message: 'Leave dashboard analytics retrieved',
+            success: true,
+            data: {
+                pendingLeaves: fullDashboard.pendingQueues?.recentPendingLeaves || [],
+                pendingLeavesCount: fullDashboard.pendingQueues?.leavesCount || 0,
+                leaveDistribution: fullDashboard.leaveDistribution,
+                upcomingHolidays: fullDashboard.upcomingHolidays,
+            },
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export async function getEmployeesDashboard(req, res, next) {
+    try {
+        const fullDashboard = await dashboardService.getAdminDashboard(req.user.organizationId);
+        return sendResponse({
+            res,
+            statusCode: 200,
+            message: 'Employees workforce dashboard analytics retrieved',
+            success: true,
+            data: {
+                headcount: fullDashboard.headcount,
+                departmentBreakdown: fullDashboard.departmentBreakdown,
+                employmentTypeBreakdown: fullDashboard.employmentTypeBreakdown,
+            },
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export async function getPayrollDashboard(req, res, next) {
+    try {
+        const fullDashboard = await dashboardService.getAdminDashboard(req.user.organizationId);
+        return sendResponse({
+            res,
+            statusCode: 200,
+            message: 'Payroll overview dashboard retrieved',
+            success: true,
+            data: {
+                payrollMetrics: fullDashboard.payrollMetrics,
+            },
+        });
+    } catch (error) {
+        next(error);
+    }
+}

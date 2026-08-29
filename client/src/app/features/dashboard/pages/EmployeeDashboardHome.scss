@@ -1,0 +1,368 @@
+@use '@/styles/variables' as variables;
+
+.employee-dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$spacing-xl;
+    padding: variables.$spacing-lg;
+
+    .welcome-banner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: variables.$spacing-md;
+        background: linear-gradient(
+            135deg,
+            variables.$color-bg-card 0%,
+            color-mix(in srgb, variables.$color-primary 6%, variables.$color-bg-card) 100%
+        );
+        border: 1px solid variables.$color-border-strong;
+        border-radius: variables.$radius-medium;
+        padding: variables.$spacing-lg variables.$spacing-xl;
+
+        .banner-text {
+            .greeting-title {
+                font-size: variables.$font-size-xxl;
+                font-weight: 700;
+                color: variables.$color-text-primary;
+                margin: 0;
+            }
+
+            .profile-meta-chips {
+                display: flex;
+                flex-wrap: wrap;
+                gap: variables.$spacing-xs;
+                margin-top: variables.$spacing-xs;
+
+                .meta-chip {
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                    padding: 3px 8px;
+                    border-radius: variables.$radius-small;
+                    background-color: color-mix(
+                        in srgb,
+                        variables.$color-gray-500 10%,
+                        transparent
+                    );
+                    color: variables.$color-text-secondary;
+                    font-size: variables.$font-size-xs;
+                    font-weight: 500;
+
+                    &.code-chip {
+                        font-weight: 600;
+                        background-color: color-mix(
+                            in srgb,
+                            variables.$color-primary 12%,
+                            transparent
+                        );
+                        color: variables.$color-primary;
+                    }
+                }
+            }
+        }
+    }
+
+    .top-dashboard-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: variables.$spacing-lg;
+
+        @include variables.tablet {
+            grid-template-columns: 1fr;
+        }
+
+        .kpi-mini-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: variables.$spacing-md;
+            height: 100%;
+
+            @include variables.mobile {
+                grid-template-columns: 1fr;
+            }
+        }
+    }
+
+    .leave-balances-card {
+        background-color: variables.$color-bg-card;
+        border: 1px solid variables.$color-border-strong;
+        border-radius: variables.$radius-medium;
+        padding: variables.$spacing-lg;
+        box-shadow: variables.$shadow-sm;
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: variables.$spacing-md;
+
+            .title-group {
+                display: flex;
+                align-items: center;
+                gap: variables.$spacing-xs;
+
+                .header-icon {
+                    color: variables.$color-primary;
+                }
+
+                h2 {
+                    font-size: variables.$font-size-md;
+                    font-weight: 600;
+                    color: variables.$color-text-primary;
+                    margin: 0;
+                }
+            }
+        }
+
+        .leave-balance-pills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: variables.$spacing-md;
+
+            .balance-pill-card {
+                background-color: variables.$color-bg-app;
+                border: 1px solid variables.$color-border-subtle;
+                border-radius: variables.$radius-small;
+                padding: variables.$spacing-md;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+
+                @include variables.transition-ease;
+
+                &:hover {
+                    border-color: variables.$color-primary;
+                    transform: translateY(-1px);
+                }
+
+                .balance-name {
+                    font-size: variables.$font-size-sm;
+                    font-weight: 600;
+                    color: variables.$color-text-secondary;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+
+                .balance-days {
+                    display: flex;
+                    align-items: baseline;
+                    gap: 4px;
+
+                    .available-count {
+                        font-size: variables.$font-size-xxl;
+                        font-weight: 700;
+                        color: variables.$color-text-primary;
+                    }
+
+                    .total-entitled {
+                        font-size: variables.$font-size-xs;
+                        color: variables.$color-text-secondary;
+                    }
+                }
+
+                .balance-usage-meta {
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: variables.$font-size-xs;
+                    color: variables.$color-text-secondary;
+                    margin-top: 4px;
+
+                    .pending-tag {
+                        color: variables.$color-warning;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+    }
+
+    .bottom-dashboard-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: variables.$spacing-lg;
+
+        @include variables.tablet {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-card {
+            background-color: variables.$color-bg-card;
+            border: 1px solid variables.$color-border-strong;
+            border-radius: variables.$radius-medium;
+            padding: variables.$spacing-lg;
+            box-shadow: variables.$shadow-sm;
+
+            .card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: variables.$spacing-md;
+
+                .title-group {
+                    display: flex;
+                    align-items: center;
+                    gap: variables.$spacing-xs;
+
+                    .header-icon {
+                        color: variables.$color-primary;
+                    }
+
+                    h2 {
+                        font-size: variables.$font-size-md;
+                        font-weight: 600;
+                        color: variables.$color-text-primary;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    .payslip-card {
+        .payslip-preview-content {
+            display: flex;
+            flex-direction: column;
+            gap: variables.$spacing-md;
+
+            .payslip-period-info {
+                display: flex;
+                align-items: center;
+                gap: variables.$spacing-sm;
+
+                .file-icon {
+                    color: variables.$color-primary;
+                }
+
+                .period-dates {
+                    display: flex;
+                    flex-direction: column;
+
+                    .period-title {
+                        font-size: variables.$font-size-sm;
+                        font-weight: 600;
+                        color: variables.$color-text-primary;
+                    }
+
+                    .period-range {
+                        font-size: variables.$font-size-xs;
+                        color: variables.$color-text-secondary;
+                    }
+                }
+            }
+
+            .payslip-amounts {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: variables.$spacing-md;
+                background-color: variables.$color-bg-app;
+                padding: variables.$spacing-md;
+                border-radius: variables.$radius-small;
+
+                .amount-col {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2px;
+
+                    .amount-label {
+                        font-size: variables.$font-size-xs;
+                        color: variables.$color-text-secondary;
+                    }
+
+                    .amount-val {
+                        font-size: variables.$font-size-lg;
+                        font-weight: 700;
+                        color: variables.$color-text-primary;
+
+                        &.net-highlight {
+                            color: variables.$color-success;
+                        }
+                    }
+                }
+            }
+
+            .view-payslip-cta {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .empty-state-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: variables.$spacing-xl 0;
+            gap: variables.$spacing-xs;
+            color: variables.$color-text-secondary;
+
+            .empty-icon {
+                color: variables.$color-gray-400;
+            }
+        }
+    }
+
+    .holidays-card {
+        .holidays-list {
+            display: flex;
+            flex-direction: column;
+            gap: variables.$spacing-sm;
+
+            .holiday-item {
+                display: flex;
+                align-items: center;
+                gap: variables.$spacing-md;
+                padding: variables.$spacing-sm variables.$spacing-md;
+                background-color: variables.$color-bg-app;
+                border-radius: variables.$radius-small;
+
+                .holiday-date-badge {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    width: 42px;
+                    height: 42px;
+                    background-color: color-mix(in srgb, variables.$color-primary 10%, transparent);
+                    color: variables.$color-primary;
+                    border-radius: variables.$radius-small;
+
+                    .holiday-day {
+                        font-size: variables.$font-size-md;
+                        font-weight: 700;
+                        line-height: 1;
+                    }
+
+                    .holiday-month {
+                        font-size: variables.$font-size-xxs;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                    }
+                }
+
+                .holiday-details {
+                    display: flex;
+                    flex-direction: column;
+
+                    .holiday-name {
+                        font-size: variables.$font-size-sm;
+                        font-weight: 600;
+                        color: variables.$color-text-primary;
+                    }
+
+                    .holiday-weekday {
+                        font-size: variables.$font-size-xs;
+                        color: variables.$color-text-secondary;
+                    }
+                }
+            }
+        }
+    }
+
+    .empty-text {
+        color: variables.$color-text-secondary;
+        font-size: variables.$font-size-sm;
+        margin: 0;
+    }
+}
