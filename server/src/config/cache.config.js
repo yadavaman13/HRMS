@@ -1,29 +1,28 @@
 import Redis from 'ioredis';
 import envConfig from './env.config.js';
 
+const isTest = process.env.NODE_ENV === 'test';
+
 const redis = new Redis({
     host: envConfig.REDIS_HOST,
     port: Number(envConfig.REDIS_PORT),
     password: envConfig.REDIS_PASSWORD,
 
-    connectTimeout: 10000, //ms
+    connectTimeout: isTest ? 1000 : 10000,
+    lazyConnect: isTest,
 
     retryStrategy(times) {
-        if (times > 10) {
-            console.error('Redis retry attempts exhausted');
+        if (isTest || times > 10) {
             return null;
         }
 
         const delay = Math.min(times * 200, 2000);
-
         console.log(`Retrying Redis connection in ${delay}ms...`);
-
         return delay;
     },
 
-    maxRetriesPerRequest: 3,
-
-    enableReadyCheck: true,
+    maxRetriesPerRequest: isTest ? 0 : 3,
+    enableReadyCheck: !isTest,
 });
 
 redis.on('connect', () => {
