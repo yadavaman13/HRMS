@@ -42,7 +42,7 @@ export async function calculateAttendanceSummary(
     const endDate = new Date(endDateStr);
 
     // 3. Fetch all attendance records for employee in range
-    const attendanceRecordsList = await attendanceDao.getAttendanceRecords(
+    const attendanceResult = await attendanceDao.getAttendanceRecords(
         {
             employeeId,
             startDate: startDateStr,
@@ -51,6 +51,10 @@ export async function calculateAttendanceSummary(
         },
         client,
     );
+
+    const attendanceRecordsList = Array.isArray(attendanceResult)
+        ? attendanceResult
+        : attendanceResult?.records || [];
 
     const attendanceMap = new Map();
     for (const record of attendanceRecordsList) {

@@ -244,22 +244,6 @@ export async function issueOtp({
         console.log(`==================================================\n`);
     }
 
-    try {
-        const debugPath = path.resolve(process.cwd(), 'otp-debug.txt');
-        fs.appendFileSync(
-            debugPath,
-            `[${new Date().toISOString()}] Email: ${normalizedEmail} | Purpose: ${purpose} | OTP: ${otp}\n`,
-        );
-        const sharedPathFile = path.resolve(process.cwd(), 'shared-log-path.txt');
-        if (fs.existsSync(sharedPathFile)) {
-            const sharedPath = fs.readFileSync(sharedPathFile, 'utf8').trim();
-            if (sharedPath) {
-                fs.writeFileSync(sharedPath, `${otp}`);
-            }
-        }
-    } catch (err) {
-        console.error('Failed to write otp debug logs:', err.message);
-    }
 
     if (subject && buildHtml && sendEmailFn) {
         const html = buildHtml(otp);
@@ -419,22 +403,6 @@ export async function resendOtp({
         console.log(`==================================================\n`);
     }
 
-    try {
-        const debugPath = path.resolve(process.cwd(), 'otp-debug.txt');
-        fs.appendFileSync(
-            debugPath,
-            `[${new Date().toISOString()}] Email: ${normalizedEmail} | Purpose: ${purpose} | OTP: ${otp} (RESEND)\n`,
-        );
-        const sharedPathFile = path.resolve(process.cwd(), 'shared-log-path.txt');
-        if (fs.existsSync(sharedPathFile)) {
-            const sharedPath = fs.readFileSync(sharedPathFile, 'utf8').trim();
-            if (sharedPath) {
-                fs.writeFileSync(sharedPath, `${otp}`);
-            }
-        }
-    } catch (err) {
-        console.error('Failed to write otp debug logs:', err.message);
-    }
 
     if (subject && buildHtml && sendEmailFn) {
         const html = buildHtml(otp);

@@ -39,6 +39,7 @@ app.use('/api/admin', adminRouter);
 app.use('/api/dashboard', dashboardRouter);
 app.use('/api/employees', employeeRouter);
 app.use('/api/companies', companyRouter);
+app.use('/api/company', companyRouter); // REST alias
 app.use('/api/audit-logs', auditRouter);
 app.use('/api/notifications', notificationRouter);
 app.use('/api/settings', settingsRouter);

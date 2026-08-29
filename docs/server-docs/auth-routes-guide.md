@@ -213,6 +213,7 @@ export const customActionValidator = [
 ### B. Registering and Mounting New Routing Files
 
 1. Create a route file (e.g., `src/modules/auth/routes/session.routes.js`):
+
    ```js
    import { Router } from "express";
    import { protect } from "../middleware/auth.middleware.js";
@@ -232,6 +233,7 @@ export const customActionValidator = [
 
    export default sessionRouter;
    ```
+
 2. Mount the router in the module index (`src/modules/auth/index.js`):
    ```js
    import sessionRouter from "./routes/session.routes.js";
