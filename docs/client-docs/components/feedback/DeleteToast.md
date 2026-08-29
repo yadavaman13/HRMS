@@ -29,14 +29,14 @@ import DeleteToast from '@/components/Shared/Feedback/DeleteToast/DeleteToast';
 import DeleteToast from '@/components/Shared/Feedback/DeleteToast/DeleteToast';
 
 export default function DeleteAction({ isDeleted, handleUndoDelete, handleCloseToast }) {
-    if (!isDeleted) return null;
+  if (!isDeleted) return null;
 
-    return (
-        <DeleteToast
-            message="Lead deleted successfully"
-            onUndo={handleUndoDelete}
-            onDismiss={handleCloseToast}
-        />
-    );
+  return (
+    <DeleteToast
+      message="Lead deleted successfully"
+      onUndo={handleUndoDelete}
+      onDismiss={handleCloseToast}
+    />
+  );
 }
 ```

@@ -4,13 +4,13 @@
 
 ## 📋 Endpoints Overview
 
-| Method | Endpoint | Scenario | Status |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/companies/my` | Get Company Details (Success) | `200` |
-| `POST` | `/api/companies/60e50682-c7d3-45ff-9fca-34951308c63a/departments` | Create Company Department (Admin) | `201` |
-| `GET` | `/api/companies/60e50682-c7d3-45ff-9fca-34951308c63a/departments` | List Company Departments (Success) | `200` |
-| `POST` | `/api/companies/60e50682-c7d3-45ff-9fca-34951308c63a/job-positions` | Create Job Position (Admin) | `201` |
-| `POST` | `/api/companies/60e50682-c7d3-45ff-9fca-34951308c63a/holidays` | Create Company Holiday (Admin) | `201` |
+| Method | Endpoint                                                            | Scenario                           | Status |
+| :----- | :------------------------------------------------------------------ | :--------------------------------- | :----- |
+| `GET`  | `/api/companies/my`                                                 | Get Company Details (Success)      | `200`  |
+| `POST` | `/api/companies/60e50682-c7d3-45ff-9fca-34951308c63a/departments`   | Create Company Department (Admin)  | `201`  |
+| `GET`  | `/api/companies/60e50682-c7d3-45ff-9fca-34951308c63a/departments`   | List Company Departments (Success) | `200`  |
+| `POST` | `/api/companies/60e50682-c7d3-45ff-9fca-34951308c63a/job-positions` | Create Job Position (Admin)        | `201`  |
+| `POST` | `/api/companies/60e50682-c7d3-45ff-9fca-34951308c63a/holidays`      | Create Company Holiday (Admin)     | `201`  |
 
 ---
 
@@ -21,12 +21,15 @@
 - **Endpoint**: `GET /api/companies/my`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Company details retrieved successfully",
@@ -64,19 +67,24 @@
 - **Endpoint**: `POST /api/companies/60e50682-c7d3-45ff-9fca-34951308c63a/departments`
 - **Expected Status**: `201`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Request Body**:
+
 ```json
 {
   "name": "Engineering 1787998111214",
   "code": "ENG_1787998111214"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Department created successfully",
@@ -106,12 +114,15 @@
 - **Endpoint**: `GET /api/companies/60e50682-c7d3-45ff-9fca-34951308c63a/departments`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Departments retrieved successfully",
@@ -177,19 +188,24 @@
 - **Endpoint**: `POST /api/companies/60e50682-c7d3-45ff-9fca-34951308c63a/job-positions`
 - **Expected Status**: `201`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Request Body**:
+
 ```json
 {
   "name": "Senior Fullstack Developer 1787998113762",
   "code": "DEV_1787998113762"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Job position created successfully",
@@ -218,12 +234,15 @@
 - **Endpoint**: `POST /api/companies/60e50682-c7d3-45ff-9fca-34951308c63a/holidays`
 - **Expected Status**: `201`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Request Body**:
+
 ```json
 {
   "name": "Company Foundation Day 1787998115103",
@@ -231,7 +250,9 @@
   "isRecurring": false
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Holiday created successfully",
@@ -254,4 +275,3 @@
 > **Note**: Registers official company holiday in attendance & payroll calendars.
 
 ---
-

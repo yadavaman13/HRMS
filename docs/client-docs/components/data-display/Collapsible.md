@@ -30,19 +30,19 @@ import Collapsible from '@/components/Shared/DataDisplay/Collapsible/Collapsible
 import Button from '@/components/Shared/Buttons/Button/Button';
 
 export default function AdvancedFilterToggle() {
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-    return (
-        <div>
-            <Button variant="secondary" onClick={() => setOpen(!open)}>
-                {open ? 'Hide Advanced Filters' : 'Show Advanced Filters'}
-            </Button>
-            <Collapsible isOpen={open}>
-                <div style={{ marginTop: '12px' }}>
-                    <p>Additional search parameters go here...</p>
-                </div>
-            </Collapsible>
+  return (
+    <div>
+      <Button variant="secondary" onClick={() => setOpen(!open)}>
+        {open ? 'Hide Advanced Filters' : 'Show Advanced Filters'}
+      </Button>
+      <Collapsible isOpen={open}>
+        <div style={{ marginTop: '12px' }}>
+          <p>Additional search parameters go here...</p>
         </div>
-    );
+      </Collapsible>
+    </div>
+  );
 }
 ```

@@ -30,10 +30,10 @@ import DeleteButton from '@/components/Shared/Buttons/DeleteButton/DeleteButton'
 import DeleteButton from '@/components/Shared/Buttons/DeleteButton/DeleteButton';
 
 export default function LeadRowActions({ leadId, onDeleteLead }) {
-    return (
-        <DeleteButton size="sm" onClick={() => onDeleteLead(leadId)}>
-            Remove
-        </DeleteButton>
-    );
+  return (
+    <DeleteButton size="sm" onClick={() => onDeleteLead(leadId)}>
+      Remove
+    </DeleteButton>
+  );
 }
 ```

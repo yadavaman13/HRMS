@@ -28,9 +28,12 @@ async function fixSchema() {
         `);
 
         if (orgId) {
-            await pool.query(`
+            await pool.query(
+                `
                 UPDATE users SET organization_id = $1 WHERE organization_id IS NULL;
-            `, [orgId]);
+            `,
+                [orgId],
+            );
             await pool.query(`
                 ALTER TABLE users ALTER COLUMN organization_id SET NOT NULL;
             `);

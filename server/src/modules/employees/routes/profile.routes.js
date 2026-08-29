@@ -25,6 +25,10 @@ router.delete('/me/avatar', profileMediaController.deleteAvatar);
 
 // ── Private Info ─────────────────────────────────────────────────────────
 router.get('/me/private-info', privateInfoController.getMyPrivateInfo);
-router.patch('/me/private-info', updatePrivateInfoValidator, privateInfoController.updateMyPrivateInfo);
+router.patch(
+    '/me/private-info',
+    updatePrivateInfoValidator,
+    privateInfoController.updateMyPrivateInfo,
+);
 
 export default router;

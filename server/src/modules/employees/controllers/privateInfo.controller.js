@@ -43,7 +43,12 @@ export async function updateMyPrivateInfo(req, res, next) {
                 success: false,
             });
         }
-        const data = await employeeService.updatePrivateInfo(employee.id, req.user.role, req.body, true);
+        const data = await employeeService.updatePrivateInfo(
+            employee.id,
+            req.user.role,
+            req.body,
+            true,
+        );
         return sendResponse({
             res,
             statusCode: 200,
@@ -81,7 +86,12 @@ export async function getPrivateInfo(req, res, next) {
 export async function updatePrivateInfo(req, res, next) {
     try {
         const employeeId = req.params.employeeId || req.params.id;
-        const data = await employeeService.updatePrivateInfo(employeeId, req.user.role, req.body, false);
+        const data = await employeeService.updatePrivateInfo(
+            employeeId,
+            req.user.role,
+            req.body,
+            false,
+        );
         return sendResponse({
             res,
             statusCode: 200,
@@ -100,7 +110,12 @@ export async function updatePrivateInfo(req, res, next) {
 export async function updateBankAccount(req, res, next) {
     try {
         const employeeId = req.params.employeeId || req.params.id;
-        const data = await employeeService.updateBankAccount(employeeId, req.user.role, req.body, false);
+        const data = await employeeService.updateBankAccount(
+            employeeId,
+            req.user.role,
+            req.body,
+            false,
+        );
         return sendResponse({
             res,
             statusCode: 200,
@@ -119,7 +134,12 @@ export async function updateBankAccount(req, res, next) {
 export async function updateIdentifiers(req, res, next) {
     try {
         const employeeId = req.params.employeeId || req.params.id;
-        const data = await employeeService.updateIdentifiers(employeeId, req.user.role, req.body, false);
+        const data = await employeeService.updateIdentifiers(
+            employeeId,
+            req.user.role,
+            req.body,
+            false,
+        );
         return sendResponse({
             res,
             statusCode: 200,

@@ -4,13 +4,13 @@
 
 ## 📋 Endpoints Overview
 
-| Method | Endpoint | Scenario | Status |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/payroll/components` | List Salary Component Definitions (Admin) | `200` |
-| `POST` | `/api/payroll/components` | Create Salary Component (Admin) | `201` |
-| `POST` | `/api/employees/c31818a1-7b3a-482d-b4a4-b8e09bcbf74b/salary` | Set Employee Salary Structure (Admin) | `201` |
-| `GET` | `/api/employees/c31818a1-7b3a-482d-b4a4-b8e09bcbf74b/salary` | Get Employee Salary Structure (Admin) | `200` |
-| `POST` | `/api/employees/c31818a1-7b3a-482d-b4a4-b8e09bcbf74b/salary` | Modify Salary (Forbidden for Regular Employee) | `403` |
+| Method | Endpoint                                                     | Scenario                                       | Status |
+| :----- | :----------------------------------------------------------- | :--------------------------------------------- | :----- |
+| `GET`  | `/api/payroll/components`                                    | List Salary Component Definitions (Admin)      | `200`  |
+| `POST` | `/api/payroll/components`                                    | Create Salary Component (Admin)                | `201`  |
+| `POST` | `/api/employees/c31818a1-7b3a-482d-b4a4-b8e09bcbf74b/salary` | Set Employee Salary Structure (Admin)          | `201`  |
+| `GET`  | `/api/employees/c31818a1-7b3a-482d-b4a4-b8e09bcbf74b/salary` | Get Employee Salary Structure (Admin)          | `200`  |
+| `POST` | `/api/employees/c31818a1-7b3a-482d-b4a4-b8e09bcbf74b/salary` | Modify Salary (Forbidden for Regular Employee) | `403`  |
 
 ---
 
@@ -21,12 +21,15 @@
 - **Endpoint**: `GET /api/payroll/components`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Component definitions retrieved successfully",
@@ -84,12 +87,15 @@
 - **Endpoint**: `POST /api/payroll/components`
 - **Expected Status**: `201`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Request Body**:
+
 ```json
 {
   "code": "BONUS_1787998043208",
@@ -98,7 +104,9 @@
   "calculationType": "percentage_of_wage"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Component definition created successfully",
@@ -130,12 +138,15 @@
 - **Endpoint**: `POST /api/employees/c31818a1-7b3a-482d-b4a4-b8e09bcbf74b/salary`
 - **Expected Status**: `201`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Request Body**:
+
 ```json
 {
   "monthlyWage": 60000,
@@ -151,7 +162,9 @@
   ]
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Salary structure updated successfully",
@@ -199,12 +212,15 @@
 - **Endpoint**: `GET /api/employees/c31818a1-7b3a-482d-b4a4-b8e09bcbf74b/salary`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Salary structure retrieved successfully",
@@ -252,12 +268,15 @@
 - **Endpoint**: `POST /api/employees/c31818a1-7b3a-482d-b4a4-b8e09bcbf74b/salary`
 - **Expected Status**: `403`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "You do not have permission to perform this action.",
@@ -269,4 +288,3 @@
 > **Note**: Enforces security preventing employees from modifying compensation data.
 
 ---
-

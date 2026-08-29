@@ -10,7 +10,7 @@ import {
     date,
     timestamp,
     index,
-    uniqueIndex
+    uniqueIndex,
 } from 'drizzle-orm/pg-core';
 import { bytea } from './custom_types.js';
 import {

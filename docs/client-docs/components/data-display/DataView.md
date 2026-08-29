@@ -35,24 +35,24 @@ import DataView from '@/components/Shared/DataDisplay/DataView/DataView';
 import DataView from '@/components/Shared/DataDisplay/DataView/DataView';
 
 export default function CRMContactsView({ contacts, loading }) {
-    const columns = [
-        { key: 'name', label: 'Contact Name' },
-        { key: 'company', label: 'Company' },
-        { key: 'email', label: 'Email' },
-        { key: 'status', label: 'Status' },
-    ];
+  const columns = [
+    { key: 'name', label: 'Contact Name' },
+    { key: 'company', label: 'Company' },
+    { key: 'email', label: 'Email' },
+    { key: 'status', label: 'Status' },
+  ];
 
-    return (
-        <DataView
-            data={contacts}
-            columns={columns}
-            defaultView="grid"
-            cardTitleKey="name"
-            cardSubtitleKey="company"
-            cardStatusKey="status"
-            cardBodyKeys={['email']}
-            loading={loading}
-        />
-    );
+  return (
+    <DataView
+      data={contacts}
+      columns={columns}
+      defaultView="grid"
+      cardTitleKey="name"
+      cardSubtitleKey="company"
+      cardStatusKey="status"
+      cardBodyKeys={['email']}
+      loading={loading}
+    />
+  );
 }
 ```

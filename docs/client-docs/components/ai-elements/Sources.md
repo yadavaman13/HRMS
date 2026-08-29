@@ -27,8 +27,8 @@ import { Sources, SourceItem } from '@/components/ai-elements/sources/sources';
 import { Sources } from '@/components/ai-elements/sources/sources';
 
 export default function CitedSources({ citedDocuments }) {
-    if (!citedDocuments || citedDocuments.length === 0) return null;
+  if (!citedDocuments || citedDocuments.length === 0) return null;
 
-    return <Sources sources={citedDocuments} />;
+  return <Sources sources={citedDocuments} />;
 }
 ```

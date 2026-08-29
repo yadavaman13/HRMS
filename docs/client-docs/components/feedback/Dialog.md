@@ -34,27 +34,27 @@ import Button from '@/components/Shared/Buttons/Button/Button';
 import CancelButton from '@/components/Shared/Buttons/CancelButton/CancelButton';
 
 export default function EditUserModal({ user, onSave }) {
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-    return (
-        <>
-            <Button onClick={() => setIsOpen(true)}>Edit User</Button>
-            <Dialog
-                isOpen={isOpen}
-                onClose={() => setIsOpen(false)}
-                title="Edit User Profile"
-                footer={
-                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-                        <CancelButton onClick={() => setIsOpen(false)} />
-                        <Button variant="primary" onClick={onSave}>
-                            Save Changes
-                        </Button>
-                    </div>
-                }
-            >
-                <p>Editing profile details for {user?.name}</p>
-            </Dialog>
-        </>
-    );
+  return (
+    <>
+      <Button onClick={() => setIsOpen(true)}>Edit User</Button>
+      <Dialog
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        title="Edit User Profile"
+        footer={
+          <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+            <CancelButton onClick={() => setIsOpen(false)} />
+            <Button variant="primary" onClick={onSave}>
+              Save Changes
+            </Button>
+          </div>
+        }
+      >
+        <p>Editing profile details for {user?.name}</p>
+      </Dialog>
+    </>
+  );
 }
 ```

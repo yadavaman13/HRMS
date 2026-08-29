@@ -29,10 +29,10 @@ import NextButton from '@/components/Shared/Buttons/NextButton/NextButton';
 import NextButton from '@/components/Shared/Buttons/NextButton/NextButton';
 
 export default function WizardFooter({ currentStep, totalSteps, onNext }) {
-    return (
-        <NextButton disabled={currentStep === totalSteps} onClick={onNext}>
-            Continue
-        </NextButton>
-    );
+  return (
+    <NextButton disabled={currentStep === totalSteps} onClick={onNext}>
+      Continue
+    </NextButton>
+  );
 }
 ```

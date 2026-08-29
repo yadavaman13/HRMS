@@ -28,6 +28,6 @@ import ActivitiesFeedCard from '@/components/Shared/DataDisplay/ActivitiesFeed/A
 import ActivitiesFeedCard from '@/components/Shared/DataDisplay/ActivitiesFeed/ActivitiesFeedCard';
 
 export default function RecentTeamFeed({ activities }) {
-    return <ActivitiesFeedCard title="Team Activity Log" activities={activities} />;
+  return <ActivitiesFeedCard title="Team Activity Log" activities={activities} />;
 }
 ```

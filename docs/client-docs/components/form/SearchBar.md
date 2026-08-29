@@ -31,25 +31,25 @@ import { useState } from 'react';
 import SearchBar from '@/components/Shared/Form/SearchBar/SearchBar';
 
 export default function TableSearchBar({ onSearch }) {
-    const [query, setQuery] = useState('');
+  const [query, setQuery] = useState('');
 
-    const handleChange = (e) => {
-        setQuery(e.target.value);
-        onSearch(e.target.value);
-    };
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+    onSearch(e.target.value);
+  };
 
-    const handleClear = () => {
-        setQuery('');
-        onSearch('');
-    };
+  const handleClear = () => {
+    setQuery('');
+    onSearch('');
+  };
 
-    return (
-        <SearchBar
-            value={query}
-            onChange={handleChange}
-            onClear={handleClear}
-            placeholder="Search records by name, email, or ID..."
-        />
-    );
+  return (
+    <SearchBar
+      value={query}
+      onChange={handleChange}
+      onClear={handleClear}
+      placeholder="Search records by name, email, or ID..."
+    />
+  );
 }
 ```

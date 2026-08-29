@@ -36,24 +36,24 @@ import { useState } from 'react';
 import ToggleButton from '@/components/Shared/Buttons/ToggleButton/ToggleButton';
 
 export default function NotificationSettings() {
-    const [emailEnabled, setEmailEnabled] = useState(true);
-    const [smsEnabled, setSmsEnabled] = useState(false);
+  const [emailEnabled, setEmailEnabled] = useState(true);
+  const [smsEnabled, setSmsEnabled] = useState(false);
 
-    return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <ToggleButton
-                label="Email Notifications"
-                checked={emailEnabled}
-                onChange={setEmailEnabled}
-                variant="primary"
-            />
-            <ToggleButton
-                label="SMS Alerts"
-                checked={smsEnabled}
-                onChange={setSmsEnabled}
-                variant="success"
-            />
-        </div>
-    );
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <ToggleButton
+        label="Email Notifications"
+        checked={emailEnabled}
+        onChange={setEmailEnabled}
+        variant="primary"
+      />
+      <ToggleButton
+        label="SMS Alerts"
+        checked={smsEnabled}
+        onChange={setSmsEnabled}
+        variant="success"
+      />
+    </div>
+  );
 }
 ```

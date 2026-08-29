@@ -4,7 +4,9 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "start": "node server.js",
         "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+        "test:ci": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.config.ci.js",
         "test:api:docs": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.config.js --runInBand && node scripts/generate-postman.js",
         "generate:postman": "node scripts/generate-postman.js",
         "test:native": "node --test src/tests/**/*.test.js",

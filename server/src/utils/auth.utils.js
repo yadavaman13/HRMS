@@ -21,11 +21,12 @@ export function splitFullName(name) {
  * @returns {string} Cleaned uppercase code prefix
  */
 export function getBaseCompanyCode(companyName) {
-    if (typeof companyName !== 'string') return 'ORG';
+    if (typeof companyName !== 'string' || !companyName.trim()) return 'ORG';
     let baseCode = companyName
         .replace(/[^a-zA-Z0-9]/g, '')
         .toUpperCase()
         .slice(0, 5);
+    if (baseCode.length === 0) return 'ORG';
     if (baseCode.length < 3) {
         baseCode = baseCode.padEnd(3, 'X');
     }

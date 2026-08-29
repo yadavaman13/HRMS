@@ -28,6 +28,6 @@ import Logo from '@/components/Shared/DataDisplay/Logo/Logo';
 import Logo from '@/components/Shared/DataDisplay/Logo/Logo';
 
 export default function AppHeader() {
-    return <Logo variant="full" size="md" />;
+  return <Logo variant="full" size="md" />;
 }
 ```

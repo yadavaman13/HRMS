@@ -46,18 +46,27 @@ export async function updateMyProfile(req, res, next) {
 
         // Enforce administrative fields check: if not admin/hr, reject if any of these are present
         const restrictedFields = [
-            'employeeCode', 'departmentId', 'jobPositionId', 'managerId', 
-            'locationId', 'joiningDate', 'employmentStatus', 'employmentType', 
-            'organizationId', 'salary', 'monthlyWage'
+            'employeeCode',
+            'departmentId',
+            'jobPositionId',
+            'managerId',
+            'locationId',
+            'joiningDate',
+            'employmentStatus',
+            'employmentType',
+            'organizationId',
+            'salary',
+            'monthlyWage',
         ];
         const requestedKeys = Object.keys(req.body);
-        const hasRestricted = requestedKeys.some(key => restrictedFields.includes(key));
-        
+        const hasRestricted = requestedKeys.some((key) => restrictedFields.includes(key));
+
         if (hasRestricted && req.user.role !== 'admin' && req.user.role !== 'hr') {
             return sendResponse({
                 res,
                 statusCode: 403,
-                message: 'Access denied: You do not have permission to modify employment-related fields',
+                message:
+                    'Access denied: You do not have permission to modify employment-related fields',
                 success: false,
             });
         }

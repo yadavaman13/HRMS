@@ -29,6 +29,6 @@ import { Tool, ToolHeader, ToolContent } from '@/components/ai-elements/tool/too
 import { Tool } from '@/components/ai-elements/tool/tool';
 
 export default function AgentToolStep({ step }) {
-    return <Tool name={step.tool} status={step.status} input={step.args} output={step.result} />;
+  return <Tool name={step.tool} status={step.status} input={step.args} output={step.result} />;
 }
 ```

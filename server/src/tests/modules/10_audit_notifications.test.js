@@ -24,9 +24,7 @@ describe('10: Audit Logs & Notifications API', () => {
 
     describe('GET /api/audit-logs & /stats', () => {
         it('should list audit logs (Admin)', async () => {
-            const res = await request(app)
-                .get('/api/audit-logs')
-                .set('Cookie', adminUser.cookie);
+            const res = await request(app).get('/api/audit-logs').set('Cookie', adminUser.cookie);
 
             docLogger.record({
                 scenario: 'List Audit Logs (Admin)',

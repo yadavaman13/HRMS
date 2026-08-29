@@ -154,7 +154,9 @@ export async function listEmployees(req, res, next) {
         // Get status dash (optional system stats fallback)
         let statusMap = {};
         try {
-            const statusRows = await employeeDao.getEmployeeDashboardStatus(req.user.organizationId);
+            const statusRows = await employeeDao.getEmployeeDashboardStatus(
+                req.user.organizationId,
+            );
             for (const s of statusRows) {
                 statusMap[s.employee_id] = s.computed_status;
             }
@@ -197,7 +199,10 @@ export async function listEmployees(req, res, next) {
  */
 export async function getEmployeeById(req, res, next) {
     try {
-        const data = await employeeService.getProfile(req.params.employeeId || req.params.id, req.user.role);
+        const data = await employeeService.getProfile(
+            req.params.employeeId || req.params.id,
+            req.user.role,
+        );
         return sendResponse({
             res,
             statusCode: 200,

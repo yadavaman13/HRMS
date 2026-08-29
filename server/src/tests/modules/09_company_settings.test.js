@@ -24,9 +24,7 @@ describe('09: Company & HR Configuration API', () => {
 
     describe('GET /api/companies/my', () => {
         it('should return current company profile (200 OK)', async () => {
-            const res = await request(app)
-                .get('/api/companies/my')
-                .set('Cookie', adminUser.cookie);
+            const res = await request(app).get('/api/companies/my').set('Cookie', adminUser.cookie);
 
             docLogger.record({
                 scenario: 'Get Company Details (Success)',

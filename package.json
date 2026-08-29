@@ -1,12 +1,16 @@
 {
-  "name": "apex-template-root",
+  "name": "hrms-template-root",
   "private": true,
   "version": "1.0.0",
-  "description": "Root configuration for workspace orchestrations and Git hooks",
+  "description": "Enterprise-ready HRMS Hackathon Template with CI/CD, linting, testing, and production build pipelines",
   "scripts": {
     "prepare": "husky",
-    "format:write": "npx prettier --write \"client/src/**/*.{js,jsx,scss}\" \"server/src/**/*.js\" \"**/*.{json,md}\"",
-    "format:check": "npx prettier --check \"client/src/**/*.{js,jsx,scss}\" \"server/src/**/*.js\" \"**/*.{json,md}\""
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "lint": "npm run lint --prefix client && npm run lint --prefix server",
+    "lint:fix": "npm run lint:fix --prefix client && npm run lint:fix --prefix server",
+    "test": "npm run test:ci --prefix server",
+    "build": "npm run build --prefix client"
   },
   "devDependencies": {
     "eslint": "^10.8.0",

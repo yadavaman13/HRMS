@@ -33,30 +33,30 @@ import StatCard from '@/components/Shared/DataDisplay/StatCard/StatCard';
 import { DollarSign, Users, TrendingUp } from 'lucide-react';
 
 export default function DashboardStats() {
-    return (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
-            <StatCard
-                title="Total Revenue"
-                value="$128,450"
-                icon={DollarSign}
-                trend="+18.2%"
-                trendPositive={true}
-            />
-            <StatCard
-                title="Active Deals"
-                value="42"
-                icon={TrendingUp}
-                trend="+5.4%"
-                trendPositive={true}
-            />
-            <StatCard
-                title="Customer Churn"
-                value="1.2%"
-                icon={Users}
-                trend="-0.8%"
-                trendPositive={true}
-            />
-        </div>
-    );
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+      <StatCard
+        title="Total Revenue"
+        value="$128,450"
+        icon={DollarSign}
+        trend="+18.2%"
+        trendPositive={true}
+      />
+      <StatCard
+        title="Active Deals"
+        value="42"
+        icon={TrendingUp}
+        trend="+5.4%"
+        trendPositive={true}
+      />
+      <StatCard
+        title="Customer Churn"
+        value="1.2%"
+        icon={Users}
+        trend="-0.8%"
+        trendPositive={true}
+      />
+    </div>
+  );
 }
 ```

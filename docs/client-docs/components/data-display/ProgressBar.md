@@ -29,14 +29,14 @@ import ProgressBar from '@/components/Shared/DataDisplay/ProgressBar/ProgressBar
 import ProgressBar from '@/components/Shared/DataDisplay/ProgressBar/ProgressBar';
 
 export default function StorageUsage({ percentUsed }) {
-    return (
-        <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                <span>Storage Limit</span>
-                <span>{percentUsed}%</span>
-            </div>
-            <ProgressBar value={percentUsed} variant={percentUsed > 85 ? 'danger' : 'primary'} />
-        </div>
-    );
+  return (
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+        <span>Storage Limit</span>
+        <span>{percentUsed}%</span>
+      </div>
+      <ProgressBar value={percentUsed} variant={percentUsed > 85 ? 'danger' : 'primary'} />
+    </div>
+  );
 }
 ```

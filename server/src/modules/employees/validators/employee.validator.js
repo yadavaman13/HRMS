@@ -62,17 +62,19 @@ export const createEmployeeValidator = [
         .withMessage('Invalid work schedule ID format'),
 
     // Salary (optional)
-    body('salary').optional().custom((val) => {
-        if (typeof val === 'number') return true;
-        if (typeof val === 'string' && !isNaN(Number(val))) return true;
-        if (typeof val === 'object' && val !== null) {
-            if (val.monthlyWage !== undefined && isNaN(Number(val.monthlyWage))) {
-                throw new Error('monthlyWage must be a number');
+    body('salary')
+        .optional()
+        .custom((val) => {
+            if (typeof val === 'number') return true;
+            if (typeof val === 'string' && !isNaN(Number(val))) return true;
+            if (typeof val === 'object' && val !== null) {
+                if (val.monthlyWage !== undefined && isNaN(Number(val.monthlyWage))) {
+                    throw new Error('monthlyWage must be a number');
+                }
+                return true;
             }
-            return true;
-        }
-        throw new Error('salary must be a number or an object containing monthlyWage');
-    }),
+            throw new Error('salary must be a number or an object containing monthlyWage');
+        }),
 
     validateRequest,
 ];

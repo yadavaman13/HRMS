@@ -244,7 +244,6 @@ export async function issueOtp({
         console.log(`==================================================\n`);
     }
 
-
     if (subject && buildHtml && sendEmailFn) {
         const html = buildHtml(otp);
         try {
@@ -402,7 +401,6 @@ export async function resendOtp({
         console.log(`OTP Code: ${otp}`);
         console.log(`==================================================\n`);
     }
-
 
     if (subject && buildHtml && sendEmailFn) {
         const html = buildHtml(otp);

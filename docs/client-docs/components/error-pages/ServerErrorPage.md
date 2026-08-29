@@ -27,6 +27,6 @@ import ServerErrorPage from '@/components/Shared/ErrorPages/ServerErrorPage/Serv
 import ServerErrorPage from '@/components/Shared/ErrorPages/ServerErrorPage/ServerErrorPage';
 
 export default function ErrorBoundaryFallback({ error, resetErrorBoundary }) {
-    return <ServerErrorPage message={error?.message} onRetry={resetErrorBoundary} />;
+  return <ServerErrorPage message={error?.message} onRetry={resetErrorBoundary} />;
 }
 ```

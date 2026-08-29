@@ -29,8 +29,8 @@ import { CodeBlock } from '@/components/ai-elements/code-block/code-block';
 import { CodeBlock } from '@/components/ai-elements/code-block/code-block';
 
 export default function SnippetDisplay({ snippet }) {
-    return (
-        <CodeBlock code={`const res = await axios.post('/api/ai/stream');`} language="javascript" />
-    );
+  return (
+    <CodeBlock code={`const res = await axios.post('/api/ai/stream');`} language="javascript" />
+  );
 }
 ```

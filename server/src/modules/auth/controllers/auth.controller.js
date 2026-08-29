@@ -1077,17 +1077,20 @@ export async function getRoles(req, res, next) {
             {
                 role: 'admin',
                 name: 'Administrator',
-                description: 'Full administrative access to employees, payroll, configurations, and company settings.',
+                description:
+                    'Full administrative access to employees, payroll, configurations, and company settings.',
             },
             {
                 role: 'hr',
                 name: 'HR / Time-Off Officer',
-                description: 'Access to manage employees, attendance, leave approvals, and view profiles.',
+                description:
+                    'Access to manage employees, attendance, leave approvals, and view profiles.',
             },
             {
                 role: 'employee',
                 name: 'Employee',
-                description: 'Access to personal profile, check-in/out, leave applications, and payslips.',
+                description:
+                    'Access to personal profile, check-in/out, leave applications, and payslips.',
             },
         ];
 
@@ -1110,12 +1113,27 @@ export async function getPermissions(req, res, next) {
     try {
         const permissions = {
             admin: {
-                employees: ['create', 'read', 'update', 'delete', 'activate', 'deactivate', 'reset-password'],
+                employees: [
+                    'create',
+                    'read',
+                    'update',
+                    'delete',
+                    'activate',
+                    'deactivate',
+                    'reset-password',
+                ],
                 profile: ['read-all', 'update-all', 'private-info', 'salary-info'],
                 attendance: ['check-in', 'check-out', 'read-all', 'adjust-all', 'correct-record'],
                 leave: ['view-all', 'approve', 'reject', 'configure-types', 'allocate'],
                 salary: ['view-all', 'configure-structures', 'manage-components'],
-                payroll: ['run-payroll', 'calculate', 'finalize', 'download-all-payslips', 'recalculate', 'lock'],
+                payroll: [
+                    'run-payroll',
+                    'calculate',
+                    'finalize',
+                    'download-all-payslips',
+                    'recalculate',
+                    'lock',
+                ],
                 company: ['manage-settings', 'work-schedules', 'leave-policies', 'payroll-config'],
                 audit: ['view-all-logs', 'view-stats'],
                 notifications: ['broadcast', 'read-all'],

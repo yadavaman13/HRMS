@@ -1,8 +1,51 @@
-# Ignore the AI context folder
-.ai/
-
-# Ignore node_modules
+# Dependencies
 node_modules/
-.todo
-# Ignore stylelint error output log
+.pnp
+.pnp.js
+
+# Testing and coverage
+coverage/
+*.lcov
+.nyc_output
+
+# Production build artifacts
+dist/
+build/
+client/dist/
+server/dist/
+
+# Environment files and secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+server/.env
+client/.env
+!.env.example
+!server/.env.example
+!client/.env.example
+
+# Logs and runtime files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 client/stylelint-errors.txt
+
+# Editor & OS files
+.DS_Store
+Thumbs.db
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# AI & Scratch context
+.ai/
+.todo
+scratch/

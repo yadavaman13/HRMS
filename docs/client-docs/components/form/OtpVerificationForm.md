@@ -30,20 +30,20 @@ import OtpVerificationForm from '@/components/Shared/Form/OtpVerificationForm/Ot
 import OtpVerificationForm from '@/components/Shared/Form/OtpVerificationForm/OtpVerificationForm';
 
 export default function VerifyStep({
-    email,
-    handleVerifyOtp,
-    handleResendCode,
-    isSubmitting,
-    errorMessage,
+  email,
+  handleVerifyOtp,
+  handleResendCode,
+  isSubmitting,
+  errorMessage,
 }) {
-    return (
-        <OtpVerificationForm
-            email={email}
-            onVerify={handleVerifyOtp}
-            onResend={handleResendCode}
-            loading={isSubmitting}
-            error={errorMessage}
-        />
-    );
+  return (
+    <OtpVerificationForm
+      email={email}
+      onVerify={handleVerifyOtp}
+      onResend={handleResendCode}
+      loading={isSubmitting}
+      error={errorMessage}
+    />
+  );
 }
 ```

@@ -4,13 +4,13 @@
 
 ## 📋 Endpoints Overview
 
-| Method | Endpoint | Scenario | Status |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/dashboard` | Get Executive Dashboard (Admin) | `200` |
-| `GET` | `/api/dashboard/attendance` | Get Attendance Dashboard Slice (Admin) | `200` |
-| `GET` | `/api/dashboard/leave` | Get Leave Dashboard Slice (Admin) | `200` |
-| `GET` | `/api/dashboard/employees` | Get Employees Headcount Slice (Admin) | `200` |
-| `GET` | `/api/dashboard/payroll` | Get Payroll Dashboard Slice (Admin) | `200` |
+| Method | Endpoint                    | Scenario                               | Status |
+| :----- | :-------------------------- | :------------------------------------- | :----- |
+| `GET`  | `/api/dashboard`            | Get Executive Dashboard (Admin)        | `200`  |
+| `GET`  | `/api/dashboard/attendance` | Get Attendance Dashboard Slice (Admin) | `200`  |
+| `GET`  | `/api/dashboard/leave`      | Get Leave Dashboard Slice (Admin)      | `200`  |
+| `GET`  | `/api/dashboard/employees`  | Get Employees Headcount Slice (Admin)  | `200`  |
+| `GET`  | `/api/dashboard/payroll`    | Get Payroll Dashboard Slice (Admin)    | `200`  |
 
 ---
 
@@ -21,12 +21,15 @@
 - **Endpoint**: `GET /api/dashboard`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Admin executive dashboard retrieved",
@@ -152,12 +155,15 @@
 - **Endpoint**: `GET /api/dashboard/attendance`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Attendance dashboard analytics retrieved",
@@ -188,12 +194,15 @@
 - **Endpoint**: `GET /api/dashboard/leave`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Leave dashboard analytics retrieved",
@@ -253,12 +262,15 @@
 - **Endpoint**: `GET /api/dashboard/employees`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Employees workforce dashboard analytics retrieved",
@@ -312,12 +324,15 @@
 - **Endpoint**: `GET /api/dashboard/payroll`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Payroll overview dashboard retrieved",
@@ -347,4 +362,3 @@
 > **Note**: Provides latest payroll period status and financial totals.
 
 ---
-

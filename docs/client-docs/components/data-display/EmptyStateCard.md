@@ -29,16 +29,16 @@ import EmptyStateCard from '@/components/Shared/DataDisplay/EmptyStateCard/Empty
 import Button from '@/components/Shared/Buttons/Button/Button';
 
 export default function FeedEmptyState() {
-    return (
-        <EmptyStateCard
-            title="No Recent Activity"
-            subtitle="Recent actions across leads and deals will appear here."
-            action={
-                <Button size="sm" variant="outline">
-                    Refresh Feed
-                </Button>
-            }
-        />
-    );
+  return (
+    <EmptyStateCard
+      title="No Recent Activity"
+      subtitle="Recent actions across leads and deals will appear here."
+      action={
+        <Button size="sm" variant="outline">
+          Refresh Feed
+        </Button>
+      }
+    />
+  );
 }
 ```

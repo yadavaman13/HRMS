@@ -30,14 +30,14 @@ import MetricCard from '@/components/Shared/DataDisplay/MetricCard/MetricCard';
 import MetricCard from '@/components/Shared/DataDisplay/MetricCard/MetricCard';
 
 export default function AnalyticsSummary() {
-    return (
-        <MetricCard
-            label="Avg. Deal Velocity"
-            value="14.2 Days"
-            subtitle="Calculated over past 90 days"
-            badgeText="Fast"
-            badgeVariant="success"
-        />
-    );
+  return (
+    <MetricCard
+      label="Avg. Deal Velocity"
+      value="14.2 Days"
+      subtitle="Calculated over past 90 days"
+      badgeText="Fast"
+      badgeVariant="success"
+    />
+  );
 }
 ```

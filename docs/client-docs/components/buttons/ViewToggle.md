@@ -32,20 +32,20 @@ import AdvancedTable from '@/components/Shared/DataDisplay/AdvancedTable/Advance
 import GridView from '@/components/Shared/DataDisplay/DataView/components/GridView/GridView';
 
 export default function LeadsViewContainer({ data, columns }) {
-    const [viewMode, setViewMode] = useState('table');
+  const [viewMode, setViewMode] = useState('table');
 
-    return (
-        <div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px' }}>
-                <ViewToggle view={viewMode} onViewChange={setViewMode} />
-            </div>
+  return (
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px' }}>
+        <ViewToggle view={viewMode} onViewChange={setViewMode} />
+      </div>
 
-            {viewMode === 'table' ? (
-                <AdvancedTable data={data} columns={columns} />
-            ) : (
-                <GridView data={data} />
-            )}
-        </div>
-    );
+      {viewMode === 'table' ? (
+        <AdvancedTable data={data} columns={columns} />
+      ) : (
+        <GridView data={data} />
+      )}
+    </div>
+  );
 }
 ```

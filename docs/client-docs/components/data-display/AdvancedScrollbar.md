@@ -31,15 +31,15 @@ import { useRef } from 'react';
 import AdvancedScrollbar from '@/components/Shared/DataDisplay/AdvancedScrollbar/AdvancedScrollbar';
 
 export default function CustomScrollContainer({ children }) {
-    const scrollRef = useRef(null);
+  const scrollRef = useRef(null);
 
-    return (
-        <div style={{ position: 'relative', height: '400px' }}>
-            <div ref={scrollRef} style={{ overflow: 'hidden', height: '100%' }}>
-                {children}
-            </div>
-            <AdvancedScrollbar targetRef={scrollRef} vertical={true} showVerticalTooltip={true} />
-        </div>
-    );
+  return (
+    <div style={{ position: 'relative', height: '400px' }}>
+      <div ref={scrollRef} style={{ overflow: 'hidden', height: '100%' }}>
+        {children}
+      </div>
+      <AdvancedScrollbar targetRef={scrollRef} vertical={true} showVerticalTooltip={true} />
+    </div>
+  );
 }
 ```

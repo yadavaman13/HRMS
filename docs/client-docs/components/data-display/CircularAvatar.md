@@ -30,14 +30,14 @@ import CircularAvatar from '@/components/Shared/DataDisplay/CircularAvatar/Circu
 import CircularAvatar from '@/components/Shared/DataDisplay/CircularAvatar/CircularAvatar';
 
 export default function UserHeader({ user }) {
-    return (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <CircularAvatar src={user.avatarUrl} name={user.name} size="lg" status="online" />
-            <div>
-                <h4>{user.name}</h4>
-                <p>{user.role}</p>
-            </div>
-        </div>
-    );
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <CircularAvatar src={user.avatarUrl} name={user.name} size="lg" status="online" />
+      <div>
+        <h4>{user.name}</h4>
+        <p>{user.role}</p>
+      </div>
+    </div>
+  );
 }
 ```

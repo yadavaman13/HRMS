@@ -29,10 +29,10 @@ import PrevButton from '@/components/Shared/Buttons/PrevButton/PrevButton';
 import PrevButton from '@/components/Shared/Buttons/PrevButton/PrevButton';
 
 export default function WizardFooter({ currentStep, onPrev }) {
-    return (
-        <PrevButton disabled={currentStep === 1} onClick={onPrev}>
-            Back
-        </PrevButton>
-    );
+  return (
+    <PrevButton disabled={currentStep === 1} onClick={onPrev}>
+      Back
+    </PrevButton>
+  );
 }
 ```

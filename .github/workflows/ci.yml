@@ -1,0 +1,54 @@
+name: CI Quality Gate
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+  push:
+    branches:
+      - develop
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-and-build:
+    name: Quality & Build Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: 📦 Install Root Dependencies
+        run: npm ci
+
+      - name: 📦 Install Client & Server Dependencies
+        run: |
+          npm ci --prefix client
+          npm ci --prefix server
+
+      - name: 🎨 Code Formatting Check (Prettier)
+        run: npm run format:check
+
+      - name: 🔍 Linting (ESLint & Stylelint)
+        run: npm run lint
+
+      - name: 🧪 Unit & Regression Tests (Jest)
+        run: npm run test
+        env:
+          NODE_ENV: test
+          JWT_SECRET: ci-mock-jwt-secret-key-for-quality-gate-32-chars
+          CLIENT_ORIGINS: http://localhost:5173
+
+      - name: 🏗️ Production Build (Vite)
+        run: npm run build

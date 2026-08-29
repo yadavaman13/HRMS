@@ -31,14 +31,14 @@ import EmptyState from '@/components/Shared/DataDisplay/EmptyState/EmptyState';
 import { UserPlus } from 'lucide-react';
 
 export default function NoLeadsView({ onCreateLead }) {
-    return (
-        <EmptyState
-            title="No leads yet"
-            description="Start building your sales pipeline by adding your first lead."
-            icon={UserPlus}
-            actionText="Create Lead"
-            onAction={onCreateLead}
-        />
-    );
+  return (
+    <EmptyState
+      title="No leads yet"
+      description="Start building your sales pipeline by adding your first lead."
+      icon={UserPlus}
+      actionText="Create Lead"
+      onAction={onCreateLead}
+    />
+  );
 }
 ```

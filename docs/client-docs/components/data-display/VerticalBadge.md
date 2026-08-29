@@ -27,12 +27,12 @@ import VerticalBadge from '@/components/Shared/DataDisplay/VerticalBadge/Vertica
 import VerticalBadge from '@/components/Shared/DataDisplay/VerticalBadge/VerticalBadge';
 
 export default function PriorityCard({ priority, children }) {
-    const variantMap = { high: 'danger', medium: 'warning', low: 'info' };
-    return (
-        <div className="priority-card" style={{ display: 'flex' }}>
-            <VerticalBadge variant={variantMap[priority]} />
-            <div className="card-content">{children}</div>
-        </div>
-    );
+  const variantMap = { high: 'danger', medium: 'warning', low: 'info' };
+  return (
+    <div className="priority-card" style={{ display: 'flex' }}>
+      <VerticalBadge variant={variantMap[priority]} />
+      <div className="card-content">{children}</div>
+    </div>
+  );
 }
 ```

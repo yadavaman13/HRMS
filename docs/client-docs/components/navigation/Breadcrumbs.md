@@ -26,14 +26,14 @@ import Breadcrumbs from '@/components/Shared/Navigation/Breadcrumbs/Breadcrumbs'
 import Breadcrumbs from '@/components/Shared/Navigation/Breadcrumbs/Breadcrumbs';
 
 export default function AnalyticsBreadcrumb() {
-    return (
-        <Breadcrumbs
-            items={[
-                { label: 'Dashboard', path: '/dashboard' },
-                { label: 'Analytics', path: '/dashboard/user/analytics' },
-                { label: 'Revenue Insights' },
-            ]}
-        />
-    );
+  return (
+    <Breadcrumbs
+      items={[
+        { label: 'Dashboard', path: '/dashboard' },
+        { label: 'Analytics', path: '/dashboard/user/analytics' },
+        { label: 'Revenue Insights' },
+      ]}
+    />
+  );
 }
 ```

@@ -4,13 +4,13 @@
 
 ## 📋 Endpoints Overview
 
-| Method | Endpoint | Scenario | Status |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/api/payroll/periods` | Create Payroll Period (Admin) | `201` |
-| `GET` | `/api/payroll/periods` | List Payroll Periods (Admin) | `200` |
-| `POST` | `/api/payroll/periods/50b93a88-cf43-48d4-a519-70f21a44a73c/process` | Process Payroll Period (Admin) | `500` |
-| `POST` | `/api/payroll/periods/50b93a88-cf43-48d4-a519-70f21a44a73c/finalize` | Finalize Payroll Period (Admin) | `500` |
-| `GET` | `/api/payroll/payslips` | List Period Payslips (Admin) | `200` |
+| Method | Endpoint                                                             | Scenario                        | Status |
+| :----- | :------------------------------------------------------------------- | :------------------------------ | :----- |
+| `POST` | `/api/payroll/periods`                                               | Create Payroll Period (Admin)   | `201`  |
+| `GET`  | `/api/payroll/periods`                                               | List Payroll Periods (Admin)    | `200`  |
+| `POST` | `/api/payroll/periods/50b93a88-cf43-48d4-a519-70f21a44a73c/process`  | Process Payroll Period (Admin)  | `500`  |
+| `POST` | `/api/payroll/periods/50b93a88-cf43-48d4-a519-70f21a44a73c/finalize` | Finalize Payroll Period (Admin) | `500`  |
+| `GET`  | `/api/payroll/payslips`                                              | List Period Payslips (Admin)    | `200`  |
 
 ---
 
@@ -21,19 +21,24 @@
 - **Endpoint**: `POST /api/payroll/periods`
 - **Expected Status**: `201`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Request Body**:
+
 ```json
 {
   "periodStart": "2077-01-01",
   "periodEnd": "2077-01-31"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Payroll period created successfully",
@@ -64,12 +69,15 @@
 - **Endpoint**: `GET /api/payroll/periods`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Payroll periods retrieved successfully",
@@ -135,12 +143,15 @@
 - **Endpoint**: `POST /api/payroll/periods/50b93a88-cf43-48d4-a519-70f21a44a73c/process`
 - **Expected Status**: `500`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "values() must be called with at least one value",
@@ -158,12 +169,15 @@
 - **Endpoint**: `POST /api/payroll/periods/50b93a88-cf43-48d4-a519-70f21a44a73c/finalize`
 - **Expected Status**: `500`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Only calculated or processing payroll periods can be finalized",
@@ -181,18 +195,23 @@
 - **Endpoint**: `GET /api/payroll/payslips`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Query Parameters**:
+
 ```json
 {
   "payrollPeriodId": "50b93a88-cf43-48d4-a519-70f21a44a73c"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Payslips retrieved successfully",
@@ -207,4 +226,3 @@
 > **Note**: Retrieves all generated payslips for the target payroll cycle.
 
 ---
-

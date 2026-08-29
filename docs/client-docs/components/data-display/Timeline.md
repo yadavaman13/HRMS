@@ -27,6 +27,6 @@ import Timeline from '@/components/Shared/DataDisplay/Timeline/Timeline';
 import Timeline from '@/components/Shared/DataDisplay/Timeline/Timeline';
 
 export default function OrderAuditTrail({ events }) {
-    return <Timeline events={events} />;
+  return <Timeline events={events} />;
 }
 ```

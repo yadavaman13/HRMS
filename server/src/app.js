@@ -18,6 +18,8 @@ import { leaveRouter } from './modules/leave/index.js';
 import { payrollRouter } from './modules/payroll/index.js';
 import { errorHandler } from './modules/auth/middleware/errorHandler.js';
 
+import { pool } from './config/database.config.js';
+
 const app = express();
 
 app.use(express.json());
@@ -29,6 +31,38 @@ app.use(
     }),
 );
 app.use(morgan('combined'));
+
+// Health check endpoints for Render, monitoring & CI quality gate
+app.get('/api/health', (req, res) => {
+    res.status(200).json({
+        success: true,
+        status: 'healthy',
+        service: 'hrms-api',
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString(),
+        environment: envConfig.NODE_ENV || 'development',
+    });
+});
+
+app.get('/api/health/db', async (req, res) => {
+    try {
+        await pool.query('SELECT 1');
+        res.status(200).json({
+            success: true,
+            status: 'healthy',
+            database: 'connected',
+            timestamp: new Date().toISOString(),
+        });
+    } catch (err) {
+        res.status(503).json({
+            success: false,
+            status: 'degraded',
+            database: 'disconnected',
+            error: err.message,
+            timestamp: new Date().toISOString(),
+        });
+    }
+});
 
 // Authentication & Users
 app.use('/api/auth', authRouter);

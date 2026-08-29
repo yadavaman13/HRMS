@@ -31,31 +31,31 @@ import { useNavigate } from 'react-router';
 import { LayoutDashboard, Users, MessageSquare } from 'lucide-react';
 
 export default function CommandPalette({ isOpen, onClose }) {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const commands = [
-        {
-            id: '1',
-            label: 'Go to Dashboard',
-            icon: LayoutDashboard,
-            onSelect: () => navigate('/dashboard'),
-        },
-        {
-            id: '2',
-            label: 'Manage Leads',
-            icon: Users,
-            onSelect: () => navigate('/dashboard/leads'),
-        },
-        {
-            id: '3',
-            label: 'Open AI Copilot',
-            icon: MessageSquare,
-            onSelect: () => navigate('/dashboard/user/ai'),
-        },
-    ];
+  const commands = [
+    {
+      id: '1',
+      label: 'Go to Dashboard',
+      icon: LayoutDashboard,
+      onSelect: () => navigate('/dashboard'),
+    },
+    {
+      id: '2',
+      label: 'Manage Leads',
+      icon: Users,
+      onSelect: () => navigate('/dashboard/leads'),
+    },
+    {
+      id: '3',
+      label: 'Open AI Copilot',
+      icon: MessageSquare,
+      onSelect: () => navigate('/dashboard/user/ai'),
+    },
+  ];
 
-    if (!isOpen) return null;
+  if (!isOpen) return null;
 
-    return <Command items={commands} onClose={onClose} />;
+  return <Command items={commands} onClose={onClose} />;
 }
 ```

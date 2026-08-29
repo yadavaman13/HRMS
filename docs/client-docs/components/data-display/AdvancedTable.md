@@ -43,12 +43,12 @@ import AdvancedTable from '@/components/Shared/DataDisplay/AdvancedTable/Advance
 
 ```typescript
 interface ColumnConfig {
-    key: string; // Field property key in row object
-    label: string; // Column header title
-    sortable?: boolean; // Enables ascending/descending column sorting
-    width?: string; // Fixed width (e.g. '200px')
-    type?: 'text' | 'numeric' | 'date' | 'badge';
-    render?: (value: any, row: object) => ReactNode; // Custom cell renderer
+  key: string; // Field property key in row object
+  label: string; // Column header title
+  sortable?: boolean; // Enables ascending/descending column sorting
+  width?: string; // Fixed width (e.g. '200px')
+  type?: 'text' | 'numeric' | 'date' | 'badge';
+  render?: (value: any, row: object) => ReactNode; // Custom cell renderer
 }
 ```
 
@@ -61,32 +61,32 @@ import AdvancedTable from '@/components/Shared/DataDisplay/AdvancedTable/Advance
 import Badge from '@/components/Shared/DataDisplay/Badge/Badge';
 
 const columns = [
-    { key: 'invoiceId', label: 'Invoice #', sortable: true },
-    { key: 'clientName', label: 'Client', sortable: true },
-    {
-        key: 'amount',
-        label: 'Amount',
-        sortable: true,
-        render: (val) => `₹${val.toLocaleString()}`,
-    },
-    {
-        key: 'status',
-        label: 'Status',
-        render: (val) => <Badge variant={val === 'Paid' ? 'success' : 'warning'}>{val}</Badge>,
-    },
+  { key: 'invoiceId', label: 'Invoice #', sortable: true },
+  { key: 'clientName', label: 'Client', sortable: true },
+  {
+    key: 'amount',
+    label: 'Amount',
+    sortable: true,
+    render: (val) => `₹${val.toLocaleString()}`,
+  },
+  {
+    key: 'status',
+    label: 'Status',
+    render: (val) => <Badge variant={val === 'Paid' ? 'success' : 'warning'}>{val}</Badge>,
+  },
 ];
 
 export default function InvoicesTable({ invoices, isLoading, onRefresh }) {
-    return (
-        <AdvancedTable
-            data={invoices}
-            columns={columns}
-            searchPlaceholder="Search invoices..."
-            initialRowsPerPage={10}
-            loading={isLoading}
-            onRefresh={onRefresh}
-            showExport
-        />
-    );
+  return (
+    <AdvancedTable
+      data={invoices}
+      columns={columns}
+      searchPlaceholder="Search invoices..."
+      initialRowsPerPage={10}
+      loading={isLoading}
+      onRefresh={onRefresh}
+      showExport
+    />
+  );
 }
 ```

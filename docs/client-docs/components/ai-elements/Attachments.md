@@ -28,6 +28,6 @@ import { Attachments, AttachmentItem } from '@/components/ai-elements/attachment
 import { Attachments } from '@/components/ai-elements/attachments/attachments';
 
 export default function AttachedFilesList({ files, handleRemoveFile }) {
-    return <Attachments attachments={files} onRemove={handleRemoveFile} />;
+  return <Attachments attachments={files} onRemove={handleRemoveFile} />;
 }
 ```
