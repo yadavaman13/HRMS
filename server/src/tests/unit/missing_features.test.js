@@ -1,6 +1,3 @@
-import { describe, it } from 'node:test';
-import assert from 'node:assert/strict';
-
 describe('Newly Implemented Features & Endpoints (Unit Tests)', () => {
     describe('Document Types Validation', () => {
         const validDocumentTypes = [
@@ -15,18 +12,18 @@ describe('Newly Implemented Features & Endpoints (Unit Tests)', () => {
 
         it('should recognize all valid document types from Problem Statement §3.3.1', () => {
             const testDoc = 'resume';
-            assert.ok(validDocumentTypes.includes(testDoc));
-            assert.ok(validDocumentTypes.includes('pan_card'));
-            assert.ok(validDocumentTypes.includes('aadhaar'));
-            assert.ok(validDocumentTypes.includes('offer_letter'));
-            assert.ok(validDocumentTypes.includes('medical_certificate'));
-            assert.ok(validDocumentTypes.includes('certification'));
-            assert.ok(validDocumentTypes.includes('other'));
+            expect(validDocumentTypes).toContain(testDoc);
+            expect(validDocumentTypes).toContain('pan_card');
+            expect(validDocumentTypes).toContain('aadhaar');
+            expect(validDocumentTypes).toContain('offer_letter');
+            expect(validDocumentTypes).toContain('medical_certificate');
+            expect(validDocumentTypes).toContain('certification');
+            expect(validDocumentTypes).toContain('other');
         });
 
         it('should reject invalid document types', () => {
-            assert.strictEqual(validDocumentTypes.includes('invalid_type'), false);
-            assert.strictEqual(validDocumentTypes.includes('passport'), false);
+            expect(validDocumentTypes).not.toContain('invalid_type');
+            expect(validDocumentTypes).not.toContain('passport');
         });
     });
 
@@ -38,16 +35,16 @@ describe('Newly Implemented Features & Endpoints (Unit Tests)', () => {
         };
 
         it('should correctly escape quotes and special characters in CSV fields', () => {
-            assert.strictEqual(escapeCsv('John "Doe"'), '"John ""Doe"""');
-            assert.strictEqual(escapeCsv('Engineering, R&D'), '"Engineering, R&D"');
-            assert.strictEqual(escapeCsv(null), '""');
-            assert.strictEqual(escapeCsv(undefined), '""');
+            expect(escapeCsv('John "Doe"')).toBe('"John ""Doe"""');
+            expect(escapeCsv('Engineering, R&D')).toBe('"Engineering, R&D"');
+            expect(escapeCsv(null)).toBe('""');
+            expect(escapeCsv(undefined)).toBe('""');
         });
 
         it('should format decimal work hours accurately', () => {
             const totalWorkMinutes = 495; // 8h 15m
             const hours = ((totalWorkMinutes || 0) / 60).toFixed(2);
-            assert.strictEqual(hours, '8.25');
+            expect(hours).toBe('8.25');
         });
     });
 
@@ -56,8 +53,8 @@ describe('Newly Implemented Features & Endpoints (Unit Tests)', () => {
             const validUuid = '123e4567-e89b-12d3-a456-426614174000';
             const uuidRegex =
                 /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-            assert.ok(uuidRegex.test(validUuid));
-            assert.strictEqual(uuidRegex.test('invalid-id'), false);
+            expect(uuidRegex.test(validUuid)).toBe(true);
+            expect(uuidRegex.test('invalid-id')).toBe(false);
         });
     });
 
@@ -75,8 +72,8 @@ describe('Newly Implemented Features & Endpoints (Unit Tests)', () => {
                 isActive: false,
             };
 
-            assert.strictEqual(updated.isActive, false);
-            assert.strictEqual(updated.code, 'BONUS');
+            expect(updated.isActive).toBe(false);
+            expect(updated.code).toBe('BONUS');
         });
     });
 });
