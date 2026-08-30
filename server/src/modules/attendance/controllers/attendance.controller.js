@@ -59,7 +59,7 @@ export async function checkIn(req, res, next) {
                 status: 'present',
                 scheduledWorkMinutes,
                 source: 'system',
-                remarks: req.body.remarks || null,
+                remarks: req.body?.remarks || null,
             });
         }
 
@@ -91,7 +91,7 @@ export async function checkIn(req, res, next) {
 
         return sendResponse({
             res,
-            statusCode: 200,
+            statusCode: 201,
             message: 'Checked in successfully',
             success: true,
             data: {
@@ -185,7 +185,7 @@ export async function checkOut(req, res, next) {
             lateMinutes: metrics.lateMinutes,
             earlyCheckoutMinutes: metrics.earlyCheckoutMinutes,
             status: metrics.status,
-            remarks: req.body.remarks || record.remarks,
+            remarks: req.body?.remarks || record.remarks,
         });
 
         return sendResponse({
@@ -454,6 +454,102 @@ export async function getEmployeeAttendance(req, res, next) {
                 ...result,
             },
         });
+    } catch (error) {
+        next(error);
+    }
+}
+
+/**
+ * Export attendance timesheets as CSV (Admin/HR or Employee self-export)
+ */
+export async function exportAttendance(req, res, next) {
+    try {
+        let { startDate, endDate, month, status, departmentId, employeeId } = req.query;
+
+        // If not Admin/HR, scope to employee's own record
+        if (req.user.role !== 'admin' && req.user.role !== 'hr') {
+            const employee = await getEmployeeByUserId(req.user.id);
+            if (!employee) {
+                return sendResponse({
+                    res,
+                    statusCode: 404,
+                    message: 'No employee record linked to this user account',
+                    success: false,
+                });
+            }
+            employeeId = employee.id;
+        }
+
+        if (month) {
+            let mYear, mMonth;
+            if (String(month).includes('-')) {
+                [mYear, mMonth] = String(month).split('-').map(Number);
+            } else {
+                mMonth = Number(month);
+                mYear = Number(req.query.year) || new Date().getFullYear();
+            }
+            const daysInMonth = new Date(mYear, mMonth, 0).getDate();
+            const padMonth = String(mMonth).padStart(2, '0');
+            startDate = `${mYear}-${padMonth}-01`;
+            endDate = `${mYear}-${padMonth}-${String(daysInMonth).padStart(2, '0')}`;
+        }
+
+        const data = await attendanceDao.getAttendanceRecords({
+            organizationId: req.user.organizationId,
+            employeeId,
+            startDate,
+            endDate,
+            status,
+            departmentId,
+            limit: 5000,
+            offset: 0,
+        });
+
+        const records = data.records || [];
+
+        // Build CSV string
+        const headers = [
+            'Employee Code',
+            'Employee Name',
+            'Work Email',
+            'Department',
+            'Date',
+            'Status',
+            'Work Hours',
+            'Overtime Hours',
+            'Late (Minutes)',
+            'Early Checkout (Minutes)',
+            'Source',
+            'Remarks',
+        ];
+
+        const escapeCsv = (val) => {
+            if (val === null || val === undefined) return '""';
+            const str = String(val).replace(/"/g, '""');
+            return `"${str}"`;
+        };
+
+        const rows = records.map((r) => [
+            escapeCsv(r.employeeCode),
+            escapeCsv(r.displayName || `${r.firstName || ''} ${r.lastName || ''}`.trim()),
+            escapeCsv(r.workEmail),
+            escapeCsv(r.departmentName || 'N/A'),
+            escapeCsv(r.attendanceDate),
+            escapeCsv(r.status),
+            escapeCsv(((r.totalWorkMinutes || 0) / 60).toFixed(2)),
+            escapeCsv(((r.overtimeMinutes || 0) / 60).toFixed(2)),
+            escapeCsv(r.lateMinutes || 0),
+            escapeCsv(r.earlyCheckoutMinutes || 0),
+            escapeCsv(r.source || 'system'),
+            escapeCsv(r.remarks || ''),
+        ]);
+
+        const csvContent = [headers.join(','), ...rows.map((row) => row.join(','))].join('\n');
+
+        const fileName = `attendance-export-${startDate || 'all'}-to-${endDate || 'now'}.csv`;
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+        return res.status(200).send(csvContent);
     } catch (error) {
         next(error);
     }

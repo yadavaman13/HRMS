@@ -252,9 +252,16 @@ export async function createLocation(organizationId, data) {
 }
 
 export async function updateLocation(id, updates) {
+    const data = {};
+    if (updates.name !== undefined) data.name = updates.name;
+    if (updates.address !== undefined || updates.city !== undefined) {
+        data.address = updates.address || updates.city;
+    }
+    if (updates.isActive !== undefined) data.isActive = updates.isActive;
+
     const [loc] = await db
         .update(locations)
-        .set({ ...updates, updatedAt: new Date() })
+        .set({ ...data, updatedAt: new Date() })
         .where(eq(locations.id, id))
         .returning();
     return loc || null;

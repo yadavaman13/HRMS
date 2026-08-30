@@ -11,6 +11,11 @@ router.get('/', dashboardController.getDashboard);
 // Explicit role endpoints
 router.get('/admin', restrictTo('admin', 'hr'), dashboardController.getAdminDashboard);
 router.get('/employee', dashboardController.getEmployeeDashboard);
+router.get(
+    '/employee/:employeeId',
+    restrictTo('admin', 'hr'),
+    dashboardController.getEmployeeDashboardById,
+);
 router.get('/me', dashboardController.getEmployeeDashboard);
 
 // Section-specific dashboard analytics (Admin/HR)

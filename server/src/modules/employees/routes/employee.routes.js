@@ -1,8 +1,10 @@
 import { Router } from 'express';
+import multer from 'multer';
 import * as employeeController from '../controllers/employee.controller.js';
 import * as employeeCredentialController from '../controllers/employeeCredential.controller.js';
 import * as profileController from '../controllers/profile.controller.js';
 import * as privateInfoController from '../controllers/privateInfo.controller.js';
+import * as employeeDocumentController from '../controllers/employeeDocument.controller.js';
 import * as payrollController from '../../payroll/controllers/payroll.controller.js';
 import * as leaveBalanceController from '../../leave/controllers/leaveBalance.controller.js';
 import { protect, restrictTo } from '../../auth/middleware/auth.middleware.js';
@@ -14,10 +16,13 @@ import {
     updateBankAccountValidator,
     updateIdentifiersValidator,
     employeeIdParamValidator,
+    uploadDocumentValidator,
+    documentIdParamValidator,
 } from '../validators/employee.validator.js';
 import { salaryStructureValidator } from '../../payroll/validators/payroll.validator.js';
 
 const router = Router();
+const upload = multer({ storage: multer.memoryStorage() });
 
 // Protect all employee routes
 router.use(protect);
@@ -148,6 +153,31 @@ router.get(
     restrictTo('admin', 'hr'),
     employeeIdParamValidator,
     leaveBalanceController.getEmployeeBalances,
+);
+
+// ── Documents (Admin/HR) ──────────────────────────────────────────────────
+router.get(
+    '/:employeeId/documents',
+    restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
+    employeeDocumentController.getEmployeeDocuments,
+);
+
+router.post(
+    '/:employeeId/documents',
+    restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
+    upload.single('file'),
+    uploadDocumentValidator,
+    employeeDocumentController.uploadEmployeeDocument,
+);
+
+router.delete(
+    '/:employeeId/documents/:docId',
+    restrictTo('admin', 'hr'),
+    employeeIdParamValidator,
+    documentIdParamValidator,
+    employeeDocumentController.deleteEmployeeDocument,
 );
 
 export default router;

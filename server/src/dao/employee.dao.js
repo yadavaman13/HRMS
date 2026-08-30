@@ -15,6 +15,8 @@ import {
     leaveTypes,
     leaveAllocations,
     salaryStructures,
+    salaryStructureComponents,
+    salaryComponentDefinitions,
 } from '../db/schema/schema.js';
 import { users } from '../db/schema/schema.js';
 import { departments, jobPositions, locations } from '../db/schema/schema.js';
@@ -196,8 +198,37 @@ export async function upsertEmployeeIdentifiers(employeeId, data) {
 
 // ── Documents ────────────────────────────────────────────────────────────────
 
-export async function getEmployeeDocuments(employeeId) {
-    return db.select().from(employeeDocuments).where(eq(employeeDocuments.employeeId, employeeId));
+export async function getEmployeeDocuments(employeeId, tx) {
+    const client = tx || db;
+    return client
+        .select()
+        .from(employeeDocuments)
+        .where(eq(employeeDocuments.employeeId, employeeId));
+}
+
+export async function getEmployeeDocumentById(id, tx) {
+    const client = tx || db;
+    const [doc] = await client
+        .select()
+        .from(employeeDocuments)
+        .where(eq(employeeDocuments.id, id))
+        .limit(1);
+    return doc || null;
+}
+
+export async function createEmployeeDocument(data, tx) {
+    const client = tx || db;
+    const [doc] = await client.insert(employeeDocuments).values(data).returning();
+    return doc;
+}
+
+export async function deleteEmployeeDocument(id, tx) {
+    const client = tx || db;
+    const [doc] = await client
+        .delete(employeeDocuments)
+        .where(eq(employeeDocuments.id, id))
+        .returning();
+    return doc || null;
 }
 
 // ── Skills ───────────────────────────────────────────────────────────────────
@@ -451,14 +482,39 @@ export async function createEmployeeTx({
                 wageType = 'fixed';
             }
 
-            await tx.insert(salaryStructures).values({
-                employeeId: newEmployee.id,
-                monthlyWage,
-                wageType,
-                effectiveFrom: joiningDate,
-                status: 'ACTIVE',
-                createdBy: actorUserId,
-            });
+            const [struct] = await tx
+                .insert(salaryStructures)
+                .values({
+                    employeeId: newEmployee.id,
+                    monthlyWage,
+                    wageType,
+                    effectiveFrom: joiningDate,
+                    status: 'ACTIVE',
+                    createdBy: actorUserId,
+                })
+                .returning();
+
+            const [basicComp] = await tx
+                .select()
+                .from(salaryComponentDefinitions)
+                .where(
+                    and(
+                        eq(salaryComponentDefinitions.organizationId, organizationId),
+                        eq(salaryComponentDefinitions.code, 'BASIC'),
+                        eq(salaryComponentDefinitions.isActive, true),
+                    ),
+                )
+                .limit(1);
+
+            if (basicComp && struct) {
+                await tx.insert(salaryStructureComponents).values({
+                    salaryStructureId: struct.id,
+                    componentDefinitionId: basicComp.id,
+                    calculationType: 'percentage_of_wage',
+                    percentage: '100.00',
+                    sequence: 1,
+                });
+            }
         }
 
         // 9. Log audit log

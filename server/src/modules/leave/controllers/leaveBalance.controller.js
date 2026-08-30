@@ -83,15 +83,38 @@ export async function getEmployeeBalances(req, res, next) {
  */
 export async function allocateLeave(req, res, next) {
     try {
-        const {
+        let {
             employeeId,
             leaveTypeId,
             periodStart,
             periodEnd,
             allocatedDays,
+            daysAllocated,
             carriedForwardDays = 0,
             description,
+            reason,
+            year,
         } = req.body;
+
+        const effectiveAllocatedDays = Number(allocatedDays || daysAllocated);
+        if (!effectiveAllocatedDays || effectiveAllocatedDays <= 0) {
+            return sendResponse({
+                res,
+                statusCode: 400,
+                message: 'allocatedDays must be a positive number',
+                success: false,
+            });
+        }
+
+        if (year && (!periodStart || !periodEnd)) {
+            periodStart = periodStart || `${year}-01-01`;
+            periodEnd = periodEnd || `${year}-12-31`;
+        }
+        if (!periodStart || !periodEnd) {
+            const currentYear = new Date().getFullYear();
+            periodStart = `${currentYear}-01-01`;
+            periodEnd = `${currentYear}-12-31`;
+        }
 
         const employee = await getEmployeeById(employeeId);
         if (!employee || employee.organizationId !== req.user.organizationId) {
@@ -127,11 +150,12 @@ export async function allocateLeave(req, res, next) {
             leaveTypeId,
             periodStart,
             periodEnd,
-            allocatedDays,
-            carriedForwardDays,
+            allocatedDays: String(effectiveAllocatedDays),
+            carriedForwardDays: Number(carriedForwardDays) || 0,
             createdBy: req.user.id,
             description:
                 description ||
+                reason ||
                 `Quota allocated for ${leaveType.name} (${periodStart} to ${periodEnd})`,
         });
 

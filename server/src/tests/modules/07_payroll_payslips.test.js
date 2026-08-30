@@ -11,7 +11,7 @@ const docLogger = new FeatureApiDocLogger(
 
 describe('07: Payroll & Payslip Management API', () => {
     let adminUser;
-    let employeeSession;
+    let _employeeSession;
     let employeeId;
     let periodId;
     let payslipId;
@@ -49,7 +49,7 @@ describe('07: Payroll & Payslip Management API', () => {
 
         const cookieHeader = loginRes.headers['set-cookie'];
         const tokenCookie = cookieHeader ? cookieHeader[0].split(';')[0] : '';
-        employeeSession = {
+        _employeeSession = {
             cookie: tokenCookie,
             employeeId,
         };
@@ -61,7 +61,6 @@ describe('07: Payroll & Payslip Management API', () => {
 
     describe('POST & GET /api/payroll/periods', () => {
         it('should create new monthly payroll period (Admin)', async () => {
-            const timestamp = Date.now();
             const year = 2030 + Math.floor(Math.random() * 50);
             const periodPayload = {
                 periodStart: `${year}-01-01`,

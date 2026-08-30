@@ -42,6 +42,14 @@ export const locationValidator = [
     validateRequest,
 ];
 
+export const updateLocationValidator = [
+    body('name').optional().isString().trim().isLength({ min: 2, max: 255 }),
+    body('address').optional().isString(),
+    body('city').optional().isString(),
+    body('isActive').optional().isBoolean(),
+    validateRequest,
+];
+
 export const departmentValidator = [
     body('name')
         .notEmpty()
@@ -50,7 +58,21 @@ export const departmentValidator = [
         .isLength({ min: 2, max: 255 })
         .withMessage('Department name is required'),
     body('code').optional().isString().trim().isLength({ max: 50 }),
-    body('managerEmployeeId').optional().isUUID().withMessage('Invalid manager employee ID'),
+    body('managerEmployeeId')
+        .optional({ nullable: true, checkFalsy: true })
+        .isUUID()
+        .withMessage('Invalid manager employee ID'),
+    body('isActive').optional().isBoolean(),
+    validateRequest,
+];
+
+export const updateDepartmentValidator = [
+    body('name').optional().isString().trim().isLength({ min: 2, max: 255 }),
+    body('code').optional().isString().trim().isLength({ max: 50 }),
+    body('managerEmployeeId')
+        .optional({ nullable: true, checkFalsy: true })
+        .isUUID()
+        .withMessage('Invalid manager employee ID'),
     body('isActive').optional().isBoolean(),
     validateRequest,
 ];
@@ -62,6 +84,13 @@ export const jobPositionValidator = [
         .trim()
         .isLength({ min: 2, max: 255 })
         .withMessage('Job position name is required'),
+    body('description').optional().isString(),
+    body('isActive').optional().isBoolean(),
+    validateRequest,
+];
+
+export const updateJobPositionValidator = [
+    body('name').optional().isString().trim().isLength({ min: 2, max: 255 }),
     body('description').optional().isString(),
     body('isActive').optional().isBoolean(),
     validateRequest,

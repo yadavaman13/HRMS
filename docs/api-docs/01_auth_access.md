@@ -1,21 +1,29 @@
 # Feature 01: Authentication & Access Control API
 
-> Covers user authentication, Login ID login, session management, password rotations, and role permissions.
+> Covers user authentication, Login ID login, session management, email verification OTP, password resets, account recovery, and role permissions.
 
 ## 📋 Endpoints Overview
 
-| Method | Endpoint                    | Scenario                                   | Status |
-| :----- | :-------------------------- | :----------------------------------------- | :----- |
-| `POST` | `/api/auth/register`        | Register Organization and Admin (Success)  | `201`  |
-| `POST` | `/api/auth/register`        | Register Organization (Validation Failure) | `400`  |
-| `POST` | `/api/auth/login`           | Login with Email (Success)                 | `200`  |
-| `POST` | `/api/auth/login`           | Login with Wrong Password (Unauthorized)   | `401`  |
-| `GET`  | `/api/auth/me`              | Get Current Authenticated User (Success)   | `200`  |
-| `GET`  | `/api/auth/me`              | Get Current User (Unauthenticated)         | `401`  |
-| `GET`  | `/api/auth/roles`           | Get Roles Matrix (Success)                 | `200`  |
-| `GET`  | `/api/auth/permissions`     | Get Permissions Matrix (Success)           | `200`  |
-| `POST` | `/api/auth/change-password` | Change Password (Success)                  | `200`  |
-| `POST` | `/api/auth/logout`          | Logout User (Success)                      | `200`  |
+| Method | Endpoint                               | Scenario                                            | Status |
+| :----- | :------------------------------------- | :-------------------------------------------------- | :----- |
+| `POST` | `/api/auth/register`                   | Register Organization and Admin (Success)           | `201`  |
+| `POST` | `/api/auth/register`                   | Register Organization (Validation Failure)          | `400`  |
+| `POST` | `/api/auth/send-verification-otp`      | Send Verification OTP (Success)                     | `200`  |
+| `POST` | `/api/auth/verify-email`               | Verify Email with OTP (Success)                     | `200`  |
+| `POST` | `/api/auth/resend-otp`                 | Resend Verification OTP (Success)                   | `200`  |
+| `POST` | `/api/auth/login`                      | Login with Email (Success)                          | `200`  |
+| `POST` | `/api/auth/login`                      | Login with Wrong Password (Unauthorized)            | `401`  |
+| `POST` | `/api/auth/forgot-password`            | Request Password Reset OTP (Success)                | `200`  |
+| `POST` | `/api/auth/verify-forgot-password-otp` | Verify Password Reset OTP (Success)                 | `200`  |
+| `POST` | `/api/auth/reset-password`             | Reset Password with Confirmed Credentials (Success) | `200`  |
+| `POST` | `/api/auth/recover-account/request`    | Request Account Recovery OTP (Success)              | `200`  |
+| `POST` | `/api/auth/recover-account/verify`     | Verify Account Recovery OTP & Restore (Success)     | `200`  |
+| `GET`  | `/api/auth/me`                         | Get Current Authenticated User (Success)            | `200`  |
+| `GET`  | `/api/auth/me`                         | Get Current User (Unauthenticated)                  | `401`  |
+| `GET`  | `/api/auth/roles`                      | Get Roles Matrix (Success)                          | `200`  |
+| `GET`  | `/api/auth/permissions`                | Get Permissions Matrix (Success)                    | `200`  |
+| `POST` | `/api/auth/change-password`            | Change Password (Success)                           | `200`  |
+| `POST` | `/api/auth/logout`                     | Logout User (Success)                               | `200`  |
 
 ---
 
@@ -29,9 +37,9 @@
 
 ```json
 {
-  "companyName": "Acme Corp 1787997907183",
+  "companyName": "Acme Corp 1788085604547",
   "name": "John Admin",
-  "email": "admin_1787997907183@example.com",
+  "email": "admin_1788085604547@example.com",
   "password": "Password@123",
   "phone": "9876543210"
 }
@@ -45,17 +53,17 @@
   "success": true,
   "error": null,
   "user": {
-    "id": "0343e308-4959-4a6a-ac64-c516e6a81709",
-    "organizationId": "65eddccb-75c5-4f55-b8b2-b904c6153b2e",
+    "id": "b4d8ea49-4cf4-44aa-9b2d-1661bc71e6f2",
+    "organizationId": "fc638ea3-4849-4c92-b4fe-bbe78862a20d",
     "firstName": "John",
     "lastName": "Admin",
-    "email": "admin_1787997907183@example.com",
+    "email": "admin_1788085604547@example.com",
     "role": "admin",
     "isActive": true,
     "emailVerified": false,
     "mustChangePassword": false,
-    "createdAt": "2026-08-29T10:05:14.266Z",
-    "updatedAt": "2026-08-29T10:05:14.266Z"
+    "createdAt": "2026-08-30T10:26:46.780Z",
+    "updatedAt": "2026-08-30T10:26:46.780Z"
   }
 }
 ```
@@ -121,7 +129,87 @@
 
 ---
 
-### 3. Login with Email (Success)
+### 3. Send Verification OTP (Success)
+
+- **Endpoint**: `POST /api/auth/send-verification-otp`
+- **Expected Status**: `200`
+- **Request Body**:
+
+```json
+{
+  "email": "otp_test_1788085604544@example.com"
+}
+```
+
+- **Response Body**:
+
+```json
+{
+  "message": "Verification OTP sent to your email.",
+  "success": true,
+  "error": null
+}
+```
+
+> **Note**: Dispatches 6-digit email verification OTP to unverified email address.
+
+---
+
+### 4. Verify Email with OTP (Success)
+
+- **Endpoint**: `POST /api/auth/verify-email`
+- **Expected Status**: `200`
+- **Request Body**:
+
+```json
+{
+  "email": "otp_test_1788085604544@example.com",
+  "otp": "123456"
+}
+```
+
+- **Response Body**:
+
+```json
+{
+  "message": "Email verified successfully",
+  "success": true,
+  "error": null
+}
+```
+
+> **Note**: Verifies email address and marks emailVerified in database/cache.
+
+---
+
+### 5. Resend Verification OTP (Success)
+
+- **Endpoint**: `POST /api/auth/resend-otp`
+- **Expected Status**: `200`
+- **Request Body**:
+
+```json
+{
+  "email": "otp_test_1788085604544@example.com",
+  "purpose": "verify"
+}
+```
+
+- **Response Body**:
+
+```json
+{
+  "message": "OTP resent successfully",
+  "success": true,
+  "error": null
+}
+```
+
+> **Note**: Resends verification OTP if cooldown period has elapsed.
+
+---
+
+### 6. Login with Email (Success)
 
 - **Endpoint**: `POST /api/auth/login`
 - **Expected Status**: `200`
@@ -129,7 +217,7 @@
 
 ```json
 {
-  "email": "test_user_1787997920591_60721@example.com",
+  "email": "test_user_1788085617803_95841@example.com",
   "password": "Password@123"
 }
 ```
@@ -142,17 +230,17 @@
   "success": true,
   "error": null,
   "user": {
-    "id": "e9cdb6ee-5535-462e-b36a-039ac56bd00d",
-    "organizationId": "60e50682-c7d3-45ff-9fca-34951308c63a",
+    "id": "42b1e7cb-14dc-4854-a3dc-24b7ec5d2f88",
+    "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
     "firstName": "Test",
     "lastName": "User",
-    "email": "test_user_1787997920591_60721@example.com",
+    "email": "test_user_1788085617803_95841@example.com",
     "role": "employee",
     "isActive": true,
     "emailVerified": true,
     "mustChangePassword": false,
-    "createdAt": "2026-08-29T10:05:21.316Z",
-    "updatedAt": "2026-08-29T10:05:21.316Z"
+    "createdAt": "2026-08-30T10:26:57.940Z",
+    "updatedAt": "2026-08-30T10:26:57.940Z"
   }
 }
 ```
@@ -161,7 +249,7 @@
 
 ---
 
-### 4. Login with Wrong Password (Unauthorized)
+### 7. Login with Wrong Password (Unauthorized)
 
 - **Endpoint**: `POST /api/auth/login`
 - **Expected Status**: `401`
@@ -169,7 +257,7 @@
 
 ```json
 {
-  "email": "test_user_1787997920591_60721@example.com",
+  "email": "test_user_1788085617803_95841@example.com",
   "password": "WrongPassword123"
 }
 ```
@@ -188,7 +276,142 @@
 
 ---
 
-### 5. Get Current Authenticated User (Success)
+### 8. Request Password Reset OTP (Success)
+
+- **Endpoint**: `POST /api/auth/forgot-password`
+- **Expected Status**: `200`
+- **Request Body**:
+
+```json
+{
+  "email": "test_user_1788085620185_57929@example.com"
+}
+```
+
+- **Response Body**:
+
+```json
+{
+  "message": "OTP sent to the registered email. Please check your inbox.",
+  "success": true,
+  "error": null
+}
+```
+
+> **Note**: Dispatches password reset OTP to user registered email address.
+
+---
+
+### 9. Verify Password Reset OTP (Success)
+
+- **Endpoint**: `POST /api/auth/verify-forgot-password-otp`
+- **Expected Status**: `200`
+- **Request Body**:
+
+```json
+{
+  "email": "test_user_1788085620185_57929@example.com",
+  "otp": "654321"
+}
+```
+
+- **Response Body**:
+
+```json
+{
+  "message": "OTP verified successfully.",
+  "success": true,
+  "error": null
+}
+```
+
+> **Note**: Validates reset OTP and grants a temporary 10-minute reset token in Redis.
+
+---
+
+### 10. Reset Password with Confirmed Credentials (Success)
+
+- **Endpoint**: `POST /api/auth/reset-password`
+- **Expected Status**: `200`
+- **Request Body**:
+
+```json
+{
+  "email": "test_user_1788085620185_57929@example.com",
+  "otp": "654321",
+  "password": "BrandNewPassword@999",
+  "confirmPassword": "BrandNewPassword@999"
+}
+```
+
+- **Response Body**:
+
+```json
+{
+  "message": "Password reset successful.",
+  "success": true,
+  "error": null
+}
+```
+
+> **Note**: Updates user password hash and invalidates active session cache.
+
+---
+
+### 11. Request Account Recovery OTP (Success)
+
+- **Endpoint**: `POST /api/auth/recover-account/request`
+- **Expected Status**: `200`
+- **Request Body**:
+
+```json
+{
+  "email": "test_user_1788085625089_27912@example.com"
+}
+```
+
+- **Response Body**:
+
+```json
+{
+  "message": "OTP sent to the registered email. Please check your inbox.",
+  "success": true,
+  "error": null
+}
+```
+
+> **Note**: Sends recovery OTP to restore a soft-deleted account within the 15-day grace window.
+
+---
+
+### 12. Verify Account Recovery OTP & Restore (Success)
+
+- **Endpoint**: `POST /api/auth/recover-account/verify`
+- **Expected Status**: `200`
+- **Request Body**:
+
+```json
+{
+  "email": "test_user_1788085625089_27912@example.com",
+  "otp": "112233"
+}
+```
+
+- **Response Body**:
+
+```json
+{
+  "message": "Account recovered successfully! You can now login.",
+  "success": true,
+  "error": null
+}
+```
+
+> **Note**: Restores user account state (isDeleted: false, isActive: true) and sends confirmation email.
+
+---
+
+### 13. Get Current Authenticated User (Success)
 
 - **Endpoint**: `GET /api/auth/me`
 - **Expected Status**: `200`
@@ -208,33 +431,33 @@
   "success": true,
   "error": null,
   "user": {
-    "id": "84661394-dde1-4488-997a-06d92cf65dc0",
-    "organizationId": "60e50682-c7d3-45ff-9fca-34951308c63a",
+    "id": "643b29a0-abc1-41dd-8e0f-c2a6f8cfa477",
+    "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
     "firstName": "Test",
     "lastName": "User",
-    "email": "test_user_1787997922894_4470@example.com",
+    "email": "test_user_1788085629948_49257@example.com",
     "role": "employee",
     "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg",
     "isActive": true,
     "emailVerified": true,
     "mustChangePassword": false,
-    "createdAt": "2026-08-29T10:05:23.751Z",
-    "updatedAt": "2026-08-29T10:05:23.751Z"
+    "createdAt": "2026-08-30T10:27:10.100Z",
+    "updatedAt": "2026-08-30T10:27:10.100Z"
   },
   "data": {
     "user": {
-      "id": "84661394-dde1-4488-997a-06d92cf65dc0",
-      "organizationId": "60e50682-c7d3-45ff-9fca-34951308c63a",
+      "id": "643b29a0-abc1-41dd-8e0f-c2a6f8cfa477",
+      "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
       "firstName": "Test",
       "lastName": "User",
-      "email": "test_user_1787997922894_4470@example.com",
+      "email": "test_user_1788085629948_49257@example.com",
       "role": "employee",
       "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg",
       "isActive": true,
       "emailVerified": true,
       "mustChangePassword": false,
-      "createdAt": "2026-08-29T10:05:23.751Z",
-      "updatedAt": "2026-08-29T10:05:23.751Z"
+      "createdAt": "2026-08-30T10:27:10.100Z",
+      "updatedAt": "2026-08-30T10:27:10.100Z"
     }
   }
 }
@@ -244,7 +467,7 @@
 
 ---
 
-### 6. Get Current User (Unauthenticated)
+### 14. Get Current User (Unauthenticated)
 
 - **Endpoint**: `GET /api/auth/me`
 - **Expected Status**: `401`
@@ -262,7 +485,7 @@
 
 ---
 
-### 7. Get Roles Matrix (Success)
+### 15. Get Roles Matrix (Success)
 
 - **Endpoint**: `GET /api/auth/roles`
 - **Expected Status**: `200`
@@ -307,7 +530,7 @@
 
 ---
 
-### 8. Get Permissions Matrix (Success)
+### 16. Get Permissions Matrix (Success)
 
 - **Endpoint**: `GET /api/auth/permissions`
 - **Expected Status**: `200`
@@ -386,7 +609,7 @@
 
 ---
 
-### 9. Change Password (Success)
+### 17. Change Password (Success)
 
 - **Endpoint**: `POST /api/auth/change-password`
 - **Expected Status**: `200`
@@ -421,7 +644,7 @@
 
 ---
 
-### 10. Logout User (Success)
+### 18. Logout User (Success)
 
 - **Endpoint**: `POST /api/auth/logout`
 - **Expected Status**: `200`

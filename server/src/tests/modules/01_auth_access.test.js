@@ -1,12 +1,17 @@
 import request from 'supertest';
 import app from '../../app.js';
+import redis from '../../config/cache.config.js';
 import { FeatureApiDocLogger } from '../helpers/md-logger.js';
-import { generateTestUserData, createAndLoginTestUser } from '../helpers/auth-helper.js';
+import { createAndLoginTestUser } from '../helpers/auth-helper.js';
+import { db } from '../../config/database.config.js';
+import { users } from '../../db/schema/schema.js';
+import { eq } from 'drizzle-orm';
+import crypto from 'crypto';
 
 const docLogger = new FeatureApiDocLogger(
     '01_auth_access.md',
     'Feature 01: Authentication & Access Control API',
-    'Covers user authentication, Login ID login, session management, password rotations, and role permissions.',
+    'Covers user authentication, Login ID login, session management, email verification OTP, password resets, account recovery, and role permissions.',
 );
 
 describe('01: Auth & Access Control API', () => {
@@ -65,6 +70,101 @@ describe('01: Auth & Access Control API', () => {
         });
     });
 
+    describe('Email Verification OTP Workflow', () => {
+        const testOtpEmail = `otp_test_${Date.now()}@example.com`;
+        const testOtpCode = '123456';
+
+        it('should send pre-registration verification OTP (200 OK)', async () => {
+            const res = await request(app)
+                .post('/api/auth/send-verification-otp')
+                .send({ email: testOtpEmail });
+
+            docLogger.record({
+                scenario: 'Send Verification OTP (Success)',
+                method: 'POST',
+                endpoint: '/api/auth/send-verification-otp',
+                requestBody: { email: testOtpEmail },
+                statusCode: res.status,
+                responseBody: res.body,
+                notes: 'Dispatches 6-digit email verification OTP to unverified email address.',
+            });
+
+            expect(res.status).toBe(200);
+            expect(res.body.success).toBe(true);
+        });
+
+        it('should verify email with valid OTP (200 OK)', async () => {
+            // Seed the test OTP into redis
+            const now = Date.now();
+            const otpHash = crypto.createHash('sha256').update(testOtpCode).digest('hex');
+            await redis.set(
+                `verify:${testOtpEmail.toLowerCase()}`,
+                JSON.stringify({
+                    otp: testOtpCode,
+                    otpHash,
+                    attempts: 0,
+                    resendCount: 0,
+                    cooldownExpiresAt: now + 120000,
+                    createdAt: now,
+                }),
+                'EX',
+                600,
+            );
+
+            const res = await request(app)
+                .post('/api/auth/verify-email')
+                .send({ email: testOtpEmail, otp: testOtpCode });
+
+            docLogger.record({
+                scenario: 'Verify Email with OTP (Success)',
+                method: 'POST',
+                endpoint: '/api/auth/verify-email',
+                requestBody: { email: testOtpEmail, otp: testOtpCode },
+                statusCode: res.status,
+                responseBody: res.body,
+                notes: 'Verifies email address and marks emailVerified in database/cache.',
+            });
+
+            expect(res.status).toBe(200);
+            expect(res.body.success).toBe(true);
+        });
+
+        it('should resend verification OTP (200 OK)', async () => {
+            const now = Date.now();
+            const otpHash = crypto.createHash('sha256').update(testOtpCode).digest('hex');
+            await redis.set(
+                `verify:${testOtpEmail.toLowerCase()}`,
+                JSON.stringify({
+                    otp: testOtpCode,
+                    otpHash,
+                    attempts: 0,
+                    resendCount: 0,
+                    cooldownExpiresAt: now - 1000, // Cooldown elapsed
+                    createdAt: now,
+                }),
+                'EX',
+                600,
+            );
+
+            const res = await request(app)
+                .post('/api/auth/resend-otp')
+                .send({ email: testOtpEmail, purpose: 'verify' });
+
+            docLogger.record({
+                scenario: 'Resend Verification OTP (Success)',
+                method: 'POST',
+                endpoint: '/api/auth/resend-otp',
+                requestBody: { email: testOtpEmail, purpose: 'verify' },
+                statusCode: res.status,
+                responseBody: res.body,
+                notes: 'Resends verification OTP if cooldown period has elapsed.',
+            });
+
+            expect(res.status).toBe(200);
+            expect(res.body.success).toBe(true);
+        });
+    });
+
     describe('POST /api/auth/login', () => {
         let seededUser;
         const plainPassword = 'Password@123';
@@ -120,7 +220,167 @@ describe('01: Auth & Access Control API', () => {
         });
     });
 
-    describe('GET /api/auth/me', () => {
+    describe('Password Reset Workflow', () => {
+        let resetUser;
+        const resetOtpCode = '654321';
+        const newResetPassword = 'BrandNewPassword@999';
+
+        beforeAll(async () => {
+            const seeded = await createAndLoginTestUser();
+            resetUser = seeded.user;
+        });
+
+        it('should send forgot password OTP (200 OK)', async () => {
+            const res = await request(app)
+                .post('/api/auth/forgot-password')
+                .send({ email: resetUser.email });
+
+            docLogger.record({
+                scenario: 'Request Password Reset OTP (Success)',
+                method: 'POST',
+                endpoint: '/api/auth/forgot-password',
+                requestBody: { email: resetUser.email },
+                statusCode: res.status,
+                responseBody: res.body,
+                notes: 'Dispatches password reset OTP to user registered email address.',
+            });
+
+            expect(res.status).toBe(200);
+            expect(res.body.success).toBe(true);
+        });
+
+        it('should verify forgot password OTP (200 OK)', async () => {
+            const now = Date.now();
+            const otpHash = crypto.createHash('sha256').update(resetOtpCode).digest('hex');
+            await redis.set(
+                `forgot-password:${resetUser.email.toLowerCase()}`,
+                JSON.stringify({
+                    otp: resetOtpCode,
+                    otpHash,
+                    attempts: 0,
+                    resendCount: 0,
+                    cooldownExpiresAt: now + 120000,
+                    createdAt: now,
+                }),
+                'EX',
+                600,
+            );
+
+            const res = await request(app)
+                .post('/api/auth/verify-forgot-password-otp')
+                .send({ email: resetUser.email, otp: resetOtpCode });
+
+            docLogger.record({
+                scenario: 'Verify Password Reset OTP (Success)',
+                method: 'POST',
+                endpoint: '/api/auth/verify-forgot-password-otp',
+                requestBody: { email: resetUser.email, otp: resetOtpCode },
+                statusCode: res.status,
+                responseBody: res.body,
+                notes: 'Validates reset OTP and grants a temporary 10-minute reset token in Redis.',
+            });
+
+            expect(res.status).toBe(200);
+            expect(res.body.success).toBe(true);
+        });
+
+        it('should reset password with verified OTP token (200 OK)', async () => {
+            const resetPayload = {
+                email: resetUser.email,
+                otp: resetOtpCode,
+                password: newResetPassword,
+                confirmPassword: newResetPassword,
+            };
+
+            const res = await request(app).post('/api/auth/reset-password').send(resetPayload);
+
+            docLogger.record({
+                scenario: 'Reset Password with Confirmed Credentials (Success)',
+                method: 'POST',
+                endpoint: '/api/auth/reset-password',
+                requestBody: resetPayload,
+                statusCode: res.status,
+                responseBody: res.body,
+                notes: 'Updates user password hash and invalidates active session cache.',
+            });
+
+            expect(res.status).toBe(200);
+            expect(res.body.success).toBe(true);
+        });
+    });
+
+    describe('Account Recovery Workflow', () => {
+        let deletedUser;
+        const recoveryOtp = '112233';
+
+        beforeAll(async () => {
+            const seeded = await createAndLoginTestUser();
+            deletedUser = seeded.user;
+
+            // Mark user account as deleted with recovery window
+            const expiry = new Date(Date.now() + 15 * 24 * 60 * 60 * 1000);
+            await db
+                .update(users)
+                .set({ isDeleted: true, isActive: false, recoveryExpiresAt: expiry })
+                .where(eq(users.id, deletedUser.id));
+        });
+
+        it('should request account recovery OTP (200 OK)', async () => {
+            const res = await request(app)
+                .post('/api/auth/recover-account/request')
+                .send({ email: deletedUser.email });
+
+            docLogger.record({
+                scenario: 'Request Account Recovery OTP (Success)',
+                method: 'POST',
+                endpoint: '/api/auth/recover-account/request',
+                requestBody: { email: deletedUser.email },
+                statusCode: res.status,
+                responseBody: res.body,
+                notes: 'Sends recovery OTP to restore a soft-deleted account within the 15-day grace window.',
+            });
+
+            expect(res.status).toBe(200);
+            expect(res.body.success).toBe(true);
+        });
+
+        it('should verify recovery OTP and restore account (200 OK)', async () => {
+            const now = Date.now();
+            const otpHash = crypto.createHash('sha256').update(recoveryOtp).digest('hex');
+            await redis.set(
+                `recover-account:${deletedUser.email.toLowerCase()}`,
+                JSON.stringify({
+                    otp: recoveryOtp,
+                    otpHash,
+                    attempts: 0,
+                    resendCount: 0,
+                    cooldownExpiresAt: now + 120000,
+                    createdAt: now,
+                }),
+                'EX',
+                600,
+            );
+
+            const res = await request(app)
+                .post('/api/auth/recover-account/verify')
+                .send({ email: deletedUser.email, otp: recoveryOtp });
+
+            docLogger.record({
+                scenario: 'Verify Account Recovery OTP & Restore (Success)',
+                method: 'POST',
+                endpoint: '/api/auth/recover-account/verify',
+                requestBody: { email: deletedUser.email, otp: recoveryOtp },
+                statusCode: res.status,
+                responseBody: res.body,
+                notes: 'Restores user account state (isDeleted: false, isActive: true) and sends confirmation email.',
+            });
+
+            expect(res.status).toBe(200);
+            expect(res.body.success).toBe(true);
+        });
+    });
+
+    describe('GET /api/auth/me & /get-me', () => {
         beforeAll(async () => {
             const authResult = await createAndLoginTestUser();
             testUser = authResult.user;
@@ -200,7 +460,7 @@ describe('01: Auth & Access Control API', () => {
         });
     });
 
-    describe('POST /api/auth/change-password', () => {
+    describe('POST & PATCH /api/auth/change-password', () => {
         it('should rotate user password and clear mustChangePassword (200 OK)', async () => {
             const newPassword = 'NewStrongPassword@123';
             const changePayload = {

@@ -94,6 +94,16 @@ export async function updateComponentDefinition(id, data, tx) {
     return definition || null;
 }
 
+export async function deleteComponentDefinition(id, tx) {
+    const client = tx || db;
+    const [definition] = await client
+        .update(salaryComponentDefinitions)
+        .set({ isActive: false, updatedAt: new Date() })
+        .where(eq(salaryComponentDefinitions.id, id))
+        .returning();
+    return definition || null;
+}
+
 // ── Salary Structures ────────────────────────────────────────────────────────
 
 export async function getSalaryStructureByEmployeeId(employeeId, tx) {
@@ -152,6 +162,7 @@ export async function updateSalaryStructure(id, data, tx) {
 }
 
 export async function createSalaryStructureComponents(components, tx) {
+    if (!components || components.length === 0) return [];
     const client = tx || db;
     return await client.insert(salaryStructureComponents).values(components).returning();
 }
@@ -294,6 +305,7 @@ export async function deletePayslipsByPeriod(payrollPeriodId, tx) {
 // ── Payslip Lines ────────────────────────────────────────────────────────────
 
 export async function createPayslipLines(lines, tx) {
+    if (!lines || lines.length === 0) return [];
     const client = tx || db;
     return await client.insert(payslipLines).values(lines).returning();
 }

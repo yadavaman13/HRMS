@@ -145,3 +145,26 @@ export const employeeIdParamValidator = [
     param('id').optional().isUUID().withMessage('Invalid ID format'),
     validateRequest,
 ];
+
+export const uploadDocumentValidator = [
+    body('documentType')
+        .notEmpty()
+        .withMessage('documentType is required')
+        .isIn([
+            'resume',
+            'pan_card',
+            'aadhaar',
+            'offer_letter',
+            'medical_certificate',
+            'certification',
+            'other',
+        ])
+        .withMessage('Invalid document type'),
+    body('fileName').optional().isString().trim(),
+    validateRequest,
+];
+
+export const documentIdParamValidator = [
+    param('docId').notEmpty().isUUID().withMessage('Invalid document ID format'),
+    validateRequest,
+];

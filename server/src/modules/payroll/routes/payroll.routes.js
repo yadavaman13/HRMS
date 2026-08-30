@@ -4,6 +4,8 @@ import { protect, restrictTo } from '../../auth/middleware/auth.middleware.js';
 import {
     payrollSettingsValidator,
     componentDefinitionValidator,
+    updateComponentDefinitionValidator,
+    componentIdParamValidator,
     salaryStructureValidator,
     payrollPeriodValidator,
     payslipsQueryValidator,
@@ -30,6 +32,18 @@ router.post(
     restrictTo('admin', 'hr'),
     componentDefinitionValidator,
     payrollController.createComponent,
+);
+router.patch(
+    '/components/:id',
+    restrictTo('admin', 'hr'),
+    updateComponentDefinitionValidator,
+    payrollController.updateComponent,
+);
+router.delete(
+    '/components/:id',
+    restrictTo('admin', 'hr'),
+    componentIdParamValidator,
+    payrollController.deleteComponent,
 );
 
 // ── Salary Structures ────────────────────────────────────────────────────────

@@ -456,6 +456,7 @@ export async function getEmployeeDashboardOverview(organizationId, employeeId, u
 
     return {
         profile: emp,
+        employee: emp,
         today: {
             record: todayRecord || null,
             session: latestSession || null,

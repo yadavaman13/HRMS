@@ -13,3 +13,15 @@ export async function getEmployeeDashboard(organizationId, userId) {
     }
     return await dashboardDao.getEmployeeDashboardOverview(organizationId, employee.id, userId);
 }
+
+export async function getEmployeeDashboardByEmployeeId(organizationId, employeeId) {
+    const employee = await employeeDao.getEmployeeById(employeeId);
+    if (!employee) {
+        throw new AppError('Employee profile not found', 404);
+    }
+    return await dashboardDao.getEmployeeDashboardOverview(
+        organizationId,
+        employee.id,
+        employee.userId,
+    );
+}
