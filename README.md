@@ -153,7 +153,8 @@ Production deployment is fully declarative:
 ## 🎤 Hackathon Pitch & Presentation Positioning
 
 > _"We built our solution on a reusable engineering template with automated code formatting, linting, testing, and production build validation on every PR. Only CI-verified code reaches our production branch, and production deployment is automatically triggered on Render after all quality checks pass. This allowed our team to spend 100% of our hackathon time on core business logic and differentiating features."_
-=======
+> \=======
+
 # Hi Teja!!! 👋
 
 We are team **ByteBuilders** and we selected **Dayflow HRMS** (Human Resource Management System).
