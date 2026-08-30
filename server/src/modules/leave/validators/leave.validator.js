@@ -79,18 +79,26 @@ export const leaveTypeParamValidator = [
 export const allocateLeaveValidator = [
     body('employeeId').isUUID().withMessage('Valid employee UUID is required'),
     body('leaveTypeId').isUUID().withMessage('Valid leave type UUID is required'),
-    body('periodStart').isDate().withMessage('periodStart must be YYYY-MM-DD'),
-    body('periodEnd').isDate().withMessage('periodEnd must be YYYY-MM-DD'),
+    body('periodStart').optional().isDate().withMessage('periodStart must be YYYY-MM-DD'),
+    body('periodEnd').optional().isDate().withMessage('periodEnd must be YYYY-MM-DD'),
     body('allocatedDays')
-        .notEmpty()
-        .withMessage('allocatedDays is required')
+        .optional()
         .isFloat({ min: 0.1, max: 365 })
         .withMessage('allocatedDays must be between 0.1 and 365'),
+    body('daysAllocated')
+        .optional()
+        .isFloat({ min: 0.1, max: 365 })
+        .withMessage('daysAllocated must be between 0.1 and 365'),
+    body('year')
+        .optional()
+        .isInt({ min: 2000, max: 2100 })
+        .withMessage('year must be a valid integer year'),
     body('carriedForwardDays')
         .optional()
         .isFloat({ min: 0, max: 365 })
         .withMessage('carriedForwardDays must be between 0 and 365'),
     body('description').optional().isString().trim(),
+    body('reason').optional().isString().trim(),
     validateRequest,
 ];
 

@@ -6,7 +6,7 @@ import { createAndLoginTestUser } from '../helpers/auth-helper.js';
 const docLogger = new FeatureApiDocLogger(
     '02_employees_management.md',
     'Feature 02: Employee & Account Management API',
-    'Covers employee provisioning, atomic Login ID generation, directory search, activation controls, and credential resets.',
+    'Covers employee provisioning, atomic Login ID generation, directory search, profile updates, account activation controls, credential resets, and leave balance inspection.',
 );
 
 describe('02: Employee & Account Management API', () => {
@@ -128,6 +128,59 @@ describe('02: Employee & Account Management API', () => {
         });
     });
 
+    describe('PATCH /api/employees/:employeeId', () => {
+        it('should update employee core details (200 OK)', async () => {
+            if (!createdEmployeeId) return;
+
+            const updatePayload = {
+                phone: '9888899999',
+                employmentType: 'full_time',
+            };
+
+            const res = await request(app)
+                .patch(`/api/employees/${createdEmployeeId}`)
+                .set('Cookie', adminUser.cookie)
+                .send(updatePayload);
+
+            docLogger.record({
+                scenario: 'Update Employee Record (Admin)',
+                method: 'PATCH',
+                endpoint: `/api/employees/${createdEmployeeId}`,
+                headers: { Cookie: 'token=JWT_ADMIN_TOKEN' },
+                requestBody: updatePayload,
+                statusCode: res.status,
+                responseBody: res.body,
+                notes: 'Updates core employee attributes including phone, department, and job title.',
+            });
+
+            expect(res.status).toBe(200);
+            expect(res.body.success).toBe(true);
+        });
+    });
+
+    describe('GET /api/employees/:employeeId/leave-balances', () => {
+        it('should get employee leave balances for Admin inspection (200 OK)', async () => {
+            if (!createdEmployeeId) return;
+
+            const res = await request(app)
+                .get(`/api/employees/${createdEmployeeId}/leave-balances`)
+                .set('Cookie', adminUser.cookie);
+
+            docLogger.record({
+                scenario: 'Get Employee Leave Balances (Admin)',
+                method: 'GET',
+                endpoint: `/api/employees/${createdEmployeeId}/leave-balances`,
+                headers: { Cookie: 'token=JWT_ADMIN_TOKEN' },
+                statusCode: res.status,
+                responseBody: res.body,
+                notes: 'Allows HR/Admin to inspect remaining leave balances and allocations for any employee.',
+            });
+
+            expect(res.status).toBe(200);
+            expect(res.body.success).toBe(true);
+        });
+    });
+
     describe('Account Lifecycle: Deactivate / Activate / Reset Password', () => {
         it('should deactivate employee account (200 OK)', async () => {
             if (!createdEmployeeId) return;
@@ -191,6 +244,29 @@ describe('02: Employee & Account Management API', () => {
             expect(res.status).toBe(200);
             expect(res.body.success).toBe(true);
             expect(res.body.data.temporaryPassword).toBeDefined();
+        });
+    });
+
+    describe('DELETE /api/employees/:employeeId', () => {
+        it('should soft-delete employee account (200 OK)', async () => {
+            if (!createdEmployeeId) return;
+
+            const res = await request(app)
+                .delete(`/api/employees/${createdEmployeeId}`)
+                .set('Cookie', adminUser.cookie);
+
+            docLogger.record({
+                scenario: 'Delete Employee Account (Admin)',
+                method: 'DELETE',
+                endpoint: `/api/employees/${createdEmployeeId}`,
+                headers: { Cookie: 'token=JWT_ADMIN_TOKEN' },
+                statusCode: res.status,
+                responseBody: res.body,
+                notes: 'Soft-deletes employee account and archives employment relationship.',
+            });
+
+            expect(res.status).toBe(200);
+            expect(res.body.success).toBe(true);
         });
     });
 });

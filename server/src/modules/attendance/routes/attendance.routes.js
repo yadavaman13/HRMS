@@ -22,6 +22,7 @@ router.post('/check-in', checkInValidator, attendanceController.checkIn);
 router.post('/check-out', checkOutValidator, attendanceController.checkOut);
 router.get('/me', attendanceQueryValidator, attendanceController.getMyAttendance);
 router.get('/me/summary', attendanceController.getMySummary);
+router.get('/export', attendanceController.exportAttendance);
 
 // ── Regularization & Adjustments ─────────────────────────────────────────────
 router.get('/adjustments/me', attendanceAdjustmentController.getMyAdjustments);

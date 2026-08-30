@@ -1,6 +1,4 @@
 import crypto from 'crypto';
-import fs from 'fs';
-import path from 'path';
 import redis from '../config/cache.config.js';
 import { sendEmail } from '../services/mail/mail.service.js';
 

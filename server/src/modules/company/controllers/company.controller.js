@@ -1,4 +1,5 @@
 import * as companyService from '../services/company.service.js';
+import { uploadImageOnImageKit } from '../../../services/image.service.js';
 import { sendResponse } from '../../../utils/response.utlis.js';
 
 function extractReqMetadata(req) {
@@ -54,6 +55,40 @@ export async function updateCompany(req, res, next) {
             message: 'Company details updated successfully',
             success: true,
             data: { company },
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export async function uploadCompanyLogo(req, res, next) {
+    try {
+        if (!req.file) {
+            return sendResponse({
+                res,
+                statusCode: 400,
+                message: 'No logo image file received. Send image file under the "logo" field.',
+                success: false,
+            });
+        }
+
+        const uploadedFile = await uploadImageOnImageKit({ image: req.file });
+        const company = await companyService.updateCompany(
+            req.user.organizationId,
+            req.user.id,
+            { logoUrl: uploadedFile.url },
+            extractReqMetadata(req),
+        );
+
+        return sendResponse({
+            res,
+            statusCode: 200,
+            message: 'Company logo uploaded successfully',
+            success: true,
+            data: {
+                logoUrl: uploadedFile.url,
+                company,
+            },
         });
     } catch (error) {
         next(error);

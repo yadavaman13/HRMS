@@ -1,26 +1,49 @@
 import { Router } from 'express';
+import multer from 'multer';
 import * as companyController from '../controllers/company.controller.js';
 import { protect, restrictTo } from '../../auth/middleware/auth.middleware.js';
 import {
     updateCompanyValidator,
     locationValidator,
+    updateLocationValidator,
     departmentValidator,
+    updateDepartmentValidator,
     jobPositionValidator,
+    updateJobPositionValidator,
     workScheduleValidator,
     holidayValidator,
 } from '../validators/company.validator.js';
 
 const router = Router();
+const upload = multer({ storage: multer.memoryStorage() });
 router.use(protect);
 
 // ── Company Profile ──────────────────────────────────────────────────────────
 router.get('/my', companyController.getMyCompany);
+router.post(
+    '/my/logo',
+    restrictTo('admin'),
+    upload.single('logo'),
+    companyController.uploadCompanyLogo,
+);
+router.post(
+    '/logo',
+    restrictTo('admin'),
+    upload.single('logo'),
+    companyController.uploadCompanyLogo,
+);
 router.get('/:id', companyController.getCompanyById);
 router.patch(
     '/:id',
     restrictTo('admin', 'hr'),
     updateCompanyValidator,
     companyController.updateCompany,
+);
+router.post(
+    '/:id/logo',
+    restrictTo('admin'),
+    upload.single('logo'),
+    companyController.uploadCompanyLogo,
 );
 
 // ── Locations ────────────────────────────────────────────────────────────────
@@ -34,7 +57,7 @@ router.post(
 router.patch(
     '/locations/:id',
     restrictTo('admin', 'hr'),
-    locationValidator,
+    updateLocationValidator,
     companyController.updateLocation,
 );
 router.delete('/locations/:id', restrictTo('admin'), companyController.deleteLocation);
@@ -50,7 +73,7 @@ router.post(
 router.patch(
     '/departments/:id',
     restrictTo('admin', 'hr'),
-    departmentValidator,
+    updateDepartmentValidator,
     companyController.updateDepartment,
 );
 router.delete('/departments/:id', restrictTo('admin'), companyController.deleteDepartment);
@@ -66,7 +89,7 @@ router.post(
 router.patch(
     '/job-positions/:id',
     restrictTo('admin', 'hr'),
-    jobPositionValidator,
+    updateJobPositionValidator,
     companyController.updateJobPosition,
 );
 router.delete('/job-positions/:id', restrictTo('admin'), companyController.deleteJobPosition);

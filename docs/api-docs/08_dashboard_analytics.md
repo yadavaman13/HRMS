@@ -1,22 +1,26 @@
 # Feature 08: Dashboard & Workforce Overview API
 
-> Covers executive analytics, employee self-service metrics, and modular attendance, leave, headcount, and payroll breakdowns.
+> Covers executive analytics, contextual single-employee inspection, employee self-service metrics, and modular attendance, leave, headcount, and payroll breakdowns.
 
 ## 📋 Endpoints Overview
 
-| Method | Endpoint                    | Scenario                               | Status |
-| :----- | :-------------------------- | :------------------------------------- | :----- |
-| `GET`  | `/api/dashboard`            | Get Executive Dashboard (Admin)        | `200`  |
-| `GET`  | `/api/dashboard/attendance` | Get Attendance Dashboard Slice (Admin) | `200`  |
-| `GET`  | `/api/dashboard/leave`      | Get Leave Dashboard Slice (Admin)      | `200`  |
-| `GET`  | `/api/dashboard/employees`  | Get Employees Headcount Slice (Admin)  | `200`  |
-| `GET`  | `/api/dashboard/payroll`    | Get Payroll Dashboard Slice (Admin)    | `200`  |
+| Method | Endpoint                                                       | Scenario                                         | Status |
+| :----- | :------------------------------------------------------------- | :----------------------------------------------- | :----- |
+| `GET`  | `/api/dashboard`                                               | Get Executive Dashboard via Root (Admin)         | `200`  |
+| `GET`  | `/api/dashboard/admin`                                         | Get Explicit Admin Dashboard (Admin)             | `200`  |
+| `GET`  | `/api/dashboard/employee`                                      | Get Employee Self-Service Dashboard (Success)    | `200`  |
+| `GET`  | `/api/dashboard/me`                                            | Get My Dashboard Summary via Alias (Success)     | `200`  |
+| `GET`  | `/api/dashboard/employee/b9b2baaf-41e0-48d6-aa56-72652785eae0` | Get Contextual Single-Employee Dashboard (Admin) | `200`  |
+| `GET`  | `/api/dashboard/attendance`                                    | Get Attendance Dashboard Slice (Admin)           | `200`  |
+| `GET`  | `/api/dashboard/leave`                                         | Get Leave Dashboard Slice (Admin)                | `200`  |
+| `GET`  | `/api/dashboard/employees`                                     | Get Employees Headcount Slice (Admin)            | `200`  |
+| `GET`  | `/api/dashboard/payroll`                                       | Get Payroll Dashboard Slice (Admin)              | `200`  |
 
 ---
 
 ## 🔍 Detailed Scenarios & Outputs
 
-### 1. Get Executive Dashboard (Admin)
+### 1. Get Executive Dashboard via Root (Admin)
 
 - **Endpoint**: `GET /api/dashboard`
 - **Expected Status**: `200`
@@ -39,42 +43,23 @@
     "role": "admin",
     "dashboard": {
       "headcount": {
-        "total": 28,
-        "active": 28,
+        "total": 38,
+        "active": 38,
         "probation": 0,
         "onLeave": 0,
         "terminated": 0,
-        "newJoinersThisMonth": 28
+        "newJoinersThisMonth": 38
       },
-      "departmentBreakdown": [
-        {
-          "departmentId": "282fdfd2-b8cb-4c34-be62-8773ea17d1bc",
-          "departmentName": "Engineering 1787995797181",
-          "departmentCode": "ENG_1787995797181",
-          "employeeCount": 0
-        },
-        {
-          "departmentId": "9bff2d77-1ce7-4aeb-8166-56e663e97131",
-          "departmentName": "Engineering 1787997490949",
-          "departmentCode": "ENG_1787997490949",
-          "employeeCount": 0
-        },
-        {
-          "departmentId": "f094e735-bfd0-416f-b861-06d19fdcde32",
-          "departmentName": "Engineering 1787995274781",
-          "departmentCode": "ENG_1787995274781",
-          "employeeCount": 0
-        }
-      ],
+      "departmentBreakdown": [],
       "employmentTypeBreakdown": [
         {
           "employmentType": "full_time",
-          "count": 28
+          "count": 38
         }
       ],
       "todayAttendance": {
-        "totalRecords": 0,
-        "present": 0,
+        "totalRecords": 3,
+        "present": 3,
         "absent": 0,
         "onLeave": 0,
         "halfDay": 0,
@@ -82,15 +67,81 @@
         "incomplete": 0
       },
       "pendingQueues": {
-        "leavesCount": 0,
-        "adjustmentsCount": 0,
-        "recentPendingLeaves": []
+        "leavesCount": 6,
+        "adjustmentsCount": 3,
+        "recentPendingLeaves": [
+          {
+            "id": "934ae47e-f701-4b9e-9d64-be2f02beb4eb",
+            "employeeId": "b32f1d6a-efae-4957-adb5-b7514c803bbe",
+            "employeeCode": "TESTDIPR20260036",
+            "employeeName": "Diana Prince",
+            "leaveTypeName": "Casual Leave",
+            "leaveTypeCode": "CASUAL_1788085737574",
+            "startDate": "2026-10-01",
+            "endDate": "2026-10-02",
+            "requestedDays": "2.0",
+            "reason": "Tentative plan",
+            "submittedAt": "2026-08-30T10:29:18.724Z"
+          },
+          {
+            "id": "bc7c15e6-f032-4287-8a64-f48e1ac67aa8",
+            "employeeId": "b32f1d6a-efae-4957-adb5-b7514c803bbe",
+            "employeeCode": "TESTDIPR20260036",
+            "employeeName": "Diana Prince",
+            "leaveTypeName": "Casual Leave",
+            "leaveTypeCode": "CASUAL_1788085737574",
+            "startDate": "2026-09-20",
+            "endDate": "2026-09-21",
+            "requestedDays": "1.0",
+            "reason": "Weekend extension",
+            "submittedAt": "2026-08-30T10:29:16.209Z"
+          },
+          {
+            "id": "53299b28-6206-4c29-947e-081b64d7b628",
+            "employeeId": "b32f1d6a-efae-4957-adb5-b7514c803bbe",
+            "employeeCode": "TESTDIPR20260036",
+            "employeeName": "Diana Prince",
+            "leaveTypeName": "Casual Leave",
+            "leaveTypeCode": "CASUAL_1788085737574",
+            "startDate": "2026-09-10",
+            "endDate": "2026-09-11",
+            "requestedDays": "2.0",
+            "reason": "Family wedding event",
+            "submittedAt": "2026-08-30T10:29:11.395Z"
+          },
+          {
+            "id": "cd698ae7-5710-427f-95c4-b730e092c6d3",
+            "employeeId": "f395ce56-3ce4-4c96-8dbe-5317f5e6f5e3",
+            "employeeCode": "TESTDIPR20260027",
+            "employeeName": "Diana Prince",
+            "leaveTypeName": "Casual Leave",
+            "leaveTypeCode": "CASUAL_1788084773277",
+            "startDate": "2026-10-01",
+            "endDate": "2026-10-02",
+            "requestedDays": "2.0",
+            "reason": "Tentative plan",
+            "submittedAt": "2026-08-30T10:13:13.919Z"
+          },
+          {
+            "id": "bbe4705e-04af-4a75-a615-12c3a13d8283",
+            "employeeId": "f395ce56-3ce4-4c96-8dbe-5317f5e6f5e3",
+            "employeeCode": "TESTDIPR20260027",
+            "employeeName": "Diana Prince",
+            "leaveTypeName": "Casual Leave",
+            "leaveTypeCode": "CASUAL_1788084773277",
+            "startDate": "2026-09-20",
+            "endDate": "2026-09-21",
+            "requestedDays": "1.0",
+            "reason": "Weekend extension",
+            "submittedAt": "2026-08-30T10:13:11.553Z"
+          }
+        ]
       },
       "payrollMetrics": {
         "period": {
-          "id": "50b93a88-cf43-48d4-a519-70f21a44a73c",
-          "periodStart": "2077-01-01",
-          "periodEnd": "2077-01-31",
+          "id": "6d0868d6-ed9e-4865-a741-9bb4edcb4166",
+          "periodStart": "2061-01-01",
+          "periodEnd": "2061-01-31",
           "status": "draft",
           "processedAt": null,
           "finalizedAt": null
@@ -103,39 +154,54 @@
         }
       },
       "upcomingHolidays": [],
-      "past7DaysAttendance": [],
+      "past7DaysAttendance": [
+        {
+          "date": "2026-08-30",
+          "present": 3,
+          "absent": 0,
+          "onLeave": 0,
+          "halfDay": 0
+        }
+      ],
       "leaveDistribution": [
         {
-          "leaveTypeId": "57e87d7b-50ec-4bce-9c22-720c5473aadb",
-          "leaveTypeCode": "CASUAL_1787995205725",
+          "leaveTypeId": "1a92e81d-9a85-4ec7-a3e4-47b54b7b8174",
+          "leaveTypeCode": "CASUAL_1788083768714",
           "leaveTypeName": "Casual Leave",
           "totalDays": "0",
           "requestCount": 0
         },
         {
-          "leaveTypeId": "6edbb793-9e48-494c-9053-6efc5df02c54",
-          "leaveTypeCode": "CASUAL_1787997139545",
+          "leaveTypeId": "42bf4909-6c79-4d08-a5e4-e76d8ef52d75",
+          "leaveTypeCode": "CASUAL_1788083523308",
           "leaveTypeName": "Casual Leave",
           "totalDays": "0",
           "requestCount": 0
         },
         {
-          "leaveTypeId": "7423d82e-97a1-4506-a298-9ecf514ac26b",
-          "leaveTypeCode": "CASUAL_1787998021296",
+          "leaveTypeId": "4fc5307d-a414-4cc8-97ce-2005acb22d5a",
+          "leaveTypeCode": "CASUAL_1788084091667",
           "leaveTypeName": "Casual Leave",
           "totalDays": "0",
           "requestCount": 0
         },
         {
-          "leaveTypeId": "7d7bf7e7-d942-447f-96e1-175366fd936d",
-          "leaveTypeCode": "CASUAL_1787997915667",
+          "leaveTypeId": "744a13fd-1838-4771-acd9-275285edb589",
+          "leaveTypeCode": "CASUAL_1788085737574",
           "leaveTypeName": "Casual Leave",
           "totalDays": "0",
           "requestCount": 0
         },
         {
-          "leaveTypeId": "f544a4d9-e736-4db8-a0ff-518d157145c9",
-          "leaveTypeCode": "CASUAL_1787995735466",
+          "leaveTypeId": "a82e825b-df23-4a21-9157-b924aa120560",
+          "leaveTypeCode": "CASUAL_1788082885746",
+          "leaveTypeName": "Casual Leave",
+          "totalDays": "0",
+          "requestCount": 0
+        },
+        {
+          "leaveTypeId": "f9d1b09f-ad10-42d8-b604-1a92441506e6",
+          "leaveTypeCode": "CASUAL_1788084773277",
           "leaveTypeName": "Casual Leave",
           "totalDays": "0",
           "requestCount": 0
@@ -150,7 +216,641 @@
 
 ---
 
-### 2. Get Attendance Dashboard Slice (Admin)
+### 2. Get Explicit Admin Dashboard (Admin)
+
+- **Endpoint**: `GET /api/dashboard/admin`
+- **Expected Status**: `200`
+- **Headers**:
+
+```json
+{
+  "Cookie": "token=JWT_ADMIN_TOKEN"
+}
+```
+
+- **Response Body**:
+
+```json
+{
+  "message": "Admin dashboard analytics retrieved",
+  "success": true,
+  "error": null,
+  "data": {
+    "headcount": {
+      "total": 38,
+      "active": 38,
+      "probation": 0,
+      "onLeave": 0,
+      "terminated": 0,
+      "newJoinersThisMonth": 38
+    },
+    "departmentBreakdown": [],
+    "employmentTypeBreakdown": [
+      {
+        "employmentType": "full_time",
+        "count": 38
+      }
+    ],
+    "todayAttendance": {
+      "totalRecords": 3,
+      "present": 3,
+      "absent": 0,
+      "onLeave": 0,
+      "halfDay": 0,
+      "late": 0,
+      "incomplete": 0
+    },
+    "pendingQueues": {
+      "leavesCount": 6,
+      "adjustmentsCount": 3,
+      "recentPendingLeaves": [
+        {
+          "id": "934ae47e-f701-4b9e-9d64-be2f02beb4eb",
+          "employeeId": "b32f1d6a-efae-4957-adb5-b7514c803bbe",
+          "employeeCode": "TESTDIPR20260036",
+          "employeeName": "Diana Prince",
+          "leaveTypeName": "Casual Leave",
+          "leaveTypeCode": "CASUAL_1788085737574",
+          "startDate": "2026-10-01",
+          "endDate": "2026-10-02",
+          "requestedDays": "2.0",
+          "reason": "Tentative plan",
+          "submittedAt": "2026-08-30T10:29:18.724Z"
+        },
+        {
+          "id": "bc7c15e6-f032-4287-8a64-f48e1ac67aa8",
+          "employeeId": "b32f1d6a-efae-4957-adb5-b7514c803bbe",
+          "employeeCode": "TESTDIPR20260036",
+          "employeeName": "Diana Prince",
+          "leaveTypeName": "Casual Leave",
+          "leaveTypeCode": "CASUAL_1788085737574",
+          "startDate": "2026-09-20",
+          "endDate": "2026-09-21",
+          "requestedDays": "1.0",
+          "reason": "Weekend extension",
+          "submittedAt": "2026-08-30T10:29:16.209Z"
+        },
+        {
+          "id": "53299b28-6206-4c29-947e-081b64d7b628",
+          "employeeId": "b32f1d6a-efae-4957-adb5-b7514c803bbe",
+          "employeeCode": "TESTDIPR20260036",
+          "employeeName": "Diana Prince",
+          "leaveTypeName": "Casual Leave",
+          "leaveTypeCode": "CASUAL_1788085737574",
+          "startDate": "2026-09-10",
+          "endDate": "2026-09-11",
+          "requestedDays": "2.0",
+          "reason": "Family wedding event",
+          "submittedAt": "2026-08-30T10:29:11.395Z"
+        },
+        {
+          "id": "cd698ae7-5710-427f-95c4-b730e092c6d3",
+          "employeeId": "f395ce56-3ce4-4c96-8dbe-5317f5e6f5e3",
+          "employeeCode": "TESTDIPR20260027",
+          "employeeName": "Diana Prince",
+          "leaveTypeName": "Casual Leave",
+          "leaveTypeCode": "CASUAL_1788084773277",
+          "startDate": "2026-10-01",
+          "endDate": "2026-10-02",
+          "requestedDays": "2.0",
+          "reason": "Tentative plan",
+          "submittedAt": "2026-08-30T10:13:13.919Z"
+        },
+        {
+          "id": "bbe4705e-04af-4a75-a615-12c3a13d8283",
+          "employeeId": "f395ce56-3ce4-4c96-8dbe-5317f5e6f5e3",
+          "employeeCode": "TESTDIPR20260027",
+          "employeeName": "Diana Prince",
+          "leaveTypeName": "Casual Leave",
+          "leaveTypeCode": "CASUAL_1788084773277",
+          "startDate": "2026-09-20",
+          "endDate": "2026-09-21",
+          "requestedDays": "1.0",
+          "reason": "Weekend extension",
+          "submittedAt": "2026-08-30T10:13:11.553Z"
+        }
+      ]
+    },
+    "payrollMetrics": {
+      "period": {
+        "id": "6d0868d6-ed9e-4865-a741-9bb4edcb4166",
+        "periodStart": "2061-01-01",
+        "periodEnd": "2061-01-31",
+        "status": "draft",
+        "processedAt": null,
+        "finalizedAt": null
+      },
+      "summary": {
+        "payslipsCount": 0,
+        "totalGross": "0",
+        "totalDeductions": "0",
+        "totalNetPay": "0"
+      }
+    },
+    "upcomingHolidays": [],
+    "past7DaysAttendance": [
+      {
+        "date": "2026-08-30",
+        "present": 3,
+        "absent": 0,
+        "onLeave": 0,
+        "halfDay": 0
+      }
+    ],
+    "leaveDistribution": [
+      {
+        "leaveTypeId": "1a92e81d-9a85-4ec7-a3e4-47b54b7b8174",
+        "leaveTypeCode": "CASUAL_1788083768714",
+        "leaveTypeName": "Casual Leave",
+        "totalDays": "0",
+        "requestCount": 0
+      },
+      {
+        "leaveTypeId": "42bf4909-6c79-4d08-a5e4-e76d8ef52d75",
+        "leaveTypeCode": "CASUAL_1788083523308",
+        "leaveTypeName": "Casual Leave",
+        "totalDays": "0",
+        "requestCount": 0
+      },
+      {
+        "leaveTypeId": "4fc5307d-a414-4cc8-97ce-2005acb22d5a",
+        "leaveTypeCode": "CASUAL_1788084091667",
+        "leaveTypeName": "Casual Leave",
+        "totalDays": "0",
+        "requestCount": 0
+      },
+      {
+        "leaveTypeId": "744a13fd-1838-4771-acd9-275285edb589",
+        "leaveTypeCode": "CASUAL_1788085737574",
+        "leaveTypeName": "Casual Leave",
+        "totalDays": "0",
+        "requestCount": 0
+      },
+      {
+        "leaveTypeId": "a82e825b-df23-4a21-9157-b924aa120560",
+        "leaveTypeCode": "CASUAL_1788082885746",
+        "leaveTypeName": "Casual Leave",
+        "totalDays": "0",
+        "requestCount": 0
+      },
+      {
+        "leaveTypeId": "f9d1b09f-ad10-42d8-b604-1a92441506e6",
+        "leaveTypeCode": "CASUAL_1788084773277",
+        "leaveTypeName": "Casual Leave",
+        "totalDays": "0",
+        "requestCount": 0
+      }
+    ]
+  }
+}
+```
+
+> **Note**: Direct endpoint for organizational KPIs, headcount, and pending approval queues.
+
+---
+
+### 3. Get Employee Self-Service Dashboard (Success)
+
+- **Endpoint**: `GET /api/dashboard/employee`
+- **Expected Status**: `200`
+- **Headers**:
+
+```json
+{
+  "Cookie": "token=JWT_EMPLOYEE_TOKEN"
+}
+```
+
+- **Response Body**:
+
+```json
+{
+  "message": "Employee self-service dashboard retrieved",
+  "success": true,
+  "error": null,
+  "data": {
+    "profile": {
+      "id": "b9b2baaf-41e0-48d6-aa56-72652785eae0",
+      "employeeCode": "TESTGECL20260039",
+      "firstName": "George",
+      "lastName": "Clark",
+      "displayName": "George Clark",
+      "workEmail": "george.clark3@testorg.dayflow.com",
+      "joiningDate": "2026-08-01",
+      "employmentStatus": "active",
+      "departmentName": null,
+      "jobPositionName": null,
+      "locationName": null
+    },
+    "employee": {
+      "id": "b9b2baaf-41e0-48d6-aa56-72652785eae0",
+      "employeeCode": "TESTGECL20260039",
+      "firstName": "George",
+      "lastName": "Clark",
+      "displayName": "George Clark",
+      "workEmail": "george.clark3@testorg.dayflow.com",
+      "joiningDate": "2026-08-01",
+      "employmentStatus": "active",
+      "departmentName": null,
+      "jobPositionName": null,
+      "locationName": null
+    },
+    "today": {
+      "record": null,
+      "session": null,
+      "isCheckedIn": null,
+      "status": "NOT_LOGGED"
+    },
+    "leaveBalances": [
+      {
+        "leaveTypeId": "a82e825b-df23-4a21-9157-b924aa120560",
+        "leaveTypeCode": "CASUAL_1788082885746",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      },
+      {
+        "leaveTypeId": "42bf4909-6c79-4d08-a5e4-e76d8ef52d75",
+        "leaveTypeCode": "CASUAL_1788083523308",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      },
+      {
+        "leaveTypeId": "1a92e81d-9a85-4ec7-a3e4-47b54b7b8174",
+        "leaveTypeCode": "CASUAL_1788083768714",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      },
+      {
+        "leaveTypeId": "4fc5307d-a414-4cc8-97ce-2005acb22d5a",
+        "leaveTypeCode": "CASUAL_1788084091667",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      },
+      {
+        "leaveTypeId": "f9d1b09f-ad10-42d8-b604-1a92441506e6",
+        "leaveTypeCode": "CASUAL_1788084773277",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      },
+      {
+        "leaveTypeId": "744a13fd-1838-4771-acd9-275285edb589",
+        "leaveTypeCode": "CASUAL_1788085737574",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      }
+    ],
+    "monthSummary": {
+      "presentDays": 0,
+      "absentDays": 0,
+      "leaveDays": 0,
+      "halfDays": 0,
+      "totalWorkedHours": "0",
+      "totalOvertimeHours": "0"
+    },
+    "recentAttendance": [],
+    "recentLeaves": [],
+    "latestPayslip": null,
+    "upcomingHolidays": [],
+    "unreadNotificationsCount": 1
+  }
+}
+```
+
+> **Note**: Returns personal daily punch status, remaining leave counters, and latest payslip preview.
+
+---
+
+### 4. Get My Dashboard Summary via Alias (Success)
+
+- **Endpoint**: `GET /api/dashboard/me`
+- **Expected Status**: `200`
+- **Headers**:
+
+```json
+{
+  "Cookie": "token=JWT_EMPLOYEE_TOKEN"
+}
+```
+
+- **Response Body**:
+
+```json
+{
+  "message": "Employee self-service dashboard retrieved",
+  "success": true,
+  "error": null,
+  "data": {
+    "profile": {
+      "id": "b9b2baaf-41e0-48d6-aa56-72652785eae0",
+      "employeeCode": "TESTGECL20260039",
+      "firstName": "George",
+      "lastName": "Clark",
+      "displayName": "George Clark",
+      "workEmail": "george.clark3@testorg.dayflow.com",
+      "joiningDate": "2026-08-01",
+      "employmentStatus": "active",
+      "departmentName": null,
+      "jobPositionName": null,
+      "locationName": null
+    },
+    "employee": {
+      "id": "b9b2baaf-41e0-48d6-aa56-72652785eae0",
+      "employeeCode": "TESTGECL20260039",
+      "firstName": "George",
+      "lastName": "Clark",
+      "displayName": "George Clark",
+      "workEmail": "george.clark3@testorg.dayflow.com",
+      "joiningDate": "2026-08-01",
+      "employmentStatus": "active",
+      "departmentName": null,
+      "jobPositionName": null,
+      "locationName": null
+    },
+    "today": {
+      "record": null,
+      "session": null,
+      "isCheckedIn": null,
+      "status": "NOT_LOGGED"
+    },
+    "leaveBalances": [
+      {
+        "leaveTypeId": "a82e825b-df23-4a21-9157-b924aa120560",
+        "leaveTypeCode": "CASUAL_1788082885746",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      },
+      {
+        "leaveTypeId": "42bf4909-6c79-4d08-a5e4-e76d8ef52d75",
+        "leaveTypeCode": "CASUAL_1788083523308",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      },
+      {
+        "leaveTypeId": "1a92e81d-9a85-4ec7-a3e4-47b54b7b8174",
+        "leaveTypeCode": "CASUAL_1788083768714",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      },
+      {
+        "leaveTypeId": "4fc5307d-a414-4cc8-97ce-2005acb22d5a",
+        "leaveTypeCode": "CASUAL_1788084091667",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      },
+      {
+        "leaveTypeId": "f9d1b09f-ad10-42d8-b604-1a92441506e6",
+        "leaveTypeCode": "CASUAL_1788084773277",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      },
+      {
+        "leaveTypeId": "744a13fd-1838-4771-acd9-275285edb589",
+        "leaveTypeCode": "CASUAL_1788085737574",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      }
+    ],
+    "monthSummary": {
+      "presentDays": 0,
+      "absentDays": 0,
+      "leaveDays": 0,
+      "halfDays": 0,
+      "totalWorkedHours": "0",
+      "totalOvertimeHours": "0"
+    },
+    "recentAttendance": [],
+    "recentLeaves": [],
+    "latestPayslip": null,
+    "upcomingHolidays": [],
+    "unreadNotificationsCount": 1
+  }
+}
+```
+
+> **Note**: Convenience alias for current employee overview.
+
+---
+
+### 5. Get Contextual Single-Employee Dashboard (Admin)
+
+- **Endpoint**: `GET /api/dashboard/employee/b9b2baaf-41e0-48d6-aa56-72652785eae0`
+- **Expected Status**: `200`
+- **Headers**:
+
+```json
+{
+  "Cookie": "token=JWT_ADMIN_TOKEN"
+}
+```
+
+- **Response Body**:
+
+```json
+{
+  "message": "Employee dashboard retrieved successfully",
+  "success": true,
+  "error": null,
+  "data": {
+    "profile": {
+      "id": "b9b2baaf-41e0-48d6-aa56-72652785eae0",
+      "employeeCode": "TESTGECL20260039",
+      "firstName": "George",
+      "lastName": "Clark",
+      "displayName": "George Clark",
+      "workEmail": "george.clark3@testorg.dayflow.com",
+      "joiningDate": "2026-08-01",
+      "employmentStatus": "active",
+      "departmentName": null,
+      "jobPositionName": null,
+      "locationName": null
+    },
+    "employee": {
+      "id": "b9b2baaf-41e0-48d6-aa56-72652785eae0",
+      "employeeCode": "TESTGECL20260039",
+      "firstName": "George",
+      "lastName": "Clark",
+      "displayName": "George Clark",
+      "workEmail": "george.clark3@testorg.dayflow.com",
+      "joiningDate": "2026-08-01",
+      "employmentStatus": "active",
+      "departmentName": null,
+      "jobPositionName": null,
+      "locationName": null
+    },
+    "today": {
+      "record": null,
+      "session": null,
+      "isCheckedIn": null,
+      "status": "NOT_LOGGED"
+    },
+    "leaveBalances": [
+      {
+        "leaveTypeId": "a82e825b-df23-4a21-9157-b924aa120560",
+        "leaveTypeCode": "CASUAL_1788082885746",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      },
+      {
+        "leaveTypeId": "42bf4909-6c79-4d08-a5e4-e76d8ef52d75",
+        "leaveTypeCode": "CASUAL_1788083523308",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      },
+      {
+        "leaveTypeId": "1a92e81d-9a85-4ec7-a3e4-47b54b7b8174",
+        "leaveTypeCode": "CASUAL_1788083768714",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      },
+      {
+        "leaveTypeId": "4fc5307d-a414-4cc8-97ce-2005acb22d5a",
+        "leaveTypeCode": "CASUAL_1788084091667",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      },
+      {
+        "leaveTypeId": "f9d1b09f-ad10-42d8-b604-1a92441506e6",
+        "leaveTypeCode": "CASUAL_1788084773277",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      },
+      {
+        "leaveTypeId": "744a13fd-1838-4771-acd9-275285edb589",
+        "leaveTypeCode": "CASUAL_1788085737574",
+        "leaveTypeName": "Casual Leave",
+        "isPaid": true,
+        "allocatedDays": "12.00",
+        "carriedForwardDays": "0.00",
+        "usedDays": "0",
+        "pendingDays": "0",
+        "totalEntitled": 12,
+        "availableDays": 12
+      }
+    ],
+    "monthSummary": {
+      "presentDays": 0,
+      "absentDays": 0,
+      "leaveDays": 0,
+      "halfDays": 0,
+      "totalWorkedHours": "0",
+      "totalOvertimeHours": "0"
+    },
+    "recentAttendance": [],
+    "recentLeaves": [],
+    "latestPayslip": null,
+    "upcomingHolidays": [],
+    "unreadNotificationsCount": 1
+  }
+}
+```
+
+> **Note**: Allows HR/Admin to inspect any specific employee personal dashboard slice (impersonation view).
+
+---
+
+### 6. Get Attendance Dashboard Slice (Admin)
 
 - **Endpoint**: `GET /api/dashboard/attendance`
 - **Expected Status**: `200`
@@ -171,15 +871,23 @@
   "error": null,
   "data": {
     "todayAttendance": {
-      "totalRecords": 0,
-      "present": 0,
+      "totalRecords": 3,
+      "present": 3,
       "absent": 0,
       "onLeave": 0,
       "halfDay": 0,
       "late": 0,
       "incomplete": 0
     },
-    "past7DaysAttendance": [],
+    "past7DaysAttendance": [
+      {
+        "date": "2026-08-30",
+        "present": 3,
+        "absent": 0,
+        "onLeave": 0,
+        "halfDay": 0
+      }
+    ],
     "upcomingHolidays": []
   }
 }
@@ -189,7 +897,7 @@
 
 ---
 
-### 3. Get Leave Dashboard Slice (Admin)
+### 7. Get Leave Dashboard Slice (Admin)
 
 - **Endpoint**: `GET /api/dashboard/leave`
 - **Expected Status**: `200`
@@ -209,40 +917,113 @@
   "success": true,
   "error": null,
   "data": {
-    "pendingLeaves": [],
-    "pendingLeavesCount": 0,
+    "pendingLeaves": [
+      {
+        "id": "934ae47e-f701-4b9e-9d64-be2f02beb4eb",
+        "employeeId": "b32f1d6a-efae-4957-adb5-b7514c803bbe",
+        "employeeCode": "TESTDIPR20260036",
+        "employeeName": "Diana Prince",
+        "leaveTypeName": "Casual Leave",
+        "leaveTypeCode": "CASUAL_1788085737574",
+        "startDate": "2026-10-01",
+        "endDate": "2026-10-02",
+        "requestedDays": "2.0",
+        "reason": "Tentative plan",
+        "submittedAt": "2026-08-30T10:29:18.724Z"
+      },
+      {
+        "id": "bc7c15e6-f032-4287-8a64-f48e1ac67aa8",
+        "employeeId": "b32f1d6a-efae-4957-adb5-b7514c803bbe",
+        "employeeCode": "TESTDIPR20260036",
+        "employeeName": "Diana Prince",
+        "leaveTypeName": "Casual Leave",
+        "leaveTypeCode": "CASUAL_1788085737574",
+        "startDate": "2026-09-20",
+        "endDate": "2026-09-21",
+        "requestedDays": "1.0",
+        "reason": "Weekend extension",
+        "submittedAt": "2026-08-30T10:29:16.209Z"
+      },
+      {
+        "id": "53299b28-6206-4c29-947e-081b64d7b628",
+        "employeeId": "b32f1d6a-efae-4957-adb5-b7514c803bbe",
+        "employeeCode": "TESTDIPR20260036",
+        "employeeName": "Diana Prince",
+        "leaveTypeName": "Casual Leave",
+        "leaveTypeCode": "CASUAL_1788085737574",
+        "startDate": "2026-09-10",
+        "endDate": "2026-09-11",
+        "requestedDays": "2.0",
+        "reason": "Family wedding event",
+        "submittedAt": "2026-08-30T10:29:11.395Z"
+      },
+      {
+        "id": "cd698ae7-5710-427f-95c4-b730e092c6d3",
+        "employeeId": "f395ce56-3ce4-4c96-8dbe-5317f5e6f5e3",
+        "employeeCode": "TESTDIPR20260027",
+        "employeeName": "Diana Prince",
+        "leaveTypeName": "Casual Leave",
+        "leaveTypeCode": "CASUAL_1788084773277",
+        "startDate": "2026-10-01",
+        "endDate": "2026-10-02",
+        "requestedDays": "2.0",
+        "reason": "Tentative plan",
+        "submittedAt": "2026-08-30T10:13:13.919Z"
+      },
+      {
+        "id": "bbe4705e-04af-4a75-a615-12c3a13d8283",
+        "employeeId": "f395ce56-3ce4-4c96-8dbe-5317f5e6f5e3",
+        "employeeCode": "TESTDIPR20260027",
+        "employeeName": "Diana Prince",
+        "leaveTypeName": "Casual Leave",
+        "leaveTypeCode": "CASUAL_1788084773277",
+        "startDate": "2026-09-20",
+        "endDate": "2026-09-21",
+        "requestedDays": "1.0",
+        "reason": "Weekend extension",
+        "submittedAt": "2026-08-30T10:13:11.553Z"
+      }
+    ],
+    "pendingLeavesCount": 6,
     "leaveDistribution": [
       {
-        "leaveTypeId": "57e87d7b-50ec-4bce-9c22-720c5473aadb",
-        "leaveTypeCode": "CASUAL_1787995205725",
+        "leaveTypeId": "1a92e81d-9a85-4ec7-a3e4-47b54b7b8174",
+        "leaveTypeCode": "CASUAL_1788083768714",
         "leaveTypeName": "Casual Leave",
         "totalDays": "0",
         "requestCount": 0
       },
       {
-        "leaveTypeId": "6edbb793-9e48-494c-9053-6efc5df02c54",
-        "leaveTypeCode": "CASUAL_1787997139545",
+        "leaveTypeId": "42bf4909-6c79-4d08-a5e4-e76d8ef52d75",
+        "leaveTypeCode": "CASUAL_1788083523308",
         "leaveTypeName": "Casual Leave",
         "totalDays": "0",
         "requestCount": 0
       },
       {
-        "leaveTypeId": "7423d82e-97a1-4506-a298-9ecf514ac26b",
-        "leaveTypeCode": "CASUAL_1787998021296",
+        "leaveTypeId": "4fc5307d-a414-4cc8-97ce-2005acb22d5a",
+        "leaveTypeCode": "CASUAL_1788084091667",
         "leaveTypeName": "Casual Leave",
         "totalDays": "0",
         "requestCount": 0
       },
       {
-        "leaveTypeId": "7d7bf7e7-d942-447f-96e1-175366fd936d",
-        "leaveTypeCode": "CASUAL_1787997915667",
+        "leaveTypeId": "744a13fd-1838-4771-acd9-275285edb589",
+        "leaveTypeCode": "CASUAL_1788085737574",
         "leaveTypeName": "Casual Leave",
         "totalDays": "0",
         "requestCount": 0
       },
       {
-        "leaveTypeId": "f544a4d9-e736-4db8-a0ff-518d157145c9",
-        "leaveTypeCode": "CASUAL_1787995735466",
+        "leaveTypeId": "a82e825b-df23-4a21-9157-b924aa120560",
+        "leaveTypeCode": "CASUAL_1788082885746",
+        "leaveTypeName": "Casual Leave",
+        "totalDays": "0",
+        "requestCount": 0
+      },
+      {
+        "leaveTypeId": "f9d1b09f-ad10-42d8-b604-1a92441506e6",
+        "leaveTypeCode": "CASUAL_1788084773277",
         "leaveTypeName": "Casual Leave",
         "totalDays": "0",
         "requestCount": 0
@@ -257,7 +1038,7 @@
 
 ---
 
-### 4. Get Employees Headcount Slice (Admin)
+### 8. Get Employees Headcount Slice (Admin)
 
 - **Endpoint**: `GET /api/dashboard/employees`
 - **Expected Status**: `200`
@@ -278,37 +1059,18 @@
   "error": null,
   "data": {
     "headcount": {
-      "total": 28,
-      "active": 28,
+      "total": 38,
+      "active": 38,
       "probation": 0,
       "onLeave": 0,
       "terminated": 0,
-      "newJoinersThisMonth": 28
+      "newJoinersThisMonth": 38
     },
-    "departmentBreakdown": [
-      {
-        "departmentId": "282fdfd2-b8cb-4c34-be62-8773ea17d1bc",
-        "departmentName": "Engineering 1787995797181",
-        "departmentCode": "ENG_1787995797181",
-        "employeeCount": 0
-      },
-      {
-        "departmentId": "9bff2d77-1ce7-4aeb-8166-56e663e97131",
-        "departmentName": "Engineering 1787997490949",
-        "departmentCode": "ENG_1787997490949",
-        "employeeCount": 0
-      },
-      {
-        "departmentId": "f094e735-bfd0-416f-b861-06d19fdcde32",
-        "departmentName": "Engineering 1787995274781",
-        "departmentCode": "ENG_1787995274781",
-        "employeeCount": 0
-      }
-    ],
+    "departmentBreakdown": [],
     "employmentTypeBreakdown": [
       {
         "employmentType": "full_time",
-        "count": 28
+        "count": 38
       }
     ]
   }
@@ -319,7 +1081,7 @@
 
 ---
 
-### 5. Get Payroll Dashboard Slice (Admin)
+### 9. Get Payroll Dashboard Slice (Admin)
 
 - **Endpoint**: `GET /api/dashboard/payroll`
 - **Expected Status**: `200`
@@ -341,9 +1103,9 @@
   "data": {
     "payrollMetrics": {
       "period": {
-        "id": "50b93a88-cf43-48d4-a519-70f21a44a73c",
-        "periodStart": "2077-01-01",
-        "periodEnd": "2077-01-31",
+        "id": "6d0868d6-ed9e-4865-a741-9bb4edcb4166",
+        "periodStart": "2061-01-01",
+        "periodEnd": "2061-01-31",
         "status": "draft",
         "processedAt": null,
         "finalizedAt": null

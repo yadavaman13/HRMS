@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { db } from '../../config/database.config.js';
-import { users, organizations, employees } from '../../db/schema/schema.js';
+import { users, organizations, salaryComponentDefinitions } from '../../db/schema/schema.js';
 import { eq } from 'drizzle-orm';
 import envConfig from '../../config/env.config.js';
 
@@ -13,27 +13,70 @@ let cachedOrg = null;
 export async function getOrCreateTestOrganization() {
     if (cachedOrg) return cachedOrg;
 
-    const [existing] = await db
+    let [org] = await db
         .select()
         .from(organizations)
         .where(eq(organizations.code, 'TESTORG'))
         .limit(1);
 
-    if (existing) {
-        cachedOrg = existing;
-        return existing;
+    if (!org) {
+        [org] = await db
+            .insert(organizations)
+            .values({
+                name: 'Test Organization',
+                code: 'TESTORG',
+                email: 'admin@testorg.com',
+                timezone: 'Asia/Kolkata',
+                currency: 'INR',
+            })
+            .returning();
     }
 
-    const [org] = await db
-        .insert(organizations)
-        .values({
-            name: 'Test Organization',
-            code: 'TESTORG',
-            email: 'admin@testorg.com',
-            timezone: 'Asia/Kolkata',
-            currency: 'INR',
-        })
-        .returning();
+    // Ensure baseline components exist for TESTORG
+    const existingComps = await db
+        .select()
+        .from(salaryComponentDefinitions)
+        .where(eq(salaryComponentDefinitions.organizationId, org.id));
+
+    if (existingComps.length === 0) {
+        await db.insert(salaryComponentDefinitions).values([
+            {
+                organizationId: org.id,
+                code: 'BASIC',
+                name: 'Basic Salary',
+                componentType: 'earning',
+                calculationType: 'percentage_of_wage',
+            },
+            {
+                organizationId: org.id,
+                code: 'HRA',
+                name: 'House Rent Allowance',
+                componentType: 'earning',
+                calculationType: 'percentage_of_wage',
+            },
+            {
+                organizationId: org.id,
+                code: 'FIXED_ALLOWANCE',
+                name: 'Fixed Allowance',
+                componentType: 'earning',
+                calculationType: 'fixed',
+            },
+            {
+                organizationId: org.id,
+                code: 'PF_EMPLOYEE',
+                name: 'Provident Fund (Employee)',
+                componentType: 'employee_deduction',
+                calculationType: 'percentage_of_wage',
+            },
+            {
+                organizationId: org.id,
+                code: 'PROFESSIONAL_TAX',
+                name: 'Professional Tax',
+                componentType: 'employee_deduction',
+                calculationType: 'fixed',
+            },
+        ]);
+    }
 
     cachedOrg = org;
     return org;

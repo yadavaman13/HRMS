@@ -117,6 +117,57 @@ export async function createComponent(req, res, next) {
     }
 }
 
+export async function updateComponent(req, res, next) {
+    try {
+        const { id } = req.params;
+        const existing = await payrollDao.getComponentDefinitionById(id);
+        if (!existing) {
+            return sendResponse({
+                res,
+                statusCode: 404,
+                message: 'Component definition not found',
+                success: false,
+            });
+        }
+
+        const component = await payrollDao.updateComponentDefinition(id, req.body);
+        return sendResponse({
+            res,
+            statusCode: 200,
+            message: 'Component definition updated successfully',
+            success: true,
+            data: { component },
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export async function deleteComponent(req, res, next) {
+    try {
+        const { id } = req.params;
+        const existing = await payrollDao.getComponentDefinitionById(id);
+        if (!existing) {
+            return sendResponse({
+                res,
+                statusCode: 404,
+                message: 'Component definition not found',
+                success: false,
+            });
+        }
+
+        await payrollDao.deleteComponentDefinition(id);
+        return sendResponse({
+            res,
+            statusCode: 200,
+            message: 'Component definition deactivated successfully',
+            success: true,
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
 // ── Salary Structure Controllers ─────────────────────────────────────────────
 
 export async function getSalaryStructure(req, res, next) {
@@ -267,9 +318,10 @@ export async function setSalaryStructure(req, res, next) {
 
         const fullStructure = await payrollDao.getSalaryStructureByEmployeeId(employeeId);
 
+        const statusCode = req.method === 'POST' ? 201 : 200;
         return sendResponse({
             res,
-            statusCode: 201,
+            statusCode,
             message: 'Salary structure updated successfully',
             success: true,
             data: { structure: fullStructure },

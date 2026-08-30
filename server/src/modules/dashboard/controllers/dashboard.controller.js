@@ -68,6 +68,25 @@ export async function getEmployeeDashboard(req, res, next) {
     }
 }
 
+export async function getEmployeeDashboardById(req, res, next) {
+    try {
+        const { employeeId } = req.params;
+        const data = await dashboardService.getEmployeeDashboardByEmployeeId(
+            req.user.organizationId,
+            employeeId,
+        );
+        return sendResponse({
+            res,
+            statusCode: 200,
+            message: 'Employee dashboard retrieved successfully',
+            success: true,
+            data,
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
 export async function getAttendanceDashboard(req, res, next) {
     try {
         const fullDashboard = await dashboardService.getAdminDashboard(req.user.organizationId);

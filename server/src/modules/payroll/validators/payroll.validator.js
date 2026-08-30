@@ -64,6 +64,27 @@ export const componentDefinitionValidator = [
     validateRequest,
 ];
 
+export const updateComponentDefinitionValidator = [
+    param('id').isUUID().withMessage('Invalid component UUID'),
+    body('name').optional().isString().trim(),
+    body('componentType')
+        .optional()
+        .isIn(['earning', 'employee_deduction', 'employer_contribution'])
+        .withMessage('Invalid component type'),
+    body('calculationType')
+        .optional()
+        .isIn(['fixed', 'percentage_of_wage', 'percentage_of_component', 'residual'])
+        .withMessage('Invalid calculation type'),
+    body('calculationBase').optional().isString().trim(),
+    body('isActive').optional().isBoolean(),
+    validateRequest,
+];
+
+export const componentIdParamValidator = [
+    param('id').isUUID().withMessage('Invalid component UUID'),
+    validateRequest,
+];
+
 export const salaryStructureValidator = [
     param('employeeId').isUUID().withMessage('Invalid employee UUID'),
     body('monthlyWage')

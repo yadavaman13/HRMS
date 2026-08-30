@@ -3,10 +3,13 @@ import multer from 'multer';
 import * as profileController from '../controllers/profile.controller.js';
 import * as privateInfoController from '../controllers/privateInfo.controller.js';
 import * as profileMediaController from '../controllers/profileMedia.controller.js';
+import * as employeeDocumentController from '../controllers/employeeDocument.controller.js';
 import { protect } from '../../auth/middleware/auth.middleware.js';
 import {
     updateProfileValidator,
     updatePrivateInfoValidator,
+    uploadDocumentValidator,
+    documentIdParamValidator,
 } from '../validators/employee.validator.js';
 
 const router = Router();
@@ -29,6 +32,20 @@ router.patch(
     '/me/private-info',
     updatePrivateInfoValidator,
     privateInfoController.updateMyPrivateInfo,
+);
+
+// ── Documents ────────────────────────────────────────────────────────────
+router.get('/me/documents', employeeDocumentController.getMyDocuments);
+router.post(
+    '/me/documents',
+    upload.single('file'),
+    uploadDocumentValidator,
+    employeeDocumentController.uploadMyDocument,
+);
+router.delete(
+    '/me/documents/:docId',
+    documentIdParamValidator,
+    employeeDocumentController.deleteMyDocument,
 );
 
 export default router;
