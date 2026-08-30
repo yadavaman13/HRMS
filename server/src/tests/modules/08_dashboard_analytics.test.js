@@ -24,9 +24,7 @@ describe('08: Dashboard & Workforce Overview API', () => {
 
     describe('GET /api/dashboard', () => {
         it('should return executive dashboard for Admin (200 OK)', async () => {
-            const res = await request(app)
-                .get('/api/dashboard')
-                .set('Cookie', adminUser.cookie);
+            const res = await request(app).get('/api/dashboard').set('Cookie', adminUser.cookie);
 
             docLogger.record({
                 scenario: 'Get Executive Dashboard (Admin)',

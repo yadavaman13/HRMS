@@ -29,18 +29,18 @@ import Carousel from '@/components/Shared/DataDisplay/Carousel/Carousel';
 import Card from '@/components/Shared/DataDisplay/Card/Card';
 
 export default function FeatureCards() {
-    const slides = [
-        <Card key="1">
-            <h4>AI Sales Copilot</h4>
-        </Card>,
-        <Card key="2">
-            <h4>Real-Time Ingestion</h4>
-        </Card>,
-        <Card key="3">
-            <h4>Drizzle ORM Schemas</h4>
-        </Card>,
-    ];
+  const slides = [
+    <Card key="1">
+      <h4>AI Sales Copilot</h4>
+    </Card>,
+    <Card key="2">
+      <h4>Real-Time Ingestion</h4>
+    </Card>,
+    <Card key="3">
+      <h4>Drizzle ORM Schemas</h4>
+    </Card>,
+  ];
 
-    return <Carousel items={slides} autoPlay />;
+  return <Carousel items={slides} autoPlay />;
 }
 ```

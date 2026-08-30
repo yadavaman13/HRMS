@@ -31,12 +31,12 @@ import { useState } from 'react';
 import Calendar from '@/components/Shared/Form/Calendar/Calendar';
 
 export default function CalendarWidget() {
-    const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date());
 
-    return (
-        <div className="calendar-panel">
-            <Calendar selectedDate={date} onSelectDate={setDate} />
-        </div>
-    );
+  return (
+    <div className="calendar-panel">
+      <Calendar selectedDate={date} onSelectDate={setDate} />
+    </div>
+  );
 }
 ```

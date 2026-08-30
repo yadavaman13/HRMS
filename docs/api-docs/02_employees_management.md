@@ -4,15 +4,15 @@
 
 ## 📋 Endpoints Overview
 
-| Method | Endpoint | Scenario | Status |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/api/employees` | Create Employee Account (Admin) | `201` |
-| `POST` | `/api/employees` | Create Employee (Forbidden for Regular Employee) | `403` |
-| `GET` | `/api/employees` | Search & List Employees (Success) | `200` |
-| `GET` | `/api/employees/d3ec1d32-9d96-48cf-8e9a-069b797737f5` | Get Employee by ID (Success) | `200` |
-| `POST` | `/api/employees/d3ec1d32-9d96-48cf-8e9a-069b797737f5/deactivate` | Deactivate Employee Account (Admin) | `200` |
-| `POST` | `/api/employees/d3ec1d32-9d96-48cf-8e9a-069b797737f5/activate` | Reactivate Employee Account (Admin) | `200` |
-| `POST` | `/api/employees/d3ec1d32-9d96-48cf-8e9a-069b797737f5/reset-password` | Reset Employee Password (Admin) | `200` |
+| Method | Endpoint                                                             | Scenario                                         | Status |
+| :----- | :------------------------------------------------------------------- | :----------------------------------------------- | :----- |
+| `POST` | `/api/employees`                                                     | Create Employee Account (Admin)                  | `201`  |
+| `POST` | `/api/employees`                                                     | Create Employee (Forbidden for Regular Employee) | `403`  |
+| `GET`  | `/api/employees`                                                     | Search & List Employees (Success)                | `200`  |
+| `GET`  | `/api/employees/d3ec1d32-9d96-48cf-8e9a-069b797737f5`                | Get Employee by ID (Success)                     | `200`  |
+| `POST` | `/api/employees/d3ec1d32-9d96-48cf-8e9a-069b797737f5/deactivate`     | Deactivate Employee Account (Admin)              | `200`  |
+| `POST` | `/api/employees/d3ec1d32-9d96-48cf-8e9a-069b797737f5/activate`       | Reactivate Employee Account (Admin)              | `200`  |
+| `POST` | `/api/employees/d3ec1d32-9d96-48cf-8e9a-069b797737f5/reset-password` | Reset Employee Password (Admin)                  | `200`  |
 
 ---
 
@@ -23,12 +23,15 @@
 - **Endpoint**: `POST /api/employees`
 - **Expected Status**: `201`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Request Body**:
+
 ```json
 {
   "firstName": "Alice",
@@ -39,7 +42,9 @@
   "employmentType": "full_time"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Employee created successfully.",
@@ -80,12 +85,15 @@
 - **Endpoint**: `POST /api/employees`
 - **Expected Status**: `403`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "You do not have permission to perform this action.",
@@ -103,18 +111,23 @@
 - **Endpoint**: `GET /api/employees`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Query Parameters**:
+
 ```json
 {
   "search": "Alice"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Employee directory retrieved successfully",
@@ -204,12 +217,15 @@
 - **Endpoint**: `GET /api/employees/d3ec1d32-9d96-48cf-8e9a-069b797737f5`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Employee profile retrieved successfully",
@@ -254,12 +270,15 @@
 - **Endpoint**: `POST /api/employees/d3ec1d32-9d96-48cf-8e9a-069b797737f5/deactivate`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Employee account deactivated successfully.",
@@ -282,12 +301,15 @@
 - **Endpoint**: `POST /api/employees/d3ec1d32-9d96-48cf-8e9a-069b797737f5/activate`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Employee account activated successfully.",
@@ -310,12 +332,15 @@
 - **Endpoint**: `POST /api/employees/d3ec1d32-9d96-48cf-8e9a-069b797737f5/reset-password`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Employee password reset successfully.",
@@ -332,4 +357,3 @@
 > **Note**: Generates new temporary password, marks mustChangePassword: true, and dispatches reset email.
 
 ---
-

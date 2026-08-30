@@ -30,19 +30,19 @@ import Badge from '@/components/Shared/DataDisplay/Badge/Badge';
 import Badge from '@/components/Shared/DataDisplay/Badge/Badge';
 
 export default function StatusBadges() {
-    return (
-        <div style={{ display: 'flex', gap: '8px' }}>
-            <Badge variant="success" dot>
-                Active
-            </Badge>
-            <Badge variant="warning" dot>
-                Pending
-            </Badge>
-            <Badge variant="danger" dot>
-                Overdue
-            </Badge>
-            <Badge variant="info">Beta</Badge>
-        </div>
-    );
+  return (
+    <div style={{ display: 'flex', gap: '8px' }}>
+      <Badge variant="success" dot>
+        Active
+      </Badge>
+      <Badge variant="warning" dot>
+        Pending
+      </Badge>
+      <Badge variant="danger" dot>
+        Overdue
+      </Badge>
+      <Badge variant="info">Beta</Badge>
+    </div>
+  );
 }
 ```

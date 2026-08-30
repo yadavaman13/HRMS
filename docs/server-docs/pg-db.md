@@ -331,30 +331,26 @@ Create a new file inside `src/db/schema/` (e.g., `src/db/schema/posts.schema.js`
 
 ```javascript
 // File: src/db/schema/posts.schema.js
-import { pgTable, uuid, text, timestamp, index } from "drizzle-orm/pg-core";
-import { users } from "./users.schema.js";
+import { pgTable, uuid, text, timestamp, index } from 'drizzle-orm/pg-core';
+import { users } from './users.schema.js';
 
 export const posts = pgTable(
-  "posts",
+  'posts',
   {
-    id: uuid("id").defaultRandom().primaryKey(),
-    userId: uuid("user_id")
-      .references(() => users.id, { onDelete: "cascade" })
+    id: uuid('id').defaultRandom().primaryKey(),
+    userId: uuid('user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
       .notNull(),
-    title: text("title").notNull(),
-    content: text("content").notNull(),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .defaultNow()
-      .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true })
-      .defaultNow()
-      .notNull(),
+    title: text('title').notNull(),
+    content: text('content').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => {
     return {
-      userIdIdx: index("posts_user_id_idx").on(table.userId),
+      userIdIdx: index('posts_user_id_idx').on(table.userId),
     };
-  },
+  }
 );
 ```
 
@@ -364,14 +360,14 @@ Open [`src/db/schema/schema.js`](../../server/src/db/schema/schema.js) and impor
 
 ```javascript
 // File: src/db/schema/schema.js
-import { users } from "./users.schema.js";
-import { payments } from "./payments.schema.js";
-import { chats } from "./chats.schema.js";
-import { messages } from "./messages.schema.js";
-import { files } from "./files.schema.js";
-import { chunks } from "./chunks.schema.js";
-import { ragFiles } from "./rag_files.schema.js";
-import { posts } from "./posts.schema.js"; // <-- Import new schema
+import { users } from './users.schema.js';
+import { payments } from './payments.schema.js';
+import { chats } from './chats.schema.js';
+import { messages } from './messages.schema.js';
+import { files } from './files.schema.js';
+import { chunks } from './chunks.schema.js';
+import { ragFiles } from './rag_files.schema.js';
+import { posts } from './posts.schema.js'; // <-- Import new schema
 
 export { users, payments, chats, messages, files, chunks, ragFiles, posts }; // <-- Export new schema
 ```
@@ -406,9 +402,9 @@ Create a new file in `src/dao/` (e.g., `src/dao/post.dao.js`) to encapsulate all
 
 ```javascript
 // File: src/dao/post.dao.js
-import { db } from "../config/database.config.js";
-import { posts } from "../db/schema/posts.schema.js";
-import { eq, and } from "drizzle-orm";
+import { db } from '../config/database.config.js';
+import { posts } from '../db/schema/posts.schema.js';
+import { eq, and } from 'drizzle-orm';
 
 /**
  * Inserts a new post record
@@ -451,7 +447,7 @@ If the table requires initial bootstrap data (e.g., lookup values or default ite
 
 ```javascript
 // File: src/db/seed.js
-import { posts } from "./schema/posts.schema.js";
+import { posts } from './schema/posts.schema.js';
 // ... other imports
 
 async function seedPosts(insertedUsers) {
@@ -460,16 +456,16 @@ async function seedPosts(insertedUsers) {
   const dummyPosts = [
     {
       userId: insertedUsers[0].id,
-      title: "Welcome to Apex",
-      content: "This is the initial system post content.",
+      title: 'Welcome to Apex',
+      content: 'This is the initial system post content.',
     },
   ];
 
   try {
     await db.insert(posts).values(dummyPosts);
-    console.log("Seeded posts table successfully");
+    console.log('Seeded posts table successfully');
   } catch (error) {
-    console.error("Error seeding posts:", error);
+    console.error('Error seeding posts:', error);
   }
 }
 ```

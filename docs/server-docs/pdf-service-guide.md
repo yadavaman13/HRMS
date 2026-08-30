@@ -55,21 +55,19 @@ Powered by `html-pdf-lite` (built on PDFKit and `@resvg/resvg-js`), it delivers:
 ### A. Basic PDF Generation
 
 ```js
-import { makePDF } from "./src/services/pdf/index.pdf.service.js";
-import { invoiceTemplate } from "./src/templates/index.js";
+import { makePDF } from './src/services/pdf/index.pdf.service.js';
+import { invoiceTemplate } from './src/templates/index.js';
 
 // 1. Prepare data
 const invoiceData = {
-  invoiceNumber: "INV-2026-0042",
-  issueDate: "2026-08-19",
-  dueDate: "2026-09-18",
+  invoiceNumber: 'INV-2026-0042',
+  issueDate: '2026-08-19',
+  dueDate: '2026-09-18',
   customer: {
-    name: "Jane Doe",
-    company: "Acme Corp",
+    name: 'Jane Doe',
+    company: 'Acme Corp',
   },
-  items: [
-    { description: "Enterprise Subscription", quantity: 1, unitPrice: 2400.0 },
-  ],
+  items: [{ description: 'Enterprise Subscription', quantity: 1, unitPrice: 2400.0 }],
   taxRate: 0.1,
 };
 
@@ -90,9 +88,9 @@ const pdfBuffer = await makePDF({
 ### B. Express Route Handler Integration
 
 ```js
-import { makePDF } from "../../../services/pdf/index.pdf.service.js";
-import { invoiceTemplate } from "../../../templates/index.js";
-import { sendPdfResponse } from "../../../utils/response.utlis.js";
+import { makePDF } from '../../../services/pdf/index.pdf.service.js';
+import { invoiceTemplate } from '../../../templates/index.js';
+import { sendPdfResponse } from '../../../utils/response.utlis.js';
 
 export async function getInvoicePdf(req, res, next) {
   try {
@@ -100,7 +98,7 @@ export async function getInvoicePdf(req, res, next) {
     const html = invoiceTemplate(invoice);
     const pdfBuffer = await makePDF({ html });
 
-    const isInline = req.query.inline === "true";
+    const isInline = req.query.inline === 'true';
 
     return sendPdfResponse({
       res,
@@ -117,14 +115,11 @@ export async function getInvoicePdf(req, res, next) {
 ### C. Client Download Helper ([`client/src/utils/pdfDownload.js`](../../client/src/utils/pdfDownload.js))
 
 ```js
-import { downloadPdfFromApi } from "@/utils/pdfDownload";
+import { downloadPdfFromApi } from '@/utils/pdfDownload';
 
 // Trigger download from React button handler
 async function handleDownload(invoiceId) {
-  await downloadPdfFromApi(
-    `/api/pdf/invoice/${invoiceId}`,
-    `invoice-${invoiceId}.pdf`,
-  );
+  await downloadPdfFromApi(`/api/pdf/invoice/${invoiceId}`, `invoice-${invoiceId}.pdf`);
 }
 ```
 
@@ -144,14 +139,14 @@ Templates must remain **pure synchronous functions** that accept a plain data ob
 ### Example Template Structure:
 
 ```js
-import { escapeHtml, formatCurrency, formatDate } from "../utils/escapeHtml.js";
+import { escapeHtml, formatCurrency, formatDate } from '../utils/escapeHtml.js';
 
 export function myReportTemplate(data = {}) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>${escapeHtml(data.title || "Report")}</title>
+  <title>${escapeHtml(data.title || 'Report')}</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -178,7 +173,7 @@ export function myReportTemplate(data = {}) {
       <tr><th>Metric</th><th>Value</th></tr>
     </thead>
     <tbody>
-      ${data.rows.map((r) => `<tr><td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.value)}</td></tr>`).join("")}
+      ${data.rows.map((r) => `<tr><td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.value)}</td></tr>`).join('')}
     </tbody>
   </table>
 </body>

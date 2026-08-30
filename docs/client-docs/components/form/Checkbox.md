@@ -32,15 +32,15 @@ import { useState } from 'react';
 import Checkbox from '@/components/Shared/Form/Checkbox/Checkbox';
 
 export default function TermsAgreement() {
-    const [agreed, setAgreed] = useState(false);
+  const [agreed, setAgreed] = useState(false);
 
-    return (
-        <Checkbox
-            id="terms-checkbox"
-            checked={agreed}
-            onChange={(e) => setAgreed(e.target.checked)}
-            label="I accept the Terms and Conditions and Privacy Policy"
-        />
-    );
+  return (
+    <Checkbox
+      id="terms-checkbox"
+      checked={agreed}
+      onChange={(e) => setAgreed(e.target.checked)}
+      label="I accept the Terms and Conditions and Privacy Policy"
+    />
+  );
 }
 ```

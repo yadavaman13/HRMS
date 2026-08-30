@@ -31,10 +31,10 @@ import SaveDetailsButton from '@/components/Shared/Buttons/SaveDetailsButton/Sav
 import SaveDetailsButton from '@/components/Shared/Buttons/SaveDetailsButton/SaveDetailsButton';
 
 export default function ProfileForm({ isSaving, onSave }) {
-    return (
-        <SaveDetailsButton type="submit" loading={isSaving} onClick={onSave}>
-            Save Profile
-        </SaveDetailsButton>
-    );
+  return (
+    <SaveDetailsButton type="submit" loading={isSaving} onClick={onSave}>
+      Save Profile
+    </SaveDetailsButton>
+  );
 }
 ```

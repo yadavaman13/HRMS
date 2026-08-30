@@ -27,6 +27,6 @@ import ForbiddenPage from '@/components/Shared/ErrorPages/ForbiddenPage/Forbidde
 import ForbiddenPage from '@/components/Shared/ErrorPages/ForbiddenPage/ForbiddenPage';
 
 export default function AccessDenied() {
-    return <ForbiddenPage message="Administrator privileges are required for this CRM section." />;
+  return <ForbiddenPage message="Administrator privileges are required for this CRM section." />;
 }
 ```

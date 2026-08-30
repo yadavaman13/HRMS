@@ -29,10 +29,10 @@ import Alert from '@/components/Shared/Feedback/Alert/Alert';
 import Alert from '@/components/Shared/Feedback/Alert/Alert';
 
 export default function MaintenanceBanner() {
-    return (
-        <Alert type="warning" title="Scheduled Maintenance">
-            Database indexing is scheduled for tonight at 2:00 AM UTC.
-        </Alert>
-    );
+  return (
+    <Alert type="warning" title="Scheduled Maintenance">
+      Database indexing is scheduled for tonight at 2:00 AM UTC.
+    </Alert>
+  );
 }
 ```

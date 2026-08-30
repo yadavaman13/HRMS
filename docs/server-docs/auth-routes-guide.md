@@ -194,18 +194,15 @@ Add validation sequences to [`src/modules/auth/validators/auth.validator.js`](..
 
 ```js
 export const customActionValidator = [
-  body("username")
+  body('username')
     .trim()
     .notEmpty()
-    .withMessage("Username is required")
+    .withMessage('Username is required')
     .isAlphanumeric()
-    .withMessage("Username must be alphanumeric")
+    .withMessage('Username must be alphanumeric')
     .isLength({ min: 4, max: 15 })
-    .withMessage("Username must be 4-15 characters long"),
-  body("age")
-    .optional()
-    .isInt({ min: 18 })
-    .withMessage("Must be at least 18 years of age"),
+    .withMessage('Username must be 4-15 characters long'),
+  body('age').optional().isInt({ min: 18 }).withMessage('Must be at least 18 years of age'),
   validateRequest, // Validates constraints and throws a 400 error if validation fails
 ];
 ```
@@ -215,18 +212,18 @@ export const customActionValidator = [
 1. Create a route file (e.g., `src/modules/auth/routes/session.routes.js`):
 
    ```js
-   import { Router } from "express";
-   import { protect } from "../middleware/auth.middleware.js";
-   import { sendResponse } from "../../../utils/response.utlis.js";
+   import { Router } from 'express';
+   import { protect } from '../middleware/auth.middleware.js';
+   import { sendResponse } from '../../../utils/response.utlis.js';
 
    const sessionRouter = Router();
 
-   sessionRouter.get("/active", protect, (req, res) => {
+   sessionRouter.get('/active', protect, (req, res) => {
      return sendResponse({
        res,
        statusCode: 200,
        success: true,
-       message: "Session is active",
+       message: 'Session is active',
        data: { userId: req.user.id },
      });
    });
@@ -236,13 +233,13 @@ export const customActionValidator = [
 
 2. Mount the router in the module index (`src/modules/auth/index.js`):
    ```js
-   import sessionRouter from "./routes/session.routes.js";
+   import sessionRouter from './routes/session.routes.js';
    // ...
    export { authRouter, userRouter, adminRouter, sessionRouter };
    ```
 3. Expose the router in the primary express router mount pipeline ([`src/app.js`](../../server/src/app.js)):
    ```js
-   import { sessionRouter } from "./modules/auth/index.js";
+   import { sessionRouter } from './modules/auth/index.js';
    // ...
-   app.use("/api/sessions", sessionRouter);
+   app.use('/api/sessions', sessionRouter);
    ```

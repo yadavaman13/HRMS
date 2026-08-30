@@ -28,8 +28,8 @@ import FormHeader from '@/components/Shared/DataDisplay/FormHeader/FormHeader';
 import FormHeader from '@/components/Shared/DataDisplay/FormHeader/FormHeader';
 
 export default function RegisterCardHeader() {
-    return (
-        <FormHeader title="Create an Account" subtitle="Start managing your Odoo CRM deals today" />
-    );
+  return (
+    <FormHeader title="Create an Account" subtitle="Start managing your Odoo CRM deals today" />
+  );
 }
 ```

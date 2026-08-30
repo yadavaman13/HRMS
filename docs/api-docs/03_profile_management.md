@@ -4,13 +4,13 @@
 
 ## 📋 Endpoints Overview
 
-| Method | Endpoint | Scenario | Status |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/profile/me` | Get My Profile (Self-Service) | `200` |
-| `PATCH` | `/api/profile/me` | Update My Profile (Success) | `200` |
-| `PATCH` | `/api/profile/me` | Update Profile with Restricted Fields (Forbidden) | `403` |
-| `GET` | `/api/profile/me/private-info` | Get Private Info (Self-Service) | `200` |
-| `PATCH` | `/api/profile/me/private-info` | Update Private Info (Success) | `200` |
+| Method  | Endpoint                       | Scenario                                          | Status |
+| :------ | :----------------------------- | :------------------------------------------------ | :----- |
+| `GET`   | `/api/profile/me`              | Get My Profile (Self-Service)                     | `200`  |
+| `PATCH` | `/api/profile/me`              | Update My Profile (Success)                       | `200`  |
+| `PATCH` | `/api/profile/me`              | Update Profile with Restricted Fields (Forbidden) | `403`  |
+| `GET`   | `/api/profile/me/private-info` | Get Private Info (Self-Service)                   | `200`  |
+| `PATCH` | `/api/profile/me/private-info` | Update Private Info (Success)                     | `200`  |
 
 ---
 
@@ -21,12 +21,15 @@
 - **Endpoint**: `GET /api/profile/me`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "My profile retrieved successfully.",
@@ -71,18 +74,23 @@
 - **Endpoint**: `PATCH /api/profile/me`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Request Body**:
+
 ```json
 {
   "phone": "9999911111"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Profile updated successfully",
@@ -126,18 +134,23 @@
 - **Endpoint**: `PATCH /api/profile/me`
 - **Expected Status**: `403`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Request Body**:
+
 ```json
 {
   "departmentId": "00000000-0000-0000-0000-000000000000"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Access denied: You do not have permission to modify employment-related fields",
@@ -155,12 +168,15 @@
 - **Endpoint**: `GET /api/profile/me/private-info`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "My private information retrieved successfully",
@@ -190,12 +206,15 @@
 - **Endpoint**: `PATCH /api/profile/me/private-info`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Request Body**:
+
 ```json
 {
   "residentialAddress": "123 Tech Park Road, Bengaluru",
@@ -203,7 +222,9 @@
   "emergencyContactPhone": "9888877771"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "My private information updated successfully",
@@ -226,4 +247,3 @@
 > **Note**: Updates personal address and emergency contact data.
 
 ---
-

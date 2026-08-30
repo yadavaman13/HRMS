@@ -29,10 +29,10 @@ import InputGroup from '@/components/Shared/Form/InputGroup/InputGroup';
 import InputGroup from '@/components/Shared/Form/InputGroup/InputGroup';
 
 export default function CurrencyInput({ value, onChange }) {
-    return (
-        <InputGroup prefix="$" suffix="USD">
-            <input type="number" value={value} onChange={onChange} placeholder="0.00" />
-        </InputGroup>
-    );
+  return (
+    <InputGroup prefix="$" suffix="USD">
+      <input type="number" value={value} onChange={onChange} placeholder="0.00" />
+    </InputGroup>
+  );
 }
 ```

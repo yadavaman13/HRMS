@@ -222,7 +222,10 @@ describe('07: Payroll & Payslip Management API', () => {
                 headers: { Cookie: 'token=JWT_ADMIN_TOKEN' },
                 queryParams: { inline: 'true' },
                 statusCode: res.status,
-                responseBody: { contentType: res.headers['content-type'], status: 'PDF Buffer Stream' },
+                responseBody: {
+                    contentType: res.headers['content-type'],
+                    status: 'PDF Buffer Stream',
+                },
                 notes: 'Generates static Chromium-free PDF document stream for printing or digital distribution.',
             });
 

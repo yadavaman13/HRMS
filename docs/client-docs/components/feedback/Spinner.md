@@ -29,9 +29,9 @@ import Spinner from '@/components/Shared/Feedback/Spinner/Spinner';
 import Spinner from '@/components/Shared/Feedback/Spinner/Spinner';
 
 export default function LoadingContainer({ isLoading, children }) {
-    if (isLoading) {
-        return <Spinner size="lg" centered />;
-    }
-    return children;
+  if (isLoading) {
+    return <Spinner size="lg" centered />;
+  }
+  return children;
 }
 ```

@@ -30,20 +30,20 @@ import KanbanBoard from '@/components/Shared/DataDisplay/KanbanBoard/KanbanBoard
 import KanbanBoard from '@/components/Shared/DataDisplay/KanbanBoard/KanbanBoard';
 
 const columns = [
-    { id: 'lead', title: 'New Lead' },
-    { id: 'qualified', title: 'Qualified' },
-    { id: 'proposal', title: 'Proposal Sent' },
-    { id: 'won', title: 'Closed Won' },
+  { id: 'lead', title: 'New Lead' },
+  { id: 'qualified', title: 'Qualified' },
+  { id: 'proposal', title: 'Proposal Sent' },
+  { id: 'won', title: 'Closed Won' },
 ];
 
 export default function PipelineKanban({ deals, handleMoveDeal, handleSelectDeal }) {
-    return (
-        <KanbanBoard
-            columns={columns}
-            items={deals}
-            onItemMove={handleMoveDeal}
-            onItemClick={handleSelectDeal}
-        />
-    );
+  return (
+    <KanbanBoard
+      columns={columns}
+      items={deals}
+      onItemMove={handleMoveDeal}
+      onItemClick={handleSelectDeal}
+    />
+  );
 }
 ```

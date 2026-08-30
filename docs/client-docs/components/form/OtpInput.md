@@ -31,13 +31,13 @@ import { useState } from 'react';
 import OtpInput from '@/components/Shared/Form/OtpInput/OtpInput';
 
 export default function TwoFactorCode() {
-    const [code, setCode] = useState('');
+  const [code, setCode] = useState('');
 
-    return (
-        <div style={{ textAlign: 'center' }}>
-            <p>Enter 6-digit verification code</p>
-            <OtpInput length={6} value={code} onChange={setCode} />
-        </div>
-    );
+  return (
+    <div style={{ textAlign: 'center' }}>
+      <p>Enter 6-digit verification code</p>
+      <OtpInput length={6} value={code} onChange={setCode} />
+    </div>
+  );
 }
 ```

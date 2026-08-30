@@ -4,14 +4,14 @@
 
 ## 📋 Endpoints Overview
 
-| Method | Endpoint | Scenario | Status |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/api/attendance/check-in` | Employee Check-In (Success) | `500` |
-| `POST` | `/api/attendance/check-in` | Duplicate Check-In (Rejected) | `500` |
-| `POST` | `/api/attendance/check-out` | Employee Check-Out (Success) | `400` |
-| `GET` | `/api/attendance/me` | Get My Attendance Records (Success) | `200` |
-| `GET` | `/api/attendance/me/summary` | Get Attendance Summary Counters (Success) | `200` |
-| `GET` | `/api/attendance/summary` | Get Company Attendance Summary (Admin) | `200` |
+| Method | Endpoint                     | Scenario                                  | Status |
+| :----- | :--------------------------- | :---------------------------------------- | :----- |
+| `POST` | `/api/attendance/check-in`   | Employee Check-In (Success)               | `500`  |
+| `POST` | `/api/attendance/check-in`   | Duplicate Check-In (Rejected)             | `500`  |
+| `POST` | `/api/attendance/check-out`  | Employee Check-Out (Success)              | `400`  |
+| `GET`  | `/api/attendance/me`         | Get My Attendance Records (Success)       | `200`  |
+| `GET`  | `/api/attendance/me/summary` | Get Attendance Summary Counters (Success) | `200`  |
+| `GET`  | `/api/attendance/summary`    | Get Company Attendance Summary (Admin)    | `200`  |
 
 ---
 
@@ -22,12 +22,15 @@
 - **Endpoint**: `POST /api/attendance/check-in`
 - **Expected Status**: `500`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Cannot read properties of undefined (reading 'remarks')",
@@ -45,12 +48,15 @@
 - **Endpoint**: `POST /api/attendance/check-in`
 - **Expected Status**: `500`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Cannot read properties of undefined (reading 'remarks')",
@@ -68,12 +74,15 @@
 - **Endpoint**: `POST /api/attendance/check-out`
 - **Expected Status**: `400`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "No attendance record found for today. Please check in first.",
@@ -91,12 +100,15 @@
 - **Endpoint**: `GET /api/attendance/me`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Attendance records retrieved",
@@ -120,12 +132,15 @@
 - **Endpoint**: `GET /api/attendance/me/summary`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Attendance monthly summary retrieved",
@@ -162,12 +177,15 @@
 - **Endpoint**: `GET /api/attendance/summary`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Company attendance summary retrieved",
@@ -193,4 +211,3 @@
 > **Note**: Executive snapshot of today attendance across all departments.
 
 ---
-

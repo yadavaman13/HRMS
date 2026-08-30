@@ -46,14 +46,16 @@ src/
 │   ├── Shared/               <-- Reusable presentational design system primitives
 │   │   ├── Buttons/          <-- Button, ToggleButton, ViewToggle, etc.
 │   │   ├── Form/             <-- InputField, Textarea, Dropdown, DatePicker, etc.
-│   │   ├── DataDisplay/      <-- AdvancedTable, StatCard, DataView, Kanban, etc.
-│   │   ├── Feedback/         <-- Dialog, Toast, DeleteToast, Drawer, Popover, etc.
+│   │   ├── DataDisplay/      <-- AdvancedTable (Table & Grid modes), StatCard, Kanban, etc.
+│   │   ├── Feedback/         <-- Dialog, Toast, Drawer, Popover, etc.
 │   │   ├── Navigation/       <-- Sidebar, Topbar, Pagination, TableTabs, etc.
 │   │   ├── ErrorPages/       <-- 403, 404, 500 status views
 │   │   └── HeroPanel/        <-- Auth branding panel
 │   └── ai-elements/          <-- Message, PromptInput, Conversation, Tool, etc.
 │
 ├── hooks/                    <-- Global utility React hooks
+├── infrastructure/           <-- Pluggable infrastructure services (e.g., maps)
+│   └── maps/                 <-- Map providers (Google, OSM), context, and adapters
 ├── lib/                      <-- Utility libraries (clsx, tailwind-merge)
 └── utils/                    <-- Formatting and calculation helpers
 ```

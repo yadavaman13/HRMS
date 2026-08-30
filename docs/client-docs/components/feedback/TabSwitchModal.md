@@ -29,6 +29,6 @@ import TabSwitchModal from '@/components/Shared/Feedback/TabSwitchModal/TabSwitc
 import TabSwitchModal from '@/components/Shared/Feedback/TabSwitchModal/TabSwitchModal';
 
 export default function DirtyFormGuard({ isDirty, showModal, handleLeave, handleStay }) {
-    return <TabSwitchModal isOpen={showModal} onConfirm={handleLeave} onCancel={handleStay} />;
+  return <TabSwitchModal isOpen={showModal} onConfirm={handleLeave} onCancel={handleStay} />;
 }
 ```

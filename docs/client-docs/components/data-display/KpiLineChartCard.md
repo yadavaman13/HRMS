@@ -31,14 +31,14 @@ import KpiLineChartCard from '@/components/Shared/DataDisplay/KpiLineChartCard/K
 import KpiLineChartCard from '@/components/Shared/DataDisplay/KpiLineChartCard/KpiLineChartCard';
 
 export default function SalesTrend() {
-    return (
-        <KpiLineChartCard
-            title="Monthly Sales Volume"
-            currentValue="₹4,25,000"
-            trendPercentage="+12.4%"
-            dataPoints={[30, 45, 60, 50, 75, 90, 110]}
-            labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']}
-        />
-    );
+  return (
+    <KpiLineChartCard
+      title="Monthly Sales Volume"
+      currentValue="₹4,25,000"
+      trendPercentage="+12.4%"
+      dataPoints={[30, 45, 60, 50, 75, 90, 110]}
+      labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']}
+    />
+  );
 }
 ```

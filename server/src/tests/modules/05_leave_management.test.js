@@ -76,7 +76,9 @@ describe('05: Time-Off / Leave Management API', () => {
 
             expect(res.status).toBe(200);
             expect(res.body.success).toBe(true);
-            const typesList = Array.isArray(res.body.data) ? res.body.data : res.body.data.leaveTypes;
+            const typesList = Array.isArray(res.body.data)
+                ? res.body.data
+                : res.body.data.leaveTypes;
             expect(typesList).toBeInstanceOf(Array);
 
             if (typesList && typesList.length > 0) {

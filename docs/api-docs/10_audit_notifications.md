@@ -4,14 +4,14 @@
 
 ## 📋 Endpoints Overview
 
-| Method | Endpoint | Scenario | Status |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/audit-logs` | List Audit Logs (Admin) | `200` |
-| `GET` | `/api/audit-logs/stats` | Get Audit Activity Stats (Admin) | `200` |
-| `GET` | `/api/notifications` | Get My Notifications (Success) | `200` |
-| `GET` | `/api/notifications/unread-count` | Get Unread Notification Count (Success) | `200` |
-| `PATCH` | `/api/notifications/read-all` | Mark All Notifications Read (Success) | `200` |
-| `POST` | `/api/notifications/broadcast` | Broadcast Notification (Admin) | `200` |
+| Method  | Endpoint                          | Scenario                                | Status |
+| :------ | :-------------------------------- | :-------------------------------------- | :----- |
+| `GET`   | `/api/audit-logs`                 | List Audit Logs (Admin)                 | `200`  |
+| `GET`   | `/api/audit-logs/stats`           | Get Audit Activity Stats (Admin)        | `200`  |
+| `GET`   | `/api/notifications`              | Get My Notifications (Success)          | `200`  |
+| `GET`   | `/api/notifications/unread-count` | Get Unread Notification Count (Success) | `200`  |
+| `PATCH` | `/api/notifications/read-all`     | Mark All Notifications Read (Success)   | `200`  |
+| `POST`  | `/api/notifications/broadcast`    | Broadcast Notification (Admin)          | `200`  |
 
 ---
 
@@ -22,12 +22,15 @@
 - **Endpoint**: `GET /api/audit-logs`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Audit logs retrieved successfully",
@@ -1426,12 +1429,15 @@
 - **Endpoint**: `GET /api/audit-logs/stats`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Audit statistics retrieved successfully",
@@ -1494,12 +1500,15 @@
 - **Endpoint**: `GET /api/notifications`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Notifications retrieved successfully",
@@ -1523,12 +1532,15 @@
 - **Endpoint**: `GET /api/notifications/unread-count`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Unread notification count retrieved",
@@ -1549,12 +1561,15 @@
 - **Endpoint**: `PATCH /api/notifications/read-all`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "0 notifications marked as read",
@@ -1575,12 +1590,15 @@
 - **Endpoint**: `POST /api/notifications/broadcast`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Request Body**:
+
 ```json
 {
   "title": "System Maintenance Notice",
@@ -1588,7 +1606,9 @@
   "type": "system_alert"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Broadcast sent to 90 recipients",
@@ -1603,4 +1623,3 @@
 > **Note**: Dispatches company-wide announcement.
 
 ---
-

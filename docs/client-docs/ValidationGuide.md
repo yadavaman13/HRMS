@@ -240,12 +240,12 @@ import { validateEmail, validatePassword } from '@/utils/validation';
 
 const emailValidation = validateEmail(trimmedEmail);
 if (!emailValidation.isValid) {
-    setEmailError(emailValidation.message);
+  setEmailError(emailValidation.message);
 }
 
 const passwordValidation = validatePassword(trimmedPassword, trimmedEmail);
 if (!passwordValidation.isValid) {
-    setPasswordError(passwordValidation.message);
+  setPasswordError(passwordValidation.message);
 }
 ```
 

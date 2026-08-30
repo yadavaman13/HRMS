@@ -4,18 +4,18 @@
 
 ## 📋 Endpoints Overview
 
-| Method | Endpoint | Scenario | Status |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/api/auth/register` | Register Organization and Admin (Success) | `201` |
-| `POST` | `/api/auth/register` | Register Organization (Validation Failure) | `400` |
-| `POST` | `/api/auth/login` | Login with Email (Success) | `200` |
-| `POST` | `/api/auth/login` | Login with Wrong Password (Unauthorized) | `401` |
-| `GET` | `/api/auth/me` | Get Current Authenticated User (Success) | `200` |
-| `GET` | `/api/auth/me` | Get Current User (Unauthenticated) | `401` |
-| `GET` | `/api/auth/roles` | Get Roles Matrix (Success) | `200` |
-| `GET` | `/api/auth/permissions` | Get Permissions Matrix (Success) | `200` |
-| `POST` | `/api/auth/change-password` | Change Password (Success) | `200` |
-| `POST` | `/api/auth/logout` | Logout User (Success) | `200` |
+| Method | Endpoint                    | Scenario                                   | Status |
+| :----- | :-------------------------- | :----------------------------------------- | :----- |
+| `POST` | `/api/auth/register`        | Register Organization and Admin (Success)  | `201`  |
+| `POST` | `/api/auth/register`        | Register Organization (Validation Failure) | `400`  |
+| `POST` | `/api/auth/login`           | Login with Email (Success)                 | `200`  |
+| `POST` | `/api/auth/login`           | Login with Wrong Password (Unauthorized)   | `401`  |
+| `GET`  | `/api/auth/me`              | Get Current Authenticated User (Success)   | `200`  |
+| `GET`  | `/api/auth/me`              | Get Current User (Unauthenticated)         | `401`  |
+| `GET`  | `/api/auth/roles`           | Get Roles Matrix (Success)                 | `200`  |
+| `GET`  | `/api/auth/permissions`     | Get Permissions Matrix (Success)           | `200`  |
+| `POST` | `/api/auth/change-password` | Change Password (Success)                  | `200`  |
+| `POST` | `/api/auth/logout`          | Logout User (Success)                      | `200`  |
 
 ---
 
@@ -26,6 +26,7 @@
 - **Endpoint**: `POST /api/auth/register`
 - **Expected Status**: `201`
 - **Request Body**:
+
 ```json
 {
   "companyName": "Acme Corp 1787997907183",
@@ -35,7 +36,9 @@
   "phone": "9876543210"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Company and Admin registered successfully",
@@ -66,13 +69,16 @@
 - **Endpoint**: `POST /api/auth/register`
 - **Expected Status**: `400`
 - **Request Body**:
+
 ```json
 {
   "email": "invalid-email",
   "password": ""
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Validation failed",
@@ -120,13 +126,16 @@
 - **Endpoint**: `POST /api/auth/login`
 - **Expected Status**: `200`
 - **Request Body**:
+
 ```json
 {
   "email": "test_user_1787997920591_60721@example.com",
   "password": "Password@123"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Login successful.",
@@ -157,13 +166,16 @@
 - **Endpoint**: `POST /api/auth/login`
 - **Expected Status**: `401`
 - **Request Body**:
+
 ```json
 {
   "email": "test_user_1787997920591_60721@example.com",
   "password": "WrongPassword123"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Invalid email/Employee ID or password.",
@@ -181,12 +193,15 @@
 - **Endpoint**: `GET /api/auth/me`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_SESSION_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "User retrieved successfully",
@@ -234,6 +249,7 @@
 - **Endpoint**: `GET /api/auth/me`
 - **Expected Status**: `401`
 - **Response Body**:
+
 ```json
 {
   "message": "You are not logged in. Please log in to gain access.",
@@ -251,12 +267,15 @@
 - **Endpoint**: `GET /api/auth/roles`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_SESSION_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Roles retrieved successfully",
@@ -293,12 +312,15 @@
 - **Endpoint**: `GET /api/auth/permissions`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_SESSION_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Permissions retrieved successfully",
@@ -316,31 +338,10 @@
           "deactivate",
           "reset-password"
         ],
-        "profile": [
-          "read-all",
-          "update-all",
-          "private-info",
-          "salary-info"
-        ],
-        "attendance": [
-          "check-in",
-          "check-out",
-          "read-all",
-          "adjust-all",
-          "correct-record"
-        ],
-        "leave": [
-          "view-all",
-          "approve",
-          "reject",
-          "configure-types",
-          "allocate"
-        ],
-        "salary": [
-          "view-all",
-          "configure-structures",
-          "manage-components"
-        ],
+        "profile": ["read-all", "update-all", "private-info", "salary-info"],
+        "attendance": ["check-in", "check-out", "read-all", "adjust-all", "correct-record"],
+        "leave": ["view-all", "approve", "reject", "configure-types", "allocate"],
+        "salary": ["view-all", "configure-structures", "manage-components"],
         "payroll": [
           "run-payroll",
           "calculate",
@@ -349,98 +350,31 @@
           "recalculate",
           "lock"
         ],
-        "company": [
-          "manage-settings",
-          "work-schedules",
-          "leave-policies",
-          "payroll-config"
-        ],
-        "audit": [
-          "view-all-logs",
-          "view-stats"
-        ],
-        "notifications": [
-          "broadcast",
-          "read-all"
-        ]
+        "company": ["manage-settings", "work-schedules", "leave-policies", "payroll-config"],
+        "audit": ["view-all-logs", "view-stats"],
+        "notifications": ["broadcast", "read-all"]
       },
       "hr": {
-        "employees": [
-          "create",
-          "read",
-          "update",
-          "activate",
-          "deactivate",
-          "reset-password"
-        ],
-        "profile": [
-          "read-all",
-          "update-profile"
-        ],
-        "attendance": [
-          "check-in",
-          "check-out",
-          "read-all",
-          "adjust-all"
-        ],
-        "leave": [
-          "view-all",
-          "approve",
-          "reject",
-          "allocate"
-        ],
-        "salary": [
-          "view-structures"
-        ],
-        "payroll": [
-          "process-periods",
-          "view-payslips"
-        ],
-        "company": [
-          "view-settings",
-          "work-schedules"
-        ],
-        "audit": [
-          "view-all-logs"
-        ],
-        "notifications": [
-          "broadcast"
-        ]
+        "employees": ["create", "read", "update", "activate", "deactivate", "reset-password"],
+        "profile": ["read-all", "update-profile"],
+        "attendance": ["check-in", "check-out", "read-all", "adjust-all"],
+        "leave": ["view-all", "approve", "reject", "allocate"],
+        "salary": ["view-structures"],
+        "payroll": ["process-periods", "view-payslips"],
+        "company": ["view-settings", "work-schedules"],
+        "audit": ["view-all-logs"],
+        "notifications": ["broadcast"]
       },
       "employee": {
-        "employees": [
-          "read-directory"
-        ],
-        "profile": [
-          "read-self",
-          "update-self-limited",
-          "upload-avatar"
-        ],
-        "attendance": [
-          "check-in",
-          "check-out",
-          "read-self",
-          "request-adjustment"
-        ],
-        "leave": [
-          "read-self-balances",
-          "apply-leave",
-          "cancel-self-request"
-        ],
-        "salary": [
-          "read-self-payslips"
-        ],
-        "payroll": [
-          "view-self-payslip",
-          "download-self-payslip"
-        ],
-        "company": [
-          "view-basic"
-        ],
+        "employees": ["read-directory"],
+        "profile": ["read-self", "update-self-limited", "upload-avatar"],
+        "attendance": ["check-in", "check-out", "read-self", "request-adjustment"],
+        "leave": ["read-self-balances", "apply-leave", "cancel-self-request"],
+        "salary": ["read-self-payslips"],
+        "payroll": ["view-self-payslip", "download-self-payslip"],
+        "company": ["view-basic"],
         "audit": [],
-        "notifications": [
-          "read-self"
-        ]
+        "notifications": ["read-self"]
       }
     },
     "currentRole": "employee"
@@ -457,19 +391,24 @@
 - **Endpoint**: `POST /api/auth/change-password`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_SESSION_TOKEN"
 }
 ```
+
 - **Request Body**:
+
 ```json
 {
   "currentPassword": "Password@123",
   "newPassword": "NewStrongPassword@123"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Password changed successfully",
@@ -487,12 +426,15 @@
 - **Endpoint**: `POST /api/auth/logout`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_SESSION_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Logout successful.",
@@ -504,4 +446,3 @@
 > **Note**: Blacklists token in Redis cache and clears cookie.
 
 ---
-

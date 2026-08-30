@@ -29,13 +29,13 @@ import HeroPanel from '@/components/Shared/HeroPanel/HeroPanel';
 import LoginForm from '@/app/features/auth/components/LoginForm';
 
 export default function LoginLayout() {
-    return (
-        <div className="auth-split-layout">
-            <HeroPanel />
-            <div className="auth-form-container">
-                <LoginForm />
-            </div>
-        </div>
-    );
+  return (
+    <div className="auth-split-layout">
+      <HeroPanel />
+      <div className="auth-form-container">
+        <LoginForm />
+      </div>
+    </div>
+  );
 }
 ```

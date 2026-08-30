@@ -26,6 +26,6 @@ import NotFoundPage from '@/components/Shared/ErrorPages/NotFoundPage/NotFoundPa
 import NotFoundPage from '@/components/Shared/ErrorPages/NotFoundPage/NotFoundPage';
 
 export default function CatchAllRoute() {
-    return <NotFoundPage />;
+  return <NotFoundPage />;
 }
 ```

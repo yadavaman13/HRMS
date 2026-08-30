@@ -16,12 +16,15 @@ This document acts as the live record of implemented backend features, API contr
 ## 1. Authentication & Access Control Module
 
 ### Feature Description
+
 Controls identity verification, multi-channel authentication (work email or deterministic Employee Code `OIJODO20220001`), password lifecycle (`mustChangePassword` enforcement), JWT sessions, Redis token blacklisting, account recovery, role-based access control (`admin`, `hr`, `employee`), and permission scoping.
 
 ### Routings & API Contracts
+
 All routes are mounted under `/api/auth`.
 
 #### Public Endpoints
+
 - **`POST /api/auth/register`**: Registers a new organization along with the initial System Administrator.
 - **`POST /api/auth/login`**: Validates credentials via Email or Employee Code (Login ID) + password. Checks account active status and returns JWT cookie `token` + user payload including `mustChangePassword`.
 - **`POST /api/auth/logout`**: Blacklists current token in Redis and clears cookies.
@@ -31,12 +34,14 @@ All routes are mounted under `/api/auth`.
 - **`POST /api/auth/recover-account/request`** & **`POST /api/auth/recover-account/verify`**: Self-service recovery of soft-deleted accounts within the 15-day recovery window.
 
 #### Authenticated Endpoints (`protect` middleware required)
+
 - **`GET /api/auth/me`** (also `GET /api/auth/get-me`): Returns the current authenticated user record with profile summary and organization ID.
 - **`POST /api/auth/change-password`** (also `PATCH /api/auth/change-password`): Rotates the user's password, automatically clears `mustChangePassword: false`, and invalidates cache.
 - **`GET /api/auth/roles`**: Returns system roles descriptions (`admin`, `hr`, `employee`).
 - **`GET /api/auth/permissions`**: Returns the granular module permission matrix for the active user role.
 
 ### Schemas Involved
+
 - `users` ([`src/db/schema/users.schema.js`](../../server/src/db/schema/users.schema.js))
 - `organizations` ([`src/db/schema/organizations.schema.js`](../../server/src/db/schema/organizations.schema.js))
 
@@ -45,9 +50,11 @@ All routes are mounted under `/api/auth`.
 ## 2. Employee & Account Management Module
 
 ### Feature Description
+
 Manages end-to-end employee lifecycle. Normal employees cannot self-register; accounts are provisioned exclusively by Admin or HR. Automatically generates standard company Login IDs, assigns temporary credentials, sends welcome emails, provisions initial leave allocations, and manages activation states.
 
 ### Routings & API Contracts
+
 All routes are mounted under `/api/employees`.
 
 - **`POST /api/employees`** (Admin/HR): Creates employee record, generates deterministic Login ID (`OIJODO20220001`) via atomic sequence, hashes temporary password, creates linked user account with `mustChangePassword: true`, initializes default leave balances, and sends welcome email.
@@ -60,6 +67,7 @@ All routes are mounted under `/api/employees`.
 - **`POST /api/employees/:employeeId/reset-password`** (Admin/HR): Generates new temporary password, resets `mustChangePassword: true`, and emails credentials to employee.
 
 ### Schemas Involved
+
 - `employees`, `employeeCodeSequences`, `employeePrivateInfo` ([`src/db/schema/employees.schema.js`](../../server/src/db/schema/employees.schema.js))
 
 ---
@@ -67,9 +75,11 @@ All routes are mounted under `/api/employees`.
 ## 3. Employee Profile Management Module
 
 ### Feature Description
+
 Provides self-service profile access for employees and comprehensive administrative profile oversight for HR/Admins. Enforces strict field-level write permissions (e.g. employees can edit phone, avatar, bio, skills, but cannot modify salary, department, or manager).
 
 ### Routings & API Contracts
+
 Mounted under `/api/profile` (self-service) and `/api/employees/:employeeId` (administrative).
 
 - **`GET /api/profile/me`**: Returns current employee profile, work details, skills, and resume.
@@ -89,9 +99,11 @@ Mounted under `/api/profile` (self-service) and `/api/employees/:employeeId` (ad
 ## 4. Attendance Management Module
 
 ### Feature Description
+
 Captures employee time logs (check-in / check-out), calculates net work duration, breaks, and overtime against assigned work schedules. Provides regularization workflows for missing punches and admin corrections. Directly supplies attendance metrics to the payroll calculation engine.
 
 ### Routings & API Contracts
+
 Mounted under `/api/attendance`.
 
 - **`POST /api/attendance/check-in`**: Records punch-in for today with late arrival tracking. Prevents duplicate check-ins.
@@ -109,6 +121,7 @@ Mounted under `/api/attendance`.
 - **`PATCH /api/attendance/:attendanceId`** (Admin/HR): Direct manual correction of attendance records.
 
 ### Schemas Involved
+
 - `attendanceRecords`, `attendanceSessions`, `attendanceAdjustments` ([`src/db/schema/attendance.schema.js`](../../server/src/db/schema/attendance.schema.js))
 
 ---
@@ -116,9 +129,11 @@ Mounted under `/api/attendance`.
 ## 5. Time-Off / Leave Management Module
 
 ### Feature Description
+
 Manages leave types (Paid Time Off, Sick Leave, Unpaid Leave), allocations, multi-day requests, balance deductions, overlapping date validations, and ledger transaction tracking. Balance is deducted **only upon approval** and restored upon cancellation.
 
 ### Routings & API Contracts
+
 Mounted under `/api/leave`.
 
 - **`GET /api/leave/types`**: Lists active leave types and rules.
@@ -136,6 +151,7 @@ Mounted under `/api/leave`.
 - **`POST /api/leave/requests/:requestId/reject`** (Admin/HR): Rejects leave request with comments.
 
 ### Schemas Involved
+
 - `leaveTypes`, `leaveAllocations`, `leaveRequests`, `leaveTransactions` ([`src/db/schema/leave.schema.js`](../../server/src/db/schema/leave.schema.js))
 
 ---
@@ -143,9 +159,11 @@ Mounted under `/api/leave`.
 ## 6. Salary & Compensation Management Module
 
 ### Feature Description
+
 Configures sensitive employee salary structures, fixed/hourly wage components, dynamic calculation rules (Basic % of wage, HRA % of basic, standard allowances, bonuses, LTA, residual Fixed allowance), and statutory deductions (Employee PF, Employer PF, Professional Tax). Access is strictly restricted to Admin role.
 
 ### Routings & API Contracts
+
 Mounted under `/api/payroll` and `/api/employees/:employeeId/salary`.
 
 - **`GET /api/payroll/components`** (Admin/HR): Lists organization salary component definitions.
@@ -154,6 +172,7 @@ Mounted under `/api/payroll` and `/api/employees/:employeeId/salary`.
 - **`POST /api/payroll/salary/:employeeId`** (or `POST /api/employees/:employeeId/salary`) (Admin): Sets or updates salary structure. Validates earnings sum does not exceed monthly wage and saves revision history.
 
 ### Calculation Engine Rules
+
 1. **Basic**: Percentage of monthly wage (default 50%).
 2. **HRA**: Percentage of Basic (default 50%).
 3. **Allowances**: Standard allowance, Performance bonus, LTA.
@@ -167,9 +186,11 @@ Mounted under `/api/payroll` and `/api/employees/:employeeId/salary`.
 ## 7. Payroll & Payslip Management Module
 
 ### Feature Description
+
 Executes monthly payroll runs, bridges attendance and approved leaves to compute payable days vs unpaid days, applies proportional salary deductions, calculates net pay, transitions run states (`draft` -> `processing` -> `calculated` -> `finalized` -> `paid`), and compiles chromium-free PDF payslips.
 
 ### Routings & API Contracts
+
 Mounted under `/api/payroll`.
 
 - **`GET /api/payroll/periods`** (Admin/HR): Lists payroll cycles.
@@ -181,6 +202,7 @@ Mounted under `/api/payroll`.
 - **`GET /api/payroll/payslips/:id/download`**: Streams or downloads compiled PDF payslip (`?inline=true` for browser preview).
 
 ### Payable Days Formulation
+
 $$\text{Payable Days} = \text{Present Days} + \text{Paid Leave Days} + \text{Holidays} + \text{Weekends}$$
 $$\text{Unpaid Days} = \text{Absent Days} + \text{Unpaid Leave Days} + \text{Half Days (unpaid portion)}$$
 $$\text{Unpaid Day Deduction} = \left(\frac{\text{Monthly Wage}}{\text{Working Days Basis}}\right) \times \text{Unpaid Days}$$
@@ -191,9 +213,11 @@ $$\text{Net Pay} = \text{Gross Earnings} - \text{Total Employee Deductions} - \t
 ## 8. Dashboard & Workforce Overview Module
 
 ### Feature Description
+
 Provides executive analytics for Admin/HR and self-service status overview for employees. Includes dedicated granular endpoints for Attendance, Leaves, Employees headcount, and Payroll trends.
 
 ### Routings & API Contracts
+
 Mounted under `/api/dashboard`.
 
 - **`GET /api/dashboard`**: Smart root endpoint returning executive analytics for Admin/HR or self-service dashboard for Employees.
@@ -209,9 +233,11 @@ Mounted under `/api/dashboard`.
 ## 9. Company & HR Configuration Module
 
 ### Feature Description
+
 Manages organizational entities, locations, departments, job positions, customizable work schedules (shift times, working days, weekends), company holidays calendar, leave policies, and payroll settings.
 
 ### Routings & API Contracts
+
 Mounted under `/api/companies`, `/api/company`, and `/api/settings`.
 
 - **`GET /api/companies/my`** (or `GET /api/company/my`): Returns active company details.
@@ -228,9 +254,11 @@ Mounted under `/api/companies`, `/api/company`, and `/api/settings`.
 ## 10. Audit, Notifications & System Controls Module
 
 ### Feature Description
+
 Records immutable audit trails for sensitive operations (employee creation, salary structure updates, attendance corrections, leave reviews, payroll finalizations) with actor IDs and IP addresses. Dispatches in-app notifications and email alerts.
 
 ### Routings & API Contracts
+
 Mounted under `/api/audit-logs` and `/api/notifications`.
 
 - **`GET /api/audit-logs`** (Admin/HR): Filterable audit log list.
@@ -243,6 +271,7 @@ Mounted under `/api/audit-logs` and `/api/notifications`.
 - **`POST /api/notifications/broadcast`** (Admin/HR): Dispatches announcement notification to all organization employees.
 
 ### Schemas Involved
+
 - `auditLogs` ([`src/db/schema/audit.schema.js`](../../server/src/db/schema/audit.schema.js))
 - `notifications` ([`src/db/schema/notifications.schema.js`](../../server/src/db/schema/notifications.schema.js))
 
@@ -251,9 +280,11 @@ Mounted under `/api/audit-logs` and `/api/notifications`.
 ## 11. AI Conversational Chat Module
 
 ### Feature Description
+
 Provides real-time conversational streaming and chat replies utilizing Google Gemini models, integrated search capabilities (Tavily), message history logging, and file attachment handling.
 
 ### Routings & API Contracts
+
 Mounted under `/api/ai`.
 
 - **`POST /api/ai/chat/stream`**: Starts real-time streaming response for a conversational query (SSE).
@@ -269,9 +300,11 @@ Mounted under `/api/ai`.
 ## 12. RAG Ingestion & Vector Retrieval Module
 
 ### Feature Description
+
 Converts uploaded reference documents into structured semantic markdown, splits them into indexed chunks, embeds texts, and executes localized vector searches in Pinecone.
 
 ### Routings & API Contracts
+
 Mounted under `/api/rag`.
 
 - **`POST /api/rag/admin/upload`**: Uploads administrative reference document for global RAG lookup.
@@ -282,9 +315,11 @@ Mounted under `/api/rag`.
 ## 13. Chromium-Free PDF Generation Module
 
 ### Feature Description
+
 Compiles application data and HTML layouts into static lightweight PDF document streams without the overhead of heavy headless web browsers using `html-pdf-lite` and `@resvg/resvg-js`.
 
 ### Routings & API Contracts
+
 Mounted under `/api/pdf`.
 
 - **`GET /api/pdf/invoice/:id`**: Compiles transaction details and generates invoice PDF (`?inline=true` supported).

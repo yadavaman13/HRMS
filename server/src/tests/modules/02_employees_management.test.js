@@ -122,7 +122,8 @@ describe('02: Employee & Account Management API', () => {
 
             expect(res.status).toBe(200);
             expect(res.body.success).toBe(true);
-            const employeeRecordId = res.body.data.header?.id || res.body.data.employee?.id || res.body.data.id;
+            const employeeRecordId =
+                res.body.data.header?.id || res.body.data.employee?.id || res.body.data.id;
             expect(employeeRecordId).toBe(createdEmployeeId);
         });
     });

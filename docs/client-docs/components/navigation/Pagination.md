@@ -31,20 +31,20 @@ import Pagination from '@/components/Shared/Navigation/Pagination/Pagination';
 import Pagination from '@/components/Shared/Navigation/Pagination/Pagination';
 
 export default function TablePaginationFooter({
-    page,
-    totalPages,
-    setPage,
-    pageSize,
-    setPageSize,
+  page,
+  totalPages,
+  setPage,
+  pageSize,
+  setPageSize,
 }) {
-    return (
-        <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            onPageChange={setPage}
-            rowsPerPage={pageSize}
-            onRowsPerPageChange={setPageSize}
-        />
-    );
+  return (
+    <Pagination
+      currentPage={page}
+      totalPages={totalPages}
+      onPageChange={setPage}
+      rowsPerPage={pageSize}
+      onRowsPerPageChange={setPageSize}
+    />
+  );
 }
 ```

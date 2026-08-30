@@ -31,25 +31,25 @@ import TableTabs from '@/components/Shared/Navigation/TableTabs/TableTabs';
 import Button from '@/components/Shared/Buttons/Button/Button';
 
 export default function LeadTabs({ onNewLead }) {
-    const [active, setActive] = useState('all');
+  const [active, setActive] = useState('all');
 
-    const tabs = [
-        { id: 'all', label: 'All Leads', count: 124 },
-        { id: 'new', label: 'New', count: 18 },
-        { id: 'contacted', label: 'Contacted', count: 42 },
-    ];
+  const tabs = [
+    { id: 'all', label: 'All Leads', count: 124 },
+    { id: 'new', label: 'New', count: 18 },
+    { id: 'contacted', label: 'Contacted', count: 42 },
+  ];
 
-    return (
-        <TableTabs
-            tabs={tabs}
-            activeTab={active}
-            onTabChange={setActive}
-            actions={
-                <Button size="sm" onClick={onNewLead}>
-                    + New Lead
-                </Button>
-            }
-        />
-    );
+  return (
+    <TableTabs
+      tabs={tabs}
+      activeTab={active}
+      onTabChange={setActive}
+      actions={
+        <Button size="sm" onClick={onNewLead}>
+          + New Lead
+        </Button>
+      }
+    />
+  );
 }
 ```

@@ -4,13 +4,13 @@
 
 ## 📋 Endpoints Overview
 
-| Method | Endpoint | Scenario | Status |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/leave/types` | List Leave Types (Success) | `200` |
-| `POST` | `/api/leave/types` | Create Leave Type (Admin) | `201` |
-| `GET` | `/api/leave/balances/me` | Get My Leave Balances (Success) | `200` |
-| `POST` | `/api/leave/requests` | Apply for Leave (Success) | `400` |
-| `GET` | `/api/leave/requests` | Get Leave Approvals Inbox (Admin) | `200` |
+| Method | Endpoint                 | Scenario                          | Status |
+| :----- | :----------------------- | :-------------------------------- | :----- |
+| `GET`  | `/api/leave/types`       | List Leave Types (Success)        | `200`  |
+| `POST` | `/api/leave/types`       | Create Leave Type (Admin)         | `201`  |
+| `GET`  | `/api/leave/balances/me` | Get My Leave Balances (Success)   | `200`  |
+| `POST` | `/api/leave/requests`    | Apply for Leave (Success)         | `400`  |
+| `GET`  | `/api/leave/requests`    | Get Leave Approvals Inbox (Admin) | `200`  |
 
 ---
 
@@ -21,12 +21,15 @@
 - **Endpoint**: `GET /api/leave/types`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Leave types retrieved successfully",
@@ -102,12 +105,15 @@
 - **Endpoint**: `POST /api/leave/types`
 - **Expected Status**: `201`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Request Body**:
+
 ```json
 {
   "code": "CASUAL_1787998021296",
@@ -117,7 +123,9 @@
   "requiresAllocation": true
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Leave type created successfully",
@@ -149,12 +157,15 @@
 - **Endpoint**: `GET /api/leave/balances/me`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Leave balances retrieved successfully",
@@ -254,12 +265,15 @@
 - **Endpoint**: `POST /api/leave/requests`
 - **Expected Status**: `400`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_EMPLOYEE_TOKEN"
 }
 ```
+
 - **Request Body**:
+
 ```json
 {
   "leaveTypeId": "57e87d7b-50ec-4bce-9c22-720c5473aadb",
@@ -268,7 +282,9 @@
   "reason": "Family event"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Insufficient leave balance for Casual Leave. Available: 0 day(s), Requested: 2 day(s)",
@@ -290,12 +306,15 @@
 - **Endpoint**: `GET /api/leave/requests`
 - **Expected Status**: `200`
 - **Headers**:
+
 ```json
 {
   "Cookie": "token=JWT_ADMIN_TOKEN"
 }
 ```
+
 - **Response Body**:
+
 ```json
 {
   "message": "Leave requests retrieved successfully",
@@ -308,4 +327,3 @@
 > **Note**: Lists pending leave applications awaiting approval.
 
 ---
-

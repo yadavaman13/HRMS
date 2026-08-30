@@ -1,0 +1,73 @@
+name: CI Quality Gate
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+  push:
+    branches:
+      - develop
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-and-build:
+    name: Quality & Build Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: 📦 Install Root Dependencies
+        run: npm ci
+
+      - name: 📦 Install Client & Server Dependencies
+        run: |
+          npm ci --prefix client
+          if [ -f server/package-lock.json ]; then
+            npm ci --prefix server
+          else
+            npm install --prefix server
+          fi
+
+      - name: 🎨 Code Formatting Check (Prettier)
+        run: npm run format:check
+
+      - name: 🔍 Linting (ESLint & Stylelint)
+        run: npm run lint
+
+      - name: 🧪 Unit & Regression Tests (Jest)
+        run: npm run test
+        env:
+          NODE_ENV: test
+          DATABASE_URL: postgresql://mock:mock@localhost:5432/mock_db
+          JWT_SECRET: ci-mock-jwt-secret-key-for-quality-gate-32-chars
+          CLIENT_ORIGINS: http://localhost:5173
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
+          REDIS_PASSWORD: mock
+          GOOGLE_CLIENT_ID: mock-client-id
+          GOOGLE_CLIENT_SECRET: mock-client-secret
+          GOOGLE_REFRESH_TOKEN: mock-refresh-token
+          GOOGLE_SENDER_EMAIL: mock@example.com
+          GEMINI_API_KEY: mock-gemini
+          MISTRAL_API_KEY: mock-mistral
+          TAVILY_API_KEY: mock-tavily
+          LLAMA_CLOUD_API_KEY: mock-llama
+          PINECONE_API_KEY: mock-pinecone
+          PINECONE_INDEX: mock-index
+          IMAGEKIT_PRIVATE_KEY: mock-imagekit
+
+      - name: 🏗️ Production Build (Vite)
+        run: npm run build

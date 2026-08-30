@@ -1,0 +1,48 @@
+# Render Blueprint for Automated Hackathon Deployments
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  # ── Backend Node/Express API Service ──────────────────────────────────────────
+  - type: web
+    name: hrms-api
+    runtime: node
+    plan: starter
+    region: oregon
+    branch: main
+    rootDir: server
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SERVER_PORT
+        value: 5000
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_ORIGINS
+        sync: false
+      - key: REDIS_URL
+        sync: false
+
+  # ── Frontend React + Vite SPA ───────────────────────────────────────────────
+  - type: web
+    name: hrms-client
+    runtime: static
+    plan: starter
+    region: oregon
+    branch: main
+    rootDir: client
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    autoDeployTrigger: checksPass
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false

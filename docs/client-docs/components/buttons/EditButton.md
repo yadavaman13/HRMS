@@ -30,13 +30,13 @@ import EditButton from '@/components/Shared/Buttons/EditButton/EditButton';
 import EditButton from '@/components/Shared/Buttons/EditButton/EditButton';
 
 export default function UserCard({ user, onEdit }) {
-    return (
-        <div className="user-card">
-            <h3>{user.name}</h3>
-            <EditButton size="sm" onClick={() => onEdit(user)}>
-                Edit Profile
-            </EditButton>
-        </div>
-    );
+  return (
+    <div className="user-card">
+      <h3>{user.name}</h3>
+      <EditButton size="sm" onClick={() => onEdit(user)}>
+        Edit Profile
+      </EditButton>
+    </div>
+  );
 }
 ```

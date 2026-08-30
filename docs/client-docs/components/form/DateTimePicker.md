@@ -31,8 +31,8 @@ import { useState } from 'react';
 import DateTimePicker from '@/components/Shared/Form/DateTimePicker/DateTimePicker';
 
 export default function MeetingScheduler() {
-    const [meetingTime, setMeetingTime] = useState('');
+  const [meetingTime, setMeetingTime] = useState('');
 
-    return <DateTimePicker label="Schedule Demo" value={meetingTime} onChange={setMeetingTime} />;
+  return <DateTimePicker label="Schedule Demo" value={meetingTime} onChange={setMeetingTime} />;
 }
 ```

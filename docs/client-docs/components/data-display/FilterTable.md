@@ -29,16 +29,14 @@ import FilterTable from '@/components/Shared/DataDisplay/FilterTable/FilterTable
 import FilterTable from '@/components/Shared/DataDisplay/FilterTable/FilterTable';
 
 export default function LeadsFilterTableView({ leads }) {
-    const columns = [
-        { key: 'name', label: 'Lead' },
-        { key: 'source', label: 'Channel' },
-        { key: 'status', label: 'Status' },
-    ];
+  const columns = [
+    { key: 'name', label: 'Lead' },
+    { key: 'source', label: 'Channel' },
+    { key: 'status', label: 'Status' },
+  ];
 
-    const filters = [
-        { key: 'status', label: 'Status', options: ['New', 'Contacted', 'Qualified'] },
-    ];
+  const filters = [{ key: 'status', label: 'Status', options: ['New', 'Contacted', 'Qualified'] }];
 
-    return <FilterTable data={leads} columns={columns} filters={filters} />;
+  return <FilterTable data={leads} columns={columns} filters={filters} />;
 }
 ```

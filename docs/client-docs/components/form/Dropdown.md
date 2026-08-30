@@ -34,23 +34,23 @@ import { useState } from 'react';
 import Dropdown from '@/components/Shared/Form/Dropdown/Dropdown';
 
 const statusOptions = [
-    { value: 'all', label: 'All Statuses' },
-    { value: 'new', label: 'New Lead' },
-    { value: 'contacted', label: 'Contacted' },
-    { value: 'qualified', label: 'Qualified' },
-    { value: 'closed', label: 'Closed Won' },
+  { value: 'all', label: 'All Statuses' },
+  { value: 'new', label: 'New Lead' },
+  { value: 'contacted', label: 'Contacted' },
+  { value: 'qualified', label: 'Qualified' },
+  { value: 'closed', label: 'Closed Won' },
 ];
 
 export default function StatusFilter() {
-    const [selectedStatus, setSelectedStatus] = useState('all');
+  const [selectedStatus, setSelectedStatus] = useState('all');
 
-    return (
-        <Dropdown
-            label="Lead Status"
-            options={statusOptions}
-            value={selectedStatus}
-            onChange={setSelectedStatus}
-        />
-    );
+  return (
+    <Dropdown
+      label="Lead Status"
+      options={statusOptions}
+      value={selectedStatus}
+      onChange={setSelectedStatus}
+    />
+  );
 }
 ```

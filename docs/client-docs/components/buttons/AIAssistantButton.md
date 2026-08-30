@@ -31,13 +31,13 @@ import AIAssistantButton from '@/components/Shared/Buttons/AIAssistantButton/AIA
 import { useNavigate } from 'react-router';
 
 export default function HeaderAIAction() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    return (
-        <AIAssistantButton onClick={() => navigate('/dashboard/user/ai')}>
-            Launch AI Assistant
-        </AIAssistantButton>
-    );
+  return (
+    <AIAssistantButton onClick={() => navigate('/dashboard/user/ai')}>
+      Launch AI Assistant
+    </AIAssistantButton>
+  );
 }
 ```
 
@@ -47,6 +47,6 @@ export default function HeaderAIAction() {
 
 - Stylesheet: `client/src/components/Shared/Buttons/AIAssistantButton/AIAssistantButton.scss`
 - Variables used:
-    - `$color-primary`, `$color-blue-accent`, `$color-blue-hover`
-    - `$radius-small` (`10px`), `$shadow-md`
-    - `@include variables.transition-ease;`
+  - `$color-primary`, `$color-blue-accent`, `$color-blue-hover`
+  - `$radius-small` (`10px`), `$shadow-md`
+  - `@include variables.transition-ease;`

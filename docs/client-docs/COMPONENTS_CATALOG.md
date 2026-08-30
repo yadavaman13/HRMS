@@ -10,11 +10,12 @@ This document provides a searchable directory of all reusable UI primitives (`@/
 components/
 ├── buttons/         (12 components)
 ├── form/            (15 components)
-├── data-display/    (26 components)
+├── data-display/    (25 components)
 ├── feedback/        (8 components)
 ├── navigation/      (6 components)
 ├── error-pages/     (3 components)
 ├── hero-panel/      (1 component)
+├── maps/            (4 components)
 └── ai-elements/     (10 components)
 ```
 
@@ -63,34 +64,31 @@ components/
 
 ## 4. Data Display (`components/data-display/`)
 
-| Component                  | Path                                                                  | Description                                                    | Documentation                                                                  |
-| -------------------------- | --------------------------------------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| **AdvancedTable**          | `@/components/Shared/DataDisplay/AdvancedTable/AdvancedTable`         | High-performance table with sorting, search, and pagination    | [AdvancedTable.md](components/data-display/AdvancedTable.md)                   |
-| **DataTable**              | `@/components/Shared/DataDisplay/DataTable/DataTable`                 | Standard structured data grid                                  | [DataTable.md](components/data-display/DataTable.md)                           |
-| **DataView**               | `@/components/Shared/DataDisplay/DataView/DataView`                   | Table \| Grid view mode orchestrator                           | [DataView.md](components/data-display/DataView.md)                             |
-| **FilterTable**            | `@/components/Shared/DataDisplay/FilterTable/FilterTable`             | Data table with built-in filter pills & search bar             | [FilterTable.md](components/data-display/FilterTable.md)                       |
-| **StatCard**               | `@/components/Shared/DataDisplay/StatCard/StatCard`                   | KPI metric summary card with icons and trends                  | [StatCard.md](components/data-display/StatCard.md)                             |
-| **MetricCard**             | `@/components/Shared/DataDisplay/MetricCard/MetricCard`               | Numerical metric card with customizable badges                 | [MetricCard.md](components/data-display/MetricCard.md)                         |
-| **KpiLineChartCard**       | `@/components/Shared/DataDisplay/KpiLineChartCard/KpiLineChartCard`   | Dedicated metric trend chart card                              | [KpiLineChartCard.md](components/data-display/KpiLineChartCard.md)             |
-| **AnalyticsLineChartCard** | `@/components/Shared/AnalyticsLineChartCard/AnalyticsLineChartCard`   | Reusable analytics line chart card with header & metric values | [AnalyticsLineChartCard.md](components/data-display/AnalyticsLineChartCard.md) |
-| **KanbanBoard**            | `@/components/Shared/DataDisplay/KanbanBoard/KanbanBoard`             | Interactive drag-and-drop task status board                    | [KanbanBoard.md](components/data-display/KanbanBoard.md)                       |
-| **ActivitiesFeed**         | `@/components/Shared/DataDisplay/ActivitiesFeed/ActivitiesFeedCard`   | Live activity event feed with user avatars                     | [ActivitiesFeed.md](components/data-display/ActivitiesFeed.md)                 |
-| **Timeline**               | `@/components/Shared/DataDisplay/Timeline/Timeline`                   | Vertical milestone and audit trail timeline                    | [Timeline.md](components/data-display/Timeline.md)                             |
-| **Badge**                  | `@/components/Shared/DataDisplay/Badge/Badge`                         | Status pills, tags, and category chips                         | [Badge.md](components/data-display/Badge.md)                                   |
-| **VerticalBadge**          | `@/components/Shared/DataDisplay/VerticalBadge/VerticalBadge`         | Vertical status stripe indicator                               | [VerticalBadge.md](components/data-display/VerticalBadge.md)                   |
-| **CircularAvatar**         | `@/components/Shared/DataDisplay/CircularAvatar/CircularAvatar`       | Circular user profile avatar with fallback initials            | [CircularAvatar.md](components/data-display/CircularAvatar.md)                 |
-| **Card**                   | `@/components/Shared/DataDisplay/Card/Card`                           | General-purpose elevated card container                        | [Card.md](components/data-display/Card.md)                                     |
-| **Accordion**              | `@/components/Shared/DataDisplay/Accordion/Accordion`                 | Collapsible accordion sections                                 | [Accordion.md](components/data-display/Accordion.md)                           |
-| **Collapsible**            | `@/components/Shared/DataDisplay/Collapsible/Collapsible`             | Expandable disclosure container                                | [Collapsible.md](components/data-display/Collapsible.md)                       |
-| **Carousel**               | `@/components/Shared/DataDisplay/Carousel/Carousel`                   | Interactive slider component                                   | [Carousel.md](components/data-display/Carousel.md)                             |
-| **EmptyState**             | `@/components/Shared/DataDisplay/EmptyState/EmptyState`               | Empty state placeholder with graphic and action CTA            | [EmptyState.md](components/data-display/EmptyState.md)                         |
-| **EmptyStateCard**         | `@/components/Shared/DataDisplay/EmptyStateCard/EmptyStateCard`       | Boxed card empty state                                         | [EmptyStateCard.md](components/data-display/EmptyStateCard.md)                 |
-| **ProgressBar**            | `@/components/Shared/DataDisplay/ProgressBar/ProgressBar`             | Linear percentage progress indicator                           | [ProgressBar.md](components/data-display/ProgressBar.md)                       |
-| **StepProgress**           | `@/components/Shared/DataDisplay/StepProgress/StepProgress`           | Multi-step form/wizard indicator                               | [StepProgress.md](components/data-display/StepProgress.md)                     |
-| **Tooltip**                | `@/components/Shared/DataDisplay/Tooltip/Tooltip`                     | Accessible hover popover tooltip                               | [Tooltip.md](components/data-display/Tooltip.md)                               |
-| **Logo**                   | `@/components/Shared/DataDisplay/Logo/Logo`                           | Responsive application brand logo                              | [Logo.md](components/data-display/Logo.md)                                     |
-| **FormHeader**             | `@/components/Shared/DataDisplay/FormHeader/FormHeader`               | Clean title & subtitle header for forms and pages              | [FormHeader.md](components/data-display/FormHeader.md)                         |
-| **AdvancedScrollbar**      | `@/components/Shared/DataDisplay/AdvancedScrollbar/AdvancedScrollbar` | Custom scrollbar with live item position tooltips              | [AdvancedScrollbar.md](components/data-display/AdvancedScrollbar.md)           |
+| Component                  | Path                                                                | Description                                                                                                      | Documentation                                                                  |
+| -------------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| **AdvancedTable**          | `@/components/Shared/DataDisplay/AdvancedTable/AdvancedTable`       | Modular minimal-by-default table with Sort dropdown, Serial #, Grid toggle, filters, search, selection, & export | [AdvancedTable.md](components/data-display/AdvancedTable.md)                   |
+| **DataTable**              | `@/components/Shared/DataDisplay/DataTable/DataTable`               | Standard structured data grid                                                                                    | [DataTable.md](components/data-display/DataTable.md)                           |
+| **DataView**               | `@/components/Shared/DataDisplay/AdvancedTable/AdvancedTable`       | _(Unified into AdvancedTable — use showViewToggle prop)_                                                         | [DataView.md](components/data-display/DataView.md)                             |
+| **FilterTable**            | `@/components/Shared/DataDisplay/FilterTable/FilterTable`           | Data table with built-in filter pills & search bar                                                               | [FilterTable.md](components/data-display/FilterTable.md)                       |
+| **MetricCard**             | `@/components/Shared/DataDisplay/MetricCard/MetricCard`             | Numerical metric card with customizable badges                                                                   | [MetricCard.md](components/data-display/MetricCard.md)                         |
+| **KpiLineChartCard**       | `@/components/Shared/DataDisplay/KpiLineChartCard/KpiLineChartCard` | Dedicated metric trend chart card                                                                                | [KpiLineChartCard.md](components/data-display/KpiLineChartCard.md)             |
+| **AnalyticsLineChartCard** | `@/components/Shared/AnalyticsLineChartCard/AnalyticsLineChartCard` | Reusable analytics line chart card with header & metric values                                                   | [AnalyticsLineChartCard.md](components/data-display/AnalyticsLineChartCard.md) |
+| **KanbanBoard**            | `@/components/Shared/DataDisplay/KanbanBoard/KanbanBoard`           | Interactive drag-and-drop task status board                                                                      | [KanbanBoard.md](components/data-display/KanbanBoard.md)                       |
+| **Timeline**               | `@/components/Shared/DataDisplay/Timeline/Timeline`                 | Vertical milestone and audit trail timeline                                                                      | [Timeline.md](components/data-display/Timeline.md)                             |
+| **Badge**                  | `@/components/Shared/DataDisplay/Badge/Badge`                       | Status pills, tags, and category chips                                                                           | [Badge.md](components/data-display/Badge.md)                                   |
+| **VerticalBadge**          | `@/components/Shared/DataDisplay/VerticalBadge/VerticalBadge`       | Vertical status stripe indicator                                                                                 | [VerticalBadge.md](components/data-display/VerticalBadge.md)                   |
+| **CircularAvatar**         | `@/components/Shared/DataDisplay/CircularAvatar/CircularAvatar`     | Circular user profile avatar with fallback initials                                                              | [CircularAvatar.md](components/data-display/CircularAvatar.md)                 |
+| **Card**                   | `@/components/Shared/DataDisplay/Card/Card`                         | General-purpose elevated card container                                                                          | [Card.md](components/data-display/Card.md)                                     |
+| **Accordion**              | `@/components/Shared/DataDisplay/Accordion/Accordion`               | Collapsible accordion sections                                                                                   | [Accordion.md](components/data-display/Accordion.md)                           |
+| **Collapsible**            | `@/components/Shared/DataDisplay/Collapsible/Collapsible`           | Expandable disclosure container                                                                                  | [Collapsible.md](components/data-display/Collapsible.md)                       |
+| **Carousel**               | `@/components/Shared/DataDisplay/Carousel/Carousel`                 | Interactive slider component                                                                                     | [Carousel.md](components/data-display/Carousel.md)                             |
+| **EmptyState**             | `@/components/Shared/DataDisplay/EmptyState/EmptyState`             | Empty state placeholder with graphic and action CTA                                                              | [EmptyState.md](components/data-display/EmptyState.md)                         |
+| **EmptyStateCard**         | `@/components/Shared/DataDisplay/EmptyStateCard/EmptyStateCard`     | Boxed card empty state                                                                                           | [EmptyStateCard.md](components/data-display/EmptyStateCard.md)                 |
+| **ProgressBar**            | `@/components/Shared/DataDisplay/ProgressBar/ProgressBar`           | Linear percentage progress indicator                                                                             | [ProgressBar.md](components/data-display/ProgressBar.md)                       |
+| **StepProgress**           | `@/components/Shared/DataDisplay/StepProgress/StepProgress`         | Multi-step form/wizard indicator                                                                                 | [StepProgress.md](components/data-display/StepProgress.md)                     |
+| **Tooltip**                | `@/components/Shared/DataDisplay/Tooltip/Tooltip`                   | Accessible hover popover tooltip                                                                                 | [Tooltip.md](components/data-display/Tooltip.md)                               |
+| **Logo**                   | `@/components/Shared/DataDisplay/Logo/Logo`                         | Responsive application brand logo                                                                                | [Logo.md](components/data-display/Logo.md)                                     |
+| **FormHeader**             | `@/components/Shared/DataDisplay/FormHeader/FormHeader`             | Clean title & subtitle header for forms and pages                                                                | [FormHeader.md](components/data-display/FormHeader.md)                         |
 
 ---
 
@@ -100,7 +98,6 @@ components/
 | ------------------ | ------------------------------------------------------------ | ----------------------------------------------------------------- | ---------------------------------------------------------- |
 | **Dialog**         | `@/components/Shared/Feedback/Dialog/Dialog`                 | Modal dialog box with backdrop blur and focus trap                | [Dialog.md](components/feedback/Dialog.md)                 |
 | **Toast**          | `@/components/Shared/Feedback/Toast/Toast`                   | Floating system notification toast                                | [Toast.md](components/feedback/Toast.md)                   |
-| **DeleteToast**    | `@/components/Shared/Feedback/DeleteToast/DeleteToast`       | Destructive action confirmation toast                             | [DeleteToast.md](components/feedback/DeleteToast.md)       |
 | **Drawer**         | `@/components/Shared/Feedback/Drawer/Drawer`                 | Slide-in side drawer panel                                        | [Drawer.md](components/feedback/Drawer.md)                 |
 | **Popover**        | `@/components/Shared/Feedback/Popover/Popover`               | Triggered overlay popup container                                 | [Popover.md](components/feedback/Popover.md)               |
 | **Alert**          | `@/components/Shared/Feedback/Alert/Alert`                   | Inline status notification banner (info, success, warning, error) | [Alert.md](components/feedback/Alert.md)                   |
@@ -117,7 +114,6 @@ components/
 | **Topbar**      | `@/components/Shared/Navigation/Topbar/Topbar`           | Top header bar with breadcrumbs, notifications, and profile | [Topbar.md](components/navigation/Topbar.md)           |
 | **Pagination**  | `@/components/Shared/Navigation/Pagination/Pagination`   | Page navigation controls with page size selector            | [Pagination.md](components/navigation/Pagination.md)   |
 | **TableTabs**   | `@/components/Shared/Navigation/TableTabs/TableTabs`     | Filter tab bar for tables and datasets                      | [TableTabs.md](components/navigation/TableTabs.md)     |
-| **TabPills**    | `@/components/Shared/Navigation/TabPills/TabPills`       | Pill-style navigation switchers                             | [TabPills.md](components/navigation/TabPills.md)       |
 | **Breadcrumbs** | `@/components/Shared/Navigation/Breadcrumbs/Breadcrumbs` | Hierarchy path trail navigation                             | [Breadcrumbs.md](components/navigation/Breadcrumbs.md) |
 
 ---
@@ -154,3 +150,14 @@ components/
 | **SpeechInput**  | `@/components/ai-elements/speech-input/speech-input` | Voice-to-text audio recording button                      | [SpeechInput.md](components/ai-elements/SpeechInput.md)   |
 | **Suggestion**   | `@/components/ai-elements/suggestion/suggestion`     | Suggested quick-action question pills                     | [Suggestion.md](components/ai-elements/Suggestion.md)     |
 | **Tool**         | `@/components/ai-elements/tool/tool`                 | Tool execution progress indicator and payload viewer      | [Tool.md](components/ai-elements/Tool.md)                 |
+
+---
+
+## 10. Map Components (`infrastructure/maps/components/`)
+
+| Component             | Path                                                 | Description                                                             |
+| --------------------- | ---------------------------------------------------- | ----------------------------------------------------------------------- |
+| **MapView**           | `@/infrastructure/maps/components/MapView`           | Main map canvas viewport rendering either Google Maps or OpenStreetMap. |
+| **MapMarker**         | `@/infrastructure/maps/components/MapMarker`         | Overlay pin rendering coordinates at a specific lat/lng.                |
+| **MapPolyline**       | `@/infrastructure/maps/components/MapPolyline`       | Vector line drawer to render routes between multiple coordinates.       |
+| **PlaceAutocomplete** | `@/infrastructure/maps/components/PlaceAutocomplete` | Dropdown autocomplete search input resolving places via Google Places.  |

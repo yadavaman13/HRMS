@@ -27,6 +27,6 @@ import { SpeechInput } from '@/components/ai-elements/speech-input/speech-input'
 import { SpeechInput } from '@/components/ai-elements/speech-input/speech-input';
 
 export default function VoicePromptBar({ onAppendText }) {
-    return <SpeechInput onTranscript={(text) => onAppendText(text)} />;
+  return <SpeechInput onTranscript={(text) => onAppendText(text)} />;
 }
 ```

@@ -32,14 +32,14 @@ import Upload from '@/components/Shared/Form/Upload/Upload';
 import Upload from '@/components/Shared/Form/Upload/Upload';
 
 export default function DocumentUploader({ onUploadDocs }) {
-    return (
-        <Upload
-            accept=".pdf,.doc,.docx"
-            multiple
-            maxSizeMB={20}
-            onFilesSelected={onUploadDocs}
-            label="Upload CRM Contract / Invoices (PDF, max 20MB)"
-        />
-    );
+  return (
+    <Upload
+      accept=".pdf,.doc,.docx"
+      multiple
+      maxSizeMB={20}
+      onFilesSelected={onUploadDocs}
+      label="Upload CRM Contract / Invoices (PDF, max 20MB)"
+    />
+  );
 }
 ```

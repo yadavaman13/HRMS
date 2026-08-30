@@ -30,15 +30,15 @@ import Topbar from '@/components/Shared/Navigation/Topbar/Topbar';
 import { useAuth } from '@/app/features/auth/hooks/useAuth';
 
 export default function DashboardHeader({ onToggleMobile }) {
-    const { user, handleLogout } = useAuth();
+  const { user, handleLogout } = useAuth();
 
-    return (
-        <Topbar
-            user={user}
-            onLogout={handleLogout}
-            onMobileMenuToggle={onToggleMobile}
-            unreadCount={3}
-        />
-    );
+  return (
+    <Topbar
+      user={user}
+      onLogout={handleLogout}
+      onMobileMenuToggle={onToggleMobile}
+      unreadCount={3}
+    />
+  );
 }
 ```
