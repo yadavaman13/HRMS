@@ -8,14 +8,14 @@
 | :------- | :--------------------------------------------------------------------- | :-------------------------------------- | :----- |
 | `GET`    | `/api/audit-logs`                                                      | List Audit Logs (Admin)                 | `200`  |
 | `GET`    | `/api/audit-logs/stats`                                                | Get Audit Activity Stats (Admin)        | `200`  |
-| `GET`    | `/api/audit-logs/ab6b67fe-6484-4f13-84ad-d620be95cc0b`                 | Get Audit Log by ID (Admin)             | `200`  |
-| `GET`    | `/api/audit-logs/entity/employee/cb8d13a6-a639-4ae9-830e-a71ed4c6c2b6` | Get Entity Audit History (Admin)        | `200`  |
+| `GET`    | `/api/audit-logs/99ac3bf3-1b5a-4e10-8e34-3051917094bb`                 | Get Audit Log by ID (Admin)             | `200`  |
+| `GET`    | `/api/audit-logs/entity/employee/8486abb8-a278-456b-bc46-8ea055028cb2` | Get Entity Audit History (Admin)        | `200`  |
 | `POST`   | `/api/notifications/broadcast`                                         | Broadcast Notification (Admin)          | `200`  |
 | `GET`    | `/api/notifications`                                                   | Get My Notifications (Success)          | `200`  |
 | `GET`    | `/api/notifications/unread-count`                                      | Get Unread Notification Count (Success) | `200`  |
-| `PATCH`  | `/api/notifications/a020d04e-3f9c-49c8-af47-3a975c8aa3cd/read`         | Mark Notification as Read (Success)     | `200`  |
+| `PATCH`  | `/api/notifications/419cdb43-ca6d-4565-96e2-0a8c503312aa/read`         | Mark Notification as Read (Success)     | `200`  |
 | `PATCH`  | `/api/notifications/read-all`                                          | Mark All Notifications Read (Success)   | `200`  |
-| `DELETE` | `/api/notifications/a020d04e-3f9c-49c8-af47-3a975c8aa3cd`              | Delete Notification (Success)           | `200`  |
+| `DELETE` | `/api/notifications/419cdb43-ca6d-4565-96e2-0a8c503312aa`              | Delete Notification (Success)           | `200`  |
 
 ---
 
@@ -43,459 +43,459 @@
   "data": {
     "logs": [
       {
-        "id": "ab6b67fe-6484-4f13-84ad-d620be95cc0b",
+        "id": "99ac3bf3-1b5a-4e10-8e34-3051917094bb",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "action": "DELETE_HOLIDAY",
         "entityType": "HOLIDAY",
-        "entityId": "028ef869-3d81-4c9d-a2b1-94ac04f30fd7",
+        "entityId": "ab3b377b-4289-4252-83b3-19c53d249554",
         "oldData": {
-          "id": "028ef869-3d81-4c9d-a2b1-94ac04f30fd7",
-          "name": "Company Foundation Day 1788085903214",
-          "createdAt": "2026-08-30T10:31:43.712Z",
+          "id": "ab3b377b-4289-4252-83b3-19c53d249554",
+          "name": "Company Foundation Day 1788110699240",
+          "createdAt": "2026-08-30T17:24:59.778Z",
           "isOptional": false,
           "description": null,
-          "holidayDate": "2034-10-05",
+          "holidayDate": "2036-10-17",
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
         },
         "newData": null,
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:31:45.672Z",
+        "createdAt": "2026-08-30T17:25:02.153Z",
         "actor": {
-          "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+          "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085877046_25626@example.com",
+          "email": "test_user_1788110672098_18306@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "f7b21405-dbf9-44a4-a70b-c45bfd74c7da",
+        "id": "c7f4448c-0cde-4b98-a3ac-5f39e4320811",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "action": "CREATE_HOLIDAY",
         "entityType": "HOLIDAY",
-        "entityId": "028ef869-3d81-4c9d-a2b1-94ac04f30fd7",
+        "entityId": "ab3b377b-4289-4252-83b3-19c53d249554",
         "oldData": null,
         "newData": {
-          "id": "028ef869-3d81-4c9d-a2b1-94ac04f30fd7",
-          "name": "Company Foundation Day 1788085903214",
-          "createdAt": "2026-08-30T10:31:43.712Z",
+          "id": "ab3b377b-4289-4252-83b3-19c53d249554",
+          "name": "Company Foundation Day 1788110699240",
+          "createdAt": "2026-08-30T17:24:59.778Z",
           "isOptional": false,
           "description": null,
-          "holidayDate": "2034-10-05",
+          "holidayDate": "2036-10-17",
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:31:43.882Z",
+        "createdAt": "2026-08-30T17:24:59.978Z",
         "actor": {
-          "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+          "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085877046_25626@example.com",
+          "email": "test_user_1788110672098_18306@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "1b8bb71d-ddc5-4445-89d5-ef4129560f48",
+        "id": "894225b8-67af-4682-bd93-7ad90778e6b5",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "action": "DELETE_WORK_SCHEDULE",
         "entityType": "WORK_SCHEDULE",
-        "entityId": "0b52d735-3187-49b9-a7ea-50f53dbda4f5",
+        "entityId": "4cadd136-8d2c-44c5-9086-ab8076f963b3",
         "oldData": {
-          "id": "0b52d735-3187-49b9-a7ea-50f53dbda4f5",
+          "id": "4cadd136-8d2c-44c5-9086-ab8076f963b3",
           "days": [],
           "name": "Flexible Day Shift",
           "isActive": true,
           "timezone": "Asia/Kolkata",
-          "createdAt": "2026-08-30T10:31:36.662Z",
-          "updatedAt": "2026-08-30T10:31:40.812Z",
+          "createdAt": "2026-08-30T17:24:51.167Z",
+          "updatedAt": "2026-08-30T17:24:55.907Z",
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
           "defaultBreakMinutes": 60
         },
         "newData": null,
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:31:42.902Z",
+        "createdAt": "2026-08-30T17:24:58.578Z",
         "actor": {
-          "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+          "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085877046_25626@example.com",
+          "email": "test_user_1788110672098_18306@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "c462a5b1-ac64-4047-b1ac-916de4c3b7c5",
+        "id": "4fbe624e-f4dd-477e-b095-91a7ca4f9c0e",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "action": "UPDATE_WORK_SCHEDULE",
         "entityType": "WORK_SCHEDULE",
-        "entityId": "0b52d735-3187-49b9-a7ea-50f53dbda4f5",
+        "entityId": "4cadd136-8d2c-44c5-9086-ab8076f963b3",
         "oldData": {
-          "id": "0b52d735-3187-49b9-a7ea-50f53dbda4f5",
+          "id": "4cadd136-8d2c-44c5-9086-ab8076f963b3",
           "days": [],
-          "name": "Standard Day Shift 1788085896171",
+          "name": "Standard Day Shift 1788110690657",
           "isActive": true,
           "timezone": "Asia/Kolkata",
-          "createdAt": "2026-08-30T10:31:36.662Z",
-          "updatedAt": "2026-08-30T10:31:36.662Z",
+          "createdAt": "2026-08-30T17:24:51.167Z",
+          "updatedAt": "2026-08-30T17:24:51.167Z",
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
           "defaultBreakMinutes": 60
         },
         "newData": {
-          "id": "0b52d735-3187-49b9-a7ea-50f53dbda4f5",
+          "id": "4cadd136-8d2c-44c5-9086-ab8076f963b3",
           "days": [],
           "name": "Flexible Day Shift",
           "isActive": true,
           "timezone": "Asia/Kolkata",
-          "createdAt": "2026-08-30T10:31:36.662Z",
-          "updatedAt": "2026-08-30T10:31:40.812Z",
+          "createdAt": "2026-08-30T17:24:51.167Z",
+          "updatedAt": "2026-08-30T17:24:55.907Z",
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
           "defaultBreakMinutes": 60
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:31:41.582Z",
+        "createdAt": "2026-08-30T17:24:56.729Z",
         "actor": {
-          "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+          "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085877046_25626@example.com",
+          "email": "test_user_1788110672098_18306@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "f3aca489-76d6-41d4-ad4d-a0ebd1ca28e5",
+        "id": "d7b8ba0b-6b65-41f4-b322-218522c7f326",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "action": "CREATE_WORK_SCHEDULE",
         "entityType": "WORK_SCHEDULE",
-        "entityId": "0b52d735-3187-49b9-a7ea-50f53dbda4f5",
+        "entityId": "4cadd136-8d2c-44c5-9086-ab8076f963b3",
         "oldData": null,
         "newData": {
-          "id": "0b52d735-3187-49b9-a7ea-50f53dbda4f5",
+          "id": "4cadd136-8d2c-44c5-9086-ab8076f963b3",
           "days": [],
-          "name": "Standard Day Shift 1788085896171",
+          "name": "Standard Day Shift 1788110690657",
           "isActive": true,
           "timezone": "Asia/Kolkata",
-          "createdAt": "2026-08-30T10:31:36.662Z",
-          "updatedAt": "2026-08-30T10:31:36.662Z",
+          "createdAt": "2026-08-30T17:24:51.167Z",
+          "updatedAt": "2026-08-30T17:24:51.167Z",
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
           "defaultBreakMinutes": 60
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:31:37.332Z",
+        "createdAt": "2026-08-30T17:24:51.878Z",
         "actor": {
-          "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+          "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085877046_25626@example.com",
+          "email": "test_user_1788110672098_18306@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "a5aa4bb7-d5fd-4db3-8476-754bc9ba26e4",
+        "id": "8007a31c-3a87-48cf-89e2-1a89af7a9fda",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "action": "DELETE_JOB_POSITION",
         "entityType": "JOB_POSITION",
-        "entityId": "df66c097-13bc-4438-af12-98cbad5a3fa4",
+        "entityId": "6a7ed851-799e-449d-a839-a22323c7b373",
         "oldData": {
-          "id": "df66c097-13bc-4438-af12-98cbad5a3fa4",
+          "id": "6a7ed851-799e-449d-a839-a22323c7b373",
           "name": "Lead Fullstack Developer",
           "isActive": true,
-          "createdAt": "2026-08-30T10:31:32.442Z",
-          "updatedAt": "2026-08-30T10:31:34.502Z",
+          "createdAt": "2026-08-30T17:24:47.128Z",
+          "updatedAt": "2026-08-30T17:24:49.053Z",
           "description": null,
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
         },
         "newData": null,
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:31:35.832Z",
+        "createdAt": "2026-08-30T17:24:50.318Z",
         "actor": {
-          "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+          "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085877046_25626@example.com",
+          "email": "test_user_1788110672098_18306@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "f35478e8-963f-4d68-9110-63a325983ca5",
+        "id": "69cce6cc-b4b7-495b-81a5-952578dd42fc",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "action": "UPDATE_JOB_POSITION",
         "entityType": "JOB_POSITION",
-        "entityId": "df66c097-13bc-4438-af12-98cbad5a3fa4",
+        "entityId": "6a7ed851-799e-449d-a839-a22323c7b373",
         "oldData": {
-          "id": "df66c097-13bc-4438-af12-98cbad5a3fa4",
-          "name": "Senior Fullstack Developer 1788085891974",
+          "id": "6a7ed851-799e-449d-a839-a22323c7b373",
+          "name": "Senior Fullstack Developer 1788110686660",
           "isActive": true,
-          "createdAt": "2026-08-30T10:31:32.442Z",
-          "updatedAt": "2026-08-30T10:31:32.442Z",
+          "createdAt": "2026-08-30T17:24:47.128Z",
+          "updatedAt": "2026-08-30T17:24:47.128Z",
           "description": null,
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
         },
         "newData": {
-          "id": "df66c097-13bc-4438-af12-98cbad5a3fa4",
+          "id": "6a7ed851-799e-449d-a839-a22323c7b373",
           "name": "Lead Fullstack Developer",
           "isActive": true,
-          "createdAt": "2026-08-30T10:31:32.442Z",
-          "updatedAt": "2026-08-30T10:31:34.502Z",
+          "createdAt": "2026-08-30T17:24:47.128Z",
+          "updatedAt": "2026-08-30T17:24:49.053Z",
           "description": null,
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:31:34.692Z",
+        "createdAt": "2026-08-30T17:24:49.213Z",
         "actor": {
-          "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+          "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085877046_25626@example.com",
+          "email": "test_user_1788110672098_18306@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "c7b55146-ae62-44c1-9704-0b66dec8c4c0",
+        "id": "56c379d9-4341-470c-ad0a-4074628a10e4",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "action": "CREATE_JOB_POSITION",
         "entityType": "JOB_POSITION",
-        "entityId": "df66c097-13bc-4438-af12-98cbad5a3fa4",
+        "entityId": "6a7ed851-799e-449d-a839-a22323c7b373",
         "oldData": null,
         "newData": {
-          "id": "df66c097-13bc-4438-af12-98cbad5a3fa4",
-          "name": "Senior Fullstack Developer 1788085891974",
+          "id": "6a7ed851-799e-449d-a839-a22323c7b373",
+          "name": "Senior Fullstack Developer 1788110686660",
           "isActive": true,
-          "createdAt": "2026-08-30T10:31:32.442Z",
-          "updatedAt": "2026-08-30T10:31:32.442Z",
+          "createdAt": "2026-08-30T17:24:47.128Z",
+          "updatedAt": "2026-08-30T17:24:47.128Z",
           "description": null,
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:31:32.622Z",
+        "createdAt": "2026-08-30T17:24:47.293Z",
         "actor": {
-          "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+          "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085877046_25626@example.com",
+          "email": "test_user_1788110672098_18306@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "eb2d4f93-8164-49c2-b9e4-f7fd2a13b193",
+        "id": "64ed2c54-fa44-4f85-b8a0-06bdba6e33de",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "action": "DELETE_DEPARTMENT",
         "entityType": "DEPARTMENT",
-        "entityId": "4b4f1864-0194-46cf-b374-01dd66f3b898",
+        "entityId": "81fb5288-bffa-4750-83bd-e04e15a0eec3",
         "oldData": {
-          "id": "4b4f1864-0194-46cf-b374-01dd66f3b898",
-          "code": "ENG_1788085887690",
+          "id": "81fb5288-bffa-4750-83bd-e04e15a0eec3",
+          "code": "ENG_1788110682564",
           "name": "Software Engineering & AI",
           "isActive": true,
-          "createdAt": "2026-08-30T10:31:28.172Z",
-          "updatedAt": "2026-08-30T10:31:30.212Z",
+          "createdAt": "2026-08-30T17:24:43.043Z",
+          "updatedAt": "2026-08-30T17:24:45.092Z",
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
           "managerEmployeeId": null
         },
         "newData": null,
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:31:31.562Z",
+        "createdAt": "2026-08-30T17:24:46.358Z",
         "actor": {
-          "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+          "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085877046_25626@example.com",
+          "email": "test_user_1788110672098_18306@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "70a95dfb-303b-4d35-99b9-a03d3583169d",
+        "id": "54ee7117-f1bd-4594-bd8a-f2235d2a269e",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "action": "UPDATE_DEPARTMENT",
         "entityType": "DEPARTMENT",
-        "entityId": "4b4f1864-0194-46cf-b374-01dd66f3b898",
+        "entityId": "81fb5288-bffa-4750-83bd-e04e15a0eec3",
         "oldData": {
-          "id": "4b4f1864-0194-46cf-b374-01dd66f3b898",
-          "code": "ENG_1788085887690",
-          "name": "Engineering 1788085887690",
+          "id": "81fb5288-bffa-4750-83bd-e04e15a0eec3",
+          "code": "ENG_1788110682564",
+          "name": "Engineering 1788110682564",
           "isActive": true,
-          "createdAt": "2026-08-30T10:31:28.172Z",
-          "updatedAt": "2026-08-30T10:31:28.172Z",
+          "createdAt": "2026-08-30T17:24:43.043Z",
+          "updatedAt": "2026-08-30T17:24:43.043Z",
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
           "managerEmployeeId": null
         },
         "newData": {
-          "id": "4b4f1864-0194-46cf-b374-01dd66f3b898",
-          "code": "ENG_1788085887690",
+          "id": "81fb5288-bffa-4750-83bd-e04e15a0eec3",
+          "code": "ENG_1788110682564",
           "name": "Software Engineering & AI",
           "isActive": true,
-          "createdAt": "2026-08-30T10:31:28.172Z",
-          "updatedAt": "2026-08-30T10:31:30.212Z",
+          "createdAt": "2026-08-30T17:24:43.043Z",
+          "updatedAt": "2026-08-30T17:24:45.092Z",
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
           "managerEmployeeId": null
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:31:30.422Z",
+        "createdAt": "2026-08-30T17:24:45.248Z",
         "actor": {
-          "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+          "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085877046_25626@example.com",
+          "email": "test_user_1788110672098_18306@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "d93a443d-e2c9-4316-b426-0bd5fc2e918f",
+        "id": "be5f64c4-35bf-495b-b9d4-c91516443af4",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "action": "CREATE_DEPARTMENT",
         "entityType": "DEPARTMENT",
-        "entityId": "4b4f1864-0194-46cf-b374-01dd66f3b898",
+        "entityId": "81fb5288-bffa-4750-83bd-e04e15a0eec3",
         "oldData": null,
         "newData": {
-          "id": "4b4f1864-0194-46cf-b374-01dd66f3b898",
-          "code": "ENG_1788085887690",
-          "name": "Engineering 1788085887690",
+          "id": "81fb5288-bffa-4750-83bd-e04e15a0eec3",
+          "code": "ENG_1788110682564",
+          "name": "Engineering 1788110682564",
           "isActive": true,
-          "createdAt": "2026-08-30T10:31:28.172Z",
-          "updatedAt": "2026-08-30T10:31:28.172Z",
+          "createdAt": "2026-08-30T17:24:43.043Z",
+          "updatedAt": "2026-08-30T17:24:43.043Z",
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
           "managerEmployeeId": null
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:31:28.342Z",
+        "createdAt": "2026-08-30T17:24:43.208Z",
         "actor": {
-          "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+          "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085877046_25626@example.com",
+          "email": "test_user_1788110672098_18306@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "8d492085-4330-4b3b-a92f-9c88feb9e82d",
+        "id": "61017440-21e3-4d42-9894-aa1b90ade204",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "action": "DELETE_LOCATION",
         "entityType": "LOCATION",
-        "entityId": "cae15271-b0b7-4d5d-afb4-68910a0ee1f5",
+        "entityId": "66f80cf9-9c58-4372-9923-8a2fb440e41e",
         "oldData": {
-          "id": "cae15271-b0b7-4d5d-afb4-68910a0ee1f5",
-          "name": "Bengaluru HQ 1788085883176",
+          "id": "66f80cf9-9c58-4372-9923-8a2fb440e41e",
+          "name": "Bengaluru HQ 1788110678387",
           "address": "Bengaluru Tech Park",
           "isActive": true,
-          "createdAt": "2026-08-30T10:31:23.682Z",
-          "updatedAt": "2026-08-30T10:31:26.032Z",
+          "createdAt": "2026-08-30T17:24:38.928Z",
+          "updatedAt": "2026-08-30T17:24:40.963Z",
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
         },
         "newData": null,
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:31:27.352Z",
+        "createdAt": "2026-08-30T17:24:42.233Z",
         "actor": {
-          "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+          "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085877046_25626@example.com",
+          "email": "test_user_1788110672098_18306@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "05a5fa28-f82f-4008-a06c-8e11026061af",
+        "id": "027e0ebe-f655-4b75-86a2-664c41402c40",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "action": "UPDATE_LOCATION",
         "entityType": "LOCATION",
-        "entityId": "cae15271-b0b7-4d5d-afb4-68910a0ee1f5",
+        "entityId": "66f80cf9-9c58-4372-9923-8a2fb440e41e",
         "oldData": {
-          "id": "cae15271-b0b7-4d5d-afb4-68910a0ee1f5",
-          "name": "Bengaluru HQ 1788085883176",
+          "id": "66f80cf9-9c58-4372-9923-8a2fb440e41e",
+          "name": "Bengaluru HQ 1788110678387",
           "address": null,
           "isActive": true,
-          "createdAt": "2026-08-30T10:31:23.682Z",
-          "updatedAt": "2026-08-30T10:31:23.682Z",
+          "createdAt": "2026-08-30T17:24:38.928Z",
+          "updatedAt": "2026-08-30T17:24:38.928Z",
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
         },
         "newData": {
-          "id": "cae15271-b0b7-4d5d-afb4-68910a0ee1f5",
-          "name": "Bengaluru HQ 1788085883176",
+          "id": "66f80cf9-9c58-4372-9923-8a2fb440e41e",
+          "name": "Bengaluru HQ 1788110678387",
           "address": "Bengaluru Tech Park",
           "isActive": true,
-          "createdAt": "2026-08-30T10:31:23.682Z",
-          "updatedAt": "2026-08-30T10:31:26.032Z",
+          "createdAt": "2026-08-30T17:24:38.928Z",
+          "updatedAt": "2026-08-30T17:24:40.963Z",
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:31:26.202Z",
+        "createdAt": "2026-08-30T17:24:41.119Z",
         "actor": {
-          "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+          "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085877046_25626@example.com",
+          "email": "test_user_1788110672098_18306@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "4eed764e-4147-4ca0-b4c4-0f542173bf1f",
+        "id": "a968f8ef-d5f2-495f-b459-ee5de7c2e709",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "action": "CREATE_LOCATION",
         "entityType": "LOCATION",
-        "entityId": "cae15271-b0b7-4d5d-afb4-68910a0ee1f5",
+        "entityId": "66f80cf9-9c58-4372-9923-8a2fb440e41e",
         "oldData": null,
         "newData": {
-          "id": "cae15271-b0b7-4d5d-afb4-68910a0ee1f5",
-          "name": "Bengaluru HQ 1788085883176",
+          "id": "66f80cf9-9c58-4372-9923-8a2fb440e41e",
+          "name": "Bengaluru HQ 1788110678387",
           "address": null,
           "isActive": true,
-          "createdAt": "2026-08-30T10:31:23.682Z",
-          "updatedAt": "2026-08-30T10:31:23.682Z",
+          "createdAt": "2026-08-30T17:24:38.928Z",
+          "updatedAt": "2026-08-30T17:24:38.928Z",
           "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:31:23.842Z",
+        "createdAt": "2026-08-30T17:24:39.133Z",
         "actor": {
-          "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+          "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085877046_25626@example.com",
+          "email": "test_user_1788110672098_18306@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "896d8528-2704-42ff-8785-39b8cc01f15e",
+        "id": "07f9b776-887a-48a8-998f-3d971c1c96ee",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "action": "UPDATE_COMPANY_DETAILS",
         "entityType": "ORGANIZATION",
         "entityId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
@@ -509,12 +509,12 @@
           "state": "Karnataka",
           "address": null,
           "country": "India",
-          "logoUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/logo_98ynM9TKk.png",
+          "logoUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/logo_GgSQOsOiVS.png",
           "currency": "INR",
           "isActive": true,
           "timezone": "Asia/Kolkata",
           "createdAt": "2026-08-30T09:34:04.865Z",
-          "updatedAt": "2026-08-30T10:31:20.032Z",
+          "updatedAt": "2026-08-30T17:24:35.333Z",
           "postalCode": null
         },
         "newData": {
@@ -527,30 +527,30 @@
           "state": "Karnataka",
           "address": null,
           "country": "India",
-          "logoUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/logo_h4btUztok.png",
+          "logoUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/logo_VIcNMWCd3.png",
           "currency": "INR",
           "isActive": true,
           "timezone": "Asia/Kolkata",
           "createdAt": "2026-08-30T09:34:04.865Z",
-          "updatedAt": "2026-08-30T10:31:22.682Z",
+          "updatedAt": "2026-08-30T17:24:37.868Z",
           "postalCode": null
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:31:22.852Z",
+        "createdAt": "2026-08-30T17:24:38.028Z",
         "actor": {
-          "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+          "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085877046_25626@example.com",
+          "email": "test_user_1788110672098_18306@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "3479da2c-847b-47ac-a5cf-716f0f3228d2",
+        "id": "c62f414a-5885-40b0-a31c-bf64916b37ca",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "action": "UPDATE_COMPANY_DETAILS",
         "entityType": "ORGANIZATION",
         "entityId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
@@ -564,12 +564,12 @@
           "state": "Karnataka",
           "address": null,
           "country": "India",
-          "logoUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/logo_98ynM9TKk.png",
+          "logoUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/logo_GgSQOsOiVS.png",
           "currency": "INR",
           "isActive": true,
           "timezone": "Asia/Kolkata",
           "createdAt": "2026-08-30T09:34:04.865Z",
-          "updatedAt": "2026-08-30T10:26:15.310Z",
+          "updatedAt": "2026-08-30T16:35:32.769Z",
           "postalCode": null
         },
         "newData": {
@@ -582,1084 +582,1084 @@
           "state": "Karnataka",
           "address": null,
           "country": "India",
-          "logoUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/logo_98ynM9TKk.png",
+          "logoUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/logo_GgSQOsOiVS.png",
           "currency": "INR",
           "isActive": true,
           "timezone": "Asia/Kolkata",
           "createdAt": "2026-08-30T09:34:04.865Z",
-          "updatedAt": "2026-08-30T10:31:20.032Z",
+          "updatedAt": "2026-08-30T17:24:35.333Z",
           "postalCode": null
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:31:20.202Z",
+        "createdAt": "2026-08-30T17:24:35.488Z",
         "actor": {
-          "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+          "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085877046_25626@example.com",
+          "email": "test_user_1788110672098_18306@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "2090dabb-c747-4526-a8e2-7a7716ac3dff",
+        "id": "d5be5ed0-b9d3-492e-8e17-bf52646503f7",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "ac15de78-60df-4400-a318-05898bb5f2ad",
+        "actorUserId": "5e4b490c-cced-48dc-803d-89fecad21cfa",
         "action": "employee_created",
         "entityType": "employee",
-        "entityId": "b9b2baaf-41e0-48d6-aa56-72652785eae0",
+        "entityId": "c02055a5-0107-42e8-8317-ba5d6c18da49",
         "oldData": null,
         "newData": {
-          "userId": "610af7a2-1532-4644-b8d4-9f6b22ed3003",
+          "userId": "7bf034f2-9280-4d79-8213-7768da478660",
           "lastName": "Clark",
           "firstName": "George",
-          "workEmail": "george.clark3@testorg.dayflow.com",
-          "employeeId": "b9b2baaf-41e0-48d6-aa56-72652785eae0",
+          "workEmail": "george.clark14@testorg.dayflow.com",
+          "employeeId": "c02055a5-0107-42e8-8317-ba5d6c18da49",
           "joiningDate": "2026-08-01",
-          "employeeCode": "TESTGECL20260039"
+          "employeeCode": "TESTGECL20260120"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:30:41.741Z",
+        "createdAt": "2026-08-30T17:23:32.131Z",
         "actor": {
-          "id": "ac15de78-60df-4400-a318-05898bb5f2ad",
+          "id": "5e4b490c-cced-48dc-803d-89fecad21cfa",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085840225_68910@example.com",
+          "email": "test_user_1788110610070_77217@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "a12f7a07-aaa8-4ae2-b4a5-322d4685267e",
+        "id": "e9325287-c19b-4643-8366-692609edb171",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "a6747a74-d260-4619-b24a-9bce284efa27",
+        "actorUserId": "0ae4c1ff-a37f-42cc-bb95-8e4de98e255b",
         "action": "employee_created",
         "entityType": "employee",
-        "entityId": "e33e4053-d082-4684-8285-6d8d982cec79",
+        "entityId": "030e1dde-b813-4664-b444-ce5070417835",
         "oldData": null,
         "newData": {
-          "userId": "eb6f47d1-0df6-43e8-881e-670912f96da0",
+          "userId": "c7e73ad1-7101-46a3-a1fe-a6d3a6841f9f",
           "lastName": "Gallagher",
           "firstName": "Fiona",
-          "workEmail": "fiona.gallagher5@testorg.dayflow.com",
-          "employeeId": "e33e4053-d082-4684-8285-6d8d982cec79",
+          "workEmail": "fiona.gallagher21@testorg.dayflow.com",
+          "employeeId": "030e1dde-b813-4664-b444-ce5070417835",
           "joiningDate": "2026-08-01",
-          "employeeCode": "TESTFIGA20260038"
+          "employeeCode": "TESTFIGA20260119"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:29:47.915Z",
+        "createdAt": "2026-08-30T17:23:00.362Z",
         "actor": {
-          "id": "a6747a74-d260-4619-b24a-9bce284efa27",
+          "id": "0ae4c1ff-a37f-42cc-bb95-8e4de98e255b",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085786396_24929@example.com",
+          "email": "test_user_1788110578470_34727@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "675793a1-88bc-4f05-9b3b-a6e048c8ab5d",
+        "id": "bca2f06f-58aa-4744-acc4-aa5efa952513",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "198fbfc9-4533-4810-8dc6-bedbb39d2b1f",
+        "actorUserId": "a6e914e7-67bc-440e-b257-9b3cc254d4f8",
         "action": "employee_created",
         "entityType": "employee",
-        "entityId": "3244dc4d-14cd-4230-8c21-37834d663c49",
+        "entityId": "986b9ed2-a4e1-41f9-bc4b-682816e82b35",
         "oldData": null,
         "newData": {
-          "userId": "99aa7711-93f6-4477-b2b2-db0ef882cc2a",
+          "userId": "4cff9bcc-8b74-42d2-b51c-403c5d79e234",
           "lastName": "Hunt",
           "firstName": "Ethan",
-          "workEmail": "ethan.hunt6@testorg.dayflow.com",
-          "employeeId": "3244dc4d-14cd-4230-8c21-37834d663c49",
+          "workEmail": "ethan.hunt17@testorg.dayflow.com",
+          "employeeId": "986b9ed2-a4e1-41f9-bc4b-682816e82b35",
           "joiningDate": "2026-08-01",
-          "employeeCode": "TESTETHU20260037"
+          "employeeCode": "TESTETHU20260118"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:29:23.912Z",
+        "createdAt": "2026-08-30T17:22:18.650Z",
         "actor": {
-          "id": "198fbfc9-4533-4810-8dc6-bedbb39d2b1f",
+          "id": "a6e914e7-67bc-440e-b257-9b3cc254d4f8",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085762429_11848@example.com",
+          "email": "test_user_1788110534688_57719@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "2316eac6-bb10-43aa-bb93-68825d2ff332",
+        "id": "26e5f522-55b0-4be8-8701-416ebcdd5ff7",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "b52678db-8a78-4e32-89c6-5b69e66b6214",
+        "actorUserId": "ff806ecd-839c-4974-8a55-dbc6a577bba5",
         "action": "employee_created",
         "entityType": "employee",
-        "entityId": "b32f1d6a-efae-4957-adb5-b7514c803bbe",
+        "entityId": "5ccb9d8b-d6e2-467b-8d6c-d083800dba46",
         "oldData": null,
         "newData": {
-          "userId": "2a2c0ed0-2236-4321-ba16-adf1cf542a5d",
+          "userId": "ebf0f028-0966-4309-b335-9aebb8a4205b",
           "lastName": "Prince",
           "firstName": "Diana",
-          "workEmail": "diana.prince5@testorg.dayflow.com",
-          "employeeId": "b32f1d6a-efae-4957-adb5-b7514c803bbe",
+          "workEmail": "diana.prince16@testorg.dayflow.com",
+          "employeeId": "5ccb9d8b-d6e2-467b-8d6c-d083800dba46",
           "joiningDate": "2026-08-01",
-          "employeeCode": "TESTDIPR20260036"
+          "employeeCode": "TESTDIPR20260117"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:28:50.377Z",
+        "createdAt": "2026-08-30T17:21:11.570Z",
         "actor": {
-          "id": "b52678db-8a78-4e32-89c6-5b69e66b6214",
+          "id": "ff806ecd-839c-4974-8a55-dbc6a577bba5",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085728871_75811@example.com",
+          "email": "test_user_1788110467749_4726@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "19a05b62-4d8c-43f0-8931-4c272ba87437",
+        "id": "dbefc03e-b50a-42f7-b8ec-573e5ee4852c",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "460c97b5-1218-4ba3-8985-37fa01ee3883",
+        "actorUserId": "8a59e40a-06f8-482b-96cb-b2ba418534d7",
         "action": "employee_created",
         "entityType": "employee",
-        "entityId": "d12015b5-c157-4634-8ed5-d69965fc5267",
+        "entityId": "38a90a3b-0ba9-4527-86cd-1f11d6db1768",
         "oldData": null,
         "newData": {
-          "userId": "332e80b0-4fa9-4e14-a574-f346719f296b",
+          "userId": "bef0158f-63ed-4f45-ad63-8a55e294c170",
           "lastName": "Davis",
           "firstName": "Charlie",
-          "workEmail": "charlie.davis7@testorg.dayflow.com",
-          "employeeId": "d12015b5-c157-4634-8ed5-d69965fc5267",
+          "workEmail": "charlie.davis18@testorg.dayflow.com",
+          "employeeId": "38a90a3b-0ba9-4527-86cd-1f11d6db1768",
           "joiningDate": "2026-08-01",
-          "employeeCode": "TESTCHDA20260035"
+          "employeeCode": "TESTCHDA20260116"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:28:20.620Z",
+        "createdAt": "2026-08-30T17:19:46.467Z",
         "actor": {
-          "id": "460c97b5-1218-4ba3-8985-37fa01ee3883",
+          "id": "8a59e40a-06f8-482b-96cb-b2ba418534d7",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085699128_40520@example.com",
+          "email": "test_user_1788110384765_38510@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "bb63b6ad-bd5f-4aec-a171-1d550e4e3616",
+        "id": "ebbf8b13-c071-400a-9f2f-9a1f62726d20",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "41c7a1de-5ec7-4eee-b512-2f428658f8fd",
+        "actorUserId": "61f1c6f0-f93b-47bd-8396-e93f07872298",
         "action": "employee_created",
         "entityType": "employee",
-        "entityId": "39376795-fa80-4d76-82de-ce690af01c31",
+        "entityId": "0343b7f2-66ce-42c6-a926-32adfc3a5222",
         "oldData": null,
         "newData": {
-          "userId": "7e674240-6017-498c-b648-a781185f9669",
+          "userId": "61f0695f-2f05-4902-8867-82a0978b4e22",
           "lastName": "Johnson",
           "firstName": "Bob",
-          "workEmail": "bob.johnson4@testorg.dayflow.com",
-          "employeeId": "39376795-fa80-4d76-82de-ce690af01c31",
+          "workEmail": "bob.johnson15@testorg.dayflow.com",
+          "employeeId": "0343b7f2-66ce-42c6-a926-32adfc3a5222",
           "joiningDate": "2026-08-01",
-          "employeeCode": "TESTBOJO20260034"
+          "employeeCode": "TESTBOJO20260115"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:27:44.497Z",
+        "createdAt": "2026-08-30T17:18:11.190Z",
         "actor": {
-          "id": "41c7a1de-5ec7-4eee-b512-2f428658f8fd",
+          "id": "61f1c6f0-f93b-47bd-8396-e93f07872298",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085662494_29118@example.com",
+          "email": "test_user_1788110286261_59769@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "023f33eb-8a2d-4147-a890-3170cdbc1b0a",
+        "id": "97a971c5-b7f5-4781-81b8-4760ce9359ad",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "b0771a4e-9398-4b61-a4e8-4692d4c67850",
+        "actorUserId": "62389725-87d6-4bf2-ae18-0f6973a08308",
         "action": "employee_deleted",
         "entityType": "employee",
-        "entityId": "2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4",
+        "entityId": "32816e3b-d808-483c-9330-f23a5ed9d83b",
         "oldData": null,
         "newData": {
-          "deletedAt": "2026-08-30T10:27:37.997Z"
+          "deletedAt": "2026-08-30T17:17:58.095Z"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:27:37.652Z",
+        "createdAt": "2026-08-30T17:17:57.735Z",
         "actor": {
-          "id": "b0771a4e-9398-4b61-a4e8-4692d4c67850",
+          "id": "62389725-87d6-4bf2-ae18-0f6973a08308",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085638423_44573@example.com",
+          "email": "test_user_1788110241300_99587@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "a3a20a84-3bb4-49b8-8ab9-92f47abeb782",
+        "id": "3e6d7f11-987c-469c-89a1-826b4614919b",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "b0771a4e-9398-4b61-a4e8-4692d4c67850",
+        "actorUserId": "62389725-87d6-4bf2-ae18-0f6973a08308",
         "action": "employee_password_reset",
         "entityType": "employee",
-        "entityId": "2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4",
+        "entityId": "32816e3b-d808-483c-9330-f23a5ed9d83b",
         "oldData": null,
         "newData": null,
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:27:35.138Z",
+        "createdAt": "2026-08-30T17:17:53.948Z",
         "actor": {
-          "id": "b0771a4e-9398-4b61-a4e8-4692d4c67850",
+          "id": "62389725-87d6-4bf2-ae18-0f6973a08308",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085638423_44573@example.com",
+          "email": "test_user_1788110241300_99587@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "f7419acd-f8b9-4189-a2c4-0cb01793f91b",
+        "id": "ee0d0b1d-acb0-471b-af7d-4e67b4078f16",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "b0771a4e-9398-4b61-a4e8-4692d4c67850",
+        "actorUserId": "62389725-87d6-4bf2-ae18-0f6973a08308",
         "action": "employee_activated",
         "entityType": "employee",
-        "entityId": "2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4",
+        "entityId": "32816e3b-d808-483c-9330-f23a5ed9d83b",
         "oldData": null,
         "newData": {
           "isActive": true
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:27:33.172Z",
+        "createdAt": "2026-08-30T17:17:52.007Z",
         "actor": {
-          "id": "b0771a4e-9398-4b61-a4e8-4692d4c67850",
+          "id": "62389725-87d6-4bf2-ae18-0f6973a08308",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085638423_44573@example.com",
+          "email": "test_user_1788110241300_99587@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "74de1ef4-21f6-4f80-9e2e-a1ba409a114e",
+        "id": "4c52e4b1-7da8-478f-a396-491595901c3c",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "b0771a4e-9398-4b61-a4e8-4692d4c67850",
+        "actorUserId": "62389725-87d6-4bf2-ae18-0f6973a08308",
         "action": "employee_deactivated",
         "entityType": "employee",
-        "entityId": "2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4",
+        "entityId": "32816e3b-d808-483c-9330-f23a5ed9d83b",
         "oldData": null,
         "newData": {
           "isActive": false
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:27:31.412Z",
+        "createdAt": "2026-08-30T17:17:49.555Z",
         "actor": {
-          "id": "b0771a4e-9398-4b61-a4e8-4692d4c67850",
+          "id": "62389725-87d6-4bf2-ae18-0f6973a08308",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085638423_44573@example.com",
+          "email": "test_user_1788110241300_99587@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "f302f54e-944e-4845-8fe3-0a7a58e3c8ad",
+        "id": "2f526c78-079e-4110-bc00-d2464a6a7186",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "b0771a4e-9398-4b61-a4e8-4692d4c67850",
+        "actorUserId": "62389725-87d6-4bf2-ae18-0f6973a08308",
         "action": "employee_created",
         "entityType": "employee",
-        "entityId": "2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4",
+        "entityId": "32816e3b-d808-483c-9330-f23a5ed9d83b",
         "oldData": null,
         "newData": {
-          "userId": "7d3f9831-e122-4a24-8cd6-2d53b66d4a47",
+          "userId": "c1eae38e-c790-4904-b077-3cb4191828e8",
           "lastName": "Smith",
           "firstName": "Alice",
-          "workEmail": "alice.smith6@testorg.dayflow.com",
-          "employeeId": "2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4",
+          "workEmail": "alice.smith17@testorg.dayflow.com",
+          "employeeId": "32816e3b-d808-483c-9330-f23a5ed9d83b",
           "joiningDate": "2026-08-01",
-          "employeeCode": "TESTALSM20260033"
+          "employeeCode": "TESTALSM20260114"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:27:20.172Z",
+        "createdAt": "2026-08-30T17:17:23.472Z",
         "actor": {
-          "id": "b0771a4e-9398-4b61-a4e8-4692d4c67850",
+          "id": "62389725-87d6-4bf2-ae18-0f6973a08308",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085638423_44573@example.com",
+          "email": "test_user_1788110241300_99587@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "11e20fc2-fea6-4f6e-b7bb-eabd539b28a2",
+        "id": "2d508378-c96d-4993-9d3e-152c78f68ef4",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-        "action": "DELETE_HOLIDAY",
-        "entityType": "HOLIDAY",
-        "entityId": "a3ee3e32-a28b-4f42-9483-915c1c504b82",
-        "oldData": {
-          "id": "a3ee3e32-a28b-4f42-9483-915c1c504b82",
-          "name": "Company Foundation Day 1788085595777",
-          "createdAt": "2026-08-30T10:26:36.306Z",
-          "isOptional": false,
-          "description": null,
-          "holidayDate": "2034-10-05",
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
-        },
-        "newData": null,
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:26:38.341Z",
-        "actor": {
-          "id": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085569309_75911@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "a662bc0b-2e9c-4747-86c9-648e0bc51f68",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-        "action": "CREATE_HOLIDAY",
-        "entityType": "HOLIDAY",
-        "entityId": "a3ee3e32-a28b-4f42-9483-915c1c504b82",
-        "oldData": null,
-        "newData": {
-          "id": "a3ee3e32-a28b-4f42-9483-915c1c504b82",
-          "name": "Company Foundation Day 1788085595777",
-          "createdAt": "2026-08-30T10:26:36.306Z",
-          "isOptional": false,
-          "description": null,
-          "holidayDate": "2034-10-05",
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
-        },
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:26:36.471Z",
-        "actor": {
-          "id": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085569309_75911@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "8136da05-f102-48a0-aea2-73c95b442058",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-        "action": "DELETE_WORK_SCHEDULE",
-        "entityType": "WORK_SCHEDULE",
-        "entityId": "89aa7718-7d54-40af-9e73-cc28c3f4e975",
-        "oldData": {
-          "id": "89aa7718-7d54-40af-9e73-cc28c3f4e975",
-          "days": [],
-          "name": "Flexible Day Shift",
-          "isActive": true,
-          "timezone": "Asia/Kolkata",
-          "createdAt": "2026-08-30T10:26:29.200Z",
-          "updatedAt": "2026-08-30T10:26:33.220Z",
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-          "defaultBreakMinutes": 60
-        },
-        "newData": null,
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:26:35.431Z",
-        "actor": {
-          "id": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085569309_75911@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "8f4485eb-1799-4da7-b90b-ae7f52a6909f",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-        "action": "UPDATE_WORK_SCHEDULE",
-        "entityType": "WORK_SCHEDULE",
-        "entityId": "89aa7718-7d54-40af-9e73-cc28c3f4e975",
-        "oldData": {
-          "id": "89aa7718-7d54-40af-9e73-cc28c3f4e975",
-          "days": [],
-          "name": "Standard Day Shift 1788085588684",
-          "isActive": true,
-          "timezone": "Asia/Kolkata",
-          "createdAt": "2026-08-30T10:26:29.200Z",
-          "updatedAt": "2026-08-30T10:26:29.200Z",
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-          "defaultBreakMinutes": 60
-        },
-        "newData": {
-          "id": "89aa7718-7d54-40af-9e73-cc28c3f4e975",
-          "days": [],
-          "name": "Flexible Day Shift",
-          "isActive": true,
-          "timezone": "Asia/Kolkata",
-          "createdAt": "2026-08-30T10:26:29.200Z",
-          "updatedAt": "2026-08-30T10:26:33.220Z",
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-          "defaultBreakMinutes": 60
-        },
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:26:33.870Z",
-        "actor": {
-          "id": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085569309_75911@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "02beeb4f-3191-4687-acee-3b4653c073d9",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-        "action": "CREATE_WORK_SCHEDULE",
-        "entityType": "WORK_SCHEDULE",
-        "entityId": "89aa7718-7d54-40af-9e73-cc28c3f4e975",
-        "oldData": null,
-        "newData": {
-          "id": "89aa7718-7d54-40af-9e73-cc28c3f4e975",
-          "days": [],
-          "name": "Standard Day Shift 1788085588684",
-          "isActive": true,
-          "timezone": "Asia/Kolkata",
-          "createdAt": "2026-08-30T10:26:29.200Z",
-          "updatedAt": "2026-08-30T10:26:29.200Z",
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-          "defaultBreakMinutes": 60
-        },
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:26:29.901Z",
-        "actor": {
-          "id": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085569309_75911@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "9af7726a-2e5a-465b-b4d4-a3915a8c927e",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-        "action": "DELETE_JOB_POSITION",
-        "entityType": "JOB_POSITION",
-        "entityId": "dea79977-f4e2-48d7-a614-db2e758e5ebe",
-        "oldData": {
-          "id": "dea79977-f4e2-48d7-a614-db2e758e5ebe",
-          "name": "Lead Fullstack Developer",
-          "isActive": true,
-          "createdAt": "2026-08-30T10:26:24.941Z",
-          "updatedAt": "2026-08-30T10:26:26.971Z",
-          "description": null,
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
-        },
-        "newData": null,
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:26:28.340Z",
-        "actor": {
-          "id": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085569309_75911@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "021b1dcd-1788-44f2-ab16-31e55d97f12b",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-        "action": "UPDATE_JOB_POSITION",
-        "entityType": "JOB_POSITION",
-        "entityId": "dea79977-f4e2-48d7-a614-db2e758e5ebe",
-        "oldData": {
-          "id": "dea79977-f4e2-48d7-a614-db2e758e5ebe",
-          "name": "Senior Fullstack Developer 1788085584419",
-          "isActive": true,
-          "createdAt": "2026-08-30T10:26:24.941Z",
-          "updatedAt": "2026-08-30T10:26:24.941Z",
-          "description": null,
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
-        },
-        "newData": {
-          "id": "dea79977-f4e2-48d7-a614-db2e758e5ebe",
-          "name": "Lead Fullstack Developer",
-          "isActive": true,
-          "createdAt": "2026-08-30T10:26:24.941Z",
-          "updatedAt": "2026-08-30T10:26:26.971Z",
-          "description": null,
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
-        },
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:26:27.141Z",
-        "actor": {
-          "id": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085569309_75911@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "e51c3174-5539-49a6-9a81-d8789a20d778",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-        "action": "CREATE_JOB_POSITION",
-        "entityType": "JOB_POSITION",
-        "entityId": "dea79977-f4e2-48d7-a614-db2e758e5ebe",
-        "oldData": null,
-        "newData": {
-          "id": "dea79977-f4e2-48d7-a614-db2e758e5ebe",
-          "name": "Senior Fullstack Developer 1788085584419",
-          "isActive": true,
-          "createdAt": "2026-08-30T10:26:24.941Z",
-          "updatedAt": "2026-08-30T10:26:24.941Z",
-          "description": null,
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
-        },
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:26:25.110Z",
-        "actor": {
-          "id": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085569309_75911@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "46270b28-c2c9-488c-ad22-7698dd262009",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-        "action": "DELETE_DEPARTMENT",
-        "entityType": "DEPARTMENT",
-        "entityId": "8ace5a2e-b8d1-4d0d-8374-eb0faf181c4b",
-        "oldData": {
-          "id": "8ace5a2e-b8d1-4d0d-8374-eb0faf181c4b",
-          "code": "ENG_1788085580039",
-          "name": "Software Engineering & AI",
-          "isActive": true,
-          "createdAt": "2026-08-30T10:26:20.540Z",
-          "updatedAt": "2026-08-30T10:26:22.520Z",
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-          "managerEmployeeId": null
-        },
-        "newData": null,
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:26:24.090Z",
-        "actor": {
-          "id": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085569309_75911@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "3cbfdc88-29dd-443e-aa2c-2c649d5f6c6a",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-        "action": "UPDATE_DEPARTMENT",
-        "entityType": "DEPARTMENT",
-        "entityId": "8ace5a2e-b8d1-4d0d-8374-eb0faf181c4b",
-        "oldData": {
-          "id": "8ace5a2e-b8d1-4d0d-8374-eb0faf181c4b",
-          "code": "ENG_1788085580039",
-          "name": "Engineering 1788085580039",
-          "isActive": true,
-          "createdAt": "2026-08-30T10:26:20.540Z",
-          "updatedAt": "2026-08-30T10:26:20.540Z",
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-          "managerEmployeeId": null
-        },
-        "newData": {
-          "id": "8ace5a2e-b8d1-4d0d-8374-eb0faf181c4b",
-          "code": "ENG_1788085580039",
-          "name": "Software Engineering & AI",
-          "isActive": true,
-          "createdAt": "2026-08-30T10:26:20.540Z",
-          "updatedAt": "2026-08-30T10:26:22.520Z",
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-          "managerEmployeeId": null
-        },
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:26:22.680Z",
-        "actor": {
-          "id": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085569309_75911@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "960923e5-8970-45c3-908f-06c9b7474768",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-        "action": "CREATE_DEPARTMENT",
-        "entityType": "DEPARTMENT",
-        "entityId": "8ace5a2e-b8d1-4d0d-8374-eb0faf181c4b",
-        "oldData": null,
-        "newData": {
-          "id": "8ace5a2e-b8d1-4d0d-8374-eb0faf181c4b",
-          "code": "ENG_1788085580039",
-          "name": "Engineering 1788085580039",
-          "isActive": true,
-          "createdAt": "2026-08-30T10:26:20.540Z",
-          "updatedAt": "2026-08-30T10:26:20.540Z",
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-          "managerEmployeeId": null
-        },
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:26:20.700Z",
-        "actor": {
-          "id": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085569309_75911@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "e4a0168c-4f49-47b4-b9c9-3e8fc1c82697",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-        "action": "DELETE_LOCATION",
-        "entityType": "LOCATION",
-        "entityId": "77fff955-734f-4979-975f-5145f769856a",
-        "oldData": {
-          "id": "77fff955-734f-4979-975f-5145f769856a",
-          "name": "Bengaluru HQ 1788085575804",
-          "address": "Bengaluru Tech Park",
-          "isActive": true,
-          "createdAt": "2026-08-30T10:26:16.310Z",
-          "updatedAt": "2026-08-30T10:26:18.310Z",
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
-        },
-        "newData": null,
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:26:19.676Z",
-        "actor": {
-          "id": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085569309_75911@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "85ce6a18-181f-4df2-9ec0-973a16b34135",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-        "action": "UPDATE_LOCATION",
-        "entityType": "LOCATION",
-        "entityId": "77fff955-734f-4979-975f-5145f769856a",
-        "oldData": {
-          "id": "77fff955-734f-4979-975f-5145f769856a",
-          "name": "Bengaluru HQ 1788085575804",
-          "address": null,
-          "isActive": true,
-          "createdAt": "2026-08-30T10:26:16.310Z",
-          "updatedAt": "2026-08-30T10:26:16.310Z",
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
-        },
-        "newData": {
-          "id": "77fff955-734f-4979-975f-5145f769856a",
-          "name": "Bengaluru HQ 1788085575804",
-          "address": "Bengaluru Tech Park",
-          "isActive": true,
-          "createdAt": "2026-08-30T10:26:16.310Z",
-          "updatedAt": "2026-08-30T10:26:18.310Z",
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
-        },
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:26:18.460Z",
-        "actor": {
-          "id": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085569309_75911@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "adca89b2-d010-47a9-96d1-78fa924206fd",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-        "action": "CREATE_LOCATION",
-        "entityType": "LOCATION",
-        "entityId": "77fff955-734f-4979-975f-5145f769856a",
-        "oldData": null,
-        "newData": {
-          "id": "77fff955-734f-4979-975f-5145f769856a",
-          "name": "Bengaluru HQ 1788085575804",
-          "address": null,
-          "isActive": true,
-          "createdAt": "2026-08-30T10:26:16.310Z",
-          "updatedAt": "2026-08-30T10:26:16.310Z",
-          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
-        },
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:26:16.470Z",
-        "actor": {
-          "id": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085569309_75911@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "353569c1-1346-413b-ba34-f38bcd71f1b4",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-        "action": "UPDATE_COMPANY_DETAILS",
-        "entityType": "ORGANIZATION",
-        "entityId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "oldData": {
-          "id": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-          "city": "Bengaluru",
-          "code": "TESTORG",
-          "name": "Test Organization",
-          "email": "admin@testorg.com",
-          "phone": null,
-          "state": "Karnataka",
-          "address": null,
-          "country": "India",
-          "logoUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/logo_qS5kWTetk.png",
-          "currency": "INR",
-          "isActive": true,
-          "timezone": "Asia/Kolkata",
-          "createdAt": "2026-08-30T09:34:04.865Z",
-          "updatedAt": "2026-08-30T10:26:12.550Z",
-          "postalCode": null
-        },
-        "newData": {
-          "id": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-          "city": "Bengaluru",
-          "code": "TESTORG",
-          "name": "Test Organization",
-          "email": "admin@testorg.com",
-          "phone": null,
-          "state": "Karnataka",
-          "address": null,
-          "country": "India",
-          "logoUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/logo_98ynM9TKk.png",
-          "currency": "INR",
-          "isActive": true,
-          "timezone": "Asia/Kolkata",
-          "createdAt": "2026-08-30T09:34:04.865Z",
-          "updatedAt": "2026-08-30T10:26:15.310Z",
-          "postalCode": null
-        },
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:26:15.466Z",
-        "actor": {
-          "id": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085569309_75911@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "10b0fe7a-d788-43b4-a591-413227ddb948",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-        "action": "UPDATE_COMPANY_DETAILS",
-        "entityType": "ORGANIZATION",
-        "entityId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "oldData": {
-          "id": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-          "city": "Bengaluru",
-          "code": "TESTORG",
-          "name": "Test Organization",
-          "email": "admin@testorg.com",
-          "phone": null,
-          "state": "Karnataka",
-          "address": null,
-          "country": "India",
-          "logoUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/logo_qS5kWTetk.png",
-          "currency": "INR",
-          "isActive": true,
-          "timezone": "Asia/Kolkata",
-          "createdAt": "2026-08-30T09:34:04.865Z",
-          "updatedAt": "2026-08-30T10:06:03.893Z",
-          "postalCode": null
-        },
-        "newData": {
-          "id": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-          "city": "Bengaluru",
-          "code": "TESTORG",
-          "name": "Test Organization",
-          "email": "admin@testorg.com",
-          "phone": null,
-          "state": "Karnataka",
-          "address": null,
-          "country": "India",
-          "logoUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/logo_qS5kWTetk.png",
-          "currency": "INR",
-          "isActive": true,
-          "timezone": "Asia/Kolkata",
-          "createdAt": "2026-08-30T09:34:04.865Z",
-          "updatedAt": "2026-08-30T10:26:12.550Z",
-          "postalCode": null
-        },
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:26:12.720Z",
-        "actor": {
-          "id": "69985614-ab25-46c3-aef6-fde91f54dfb3",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085569309_75911@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "c029a29a-72d1-4ab1-bdd8-06abcfbf5486",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "f9417d56-d978-4fd1-8bd5-daa4267b1856",
+        "actorUserId": "ca9912b3-59ff-4f3f-9c2e-71ac95697121",
         "action": "employee_created",
         "entityType": "employee",
-        "entityId": "ba9bf80e-3c9c-4bea-be68-565546507bd6",
+        "entityId": "fbcdcf34-f3b0-4de2-b7cb-95f7e5bfb29f",
         "oldData": null,
         "newData": {
-          "userId": "91939319-5bdc-4a7d-96a8-6d1b753e2953",
-          "lastName": "Clark",
-          "firstName": "George",
-          "workEmail": "george.clark2@testorg.dayflow.com",
-          "employeeId": "ba9bf80e-3c9c-4bea-be68-565546507bd6",
-          "joiningDate": "2026-08-01",
-          "employeeCode": "TESTGECL20260032"
-        },
-        "ipAddress": "::ffff:127.0.0.1",
-        "userAgent": null,
-        "createdAt": "2026-08-30T10:20:15.220Z",
-        "actor": {
-          "id": "f9417d56-d978-4fd1-8bd5-daa4267b1856",
-          "firstName": "Test",
-          "lastName": "User",
-          "email": "test_user_1788085213709_20812@example.com",
-          "role": "admin",
-          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
-        }
-      },
-      {
-        "id": "8c163ee5-4374-428c-8727-9ee7079af5e7",
-        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "099ef189-d0ba-40c0-877c-87486c9b95d6",
-        "action": "employee_created",
-        "entityType": "employee",
-        "entityId": "186db7ff-e1a6-4d7f-98c2-681786911e2d",
-        "oldData": null,
-        "newData": {
-          "userId": "6b317ec0-4b50-4e19-b022-154484aec3e6",
+          "userId": "7c0f4571-f906-4448-921c-b995ac094aa9",
           "lastName": "Gallagher",
           "firstName": "Fiona",
-          "workEmail": "fiona.gallagher4@testorg.dayflow.com",
-          "employeeId": "186db7ff-e1a6-4d7f-98c2-681786911e2d",
+          "workEmail": "fiona.gallagher20@testorg.dayflow.com",
+          "employeeId": "fbcdcf34-f3b0-4de2-b7cb-95f7e5bfb29f",
           "joiningDate": "2026-08-01",
-          "employeeCode": "TESTFIGA20260031"
+          "employeeCode": "TESTFIGA20260113"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:17:05.844Z",
+        "createdAt": "2026-08-30T17:14:22.272Z",
         "actor": {
-          "id": "099ef189-d0ba-40c0-877c-87486c9b95d6",
+          "id": "ca9912b3-59ff-4f3f-9c2e-71ac95697121",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788085024383_21395@example.com",
+          "email": "test_user_1788110061111_78892@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "d90fd719-4b9e-4f98-b899-dae892099c1c",
+        "id": "dc8dc3e0-5855-4646-9455-b033a8b60528",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "1f337c19-07ba-428a-ad39-8c0fb9ad43dc",
+        "actorUserId": "48345896-5f38-41bd-a8ee-050c4244125a",
         "action": "employee_created",
         "entityType": "employee",
-        "entityId": "c6601584-d852-475e-a6ec-98f6d7a6c185",
+        "entityId": "b90ead69-421a-4159-a914-3753f2877b7f",
         "oldData": null,
         "newData": {
-          "userId": "a344b159-84e3-4d28-92c2-d6182bffc0b4",
-          "lastName": "Hunt",
-          "firstName": "Ethan",
-          "workEmail": "ethan.hunt5@testorg.dayflow.com",
-          "employeeId": "c6601584-d852-475e-a6ec-98f6d7a6c185",
+          "userId": "f0536698-c53b-4a1f-9862-da0857f805fb",
+          "lastName": "Gallagher",
+          "firstName": "Fiona",
+          "workEmail": "fiona.gallagher19@testorg.dayflow.com",
+          "employeeId": "b90ead69-421a-4159-a914-3753f2877b7f",
           "joiningDate": "2026-08-01",
-          "employeeCode": "TESTETHU20260030"
+          "employeeCode": "TESTFIGA20260112"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:15:37.462Z",
+        "createdAt": "2026-08-30T17:03:39.982Z",
         "actor": {
-          "id": "1f337c19-07ba-428a-ad39-8c0fb9ad43dc",
+          "id": "48345896-5f38-41bd-a8ee-050c4244125a",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788084936044_4117@example.com",
+          "email": "test_user_1788109418858_23592@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "94a00e22-2e37-4648-84fc-e137d9bf5ff3",
+        "id": "92babf15-04db-47ef-8a72-04aab283dcbb",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "bdbaa85a-14b0-438c-b24d-210fe1b7729d",
+        "actorUserId": "8ccee290-01f1-4868-83ee-73b980345663",
         "action": "employee_created",
         "entityType": "employee",
-        "entityId": "0f599301-09f6-4e35-ac83-f425b5f575df",
+        "entityId": "c11e0d12-6542-4f8a-a481-d35202708f44",
         "oldData": null,
         "newData": {
-          "userId": "3d48d404-4a00-44e0-9526-5a17c8131d93",
-          "lastName": "Hunt",
-          "firstName": "Ethan",
-          "workEmail": "ethan.hunt4@testorg.dayflow.com",
-          "employeeId": "0f599301-09f6-4e35-ac83-f425b5f575df",
+          "userId": "9ead59a4-2965-4a84-bffc-fc7bd270d6b5",
+          "lastName": "Gallagher",
+          "firstName": "Fiona",
+          "workEmail": "fiona.gallagher18@testorg.dayflow.com",
+          "employeeId": "c11e0d12-6542-4f8a-a481-d35202708f44",
           "joiningDate": "2026-08-01",
-          "employeeCode": "TESTETHU20260029"
+          "employeeCode": "TESTFIGA20260111"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:14:32.452Z",
+        "createdAt": "2026-08-30T17:02:06.939Z",
         "actor": {
-          "id": "bdbaa85a-14b0-438c-b24d-210fe1b7729d",
+          "id": "8ccee290-01f1-4868-83ee-73b980345663",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788084870951_79664@example.com",
+          "email": "test_user_1788109321323_61556@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "4d4a3c53-3902-49d7-8f8c-2130728de6db",
+        "id": "f39af5e8-b937-4043-b3e1-868c0a64e74c",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "534bc03d-d45d-4806-9370-efcc1130e770",
+        "actorUserId": "c4785ad6-f438-4ae2-b3a7-7d90052aaa71",
         "action": "employee_created",
         "entityType": "employee",
-        "entityId": "6d0e525c-7cba-4527-b01e-7ee1d1630a54",
+        "entityId": "5f4856d5-514f-4d6b-8f12-9ef9e7edf29f",
         "oldData": null,
         "newData": {
-          "userId": "60b4be61-809a-4636-9599-9d783a6319d7",
-          "lastName": "Hunt",
-          "firstName": "Ethan",
-          "workEmail": "ethan.hunt3@testorg.dayflow.com",
-          "employeeId": "6d0e525c-7cba-4527-b01e-7ee1d1630a54",
+          "userId": "e5389ee7-29a4-46d6-ac5a-fb8f3c5e316b",
+          "lastName": "Gallagher",
+          "firstName": "Fiona",
+          "workEmail": "fiona.gallagher17@testorg.dayflow.com",
+          "employeeId": "5f4856d5-514f-4d6b-8f12-9ef9e7edf29f",
           "joiningDate": "2026-08-01",
-          "employeeCode": "TESTETHU20260028"
+          "employeeCode": "TESTFIGA20260110"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:13:51.522Z",
+        "createdAt": "2026-08-30T16:59:48.917Z",
         "actor": {
-          "id": "534bc03d-d45d-4806-9370-efcc1130e770",
+          "id": "c4785ad6-f438-4ae2-b3a7-7d90052aaa71",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788084830067_36230@example.com",
+          "email": "test_user_1788109186855_6459@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "a79beaa0-f54d-475f-8cba-af10074d3d2a",
+        "id": "ca398c04-edb9-4807-97b2-257dab7e6321",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "f5fee584-036f-43fe-b769-a3bbfa733639",
+        "actorUserId": "f7aa068b-c3d4-4b0f-9595-0e0ac43152e7",
         "action": "employee_created",
         "entityType": "employee",
-        "entityId": "f395ce56-3ce4-4c96-8dbe-5317f5e6f5e3",
+        "entityId": "b0af2762-5eee-4ad0-9b2a-bb6f116284ef",
         "oldData": null,
         "newData": {
-          "userId": "0b53bf33-3ff5-4d3e-b5bf-799b99840254",
-          "lastName": "Prince",
-          "firstName": "Diana",
-          "workEmail": "diana.prince4@testorg.dayflow.com",
-          "employeeId": "f395ce56-3ce4-4c96-8dbe-5317f5e6f5e3",
+          "userId": "10286135-5410-46e3-8d71-683f7a2e3ba4",
+          "lastName": "Gallagher",
+          "firstName": "Fiona",
+          "workEmail": "fiona.gallagher16@testorg.dayflow.com",
+          "employeeId": "b0af2762-5eee-4ad0-9b2a-bb6f116284ef",
           "joiningDate": "2026-08-01",
-          "employeeCode": "TESTDIPR20260027"
+          "employeeCode": "TESTFIGA20260109"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:12:46.551Z",
+        "createdAt": "2026-08-30T16:39:18.638Z",
         "actor": {
-          "id": "f5fee584-036f-43fe-b769-a3bbfa733639",
+          "id": "f7aa068b-c3d4-4b0f-9595-0e0ac43152e7",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788084765071_9555@example.com",
+          "email": "test_user_1788107948385_71266@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       },
       {
-        "id": "fbb45c88-cfea-4909-b3d8-e86713c4b7d0",
+        "id": "ac64c213-83ec-4af0-924a-479eeb27baee",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-        "actorUserId": "1640181d-da7a-413f-9822-0b4427a577ee",
-        "action": "employee_created",
-        "entityType": "employee",
-        "entityId": "4d0de561-5947-413c-aa8b-f968e2c106b9",
+        "actorUserId": "47911f57-ab8a-4a58-b971-197aef3f916a",
+        "action": "DELETE_HOLIDAY",
+        "entityType": "HOLIDAY",
+        "entityId": "fbcc6550-ef21-497b-9df4-7e87ac69fbc4",
+        "oldData": {
+          "id": "fbcc6550-ef21-497b-9df4-7e87ac69fbc4",
+          "name": "Company Foundation Day 1788107759960",
+          "createdAt": "2026-08-30T16:36:00.737Z",
+          "isOptional": false,
+          "description": null,
+          "holidayDate": "2034-10-05",
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
+        },
+        "newData": null,
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:36:03.458Z",
+        "actor": {
+          "id": "47911f57-ab8a-4a58-b971-197aef3f916a",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107723545_5619@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "e5d04b80-8896-4180-9049-28af1cf8c049",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "47911f57-ab8a-4a58-b971-197aef3f916a",
+        "action": "CREATE_HOLIDAY",
+        "entityType": "HOLIDAY",
+        "entityId": "fbcc6550-ef21-497b-9df4-7e87ac69fbc4",
         "oldData": null,
         "newData": {
-          "userId": "92e03367-8f59-415d-99e4-51130d770092",
-          "lastName": "Davis",
-          "firstName": "Charlie",
-          "workEmail": "charlie.davis6@testorg.dayflow.com",
-          "employeeId": "4d0de561-5947-413c-aa8b-f968e2c106b9",
-          "joiningDate": "2026-08-01",
-          "employeeCode": "TESTCHDA20260026"
+          "id": "fbcc6550-ef21-497b-9df4-7e87ac69fbc4",
+          "name": "Company Foundation Day 1788107759960",
+          "createdAt": "2026-08-30T16:36:00.737Z",
+          "isOptional": false,
+          "description": null,
+          "holidayDate": "2034-10-05",
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
         },
         "ipAddress": "::ffff:127.0.0.1",
         "userAgent": null,
-        "createdAt": "2026-08-30T10:10:59.111Z",
+        "createdAt": "2026-08-30T16:36:01.106Z",
         "actor": {
-          "id": "1640181d-da7a-413f-9822-0b4427a577ee",
+          "id": "47911f57-ab8a-4a58-b971-197aef3f916a",
           "firstName": "Test",
           "lastName": "User",
-          "email": "test_user_1788084657625_97402@example.com",
+          "email": "test_user_1788107723545_5619@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "469acfc6-8563-44f2-ba4e-9648e6aa4db1",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "47911f57-ab8a-4a58-b971-197aef3f916a",
+        "action": "DELETE_WORK_SCHEDULE",
+        "entityType": "WORK_SCHEDULE",
+        "entityId": "b94a7b00-808e-4b3d-b9c0-a938654e2183",
+        "oldData": {
+          "id": "b94a7b00-808e-4b3d-b9c0-a938654e2183",
+          "days": [],
+          "name": "Flexible Day Shift",
+          "isActive": true,
+          "timezone": "Asia/Kolkata",
+          "createdAt": "2026-08-30T16:35:51.132Z",
+          "updatedAt": "2026-08-30T16:35:56.425Z",
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+          "defaultBreakMinutes": 60
+        },
+        "newData": null,
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:35:59.460Z",
+        "actor": {
+          "id": "47911f57-ab8a-4a58-b971-197aef3f916a",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107723545_5619@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "038f8d0d-fa97-48a3-833d-4aaa1d037c2f",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "47911f57-ab8a-4a58-b971-197aef3f916a",
+        "action": "UPDATE_WORK_SCHEDULE",
+        "entityType": "WORK_SCHEDULE",
+        "entityId": "b94a7b00-808e-4b3d-b9c0-a938654e2183",
+        "oldData": {
+          "id": "b94a7b00-808e-4b3d-b9c0-a938654e2183",
+          "days": [],
+          "name": "Standard Day Shift 1788107750423",
+          "isActive": true,
+          "timezone": "Asia/Kolkata",
+          "createdAt": "2026-08-30T16:35:51.132Z",
+          "updatedAt": "2026-08-30T16:35:51.132Z",
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+          "defaultBreakMinutes": 60
+        },
+        "newData": {
+          "id": "b94a7b00-808e-4b3d-b9c0-a938654e2183",
+          "days": [],
+          "name": "Flexible Day Shift",
+          "isActive": true,
+          "timezone": "Asia/Kolkata",
+          "createdAt": "2026-08-30T16:35:51.132Z",
+          "updatedAt": "2026-08-30T16:35:56.425Z",
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+          "defaultBreakMinutes": 60
+        },
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:35:57.400Z",
+        "actor": {
+          "id": "47911f57-ab8a-4a58-b971-197aef3f916a",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107723545_5619@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "eb2f7e9e-f4c0-4469-ba7d-2841812ab75a",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "47911f57-ab8a-4a58-b971-197aef3f916a",
+        "action": "CREATE_WORK_SCHEDULE",
+        "entityType": "WORK_SCHEDULE",
+        "entityId": "b94a7b00-808e-4b3d-b9c0-a938654e2183",
+        "oldData": null,
+        "newData": {
+          "id": "b94a7b00-808e-4b3d-b9c0-a938654e2183",
+          "days": [],
+          "name": "Standard Day Shift 1788107750423",
+          "isActive": true,
+          "timezone": "Asia/Kolkata",
+          "createdAt": "2026-08-30T16:35:51.132Z",
+          "updatedAt": "2026-08-30T16:35:51.132Z",
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+          "defaultBreakMinutes": 60
+        },
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:35:52.308Z",
+        "actor": {
+          "id": "47911f57-ab8a-4a58-b971-197aef3f916a",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107723545_5619@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "c64b1f35-0b85-4e71-8e84-0b3c1d1b0e54",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "47911f57-ab8a-4a58-b971-197aef3f916a",
+        "action": "DELETE_JOB_POSITION",
+        "entityType": "JOB_POSITION",
+        "entityId": "908cc896-a4ba-4c63-ab1b-00cf31dc5eb7",
+        "oldData": {
+          "id": "908cc896-a4ba-4c63-ab1b-00cf31dc5eb7",
+          "name": "Lead Fullstack Developer",
+          "isActive": true,
+          "createdAt": "2026-08-30T16:35:45.408Z",
+          "updatedAt": "2026-08-30T16:35:48.361Z",
+          "description": null,
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
+        },
+        "newData": null,
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:35:50.067Z",
+        "actor": {
+          "id": "47911f57-ab8a-4a58-b971-197aef3f916a",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107723545_5619@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "282259db-4e95-47a1-8ed9-bfef5f36fe63",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "47911f57-ab8a-4a58-b971-197aef3f916a",
+        "action": "UPDATE_JOB_POSITION",
+        "entityType": "JOB_POSITION",
+        "entityId": "908cc896-a4ba-4c63-ab1b-00cf31dc5eb7",
+        "oldData": {
+          "id": "908cc896-a4ba-4c63-ab1b-00cf31dc5eb7",
+          "name": "Senior Fullstack Developer 1788107744808",
+          "isActive": true,
+          "createdAt": "2026-08-30T16:35:45.408Z",
+          "updatedAt": "2026-08-30T16:35:45.408Z",
+          "description": null,
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
+        },
+        "newData": {
+          "id": "908cc896-a4ba-4c63-ab1b-00cf31dc5eb7",
+          "name": "Lead Fullstack Developer",
+          "isActive": true,
+          "createdAt": "2026-08-30T16:35:45.408Z",
+          "updatedAt": "2026-08-30T16:35:48.361Z",
+          "description": null,
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
+        },
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:35:48.584Z",
+        "actor": {
+          "id": "47911f57-ab8a-4a58-b971-197aef3f916a",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107723545_5619@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "a726ee73-6203-47ed-ac32-7fcfb2339710",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "47911f57-ab8a-4a58-b971-197aef3f916a",
+        "action": "CREATE_JOB_POSITION",
+        "entityType": "JOB_POSITION",
+        "entityId": "908cc896-a4ba-4c63-ab1b-00cf31dc5eb7",
+        "oldData": null,
+        "newData": {
+          "id": "908cc896-a4ba-4c63-ab1b-00cf31dc5eb7",
+          "name": "Senior Fullstack Developer 1788107744808",
+          "isActive": true,
+          "createdAt": "2026-08-30T16:35:45.408Z",
+          "updatedAt": "2026-08-30T16:35:45.408Z",
+          "description": null,
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
+        },
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:35:45.698Z",
+        "actor": {
+          "id": "47911f57-ab8a-4a58-b971-197aef3f916a",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107723545_5619@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "bbed01cb-63ae-4646-bbbd-418a45e51fa5",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "47911f57-ab8a-4a58-b971-197aef3f916a",
+        "action": "DELETE_DEPARTMENT",
+        "entityType": "DEPARTMENT",
+        "entityId": "e1c8b0aa-d880-4305-ad4f-5106a28c0c67",
+        "oldData": {
+          "id": "e1c8b0aa-d880-4305-ad4f-5106a28c0c67",
+          "code": "ENG_1788107739533",
+          "name": "Software Engineering & AI",
+          "isActive": true,
+          "createdAt": "2026-08-30T16:35:40.129Z",
+          "updatedAt": "2026-08-30T16:35:42.704Z",
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+          "managerEmployeeId": null
+        },
+        "newData": null,
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:35:44.415Z",
+        "actor": {
+          "id": "47911f57-ab8a-4a58-b971-197aef3f916a",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107723545_5619@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "4fe0dead-e983-4ca3-ae90-bd452862cbea",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "47911f57-ab8a-4a58-b971-197aef3f916a",
+        "action": "UPDATE_DEPARTMENT",
+        "entityType": "DEPARTMENT",
+        "entityId": "e1c8b0aa-d880-4305-ad4f-5106a28c0c67",
+        "oldData": {
+          "id": "e1c8b0aa-d880-4305-ad4f-5106a28c0c67",
+          "code": "ENG_1788107739533",
+          "name": "Engineering 1788107739533",
+          "isActive": true,
+          "createdAt": "2026-08-30T16:35:40.129Z",
+          "updatedAt": "2026-08-30T16:35:40.129Z",
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+          "managerEmployeeId": null
+        },
+        "newData": {
+          "id": "e1c8b0aa-d880-4305-ad4f-5106a28c0c67",
+          "code": "ENG_1788107739533",
+          "name": "Software Engineering & AI",
+          "isActive": true,
+          "createdAt": "2026-08-30T16:35:40.129Z",
+          "updatedAt": "2026-08-30T16:35:42.704Z",
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+          "managerEmployeeId": null
+        },
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:35:43.009Z",
+        "actor": {
+          "id": "47911f57-ab8a-4a58-b971-197aef3f916a",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107723545_5619@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "9b40e23a-fb8b-47cf-944e-68ed2cec7e51",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "47911f57-ab8a-4a58-b971-197aef3f916a",
+        "action": "CREATE_DEPARTMENT",
+        "entityType": "DEPARTMENT",
+        "entityId": "e1c8b0aa-d880-4305-ad4f-5106a28c0c67",
+        "oldData": null,
+        "newData": {
+          "id": "e1c8b0aa-d880-4305-ad4f-5106a28c0c67",
+          "code": "ENG_1788107739533",
+          "name": "Engineering 1788107739533",
+          "isActive": true,
+          "createdAt": "2026-08-30T16:35:40.129Z",
+          "updatedAt": "2026-08-30T16:35:40.129Z",
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+          "managerEmployeeId": null
+        },
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:35:40.432Z",
+        "actor": {
+          "id": "47911f57-ab8a-4a58-b971-197aef3f916a",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107723545_5619@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "ca6fbde7-efb0-4104-b4bb-155d724d8ee2",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "47911f57-ab8a-4a58-b971-197aef3f916a",
+        "action": "DELETE_LOCATION",
+        "entityType": "LOCATION",
+        "entityId": "b92527e8-84f3-4820-bc38-8ddd5433fa45",
+        "oldData": {
+          "id": "b92527e8-84f3-4820-bc38-8ddd5433fa45",
+          "name": "Bengaluru HQ 1788107733473",
+          "address": "Bengaluru Tech Park",
+          "isActive": true,
+          "createdAt": "2026-08-30T16:35:34.085Z",
+          "updatedAt": "2026-08-30T16:35:36.923Z",
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
+        },
+        "newData": null,
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:35:39.071Z",
+        "actor": {
+          "id": "47911f57-ab8a-4a58-b971-197aef3f916a",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107723545_5619@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "d043555f-0a8b-49f3-98e2-51b175b18493",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "47911f57-ab8a-4a58-b971-197aef3f916a",
+        "action": "UPDATE_LOCATION",
+        "entityType": "LOCATION",
+        "entityId": "b92527e8-84f3-4820-bc38-8ddd5433fa45",
+        "oldData": {
+          "id": "b92527e8-84f3-4820-bc38-8ddd5433fa45",
+          "name": "Bengaluru HQ 1788107733473",
+          "address": null,
+          "isActive": true,
+          "createdAt": "2026-08-30T16:35:34.085Z",
+          "updatedAt": "2026-08-30T16:35:34.085Z",
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
+        },
+        "newData": {
+          "id": "b92527e8-84f3-4820-bc38-8ddd5433fa45",
+          "name": "Bengaluru HQ 1788107733473",
+          "address": "Bengaluru Tech Park",
+          "isActive": true,
+          "createdAt": "2026-08-30T16:35:34.085Z",
+          "updatedAt": "2026-08-30T16:35:36.923Z",
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
+        },
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:35:37.216Z",
+        "actor": {
+          "id": "47911f57-ab8a-4a58-b971-197aef3f916a",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107723545_5619@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "9c3aa203-722d-4264-8f92-031eadd5b211",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "47911f57-ab8a-4a58-b971-197aef3f916a",
+        "action": "CREATE_LOCATION",
+        "entityType": "LOCATION",
+        "entityId": "b92527e8-84f3-4820-bc38-8ddd5433fa45",
+        "oldData": null,
+        "newData": {
+          "id": "b92527e8-84f3-4820-bc38-8ddd5433fa45",
+          "name": "Bengaluru HQ 1788107733473",
+          "address": null,
+          "isActive": true,
+          "createdAt": "2026-08-30T16:35:34.085Z",
+          "updatedAt": "2026-08-30T16:35:34.085Z",
+          "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
+        },
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:35:34.387Z",
+        "actor": {
+          "id": "47911f57-ab8a-4a58-b971-197aef3f916a",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107723545_5619@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "56481156-2ba3-43f8-8828-c4446ffd0af3",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "47911f57-ab8a-4a58-b971-197aef3f916a",
+        "action": "UPDATE_COMPANY_DETAILS",
+        "entityType": "ORGANIZATION",
+        "entityId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "oldData": {
+          "id": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+          "city": "Bengaluru",
+          "code": "TESTORG",
+          "name": "Test Organization",
+          "email": "admin@testorg.com",
+          "phone": null,
+          "state": "Karnataka",
+          "address": null,
+          "country": "India",
+          "logoUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/logo_YB4MuqLJj.png",
+          "currency": "INR",
+          "isActive": true,
+          "timezone": "Asia/Kolkata",
+          "createdAt": "2026-08-30T09:34:04.865Z",
+          "updatedAt": "2026-08-30T16:35:29.567Z",
+          "postalCode": null
+        },
+        "newData": {
+          "id": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+          "city": "Bengaluru",
+          "code": "TESTORG",
+          "name": "Test Organization",
+          "email": "admin@testorg.com",
+          "phone": null,
+          "state": "Karnataka",
+          "address": null,
+          "country": "India",
+          "logoUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/logo_GgSQOsOiVS.png",
+          "currency": "INR",
+          "isActive": true,
+          "timezone": "Asia/Kolkata",
+          "createdAt": "2026-08-30T09:34:04.865Z",
+          "updatedAt": "2026-08-30T16:35:32.769Z",
+          "postalCode": null
+        },
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:35:32.944Z",
+        "actor": {
+          "id": "47911f57-ab8a-4a58-b971-197aef3f916a",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107723545_5619@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "d9e89aa0-1860-4986-8ea3-b6481e51d411",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "47911f57-ab8a-4a58-b971-197aef3f916a",
+        "action": "UPDATE_COMPANY_DETAILS",
+        "entityType": "ORGANIZATION",
+        "entityId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "oldData": {
+          "id": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+          "city": "Bengaluru",
+          "code": "TESTORG",
+          "name": "Test Organization",
+          "email": "admin@testorg.com",
+          "phone": null,
+          "state": "Karnataka",
+          "address": null,
+          "country": "India",
+          "logoUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/logo_YB4MuqLJj.png",
+          "currency": "INR",
+          "isActive": true,
+          "timezone": "Asia/Kolkata",
+          "createdAt": "2026-08-30T09:34:04.865Z",
+          "updatedAt": "2026-08-30T16:22:55.508Z",
+          "postalCode": null
+        },
+        "newData": {
+          "id": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+          "city": "Bengaluru",
+          "code": "TESTORG",
+          "name": "Test Organization",
+          "email": "admin@testorg.com",
+          "phone": null,
+          "state": "Karnataka",
+          "address": null,
+          "country": "India",
+          "logoUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/logo_YB4MuqLJj.png",
+          "currency": "INR",
+          "isActive": true,
+          "timezone": "Asia/Kolkata",
+          "createdAt": "2026-08-30T09:34:04.865Z",
+          "updatedAt": "2026-08-30T16:35:29.567Z",
+          "postalCode": null
+        },
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:35:30.016Z",
+        "actor": {
+          "id": "47911f57-ab8a-4a58-b971-197aef3f916a",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107723545_5619@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "5713a39a-bdda-4807-a958-16ca390bb3eb",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "7b92ff13-15ae-4174-ad92-73166f2bd3a5",
+        "action": "employee_created",
+        "entityType": "employee",
+        "entityId": "dbea06b2-126c-4820-b3be-6a12eefdba28",
+        "oldData": null,
+        "newData": {
+          "userId": "ffee360d-dc60-4a00-836d-bdd4cc19bd24",
+          "lastName": "Clark",
+          "firstName": "George",
+          "workEmail": "george.clark13@testorg.dayflow.com",
+          "employeeId": "dbea06b2-126c-4820-b3be-6a12eefdba28",
+          "joiningDate": "2026-08-01",
+          "employeeCode": "TESTGECL20260108"
+        },
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:34:29.492Z",
+        "actor": {
+          "id": "7b92ff13-15ae-4174-ad92-73166f2bd3a5",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107667253_90587@example.com",
+          "role": "admin",
+          "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
+        }
+      },
+      {
+        "id": "ac80a398-0854-4af7-8dee-9d3723b3de1a",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "actorUserId": "799fc205-3d93-4a37-a7d1-80060c800908",
+        "action": "employee_created",
+        "entityType": "employee",
+        "entityId": "41e08357-87e5-45ef-ab59-a8104f30183f",
+        "oldData": null,
+        "newData": {
+          "userId": "6360632f-dd2f-4831-87a9-064a9d6107a6",
+          "lastName": "Gallagher",
+          "firstName": "Fiona",
+          "workEmail": "fiona.gallagher15@testorg.dayflow.com",
+          "employeeId": "41e08357-87e5-45ef-ab59-a8104f30183f",
+          "joiningDate": "2026-08-01",
+          "employeeCode": "TESTFIGA20260107"
+        },
+        "ipAddress": "::ffff:127.0.0.1",
+        "userAgent": null,
+        "createdAt": "2026-08-30T16:33:04.127Z",
+        "actor": {
+          "id": "799fc205-3d93-4a37-a7d1-80060c800908",
+          "firstName": "Test",
+          "lastName": "User",
+          "email": "test_user_1788107582569_9776@example.com",
           "role": "admin",
           "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg"
         }
       }
     ],
-    "total": 128,
+    "total": 430,
     "limit": 50,
     "offset": 0
   }
@@ -1691,49 +1691,49 @@
   "error": null,
   "data": {
     "stats": {
-      "totalLogs": 128,
+      "totalLogs": 430,
       "topActions": [
         {
           "action": "employee_created",
-          "count": 43
+          "count": 125
         },
         {
           "action": "UPDATE_COMPANY_DETAILS",
-          "count": 10
+          "count": 32
         },
         {
           "action": "employee_password_reset",
-          "count": 5
+          "count": 16
         },
         {
           "action": "employee_deactivated",
-          "count": 5
+          "count": 16
         },
         {
           "action": "employee_activated",
-          "count": 5
+          "count": 16
         }
       ],
       "topEntities": [
         {
           "entityType": "employee",
-          "count": 63
+          "count": 189
         },
         {
           "entityType": "JOB_POSITION",
-          "count": 12
+          "count": 45
         },
         {
           "entityType": "WORK_SCHEDULE",
-          "count": 12
+          "count": 45
         },
         {
           "entityType": "DEPARTMENT",
-          "count": 12
+          "count": 45
         },
         {
           "entityType": "LOCATION",
-          "count": 11
+          "count": 44
         }
       ]
     }
@@ -1747,7 +1747,7 @@
 
 ### 3. Get Audit Log by ID (Admin)
 
-- **Endpoint**: `GET /api/audit-logs/ab6b67fe-6484-4f13-84ad-d620be95cc0b`
+- **Endpoint**: `GET /api/audit-logs/99ac3bf3-1b5a-4e10-8e34-3051917094bb`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -1766,30 +1766,30 @@
   "error": null,
   "data": {
     "log": {
-      "id": "ab6b67fe-6484-4f13-84ad-d620be95cc0b",
+      "id": "99ac3bf3-1b5a-4e10-8e34-3051917094bb",
       "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-      "actorUserId": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+      "actorUserId": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
       "action": "DELETE_HOLIDAY",
       "entityType": "HOLIDAY",
-      "entityId": "028ef869-3d81-4c9d-a2b1-94ac04f30fd7",
+      "entityId": "ab3b377b-4289-4252-83b3-19c53d249554",
       "oldData": {
-        "id": "028ef869-3d81-4c9d-a2b1-94ac04f30fd7",
-        "name": "Company Foundation Day 1788085903214",
-        "createdAt": "2026-08-30T10:31:43.712Z",
+        "id": "ab3b377b-4289-4252-83b3-19c53d249554",
+        "name": "Company Foundation Day 1788110699240",
+        "createdAt": "2026-08-30T17:24:59.778Z",
         "isOptional": false,
         "description": null,
-        "holidayDate": "2034-10-05",
+        "holidayDate": "2036-10-17",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1"
       },
       "newData": null,
       "ipAddress": "::ffff:127.0.0.1",
       "userAgent": null,
-      "createdAt": "2026-08-30T10:31:45.672Z",
+      "createdAt": "2026-08-30T17:25:02.153Z",
       "actor": {
-        "id": "c6367ea0-1a75-49e6-ad22-8b64f82c9799",
+        "id": "294e6dcf-e8ba-440c-93ca-2b0d4c13a6d3",
         "firstName": "Test",
         "lastName": "User",
-        "email": "test_user_1788085877046_25626@example.com",
+        "email": "test_user_1788110672098_18306@example.com",
         "role": "admin"
       }
     }
@@ -1803,7 +1803,7 @@
 
 ### 4. Get Entity Audit History (Admin)
 
-- **Endpoint**: `GET /api/audit-logs/entity/employee/cb8d13a6-a639-4ae9-830e-a71ed4c6c2b6`
+- **Endpoint**: `GET /api/audit-logs/entity/employee/8486abb8-a278-456b-bc46-8ea055028cb2`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -1856,11 +1856,11 @@
 
 ```json
 {
-  "message": "Broadcast sent to 134 recipients",
+  "message": "Broadcast sent to 375 recipients",
   "success": true,
   "error": null,
   "data": {
-    "sentCount": 134
+    "sentCount": 375
   }
 }
 ```
@@ -1891,15 +1891,15 @@
   "data": {
     "notifications": [
       {
-        "id": "a020d04e-3f9c-49c8-af47-3a975c8aa3cd",
-        "userId": "cb8d13a6-a639-4ae9-830e-a71ed4c6c2b6",
+        "id": "419cdb43-ca6d-4565-96e2-0a8c503312aa",
+        "userId": "8486abb8-a278-456b-bc46-8ea055028cb2",
         "type": "system_alert",
         "title": "System Maintenance Notice",
         "message": "Scheduled maintenance will take place this Sunday at midnight.",
         "referenceType": "BROADCAST",
         "referenceId": null,
         "isRead": false,
-        "createdAt": "2026-08-30T10:31:55.600Z",
+        "createdAt": "2026-08-30T17:25:15.281Z",
         "readAt": null
       }
     ],
@@ -1945,7 +1945,7 @@
 
 ### 8. Mark Notification as Read (Success)
 
-- **Endpoint**: `PATCH /api/notifications/a020d04e-3f9c-49c8-af47-3a975c8aa3cd/read`
+- **Endpoint**: `PATCH /api/notifications/419cdb43-ca6d-4565-96e2-0a8c503312aa/read`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -1964,16 +1964,16 @@
   "error": null,
   "data": {
     "notification": {
-      "id": "a020d04e-3f9c-49c8-af47-3a975c8aa3cd",
-      "userId": "cb8d13a6-a639-4ae9-830e-a71ed4c6c2b6",
+      "id": "419cdb43-ca6d-4565-96e2-0a8c503312aa",
+      "userId": "8486abb8-a278-456b-bc46-8ea055028cb2",
       "type": "system_alert",
       "title": "System Maintenance Notice",
       "message": "Scheduled maintenance will take place this Sunday at midnight.",
       "referenceType": "BROADCAST",
       "referenceId": null,
       "isRead": true,
-      "createdAt": "2026-08-30T10:31:55.600Z",
-      "readAt": "2026-08-30T10:31:58.489Z"
+      "createdAt": "2026-08-30T17:25:15.281Z",
+      "readAt": "2026-08-30T17:25:19.389Z"
     }
   }
 }
@@ -2014,7 +2014,7 @@
 
 ### 10. Delete Notification (Success)
 
-- **Endpoint**: `DELETE /api/notifications/a020d04e-3f9c-49c8-af47-3a975c8aa3cd`
+- **Endpoint**: `DELETE /api/notifications/419cdb43-ca6d-4565-96e2-0a8c503312aa`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -2033,16 +2033,16 @@
   "error": null,
   "data": {
     "notification": {
-      "id": "a020d04e-3f9c-49c8-af47-3a975c8aa3cd",
-      "userId": "cb8d13a6-a639-4ae9-830e-a71ed4c6c2b6",
+      "id": "419cdb43-ca6d-4565-96e2-0a8c503312aa",
+      "userId": "8486abb8-a278-456b-bc46-8ea055028cb2",
       "type": "system_alert",
       "title": "System Maintenance Notice",
       "message": "Scheduled maintenance will take place this Sunday at midnight.",
       "referenceType": "BROADCAST",
       "referenceId": null,
       "isRead": true,
-      "createdAt": "2026-08-30T10:31:55.600Z",
-      "readAt": "2026-08-30T10:31:58.489Z"
+      "createdAt": "2026-08-30T17:25:15.281Z",
+      "readAt": "2026-08-30T17:25:19.389Z"
     }
   }
 }

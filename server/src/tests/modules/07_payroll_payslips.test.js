@@ -61,7 +61,7 @@ describe('07: Payroll & Payslip Management API', () => {
 
     describe('POST & GET /api/payroll/periods', () => {
         it('should create new monthly payroll period (Admin)', async () => {
-            const year = 2030 + Math.floor(Math.random() * 50);
+            const year = 2100 + Math.floor(Math.random() * 500);
             const periodPayload = {
                 periodStart: `${year}-01-01`,
                 periodEnd: `${year}-01-31`,

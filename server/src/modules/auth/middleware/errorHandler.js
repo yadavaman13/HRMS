@@ -2,6 +2,10 @@ import envConfig from '../../../config/env.config.js';
 import { sendResponse } from '../../../utils/response.utlis.js';
 
 export function errorHandler(err, req, res, _next) {
+    if (res.headersSent) {
+        return _next(err);
+    }
+
     err.statusCode = err.statusCode || 500;
     err.status = err.status || 'error';
 

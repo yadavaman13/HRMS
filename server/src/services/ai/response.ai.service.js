@@ -5,6 +5,8 @@ import {
     getGeminiAgent,
     getGeminiFallbackAgent,
     geminiAgent,
+    getHrmsAgent,
+    getHrmsFallbackAgent,
 } from './models.ai.service.js';
 
 /**
@@ -295,4 +297,60 @@ export async function summariseFileWithAi(file) {
     });
 
     return result.structuredResponse;
+}
+
+/**
+ * Streams the HRMS AI agent response for a given message history, files, and HRMS context.
+ * Uses dedicated HRMS Agent with tools, falling back to HRMS Fallback Agent if needed.
+ *
+ * @param {Array<{role: string, content: string}>} messageHistory - The chat message history.
+ * @param {Array<Object>} userFiles - List of user-uploaded files.
+ * @param {Object} options - Stream options including onToolCall, onToken, chatId, and hrmsContext.
+ * @returns {Promise<string>} Fully accumulated response string.
+ */
+export async function streamHrmsResponse(messageHistory, userFiles, options) {
+    const { onToolCall, onToken, chatId, hrmsContext } = options;
+    const userFilesArr = Array.isArray(userFiles) ? userFiles : [];
+    const lastIndex = messageHistory.length - 1;
+
+    const mappedMessages = messageHistory
+        .map((message, index) => {
+            if (message.role === 'user') {
+                const content = [{ type: 'text', text: message.content }];
+                if (index === lastIndex && userFilesArr.length) {
+                    let docContexts = '';
+                    for (const file of userFilesArr) {
+                        if (file.mimetype?.startsWith('image/')) {
+                            content.push({ type: 'image', url: file.url });
+                        } else {
+                            docContexts += formatFileMetadata(file);
+                        }
+                    }
+                    if (docContexts) {
+                        content[0].text += docContexts;
+                    }
+                }
+                return new HumanMessage({ role: 'user', content });
+            }
+            if (message.role === 'ai') return new AIMessage(message.content);
+            return null;
+        })
+        .filter(Boolean);
+
+    try {
+        const agent = getHrmsAgent(chatId, hrmsContext);
+        const stream = await agent.stream(
+            { messages: mappedMessages },
+            { streamMode: ['messages', 'updates'] },
+        );
+        return await consumeStream(stream, { onToolCall, onToken });
+    } catch (err) {
+        console.warn(`HRMS primary agent failed: ${err.message}. Falling back...`);
+        const fallbackAgent = getHrmsFallbackAgent(chatId, hrmsContext);
+        const fallbackStream = await fallbackAgent.stream(
+            { messages: mappedMessages },
+            { streamMode: ['messages', 'updates'] },
+        );
+        return await consumeStream(fallbackStream, { onToolCall, onToken });
+    }
 }

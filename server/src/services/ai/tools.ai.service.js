@@ -22,11 +22,19 @@ const emailTool = tool(sendEmail, {
  * LangChain tool to query the internet for real-time web search results.
  * Expects a query string.
  */
-const searchInternetTool = tool(searchWeb, {
-    name: 'searchInternetTool',
-    description: 'Use this tool to search for the latest information on internet.',
-    schema: z.string().describe('The query to search on web'),
-});
+const searchInternetTool = tool(
+    async (input) => {
+        const query = typeof input === 'string' ? input : input?.query || input?.input || '';
+        return searchWeb(query);
+    },
+    {
+        name: 'searchInternetTool',
+        description: 'Use this tool to search for the latest information on internet.',
+        schema: z.object({
+            query: z.string().describe('The search query for web search'),
+        }),
+    },
+);
 
 /**
  * LangChain tool to get the current date and time.
@@ -54,6 +62,7 @@ const getCurrentDateTimeTool = tool(
         name: 'getCurrentDateTime',
         description:
             "Returns the current date and time in the user's timezone. Use this when the user asks about current time, today, now, or date.",
+        schema: z.object({}),
     },
 );
 
@@ -67,14 +76,17 @@ const getCurrentDateTimeTool = tool(
  */
 function createContextRetrieverTool(chatId) {
     return tool(
-        async (query) => {
+        async (input) => {
+            const query = typeof input === 'string' ? input : input?.query || '';
             return retrieveRelevantContext({ prompt: query, chatId });
         },
         {
             name: 'contextRetrieverTool',
             description:
-                'Use this tool when the you think that there is need to retrieve relevant context for the query that user has asked. This is useful when you want to get information about the ingested data of the document and use that information to answer the user query.',
-            schema: z.string().describe('The query to retrieve relevant context'),
+                'Use this tool when you need to retrieve relevant context from uploaded documents for the user query.',
+            schema: z.object({
+                query: z.string().describe('The query to retrieve relevant context'),
+            }),
         },
     );
 }

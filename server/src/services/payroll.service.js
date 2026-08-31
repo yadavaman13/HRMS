@@ -4,7 +4,7 @@ import * as attendanceDao from '../dao/attendance.dao.js';
 import { makePDF } from './pdf/render.pdf.service.js';
 import { payslipTemplate } from '../templates/index.js';
 import { db } from '../config/database.config.js';
-import { eq, and, gte, lte, sql } from 'drizzle-orm';
+import { eq, and, gte, lte, sql, inArray } from 'drizzle-orm';
 import {
     leaveRequests,
     leaveTypes,
@@ -15,6 +15,11 @@ import {
     employees,
     organizations,
     payslips,
+    salaryStructures,
+    salaryStructureComponents,
+    salaryComponentDefinitions,
+    attendanceRecords,
+    payslipAttendanceSummary,
 } from '../db/schema/schema.js';
 
 // ── Attendance and Payable Days Engine ──────────────────────────────────────
@@ -25,133 +30,154 @@ export async function calculateAttendanceSummary(
     startDateStr,
     endDateStr,
     tx,
+    prefetchedContext = null,
 ) {
     const client = tx || db;
 
-    // 1. Fetch Employee details (for joining/termination date)
-    const employee = await employeeDao.getEmployeeById(employeeId, true);
-    if (!employee) {
-        throw new Error(`Employee with ID ${employeeId} not found`);
+    let joiningDate;
+    let terminationDate;
+    let attendanceMap;
+    let holidayMap;
+    let leaveMap;
+    let assignments;
+    let defaultScheduleId;
+    let scheduleDaysMap;
+
+    if (prefetchedContext) {
+        joiningDate = prefetchedContext.employee?.joiningDate
+            ? new Date(prefetchedContext.employee.joiningDate)
+            : null;
+        terminationDate = prefetchedContext.employee?.terminationDate
+            ? new Date(prefetchedContext.employee.terminationDate)
+            : null;
+        attendanceMap = prefetchedContext.attendanceMap || new Map();
+        holidayMap = prefetchedContext.holidayMap || new Map();
+        leaveMap = prefetchedContext.leaveMap || new Map();
+        assignments = prefetchedContext.assignments || [];
+        defaultScheduleId = prefetchedContext.defaultScheduleId || null;
+        scheduleDaysMap = prefetchedContext.scheduleDaysMap || new Map();
+    } else {
+        // 1. Fetch Employee details (for joining/termination date)
+        const employee = await employeeDao.getEmployeeById(employeeId, true);
+        if (!employee) {
+            throw new Error(`Employee with ID ${employeeId} not found`);
+        }
+
+        joiningDate = employee.joiningDate ? new Date(employee.joiningDate) : null;
+        terminationDate = employee.terminationDate ? new Date(employee.terminationDate) : null;
+
+        // 2. Fetch all attendance records for employee in range
+        const attendanceResult = await attendanceDao.getAttendanceRecords(
+            {
+                employeeId,
+                startDate: startDateStr,
+                endDate: endDateStr,
+                limit: 1000,
+            },
+            client,
+        );
+
+        const attendanceRecordsList = Array.isArray(attendanceResult)
+            ? attendanceResult
+            : attendanceResult?.records || [];
+
+        attendanceMap = new Map();
+        for (const record of attendanceRecordsList) {
+            const dateKey =
+                typeof record.attendanceDate === 'string'
+                    ? record.attendanceDate
+                    : new Date(record.attendanceDate).toISOString().split('T')[0];
+            attendanceMap.set(dateKey, record);
+        }
+
+        // 3. Fetch all holidays in range
+        const holidaysList = await client
+            .select()
+            .from(holidays)
+            .where(
+                and(
+                    eq(holidays.organizationId, organizationId),
+                    gte(holidays.holidayDate, startDateStr),
+                    lte(holidays.holidayDate, endDateStr),
+                ),
+            );
+        holidayMap = new Map();
+        for (const h of holidaysList) {
+            const dateKey =
+                typeof h.holidayDate === 'string'
+                    ? h.holidayDate
+                    : new Date(h.holidayDate).toISOString().split('T')[0];
+            holidayMap.set(dateKey, h);
+        }
+
+        // 4. Fetch all approved leave requests in range
+        const leavesList = await client
+            .select({
+                id: leaveRequests.id,
+                startDate: leaveRequests.startDate,
+                endDate: leaveRequests.endDate,
+                isPaid: leaveTypes.isPaid,
+            })
+            .from(leaveRequests)
+            .innerJoin(leaveTypes, eq(leaveRequests.leaveTypeId, leaveTypes.id))
+            .where(
+                and(
+                    eq(leaveRequests.employeeId, employeeId),
+                    eq(leaveRequests.status, 'approved'),
+                    gte(leaveRequests.endDate, startDateStr),
+                    lte(leaveRequests.startDate, endDateStr),
+                ),
+            );
+
+        leaveMap = new Map();
+        for (const leave of leavesList) {
+            const start = new Date(leave.startDate);
+            const end = new Date(leave.endDate);
+            for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+                const dateKey = d.toISOString().split('T')[0];
+                leaveMap.set(dateKey, leave);
+            }
+        }
+
+        // 5. Resolve Work Schedule Assignments in range
+        assignments = await client
+            .select()
+            .from(employeeScheduleAssignments)
+            .where(
+                and(
+                    eq(employeeScheduleAssignments.employeeId, employeeId),
+                    lte(employeeScheduleAssignments.effectiveFrom, endDateStr),
+                ),
+            )
+            .orderBy(employeeScheduleAssignments.effectiveFrom);
+
+        defaultScheduleId = null;
+        const [defaultSchedule] = await client
+            .select({ id: workSchedules.id })
+            .from(workSchedules)
+            .where(
+                and(
+                    eq(workSchedules.organizationId, organizationId),
+                    eq(workSchedules.isActive, true),
+                ),
+            )
+            .limit(1);
+        if (defaultSchedule) {
+            defaultScheduleId = defaultSchedule.id;
+        }
+
+        const scheduleDaysList = await client.select().from(workScheduleDays);
+        scheduleDaysMap = new Map();
+        for (const sd of scheduleDaysList) {
+            if (!scheduleDaysMap.has(sd.scheduleId)) {
+                scheduleDaysMap.set(sd.scheduleId, new Map());
+            }
+            scheduleDaysMap.get(sd.scheduleId).set(sd.weekday, sd);
+        }
     }
 
-    const joiningDate = employee.joiningDate ? new Date(employee.joiningDate) : null;
-    const terminationDate = employee.terminationDate ? new Date(employee.terminationDate) : null;
-
-    // 2. Parse range dates
     const startDate = new Date(startDateStr);
     const endDate = new Date(endDateStr);
-
-    // 3. Fetch all attendance records for employee in range
-    const attendanceResult = await attendanceDao.getAttendanceRecords(
-        {
-            employeeId,
-            startDate: startDateStr,
-            endDate: endDateStr,
-            limit: 1000,
-        },
-        client,
-    );
-
-    const attendanceRecordsList = Array.isArray(attendanceResult)
-        ? attendanceResult
-        : attendanceResult?.records || [];
-
-    const attendanceMap = new Map();
-    for (const record of attendanceRecordsList) {
-        // Date from DB might be a Date object or string "YYYY-MM-DD"
-        const dateKey =
-            typeof record.attendanceDate === 'string'
-                ? record.attendanceDate
-                : new Date(record.attendanceDate).toISOString().split('T')[0];
-        attendanceMap.set(dateKey, record);
-    }
-
-    // 4. Fetch all holidays in range
-    const holidaysList = await client
-        .select()
-        .from(holidays)
-        .where(
-            and(
-                eq(holidays.organizationId, organizationId),
-                gte(holidays.holidayDate, startDateStr),
-                lte(holidays.holidayDate, endDateStr),
-            ),
-        );
-    const holidayMap = new Map();
-    for (const h of holidaysList) {
-        const dateKey =
-            typeof h.holidayDate === 'string'
-                ? h.holidayDate
-                : new Date(h.holidayDate).toISOString().split('T')[0];
-        holidayMap.set(dateKey, h);
-    }
-
-    // 5. Fetch all approved leave requests in range
-    const leavesList = await client
-        .select({
-            id: leaveRequests.id,
-            startDate: leaveRequests.startDate,
-            endDate: leaveRequests.endDate,
-            isPaid: leaveTypes.isPaid,
-        })
-        .from(leaveRequests)
-        .innerJoin(leaveTypes, eq(leaveRequests.leaveTypeId, leaveTypes.id))
-        .where(
-            and(
-                eq(leaveRequests.employeeId, employeeId),
-                eq(leaveRequests.status, 'approved'),
-                gte(leaveRequests.endDate, startDateStr),
-                lte(leaveRequests.startDate, endDateStr),
-            ),
-        );
-
-    // Build a map of leave dates
-    const leaveMap = new Map();
-    for (const leave of leavesList) {
-        const start = new Date(leave.startDate);
-        const end = new Date(leave.endDate);
-        for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-            const dateKey = d.toISOString().split('T')[0];
-            leaveMap.set(dateKey, leave);
-        }
-    }
-
-    // 6. Resolve Work Schedule Assignments in range
-    const assignments = await client
-        .select()
-        .from(employeeScheduleAssignments)
-        .where(
-            and(
-                eq(employeeScheduleAssignments.employeeId, employeeId),
-                lte(employeeScheduleAssignments.effectiveFrom, endDateStr),
-            ),
-        )
-        .orderBy(employeeScheduleAssignments.effectiveFrom);
-
-    // Fetch default schedule details in case no custom assignment
-    let defaultScheduleId = null;
-    const [defaultSchedule] = await client
-        .select({ id: workSchedules.id })
-        .from(workSchedules)
-        .where(
-            and(eq(workSchedules.organizationId, organizationId), eq(workSchedules.isActive, true)),
-        )
-        .limit(1);
-    if (defaultSchedule) {
-        defaultScheduleId = defaultSchedule.id;
-    }
-
-    // Get all schedule days for caching
-    const scheduleDaysList = await client.select().from(workScheduleDays);
-
-    // Group schedule days by scheduleId
-    const scheduleDaysMap = new Map();
-    for (const sd of scheduleDaysList) {
-        if (!scheduleDaysMap.has(sd.scheduleId)) {
-            scheduleDaysMap.set(sd.scheduleId, new Map());
-        }
-        scheduleDaysMap.get(sd.scheduleId).set(sd.weekday, sd);
-    }
 
     // Helper to get active schedule day config for a day
     const getScheduleDayConfig = (dateObj) => {
@@ -173,7 +199,7 @@ export async function calculateAttendanceSummary(
         return scheduleDaysMap.get(activeScheduleId)?.get(weekday) || null;
     };
 
-    // 7. Iterate day by day in range
+    // Iterate day by day in range
     let totalCalendarDays = 0;
     let scheduledDays = 0;
     let presentDays = 0;
@@ -527,80 +553,267 @@ export async function processPayrollPeriod(periodId, _processedById) {
             );
         }
 
-        // 5. Fetch all active employees of the organization
-        const activeEmployees = await tx
-            .select()
-            .from(employees)
+        // 5. Fetch all active salary structures for this organization in 1 query
+        const activeStructures = await tx
+            .select({
+                id: salaryStructures.id,
+                employeeId: salaryStructures.employeeId,
+                monthlyWage: salaryStructures.monthlyWage,
+                wageType: salaryStructures.wageType,
+                effectiveFrom: salaryStructures.effectiveFrom,
+                effectiveTo: salaryStructures.effectiveTo,
+                status: salaryStructures.status,
+                joiningDate: employees.joiningDate,
+                terminationDate: employees.terminationDate,
+            })
+            .from(salaryStructures)
+            .innerJoin(employees, eq(salaryStructures.employeeId, employees.id))
             .where(
                 and(
                     eq(employees.organizationId, period.organizationId),
+                    eq(salaryStructures.status, 'ACTIVE'),
                     sql`${employees.deletedAt} IS NULL`,
                 ),
             );
 
+        if (activeStructures.length === 0) {
+            return await payrollDao.updatePayrollPeriod(
+                periodId,
+                {
+                    status: 'calculated',
+                    processedAt: new Date(),
+                },
+                tx,
+            );
+        }
+
+        const structureIds = activeStructures.map((s) => s.id);
+        const empIds = activeStructures.map((s) => s.employeeId);
+
+        // 6. Fetch all salary components for these structures in 1 query
+        const allComponents = await tx
+            .select({
+                id: salaryStructureComponents.id,
+                salaryStructureId: salaryStructureComponents.salaryStructureId,
+                componentDefinitionId: salaryStructureComponents.componentDefinitionId,
+                calculationType: salaryStructureComponents.calculationType,
+                calculationBase: salaryStructureComponents.calculationBase,
+                percentage: salaryStructureComponents.percentage,
+                fixedAmount: salaryStructureComponents.fixedAmount,
+                sequence: salaryStructureComponents.sequence,
+                isResidual: salaryStructureComponents.isResidual,
+                code: salaryComponentDefinitions.code,
+                name: salaryComponentDefinitions.name,
+                componentType: salaryComponentDefinitions.componentType,
+            })
+            .from(salaryStructureComponents)
+            .innerJoin(
+                salaryComponentDefinitions,
+                eq(salaryStructureComponents.componentDefinitionId, salaryComponentDefinitions.id),
+            )
+            .where(inArray(salaryStructureComponents.salaryStructureId, structureIds))
+            .orderBy(salaryStructureComponents.sequence);
+
+        const componentsByStructureId = new Map();
+        for (const comp of allComponents) {
+            if (!componentsByStructureId.has(comp.salaryStructureId)) {
+                componentsByStructureId.set(comp.salaryStructureId, []);
+            }
+            componentsByStructureId.get(comp.salaryStructureId).push(comp);
+        }
+
+        // 7. Fetch shared organization holidays in range in 1 query
+        const holidaysList = await tx
+            .select()
+            .from(holidays)
+            .where(
+                and(
+                    eq(holidays.organizationId, period.organizationId),
+                    gte(holidays.holidayDate, period.periodStart),
+                    lte(holidays.holidayDate, period.periodEnd),
+                ),
+            );
+        const holidayMap = new Map();
+        for (const h of holidaysList) {
+            const dateKey =
+                typeof h.holidayDate === 'string'
+                    ? h.holidayDate
+                    : new Date(h.holidayDate).toISOString().split('T')[0];
+            holidayMap.set(dateKey, h);
+        }
+
+        // 8. Fetch shared work schedules and schedule days in 2 queries
+        const [defaultSchedule] = await tx
+            .select({ id: workSchedules.id })
+            .from(workSchedules)
+            .where(
+                and(
+                    eq(workSchedules.organizationId, period.organizationId),
+                    eq(workSchedules.isActive, true),
+                ),
+            )
+            .limit(1);
+        const defaultScheduleId = defaultSchedule?.id || null;
+
+        const scheduleDaysList = await tx.select().from(workScheduleDays);
+        const scheduleDaysMap = new Map();
+        for (const sd of scheduleDaysList) {
+            if (!scheduleDaysMap.has(sd.scheduleId)) {
+                scheduleDaysMap.set(sd.scheduleId, new Map());
+            }
+            scheduleDaysMap.get(sd.scheduleId).set(sd.weekday, sd);
+        }
+
+        // 9. Fetch schedule assignments for active employees in 1 query
+        const allAssignments = await tx
+            .select()
+            .from(employeeScheduleAssignments)
+            .where(
+                and(
+                    inArray(employeeScheduleAssignments.employeeId, empIds),
+                    lte(employeeScheduleAssignments.effectiveFrom, period.periodEnd),
+                ),
+            )
+            .orderBy(employeeScheduleAssignments.effectiveFrom);
+        const assignmentsByEmp = new Map();
+        for (const ass of allAssignments) {
+            if (!assignmentsByEmp.has(ass.employeeId)) assignmentsByEmp.set(ass.employeeId, []);
+            assignmentsByEmp.get(ass.employeeId).push(ass);
+        }
+
+        // 10. Fetch attendance records for active employees in range in 1 query
+        const allAttendance = await tx
+            .select()
+            .from(attendanceRecords)
+            .where(
+                and(
+                    inArray(attendanceRecords.employeeId, empIds),
+                    gte(attendanceRecords.attendanceDate, period.periodStart),
+                    lte(attendanceRecords.attendanceDate, period.periodEnd),
+                ),
+            );
+        const attendanceByEmp = new Map();
+        for (const rec of allAttendance) {
+            if (!attendanceByEmp.has(rec.employeeId))
+                attendanceByEmp.set(rec.employeeId, new Map());
+            const dateKey =
+                typeof rec.attendanceDate === 'string'
+                    ? rec.attendanceDate
+                    : new Date(rec.attendanceDate).toISOString().split('T')[0];
+            attendanceByEmp.get(rec.employeeId).set(dateKey, rec);
+        }
+
+        // 11. Fetch approved leaves for active employees in range in 1 query
+        const allLeaves = await tx
+            .select({
+                employeeId: leaveRequests.employeeId,
+                id: leaveRequests.id,
+                startDate: leaveRequests.startDate,
+                endDate: leaveRequests.endDate,
+                isPaid: leaveTypes.isPaid,
+            })
+            .from(leaveRequests)
+            .innerJoin(leaveTypes, eq(leaveRequests.leaveTypeId, leaveTypes.id))
+            .where(
+                and(
+                    inArray(leaveRequests.employeeId, empIds),
+                    eq(leaveRequests.status, 'approved'),
+                    gte(leaveRequests.endDate, period.periodStart),
+                    lte(leaveRequests.startDate, period.periodEnd),
+                ),
+            );
+        const leavesByEmp = new Map();
+        for (const leave of allLeaves) {
+            if (!leavesByEmp.has(leave.employeeId)) leavesByEmp.set(leave.employeeId, new Map());
+            const start = new Date(leave.startDate);
+            const end = new Date(leave.endDate);
+            for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+                const dateKey = d.toISOString().split('T')[0];
+                leavesByEmp.get(leave.employeeId).set(dateKey, leave);
+            }
+        }
+
         const workingDaysBasis = Number(settings.workingDaysBasis) || 22;
 
-        // 6. Loop and calculate payslip details for each employee
-        for (const emp of activeEmployees) {
-            // Get employee active salary structure
-            const salaryStructure = await payrollDao.getSalaryStructureByEmployeeId(emp.id, tx);
-            if (!salaryStructure) {
-                // Skip employees without salary structures configured
-                continue;
-            }
+        // 12. Calculate in-memory summaries and prepare bulk inserts
+        const payslipsToInsert = [];
+        const calculationMetaByEmpId = new Map();
 
-            const monthlyWage = Number(salaryStructure.monthlyWage);
+        for (const structure of activeStructures) {
+            const monthlyWage = Number(structure.monthlyWage);
+            const components = componentsByStructureId.get(structure.id) || [];
 
-            // Calculate attendance & leave summary
+            const prefetched = {
+                employee: {
+                    joiningDate: structure.joiningDate,
+                    terminationDate: structure.terminationDate,
+                },
+                attendanceMap: attendanceByEmp.get(structure.employeeId) || new Map(),
+                holidayMap,
+                leaveMap: leavesByEmp.get(structure.employeeId) || new Map(),
+                assignments: assignmentsByEmp.get(structure.employeeId) || [],
+                defaultScheduleId,
+                scheduleDaysMap,
+            };
+
             const summary = await calculateAttendanceSummary(
-                emp.id,
+                structure.employeeId,
                 period.organizationId,
                 period.periodStart,
                 period.periodEnd,
                 tx,
+                prefetched,
             );
 
-            // Calculate base earning and deduction lines
             const { lines, grossEarnings, totalEmployeeDeductions, employerContributions } =
-                calculateSalaryComponents(monthlyWage, salaryStructure.components, settings);
+                calculateSalaryComponents(monthlyWage, components, settings);
 
-            // Calculate unpaid days deduction
-            // Daily rate = monthlyWage / workingDaysBasis
             const dailyRate = monthlyWage / workingDaysBasis;
             const unpaidDeduction = Math.round(dailyRate * summary.unpaidDays * 100) / 100;
-
-            // Final Net Pay = gross - total deductions - unpaid deduction
             const netPay = Math.max(
                 0,
                 Math.round((grossEarnings - totalEmployeeDeductions - unpaidDeduction) * 100) / 100,
             );
 
-            // Insert Payslip
-            const payslip = await payrollDao.createPayslip(
-                {
-                    payrollPeriodId: periodId,
-                    employeeId: emp.id,
-                    salaryStructureId: salaryStructure.id,
-                    monthlyWage: String(monthlyWage),
-                    workingDays: String(summary.scheduledDays),
-                    payableDays: String(summary.payableDays),
-                    paidLeaveDays: String(summary.paidLeaveDays),
-                    unpaidLeaveDays: String(summary.unpaidLeaveDays),
-                    absentDays: String(summary.absentDays),
-                    halfDaysCount: String(summary.halfDays),
-                    grossEarnings: String(grossEarnings),
-                    totalEmployeeDeductions: String(totalEmployeeDeductions),
-                    employerContributions: String(employerContributions),
-                    unpaidDeduction: String(unpaidDeduction),
-                    netPay: String(netPay),
-                    status: 'calculated',
-                    generatedAt: new Date(),
-                },
-                tx,
-            );
+            payslipsToInsert.push({
+                payrollPeriodId: periodId,
+                employeeId: structure.employeeId,
+                salaryStructureId: structure.id,
+                monthlyWage: String(monthlyWage),
+                workingDays: String(summary.scheduledDays),
+                payableDays: String(summary.payableDays),
+                paidLeaveDays: String(summary.paidLeaveDays),
+                unpaidLeaveDays: String(summary.unpaidLeaveDays),
+                absentDays: String(summary.absentDays),
+                halfDaysCount: String(summary.halfDays),
+                grossEarnings: String(grossEarnings),
+                totalEmployeeDeductions: String(totalEmployeeDeductions),
+                employerContributions: String(employerContributions),
+                unpaidDeduction: String(unpaidDeduction),
+                netPay: String(netPay),
+                status: 'calculated',
+                generatedAt: new Date(),
+            });
 
-            // Insert Payslip Lines
-            const linesData = lines.map((line) => ({
+            calculationMetaByEmpId.set(structure.employeeId, {
+                summary,
+                lines,
+                monthlyWage,
+                unpaidDeduction,
+            });
+        }
+
+        // 13. Bulk insert payslips
+        const insertedPayslips = await tx.insert(payslips).values(payslipsToInsert).returning();
+
+        const allLinesToInsert = [];
+        const allSummariesToInsert = [];
+
+        for (const payslip of insertedPayslips) {
+            const meta = calculationMetaByEmpId.get(payslip.employeeId);
+            if (!meta) continue;
+
+            const linesData = meta.lines.map((line) => ({
                 payslipId: payslip.id,
                 componentCode: line.code,
                 componentName: line.name,
@@ -613,46 +826,47 @@ export async function processPayrollPeriod(periodId, _processedById) {
                 sequence: line.sequence,
             }));
 
-            if (unpaidDeduction > 0) {
-                // Record the unpaid day deduction in payslip lines as a separate deduction
+            if (meta.unpaidDeduction > 0) {
                 linesData.push({
                     payslipId: payslip.id,
                     componentCode: 'UNPAID_DEDUCTION',
                     componentName: 'Unpaid Days Deduction',
                     componentType: 'employee_deduction',
                     calculationType: 'fixed',
-                    baseAmount: String(monthlyWage),
+                    baseAmount: String(meta.monthlyWage),
                     percentage: null,
-                    quantity: String(summary.unpaidDays),
-                    amount: String(unpaidDeduction),
+                    quantity: String(meta.summary.unpaidDays),
+                    amount: String(meta.unpaidDeduction),
                     sequence: 99,
                 });
             }
 
-            await payrollDao.createPayslipLines(linesData, tx);
+            allLinesToInsert.push(...linesData);
 
-            // Insert Payslip Attendance Summary
-            await payrollDao.createPayslipAttendanceSummary(
-                {
-                    payslipId: payslip.id,
-                    totalCalendarDays: summary.totalCalendarDays,
-                    scheduledDays: String(summary.scheduledDays),
-                    presentDays: String(summary.presentDays),
-                    paidLeaveDays: String(summary.paidLeaveDays),
-                    unpaidLeaveDays: String(summary.unpaidLeaveDays),
-                    absentDays: String(summary.absentDays),
-                    halfDays: String(summary.halfDays),
-                    holidayDays: String(summary.holidayDays),
-                    weekendDays: String(summary.weekendDays),
-                    payableDays: String(summary.payableDays),
-                    workingMinutes: summary.workingMinutes,
-                    overtimeMinutes: summary.overtimeMinutes,
-                },
-                tx,
-            );
+            allSummariesToInsert.push({
+                payslipId: payslip.id,
+                totalCalendarDays: meta.summary.totalCalendarDays,
+                scheduledDays: String(meta.summary.scheduledDays),
+                presentDays: String(meta.summary.presentDays),
+                paidLeaveDays: String(meta.summary.paidLeaveDays),
+                unpaidLeaveDays: String(meta.summary.unpaidLeaveDays),
+                absentDays: String(meta.summary.absentDays),
+                halfDays: String(meta.summary.halfDays),
+                holidayDays: String(meta.summary.holidayDays),
+                weekendDays: String(meta.summary.weekendDays),
+                payableDays: String(meta.summary.payableDays),
+                workingMinutes: meta.summary.workingMinutes,
+                overtimeMinutes: meta.summary.overtimeMinutes,
+            });
         }
 
-        // 7. Update Period Status to calculated
+        // 14. Bulk insert lines & attendance summaries
+        await payrollDao.createPayslipLines(allLinesToInsert, tx);
+        if (allSummariesToInsert.length > 0) {
+            await tx.insert(payslipAttendanceSummary).values(allSummariesToInsert);
+        }
+
+        // 15. Update Period Status to calculated
         return await payrollDao.updatePayrollPeriod(
             periodId,
             {

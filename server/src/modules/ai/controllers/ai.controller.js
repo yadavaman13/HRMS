@@ -9,9 +9,10 @@ import { createMessage, listMessagesByChatId } from '../../../dao/message.dao.js
 import {
     generateResponse,
     generateChatTitle,
-    streamAiResponse,
+    streamHrmsResponse,
     summariseFileWithAi,
 } from '../../../services/ai/response.ai.service.js';
+import { resolveHrmsContext } from '../../../services/ai/hrms-tools/hrms-auth.context.js';
 import { sendResponse } from '../../../utils/response.utlis.js';
 import { uploadMultipleImagesOnImageKit } from '../../../services/image.service.js';
 import { createFilesBulk } from '../../../dao/file.dao.js';
@@ -167,14 +168,32 @@ const getChatDetailsController = async (req, res) => {
 };
 
 const streamChatController = async (req, res) => {
+    let isDisconnected = false;
+
+    const safeWrite = (data) => {
+        if (!isDisconnected && !res.destroyed && res.writable) {
+            try {
+                res.write(data);
+            } catch (err) {
+                console.error('Error writing to SSE stream:', err.message);
+            }
+        }
+    };
+
     try {
         res.setHeader('Content-Type', 'text/event-stream');
         res.setHeader('Cache-Control', 'no-cache');
         res.setHeader('Connection', 'keep-alive');
         res.flushHeaders();
 
+        req.on('close', () => {
+            isDisconnected = true;
+            console.log('Client disconnected from stream. Completing generation in background.');
+        });
+
         const { message, chatId, uploadedFiles } = req.body;
         const user = req.user;
+        const hrmsContext = await resolveHrmsContext(user);
 
         let chat = null;
         const uuidRegex =
@@ -186,7 +205,7 @@ const streamChatController = async (req, res) => {
                 userId: user.id,
                 title: chatTitle,
             });
-            res.write(
+            safeWrite(
                 `data: ${JSON.stringify({
                     event: 'chat_created',
                     data: { chatId: chat.id, title: chat.title },
@@ -194,7 +213,7 @@ const streamChatController = async (req, res) => {
             );
         } else {
             if (!uuidRegex.test(chatId)) {
-                res.write(
+                safeWrite(
                     `data: ${JSON.stringify({
                         event: 'error',
                         data: 'Invalid chat ID format',
@@ -204,7 +223,7 @@ const streamChatController = async (req, res) => {
             }
             chat = await getChatById(chatId);
             if (!chat) {
-                res.write(
+                safeWrite(
                     `data: ${JSON.stringify({
                         event: 'error',
                         data: 'Chat not found',
@@ -213,7 +232,7 @@ const streamChatController = async (req, res) => {
                 return res.end();
             }
             if (chat.userId !== user.id) {
-                res.write(
+                safeWrite(
                     `data: ${JSON.stringify({
                         event: 'error',
                         data: 'Unauthorized access to chat session',
@@ -241,29 +260,69 @@ const streamChatController = async (req, res) => {
 
         const messageHistory = await listMessagesByChatId(chat.id);
 
-        let isDisconnected = false;
-        req.on('close', () => {
-            isDisconnected = true;
-            console.log(
-                `Client disconnected from stream for chat ${chat.id}. Completing generation in background.`,
-            );
-        });
-
-        const safeWrite = (data) => {
-            if (!isDisconnected && !res.destroyed && res.writable) {
-                try {
-                    res.write(data);
-                } catch (err) {
-                    console.error('Error writing to SSE stream:', err.message);
-                }
-            }
-        };
-
         const onToolCall = async (toolCallEvent) => {
             let userFriendlyMessage;
             const args = toolCallEvent.args || {};
 
-            if (toolCallEvent.event === 'tool_start') {
+            const hrmsToolMessages = {
+                search_employees: { start: 'Searching employees...', end: '✓ Employees found' },
+                get_employee_profile: {
+                    start: 'Loading employee profile...',
+                    end: '✓ Profile loaded',
+                },
+                search_employee_skills: { start: 'Searching skills...', end: '✓ Skills retrieved' },
+                get_employee_schedule: {
+                    start: 'Fetching work schedule...',
+                    end: '✓ Schedule retrieved',
+                },
+                get_attendance: { start: 'Fetching attendance...', end: '✓ Attendance retrieved' },
+                analyze_attendance: {
+                    start: 'Analyzing attendance data...',
+                    end: '✓ Analysis complete',
+                },
+                get_attendance_anomalies: {
+                    start: 'Checking anomalies...',
+                    end: '✓ Anomalies checked',
+                },
+                get_attendance_adjustment_history: {
+                    start: 'Fetching adjustments...',
+                    end: '✓ History retrieved',
+                },
+                get_leave_balance: {
+                    start: 'Checking leave balance...',
+                    end: '✓ Leave balance retrieved',
+                },
+                search_leave_requests: {
+                    start: 'Searching leave requests...',
+                    end: '✓ Requests found',
+                },
+                create_leave_request: {
+                    start: 'Processing leave request...',
+                    end: '✓ Request processed',
+                },
+                get_team_availability: {
+                    start: 'Checking team availability...',
+                    end: '✓ Availability checked',
+                },
+                get_payslip: { start: 'Loading payslip...', end: '✓ Payslip loaded' },
+                compare_payslips: { start: 'Comparing payslips...', end: '✓ Comparison complete' },
+                analyze_payroll: { start: 'Analyzing payroll...', end: '✓ Analysis complete' },
+                get_payroll_status: {
+                    start: 'Checking payroll status...',
+                    end: '✓ Status retrieved',
+                },
+                get_hr_dashboard: { start: 'Loading HR dashboard...', end: '✓ Dashboard ready' },
+                get_audit_history: {
+                    start: 'Loading audit history...',
+                    end: '✓ History retrieved',
+                },
+            };
+
+            const hrmsMsg = hrmsToolMessages[toolCallEvent.tool];
+            if (hrmsMsg) {
+                userFriendlyMessage =
+                    toolCallEvent.event === 'tool_start' ? hrmsMsg.start : hrmsMsg.end;
+            } else if (toolCallEvent.event === 'tool_start') {
                 if (toolCallEvent.tool === 'searchInternetTool') {
                     userFriendlyMessage = `Searching Internet: "${args.input || ''}"`;
                 } else if (toolCallEvent.tool === 'emailTool') {
@@ -275,14 +334,6 @@ const streamChatController = async (req, res) => {
                 } else {
                     userFriendlyMessage = `Executing ${toolCallEvent.tool}`;
                 }
-
-                safeWrite(
-                    `data: ${JSON.stringify({
-                        role: 'ai',
-                        event: 'tool_start',
-                        data: userFriendlyMessage,
-                    })}\n\n`,
-                );
             } else if (toolCallEvent.event === 'tool_end') {
                 if (toolCallEvent.tool === 'searchInternetTool') {
                     userFriendlyMessage = `✓ Search Finished`;
@@ -295,15 +346,15 @@ const streamChatController = async (req, res) => {
                 } else {
                     userFriendlyMessage = `✓ Finished executing ${toolCallEvent.tool}`;
                 }
-
-                safeWrite(
-                    `data: ${JSON.stringify({
-                        role: 'ai',
-                        event: 'tool_end',
-                        data: userFriendlyMessage,
-                    })}\n\n`,
-                );
             }
+
+            safeWrite(
+                `data: ${JSON.stringify({
+                    role: 'ai',
+                    event: toolCallEvent.event,
+                    data: userFriendlyMessage,
+                })}\n\n`,
+            );
         };
 
         const onToken = async (content) => {
@@ -316,10 +367,11 @@ const streamChatController = async (req, res) => {
             );
         };
 
-        const finalText = await streamAiResponse(messageHistory, userFiles, {
+        const finalText = await streamHrmsResponse(messageHistory, userFiles, {
             onToolCall,
             onToken,
             chatId: chat.id,
+            hrmsContext,
         });
 
         await createMessage({
@@ -347,6 +399,13 @@ const streamChatController = async (req, res) => {
                 error: error.message,
             });
         } else {
+            safeWrite(
+                `data: ${JSON.stringify({
+                    role: 'ai',
+                    event: 'error',
+                    data: error.message || 'Failed to generate AI response',
+                })}\n\n`,
+            );
             res.end();
         }
     }

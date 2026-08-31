@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const ENUMS_SQL = `
-DO $$ BEGIN CREATE TYPE "public"."role_enum" AS ENUM('user', 'admin', 'hr', 'employee'); EXCEPTION WHEN duplicate_object THEN null; END $$;
+DO $$ BEGIN CREATE TYPE "public"."user_role" AS ENUM('admin', 'hr', 'employee'); EXCEPTION WHEN duplicate_object THEN null; END $$;
 DO $$ BEGIN CREATE TYPE "public"."employment_status" AS ENUM('active', 'inactive', 'terminated', 'on_leave', 'probation'); EXCEPTION WHEN duplicate_object THEN null; END $$;
 DO $$ BEGIN CREATE TYPE "public"."employment_type" AS ENUM('full_time', 'part_time', 'contract', 'intern', 'consultant'); EXCEPTION WHEN duplicate_object THEN null; END $$;
 DO $$ BEGIN CREATE TYPE "public"."gender_type" AS ENUM('male', 'female', 'other'); EXCEPTION WHEN duplicate_object THEN null; END $$;
@@ -32,34 +32,46 @@ DO $$ BEGIN CREATE TYPE "public"."notification_type" AS ENUM('leave_approved', '
 
 async function initDatabase() {
     try {
-        console.log('1. Initializing PostgreSQL Enums...');
+        console.log('1. Creating / Verifying PostgreSQL Enums...');
         await pool.query(ENUMS_SQL);
-        console.log('   Enums created / verified successfully.');
+        console.log('   ✅ Enums created / verified successfully.');
 
         console.log('2. Running SQL migration statements...');
-        const migrationSqlPath = path.resolve(__dirname, '../../drizzle/0009_supreme_sersi.sql');
-        if (fs.existsSync(migrationSqlPath)) {
-            const migrationSql = fs.readFileSync(migrationSqlPath, 'utf8');
-            const statements = migrationSql.split('--> statement-breakpoint');
-            for (let i = 0; i < statements.length; i++) {
-                const stmt = statements[i].trim();
-                if (stmt) {
-                    try {
-                        await pool.query(stmt);
-                    } catch (stmtErr) {
-                        // Ignore already existing table / index errors
-                        if (!stmtErr.message.includes('already exists')) {
-                            console.warn(`Warning on statement ${i}:`, stmtErr.message);
-                        }
+        const drizzleDir = path.resolve(__dirname, '../../drizzle');
+        const files = fs
+            .readdirSync(drizzleDir)
+            .filter((f) => f.endsWith('.sql'))
+            .sort();
+
+        for (const file of files) {
+            const sqlContent = fs.readFileSync(path.join(drizzleDir, file), 'utf8');
+            const statements = sqlContent.split('--> statement-breakpoint');
+
+            for (const rawStmt of statements) {
+                const stmt = rawStmt.trim();
+                if (!stmt) continue;
+                try {
+                    await pool.query(stmt);
+                } catch (stmtErr) {
+                    // Ignore already existing types, tables, constraints, or duplicates
+                    if (
+                        stmtErr.code === '42710' || // duplicate_object (enum exists)
+                        stmtErr.code === '42P07' || // duplicate_table (table exists)
+                        stmtErr.code === '42701' || // duplicate_column (column exists)
+                        stmtErr.message.includes('already exists')
+                    ) {
+                        continue;
                     }
+                    console.warn(`[${file}] Warning:`, stmtErr.message);
                 }
             }
-            console.log('   Migration tables created / verified successfully.');
         }
+        console.log('   ✅ All tables, constraints, and schemas verified successfully!');
 
-        console.log('Database initialization complete.');
+        console.log('\n🎉 Database initialization complete and ready for seeding.');
     } catch (error) {
-        console.error('Database initialization error:', error);
+        console.error('❌ Database initialization error:', error);
+        process.exit(1);
     } finally {
         await pool.end();
     }

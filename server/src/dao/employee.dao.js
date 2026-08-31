@@ -700,3 +700,30 @@ export async function resetEmployeePassword(
         return { employee, user: updatedUser };
     });
 }
+
+export async function searchEmployeesBySkill(orgId, skillName, proficiency, limit = 20) {
+    const filters = [
+        eq(employees.organizationId, orgId),
+        sql`${employees.deletedAt} IS NULL`,
+        sql`LOWER(${skills.name}) LIKE LOWER(${'%' + skillName + '%'})`,
+    ];
+    if (proficiency) filters.push(eq(employeeSkills.proficiency, proficiency));
+
+    return db
+        .select({
+            employeeId: employees.id,
+            firstName: employees.firstName,
+            lastName: employees.lastName,
+            displayName: employees.displayName,
+            employeeCode: employees.employeeCode,
+            workEmail: employees.workEmail,
+            skillName: skills.name,
+            proficiency: employeeSkills.proficiency,
+        })
+        .from(employeeSkills)
+        .innerJoin(employees, eq(employeeSkills.employeeId, employees.id))
+        .innerJoin(skills, eq(employeeSkills.skillId, skills.id))
+        .where(and(...filters))
+        .limit(Math.min(limit, 50))
+        .orderBy(employees.firstName);
+}

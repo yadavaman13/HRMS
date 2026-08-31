@@ -9,6 +9,7 @@ import {
 } from './tools.ai.service.js';
 import envConfig from '../../config/env.config.js';
 import { DocumentSummaryStructure } from './response-structure.ai.service.js';
+import { createHrmsTools } from './hrms-tools/index.js';
 
 /**
  * System prompt for the tool-calling AI agents.
@@ -88,7 +89,7 @@ export const geminiAgent = getGeminiAgent();
 
 /**
  * Fallback Gemini Chat model.
- * Uses the faster, highly-available 'gemini-3.1-flash-lite' model.
+ * Uses the faster, highly-available 'gemini-1.5-flash' model.
  */
 const geminiFallbackModel = new ChatGoogle({
     model: 'gemini-3.1-flash-lite',
@@ -196,3 +197,83 @@ export function getMistralAgent(chatId) {
 export const mistralAgent = getMistralAgent();
 
 export { geminiModel, mistralModel, mistralEmbeddingModel };
+
+// ==========================================
+// HRMS Dedicated Agent Factories & Prompt
+// ==========================================
+
+const getHrmsSystemPrompt = (hrmsContext) => {
+    const tz = hrmsContext.organizationTimezone || 'Asia/Kolkata';
+    const dateString = new Date().toLocaleString('en-US', {
+        timeZone: tz,
+        dateStyle: 'full',
+        timeStyle: 'short',
+    });
+    return `You are Apex HR Copilot — an AI assistant for the Dayflow HRMS platform.
+
+## Current Context
+- Date/Time (org timezone ${tz}): ${dateString}
+- Authenticated user role: ${hrmsContext.role}
+
+## Tool Routing Rules (MANDATORY)
+- Static/general question (e.g. "what is gross salary?") → answer directly, NO tool call
+- Live HR data (e.g. "how many leaves do I have?") → use appropriate HRMS tool
+- Company policy/document → use contextRetrieverTool
+- External/real-time info → use searchInternetTool
+- Date/time query → use getCurrentDateTimeTool
+- Leave application → use create_leave_request (two-step: preview then confirm)
+
+## Date Handling Policy
+- Relative dates ("today", "this month", "last week") MUST use org timezone (${tz}).
+- Call getCurrentDateTimeTool to get the accurate current date before time-sensitive queries.
+- NEVER default to UTC or server timezone.
+
+## Security Rules (never violate)
+1. Never request or accept organizationId as a tool argument — it is resolved server-side.
+2. Never expose bank account numbers, PAN, UAN, Aadhaar, or any private info fields.
+3. If a tool returns FORBIDDEN, tell the user they lack access — do not retry.
+4. For employee role: data is always scoped to the authenticated employee's own records.
+
+## Mutation Confirmation
+- Always show the full preview (dates, leave type, days, balance impact) before confirming.
+- Ask explicitly: "Shall I submit this leave request?"
+- Only call confirmed=true after the user gives explicit approval.
+
+## Response Style
+- Be concise and data-focused. Format amounts in ₹.
+- If a tool returns an error, explain naturally without exposing raw error codes.`;
+};
+
+export function getHrmsAgent(chatId, hrmsContext) {
+    const hrmsTools = createHrmsTools(hrmsContext);
+    const contextRetrieverToolForChat = createContextRetrieverTool(chatId);
+    return createAgent({
+        model: geminiModel,
+        systemPrompt: getHrmsSystemPrompt(hrmsContext),
+        tools: [
+            ...hrmsTools,
+            emailTool,
+            searchInternetTool,
+            getCurrentDateTimeTool,
+            contextRetrieverToolForChat,
+        ],
+        middleware: [modelCallLimitMiddleware({ runLimit: 10, exitBehavior: 'end' })],
+    });
+}
+
+export function getHrmsFallbackAgent(chatId, hrmsContext) {
+    const hrmsTools = createHrmsTools(hrmsContext);
+    const contextRetrieverToolForChat = createContextRetrieverTool(chatId);
+    return createAgent({
+        model: geminiFallbackModel,
+        systemPrompt: getHrmsSystemPrompt(hrmsContext),
+        tools: [
+            ...hrmsTools,
+            emailTool,
+            searchInternetTool,
+            getCurrentDateTimeTool,
+            contextRetrieverToolForChat,
+        ],
+        middleware: [modelCallLimitMiddleware({ runLimit: 10, exitBehavior: 'end' })],
+    });
+}
