@@ -6,24 +6,16 @@ const mockCheckLeaveOverlap = jest.fn();
 const mockCreateLeaveRequest = jest.fn();
 const mockCreateAuditLog = jest.fn();
 
-jest.unstable_mockModule('../../dao/leave.dao.js', async () => {
-    const actual = await jest.requireActual('../../dao/leave.dao.js');
-    return {
-        ...actual,
-        listLeaveTypes: mockListLeaveTypes,
-        getEmployeeLeaveBalances: mockGetEmployeeLeaveBalances,
-        checkLeaveOverlap: mockCheckLeaveOverlap,
-        createLeaveRequest: mockCreateLeaveRequest,
-    };
-});
+jest.unstable_mockModule('../../dao/leave.dao.js', async () => ({
+    listLeaveTypes: mockListLeaveTypes,
+    getEmployeeLeaveBalances: mockGetEmployeeLeaveBalances,
+    checkLeaveOverlap: mockCheckLeaveOverlap,
+    createLeaveRequest: mockCreateLeaveRequest,
+}));
 
-jest.unstable_mockModule('../../dao/audit.dao.js', async () => {
-    const actual = await jest.requireActual('../../dao/audit.dao.js');
-    return {
-        ...actual,
-        createAuditLog: mockCreateAuditLog,
-    };
-});
+jest.unstable_mockModule('../../dao/audit.dao.js', async () => ({
+    createAuditLog: mockCreateAuditLog,
+}));
 
 const { createHrmsTools } = await import('../../services/ai/hrms-tools/index.js');
 const { createCreateLeaveRequestTool } =
