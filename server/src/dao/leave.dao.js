@@ -720,3 +720,71 @@ export async function cancelLeaveRequestTx({
         return updatedRequest;
     });
 }
+
+export async function getTeamAvailability(orgId, deptId, startDate, endDate) {
+    const empFilters = [
+        eq(employees.organizationId, orgId),
+        eq(employees.employmentStatus, 'active'),
+        sql`${employees.deletedAt} IS NULL`,
+    ];
+    if (deptId) empFilters.push(eq(employees.departmentId, deptId));
+
+    const [{ total }] = await db
+        .select({ total: sql`count(*)::int` })
+        .from(employees)
+        .where(and(...empFilters));
+
+    const leaveRows = await db
+        .select({
+            date: sql`generate_series(
+                GREATEST(${leaveRequests.startDate}::date, ${startDate}::date),
+                LEAST(${leaveRequests.endDate}::date, ${endDate}::date),
+                '1 day'::interval
+            )::date`.as('date'),
+            count: sql`count(*)::int`,
+        })
+        .from(leaveRequests)
+        .innerJoin(employees, eq(leaveRequests.employeeId, employees.id))
+        .where(
+            and(
+                eq(employees.organizationId, orgId),
+                eq(leaveRequests.status, 'approved'),
+                lte(leaveRequests.startDate, endDate),
+                gte(leaveRequests.endDate, startDate),
+                ...(deptId ? [eq(employees.departmentId, deptId)] : []),
+            ),
+        )
+        .groupBy(sql`1`);
+
+    const holidayRows = await db
+        .select({ holidayDate: holidays.holidayDate })
+        .from(holidays)
+        .where(
+            and(
+                eq(holidays.organizationId, orgId),
+                gte(holidays.holidayDate, startDate),
+                lte(holidays.holidayDate, endDate),
+            ),
+        );
+
+    const leaveByDate = Object.fromEntries(leaveRows.map((r) => [String(r.date), r.count]));
+    const holidaySet = new Set(holidayRows.map((h) => String(h.holidayDate)));
+
+    const result = [];
+    const cursor = new Date(startDate);
+    const end = new Date(endDate);
+    while (cursor <= end) {
+        const dateStr = cursor.toISOString().split('T')[0];
+        const onLeave = leaveByDate[dateStr] || 0;
+        const onHoliday = holidaySet.has(dateStr) ? total : 0;
+        result.push({
+            date: dateStr,
+            totalEmployees: total,
+            onLeave,
+            onHoliday,
+            available: Math.max(0, total - onLeave - onHoliday),
+        });
+        cursor.setDate(cursor.getDate() + 1);
+    }
+    return result;
+}

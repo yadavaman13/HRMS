@@ -4,15 +4,10 @@
 
 ## 📋 Endpoints Overview
 
-| Method | Endpoint                                                              | Scenario                                | Status |
-| :----- | :-------------------------------------------------------------------- | :-------------------------------------- | :----- |
-| `POST` | `/api/payroll/periods`                                                | Create Payroll Period (Admin)           | `201`  |
-| `GET`  | `/api/payroll/periods`                                                | List Payroll Periods (Admin)            | `200`  |
-| `POST` | `/api/payroll/periods/a5bda2b8-c373-497a-a7e8-aa89190e1588/process`   | Process Payroll Period (Admin)          | `200`  |
-| `POST` | `/api/payroll/periods/a5bda2b8-c373-497a-a7e8-aa89190e1588/finalize`  | Finalize Payroll Period (Admin)         | `200`  |
-| `GET`  | `/api/payroll/payslips`                                               | List Period Payslips (Admin)            | `200`  |
-| `GET`  | `/api/payroll/payslips/cc3f4e24-02ab-44ea-a594-abebd88500c3`          | Get Payslip Breakdown Details (Success) | `200`  |
-| `GET`  | `/api/payroll/payslips/cc3f4e24-02ab-44ea-a594-abebd88500c3/download` | Download PDF Payslip (Success)          | `200`  |
+| Method | Endpoint               | Scenario                      | Status |
+| :----- | :--------------------- | :---------------------------- | :----- |
+| `POST` | `/api/payroll/periods` | Create Payroll Period (Admin) | `500`  |
+| `GET`  | `/api/payroll/periods` | List Payroll Periods (Admin)  | `200`  |
 
 ---
 
@@ -21,7 +16,7 @@
 ### 1. Create Payroll Period (Admin)
 
 - **Endpoint**: `POST /api/payroll/periods`
-- **Expected Status**: `201`
+- **Expected Status**: `500`
 - **Headers**:
 
 ```json
@@ -34,8 +29,8 @@
 
 ```json
 {
-  "periodStart": "2050-01-01",
-  "periodEnd": "2050-01-31"
+  "periodStart": "2051-01-01",
+  "periodEnd": "2051-01-31"
 }
 ```
 
@@ -43,22 +38,9 @@
 
 ```json
 {
-  "message": "Payroll period created successfully",
-  "success": true,
-  "error": null,
-  "data": {
-    "period": {
-      "id": "a5bda2b8-c373-497a-a7e8-aa89190e1588",
-      "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-      "periodStart": "2050-01-01",
-      "periodEnd": "2050-01-31",
-      "status": "draft",
-      "processedAt": null,
-      "finalizedAt": null,
-      "createdBy": "a6747a74-d260-4619-b24a-9bce284efa27",
-      "createdAt": "2026-08-30T10:29:56.015Z"
-    }
-  }
+  "message": "Failed query: insert into \"payroll_periods\" (\"id\", \"organization_id\", \"period_start\", \"period_end\", \"status\", \"processed_at\", \"finalized_at\", \"created_by\", \"created_at\") values (default, $1, $2, $3, $4, default, default, $5, default) returning \"id\", \"organization_id\", \"period_start\", \"period_end\", \"status\", \"processed_at\", \"finalized_at\", \"created_by\", \"created_at\"\nparams: 144f96a2-86b3-422d-88b1-9fd2a825e9e1,2051-01-01,2051-01-31,draft,0ae4c1ff-a37f-42cc-bb95-8e4de98e255b",
+  "success": false,
+  "error": "Error: Failed query: insert into \"payroll_periods\" (\"id\", \"organization_id\", \"period_start\", \"period_end\", \"status\", \"processed_at\", \"finalized_at\", \"created_by\", \"created_at\") values (default, $1, $2, $3, $4, default, default, $5, default) returning \"id\", \"organization_id\", \"period_start\", \"period_end\", \"status\", \"processed_at\", \"finalized_at\", \"created_by\", \"created_at\"\nparams: 144f96a2-86b3-422d-88b1-9fd2a825e9e1,2051-01-01,2051-01-31,draft,0ae4c1ff-a37f-42cc-bb95-8e4de98e255b\n    at NodePgPreparedQuery.queryWithCache (/home/aryan-patel/workspace/hackathon/HRMS/server/node_modules/src/pg-core/session.ts:73:11)\n    at processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at /home/aryan-patel/workspace/hackathon/HRMS/server/node_modules/src/node-postgres/session.ts:154:19\n    at Module.createPayrollPeriod (/home/aryan-patel/workspace/hackathon/HRMS/server/src/dao/payroll.dao.js:198:22)\n    at createPeriod (/home/aryan-patel/workspace/hackathon/HRMS/server/src/modules/payroll/controllers/payroll.controller.js:357:24)"
 }
 ```
 
@@ -88,6 +70,83 @@
   "data": {
     "periods": [
       {
+        "id": "a29c0425-6d43-4580-b5bb-e752fb240114",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "periodStart": "2077-01-01",
+        "periodEnd": "2077-01-31",
+        "status": "draft",
+        "processedAt": null,
+        "finalizedAt": null,
+        "createdBy": "87aace39-8caf-4bc5-83a3-2c418c7b4385",
+        "createdAt": "2026-08-30T16:04:59.039Z"
+      },
+      {
+        "id": "24a3d937-56b8-43bc-a2ca-dc96a834a53b",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "periodStart": "2076-01-01",
+        "periodEnd": "2076-01-31",
+        "status": "draft",
+        "processedAt": null,
+        "finalizedAt": null,
+        "createdBy": "12601b5d-e5c0-4e21-b2e9-d3e5c52df21f",
+        "createdAt": "2026-08-30T15:51:31.430Z"
+      },
+      {
+        "id": "2abeac56-ec02-4c01-9ab0-db52bd67dc89",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "periodStart": "2071-01-01",
+        "periodEnd": "2071-01-31",
+        "status": "draft",
+        "processedAt": null,
+        "finalizedAt": null,
+        "createdBy": "f7aa068b-c3d4-4b0f-9595-0e0ac43152e7",
+        "createdAt": "2026-08-30T16:39:53.532Z"
+      },
+      {
+        "id": "2af8ac9b-7a13-44f3-af83-e422d955b7fd",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "periodStart": "2068-01-01",
+        "periodEnd": "2068-01-31",
+        "status": "draft",
+        "processedAt": null,
+        "finalizedAt": null,
+        "createdBy": "e739ba6f-9e86-466d-b9fd-312e7b32428f",
+        "createdAt": "2026-08-30T16:19:41.581Z"
+      },
+      {
+        "id": "f95f1cd3-202a-42e5-b10b-b1fdb1fb89db",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "periodStart": "2067-01-01",
+        "periodEnd": "2067-01-31",
+        "status": "calculated",
+        "processedAt": "2026-08-30T17:05:47.804Z",
+        "finalizedAt": null,
+        "createdBy": "48345896-5f38-41bd-a8ee-050c4244125a",
+        "createdAt": "2026-08-30T17:03:56.530Z"
+      },
+      {
+        "id": "0584f63a-f7a5-4acc-96d5-f194e93e2665",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "periodStart": "2066-01-01",
+        "periodEnd": "2066-01-31",
+        "status": "finalized",
+        "processedAt": "2026-08-30T15:40:57.472Z",
+        "finalizedAt": "2026-08-30T15:40:58.769Z",
+        "createdBy": "e20a274c-b9ef-4838-b24c-09ffde590de6",
+        "createdAt": "2026-08-30T15:39:58.886Z"
+      },
+      {
+        "id": "9f560cd9-9227-474d-835a-4b35b94d5067",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "periodStart": "2062-01-01",
+        "periodEnd": "2062-01-31",
+        "status": "draft",
+        "processedAt": null,
+        "finalizedAt": null,
+        "createdBy": "8ccee290-01f1-4868-83ee-73b980345663",
+        "createdAt": "2026-08-30T17:02:31.359Z"
+      },
+      {
         "id": "6d0868d6-ed9e-4865-a741-9bb4edcb4166",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
         "periodStart": "2061-01-01",
@@ -97,6 +156,17 @@
         "finalizedAt": null,
         "createdBy": "7d4bcebc-81ad-428c-ad42-50ae77b9ae1e",
         "createdAt": "2026-08-30T09:42:23.245Z"
+      },
+      {
+        "id": "a4433c77-47ac-4495-aaa9-2014c7d07109",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "periodStart": "2059-01-01",
+        "periodEnd": "2059-01-31",
+        "status": "finalized",
+        "processedAt": "2026-08-30T15:01:33.063Z",
+        "finalizedAt": "2026-08-30T15:01:35.317Z",
+        "createdBy": "12292c89-4864-44da-bf87-abb0a686a72a",
+        "createdAt": "2026-08-30T15:00:37.422Z"
       },
       {
         "id": "12562ec7-31f9-4174-a576-d5138fbd5cd5",
@@ -121,15 +191,59 @@
         "createdAt": "2026-08-30T09:52:53.396Z"
       },
       {
+        "id": "fa02f5f9-8ff7-4f30-9a1b-cbb4d97941fc",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "periodStart": "2051-01-01",
+        "periodEnd": "2051-01-31",
+        "status": "finalized",
+        "processedAt": "2026-08-30T15:15:31.024Z",
+        "finalizedAt": "2026-08-30T15:15:32.254Z",
+        "createdBy": "d64f5753-afdb-4c45-86f4-2b6a9f4c180e",
+        "createdAt": "2026-08-30T15:14:29.204Z"
+      },
+      {
         "id": "a5bda2b8-c373-497a-a7e8-aa89190e1588",
         "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
         "periodStart": "2050-01-01",
         "periodEnd": "2050-01-31",
+        "status": "finalized",
+        "processedAt": "2026-08-30T10:30:25.618Z",
+        "finalizedAt": "2026-08-30T10:30:27.044Z",
+        "createdBy": "a6747a74-d260-4619-b24a-9bce284efa27",
+        "createdAt": "2026-08-30T10:29:56.015Z"
+      },
+      {
+        "id": "9f9b98e2-8e6a-4853-80f6-cd412c682343",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "periodStart": "2047-01-01",
+        "periodEnd": "2047-01-31",
         "status": "draft",
         "processedAt": null,
         "finalizedAt": null,
-        "createdBy": "a6747a74-d260-4619-b24a-9bce284efa27",
-        "createdAt": "2026-08-30T10:29:56.015Z"
+        "createdBy": "799fc205-3d93-4a37-a7d1-80060c800908",
+        "createdAt": "2026-08-30T16:33:14.532Z"
+      },
+      {
+        "id": "10b50039-7f69-4bc8-91bb-ad3b1f0d6294",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "periodStart": "2042-01-01",
+        "periodEnd": "2042-01-31",
+        "status": "calculated",
+        "processedAt": "2026-08-30T15:30:29.941Z",
+        "finalizedAt": null,
+        "createdBy": "b3347858-ac22-4203-a790-8dabba225fe4",
+        "createdAt": "2026-08-30T15:29:27.113Z"
+      },
+      {
+        "id": "36e57691-89a3-4fa2-ba6f-4657df3f1918",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "periodStart": "2040-01-01",
+        "periodEnd": "2040-01-31",
+        "status": "draft",
+        "processedAt": null,
+        "finalizedAt": null,
+        "createdBy": "c4785ad6-f438-4ae2-b3a7-7d90052aaa71",
+        "createdAt": "2026-08-30T17:00:03.714Z"
       },
       {
         "id": "ef3a07ab-38b1-4bd5-abec-5d1b2e2f3642",
@@ -141,6 +255,17 @@
         "finalizedAt": null,
         "createdBy": "b4ea4acc-67ef-4e2f-9ec4-03bdc60d5734",
         "createdAt": "2026-08-30T10:04:05.561Z"
+      },
+      {
+        "id": "2b20c2d9-ff6e-4f2a-bc22-25d81a9ddbc5",
+        "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
+        "periodStart": "2030-01-01",
+        "periodEnd": "2030-01-31",
+        "status": "finalized",
+        "processedAt": "2026-08-30T15:04:21.440Z",
+        "finalizedAt": "2026-08-30T15:04:23.144Z",
+        "createdBy": "9528c461-e4ec-4e9d-9445-10715b408576",
+        "createdAt": "2026-08-30T15:03:20.028Z"
       }
     ]
   }
@@ -148,466 +273,5 @@
 ```
 
 > **Note**: Retrieves all historical and upcoming payroll cycles.
-
----
-
-### 3. Process Payroll Period (Admin)
-
-- **Endpoint**: `POST /api/payroll/periods/a5bda2b8-c373-497a-a7e8-aa89190e1588/process`
-- **Expected Status**: `200`
-- **Headers**:
-
-```json
-{
-  "Cookie": "token=JWT_ADMIN_TOKEN"
-}
-```
-
-- **Response Body**:
-
-```json
-{
-  "message": "Payroll period processed and payslips calculated successfully",
-  "success": true,
-  "error": null,
-  "data": {
-    "period": {
-      "id": "a5bda2b8-c373-497a-a7e8-aa89190e1588",
-      "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-      "periodStart": "2050-01-01",
-      "periodEnd": "2050-01-31",
-      "status": "calculated",
-      "processedAt": "2026-08-30T10:30:25.618Z",
-      "finalizedAt": null,
-      "createdBy": "a6747a74-d260-4619-b24a-9bce284efa27",
-      "createdAt": "2026-08-30T10:29:56.015Z"
-    }
-  }
-}
-```
-
-> **Note**: Executes payroll engine: aggregates attendance and leaves, computes payable days, applies unpaid deductions, and computes net pay.
-
----
-
-### 4. Finalize Payroll Period (Admin)
-
-- **Endpoint**: `POST /api/payroll/periods/a5bda2b8-c373-497a-a7e8-aa89190e1588/finalize`
-- **Expected Status**: `200`
-- **Headers**:
-
-```json
-{
-  "Cookie": "token=JWT_ADMIN_TOKEN"
-}
-```
-
-- **Response Body**:
-
-```json
-{
-  "message": "Payroll period finalized successfully",
-  "success": true,
-  "error": null,
-  "data": {
-    "period": {
-      "id": "a5bda2b8-c373-497a-a7e8-aa89190e1588",
-      "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-      "periodStart": "2050-01-01",
-      "periodEnd": "2050-01-31",
-      "status": "finalized",
-      "processedAt": "2026-08-30T10:30:25.618Z",
-      "finalizedAt": "2026-08-30T10:30:27.044Z",
-      "createdBy": "a6747a74-d260-4619-b24a-9bce284efa27",
-      "createdAt": "2026-08-30T10:29:56.015Z"
-    }
-  }
-}
-```
-
-> **Note**: Locks payroll run and transitions all payslips to finalized status.
-
----
-
-### 5. List Period Payslips (Admin)
-
-- **Endpoint**: `GET /api/payroll/payslips`
-- **Expected Status**: `200`
-- **Headers**:
-
-```json
-{
-  "Cookie": "token=JWT_ADMIN_TOKEN"
-}
-```
-
-- **Query Parameters**:
-
-```json
-{
-  "payrollPeriodId": "a5bda2b8-c373-497a-a7e8-aa89190e1588"
-}
-```
-
-- **Response Body**:
-
-```json
-{
-  "message": "Payslips retrieved successfully",
-  "success": true,
-  "error": null,
-  "data": {
-    "payslips": [
-      {
-        "id": "cc3f4e24-02ab-44ea-a594-abebd88500c3",
-        "employeeId": "0f599301-09f6-4e35-ac83-f425b5f575df",
-        "payrollPeriodId": "a5bda2b8-c373-497a-a7e8-aa89190e1588",
-        "salaryStructureId": "05a1a39c-f4bb-4698-96e5-f3328723e9fc",
-        "monthlyWage": "75000.00",
-        "workingDays": "0.00",
-        "payableDays": "31.00",
-        "paidLeaveDays": "0.00",
-        "unpaidLeaveDays": "0.00",
-        "absentDays": "0.00",
-        "halfDaysCount": "0.0",
-        "grossEarnings": "37500.00",
-        "totalEmployeeDeductions": "0.00",
-        "employerContributions": "0.00",
-        "unpaidDeduction": "0.00",
-        "netPay": "37500.00",
-        "status": "finalized",
-        "generatedAt": "2026-08-30T10:30:14.980Z",
-        "finalizedAt": "2026-08-30T10:30:27.226Z",
-        "firstName": "Ethan",
-        "lastName": "Hunt",
-        "employeeCode": "TESTETHU20260029"
-      },
-      {
-        "id": "f73a18a5-fda5-48c3-bbb8-c83a2d1caabf",
-        "employeeId": "3244dc4d-14cd-4230-8c21-37834d663c49",
-        "payrollPeriodId": "a5bda2b8-c373-497a-a7e8-aa89190e1588",
-        "salaryStructureId": "9f76d672-f045-4ab9-96a3-3bddbdbdfb86",
-        "monthlyWage": "75000.00",
-        "workingDays": "0.00",
-        "payableDays": "31.00",
-        "paidLeaveDays": "0.00",
-        "unpaidLeaveDays": "0.00",
-        "absentDays": "0.00",
-        "halfDaysCount": "0.0",
-        "grossEarnings": "37500.00",
-        "totalEmployeeDeductions": "0.00",
-        "employerContributions": "0.00",
-        "unpaidDeduction": "0.00",
-        "netPay": "37500.00",
-        "status": "finalized",
-        "generatedAt": "2026-08-30T10:30:22.733Z",
-        "finalizedAt": "2026-08-30T10:30:27.226Z",
-        "firstName": "Ethan",
-        "lastName": "Hunt",
-        "employeeCode": "TESTETHU20260037"
-      },
-      {
-        "id": "8b6d518b-5ba2-4a27-b757-71b0b4b3d04b",
-        "employeeId": "c6601584-d852-475e-a6ec-98f6d7a6c185",
-        "payrollPeriodId": "a5bda2b8-c373-497a-a7e8-aa89190e1588",
-        "salaryStructureId": "39479f60-c33e-461b-9687-7aa4bd714772",
-        "monthlyWage": "75000.00",
-        "workingDays": "0.00",
-        "payableDays": "31.00",
-        "paidLeaveDays": "0.00",
-        "unpaidLeaveDays": "0.00",
-        "absentDays": "0.00",
-        "halfDaysCount": "0.0",
-        "grossEarnings": "37500.00",
-        "totalEmployeeDeductions": "0.00",
-        "employerContributions": "0.00",
-        "unpaidDeduction": "0.00",
-        "netPay": "37500.00",
-        "status": "finalized",
-        "generatedAt": "2026-08-30T10:30:17.344Z",
-        "finalizedAt": "2026-08-30T10:30:27.226Z",
-        "firstName": "Ethan",
-        "lastName": "Hunt",
-        "employeeCode": "TESTETHU20260030"
-      },
-      {
-        "id": "c8414355-8cc2-487b-8907-8108a377021c",
-        "employeeId": "e397e5e3-14ad-4779-9288-c8c520888fa1",
-        "payrollPeriodId": "a5bda2b8-c373-497a-a7e8-aa89190e1588",
-        "salaryStructureId": "6f31c5c2-5abd-4697-ad56-f13ff03e3824",
-        "monthlyWage": "50000.00",
-        "workingDays": "0.00",
-        "payableDays": "31.00",
-        "paidLeaveDays": "0.00",
-        "unpaidLeaveDays": "0.00",
-        "absentDays": "0.00",
-        "halfDaysCount": "0.0",
-        "grossEarnings": "0.00",
-        "totalEmployeeDeductions": "0.00",
-        "employerContributions": "0.00",
-        "unpaidDeduction": "0.00",
-        "netPay": "0.00",
-        "status": "finalized",
-        "generatedAt": "2026-08-30T10:30:12.508Z",
-        "finalizedAt": "2026-08-30T10:30:27.226Z",
-        "firstName": "Fiona",
-        "lastName": "Gallagher",
-        "employeeCode": "TESTFIGA20260022"
-      },
-      {
-        "id": "20b1fb3a-4f58-4931-bf1b-bdec0ccadcb6",
-        "employeeId": "186db7ff-e1a6-4d7f-98c2-681786911e2d",
-        "payrollPeriodId": "a5bda2b8-c373-497a-a7e8-aa89190e1588",
-        "salaryStructureId": "317e37ff-87cc-4ac4-be96-ba902ecf2b15",
-        "monthlyWage": "50000.00",
-        "workingDays": "0.00",
-        "payableDays": "31.00",
-        "paidLeaveDays": "0.00",
-        "unpaidLeaveDays": "0.00",
-        "absentDays": "0.00",
-        "halfDaysCount": "0.0",
-        "grossEarnings": "50000.00",
-        "totalEmployeeDeductions": "0.00",
-        "employerContributions": "0.00",
-        "unpaidDeduction": "0.00",
-        "netPay": "50000.00",
-        "status": "finalized",
-        "generatedAt": "2026-08-30T10:30:19.698Z",
-        "finalizedAt": "2026-08-30T10:30:27.226Z",
-        "firstName": "Fiona",
-        "lastName": "Gallagher",
-        "employeeCode": "TESTFIGA20260031"
-      },
-      {
-        "id": "caf1ed29-67ee-484d-a84b-5917e8671249",
-        "employeeId": "2ca04d4a-e086-4212-8928-e77088301563",
-        "payrollPeriodId": "a5bda2b8-c373-497a-a7e8-aa89190e1588",
-        "salaryStructureId": "fa1a4a76-8c92-4a07-997c-d1eae8d0340c",
-        "monthlyWage": "50000.00",
-        "workingDays": "0.00",
-        "payableDays": "31.00",
-        "paidLeaveDays": "0.00",
-        "unpaidLeaveDays": "0.00",
-        "absentDays": "0.00",
-        "halfDaysCount": "0.0",
-        "grossEarnings": "0.00",
-        "totalEmployeeDeductions": "0.00",
-        "employerContributions": "0.00",
-        "unpaidDeduction": "0.00",
-        "netPay": "0.00",
-        "status": "finalized",
-        "generatedAt": "2026-08-30T10:30:02.997Z",
-        "finalizedAt": "2026-08-30T10:30:27.226Z",
-        "firstName": "Fiona",
-        "lastName": "Gallagher",
-        "employeeCode": "TESTFIGA20260007"
-      },
-      {
-        "id": "18f44ba3-6ad3-4a6c-bf2a-bbb0f2392157",
-        "employeeId": "e33e4053-d082-4684-8285-6d8d982cec79",
-        "payrollPeriodId": "a5bda2b8-c373-497a-a7e8-aa89190e1588",
-        "salaryStructureId": "b8b74bac-f940-4db4-a001-fb29fae82581",
-        "monthlyWage": "50000.00",
-        "workingDays": "0.00",
-        "payableDays": "31.00",
-        "paidLeaveDays": "0.00",
-        "unpaidLeaveDays": "0.00",
-        "absentDays": "0.00",
-        "halfDaysCount": "0.0",
-        "grossEarnings": "50000.00",
-        "totalEmployeeDeductions": "0.00",
-        "employerContributions": "0.00",
-        "unpaidDeduction": "0.00",
-        "netPay": "50000.00",
-        "status": "finalized",
-        "generatedAt": "2026-08-30T10:30:24.994Z",
-        "finalizedAt": "2026-08-30T10:30:27.226Z",
-        "firstName": "Fiona",
-        "lastName": "Gallagher",
-        "employeeCode": "TESTFIGA20260038"
-      },
-      {
-        "id": "60b84fc0-d1c2-4663-92a2-a3e0881f568b",
-        "employeeId": "4a884438-766c-4b04-86a4-8596722bbbd0",
-        "payrollPeriodId": "a5bda2b8-c373-497a-a7e8-aa89190e1588",
-        "salaryStructureId": "c4825886-925d-467e-b17b-3d76ac921c72",
-        "monthlyWage": "50000.00",
-        "workingDays": "0.00",
-        "payableDays": "31.00",
-        "paidLeaveDays": "0.00",
-        "unpaidLeaveDays": "0.00",
-        "absentDays": "0.00",
-        "halfDaysCount": "0.0",
-        "grossEarnings": "0.00",
-        "totalEmployeeDeductions": "0.00",
-        "employerContributions": "0.00",
-        "unpaidDeduction": "0.00",
-        "netPay": "0.00",
-        "status": "finalized",
-        "generatedAt": "2026-08-30T10:30:06.522Z",
-        "finalizedAt": "2026-08-30T10:30:27.226Z",
-        "firstName": "Fiona",
-        "lastName": "Gallagher",
-        "employeeCode": "TESTFIGA20260014"
-      },
-      {
-        "id": "a1c5b179-f768-4ffe-8561-6315262b2800",
-        "employeeId": "9d960d8c-d22c-44a5-9932-605e2b21c435",
-        "payrollPeriodId": "a5bda2b8-c373-497a-a7e8-aa89190e1588",
-        "salaryStructureId": "b371d405-bffe-4ab4-922b-37f3263458c2",
-        "monthlyWage": "50000.00",
-        "workingDays": "0.00",
-        "payableDays": "31.00",
-        "paidLeaveDays": "0.00",
-        "unpaidLeaveDays": "0.00",
-        "absentDays": "0.00",
-        "halfDaysCount": "0.0",
-        "grossEarnings": "0.00",
-        "totalEmployeeDeductions": "0.00",
-        "employerContributions": "0.00",
-        "unpaidDeduction": "0.00",
-        "netPay": "0.00",
-        "status": "finalized",
-        "generatedAt": "2026-08-30T10:30:09.145Z",
-        "finalizedAt": "2026-08-30T10:30:27.226Z",
-        "firstName": "Fiona",
-        "lastName": "Gallagher",
-        "employeeCode": "TESTFIGA20260016"
-      }
-    ]
-  }
-}
-```
-
-> **Note**: Retrieves all generated payslips for the target payroll cycle.
-
----
-
-### 6. Get Payslip Breakdown Details (Success)
-
-- **Endpoint**: `GET /api/payroll/payslips/cc3f4e24-02ab-44ea-a594-abebd88500c3`
-- **Expected Status**: `200`
-- **Headers**:
-
-```json
-{
-  "Cookie": "token=JWT_ADMIN_TOKEN"
-}
-```
-
-- **Response Body**:
-
-```json
-{
-  "message": "Payslip details retrieved successfully",
-  "success": true,
-  "error": null,
-  "data": {
-    "payslip": {
-      "id": "cc3f4e24-02ab-44ea-a594-abebd88500c3",
-      "payrollPeriodId": "a5bda2b8-c373-497a-a7e8-aa89190e1588",
-      "employeeId": "0f599301-09f6-4e35-ac83-f425b5f575df",
-      "salaryStructureId": "05a1a39c-f4bb-4698-96e5-f3328723e9fc",
-      "monthlyWage": "75000.00",
-      "workingDays": "0.00",
-      "payableDays": "31.00",
-      "paidLeaveDays": "0.00",
-      "unpaidLeaveDays": "0.00",
-      "absentDays": "0.00",
-      "halfDaysCount": "0.0",
-      "grossEarnings": "37500.00",
-      "totalEmployeeDeductions": "0.00",
-      "employerContributions": "0.00",
-      "unpaidDeduction": "0.00",
-      "netPay": "37500.00",
-      "status": "finalized",
-      "generatedAt": "2026-08-30T10:30:14.980Z",
-      "finalizedAt": "2026-08-30T10:30:27.226Z",
-      "createdAt": "2026-08-30T10:29:57.805Z"
-    },
-    "lines": [
-      {
-        "id": "4e04f427-fbcf-4571-929f-acf6931b80c1",
-        "payslipId": "cc3f4e24-02ab-44ea-a594-abebd88500c3",
-        "componentCode": "BASIC",
-        "componentName": "Basic Salary",
-        "componentType": "earning",
-        "calculationType": "percentage_of_wage",
-        "baseAmount": "75000.00",
-        "percentage": "50.000",
-        "quantity": "1.00",
-        "amount": "37500.00",
-        "sequence": 1
-      }
-    ],
-    "attendanceSummary": {
-      "payslipId": "cc3f4e24-02ab-44ea-a594-abebd88500c3",
-      "totalCalendarDays": 31,
-      "scheduledDays": "0.00",
-      "presentDays": "0.00",
-      "paidLeaveDays": "0.00",
-      "unpaidLeaveDays": "0.00",
-      "absentDays": "0.00",
-      "halfDays": "0.0",
-      "holidayDays": "0.0",
-      "weekendDays": "31.0",
-      "payableDays": "31.00",
-      "workingMinutes": 0,
-      "overtimeMinutes": 0
-    },
-    "employee": {
-      "firstName": "Ethan",
-      "lastName": "Hunt",
-      "employeeCode": "TESTETHU20260029"
-    },
-    "period": {
-      "id": "a5bda2b8-c373-497a-a7e8-aa89190e1588",
-      "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-      "periodStart": "2050-01-01",
-      "periodEnd": "2050-01-31",
-      "status": "finalized",
-      "processedAt": "2026-08-30T10:30:25.618Z",
-      "finalizedAt": "2026-08-30T10:30:27.044Z",
-      "createdBy": "a6747a74-d260-4619-b24a-9bce284efa27",
-      "createdAt": "2026-08-30T10:29:56.015Z"
-    }
-  }
-}
-```
-
-> **Note**: Returns itemized earnings and deductions lines, attendance days summary, and net payout.
-
----
-
-### 7. Download PDF Payslip (Success)
-
-- **Endpoint**: `GET /api/payroll/payslips/cc3f4e24-02ab-44ea-a594-abebd88500c3/download`
-- **Expected Status**: `200`
-- **Headers**:
-
-```json
-{
-  "Cookie": "token=JWT_ADMIN_TOKEN"
-}
-```
-
-- **Query Parameters**:
-
-```json
-{
-  "inline": "true"
-}
-```
-
-- **Response Body**:
-
-```json
-{
-  "contentType": "application/pdf",
-  "status": "PDF Buffer Stream"
-}
-```
-
-> **Note**: Generates static Chromium-free PDF document stream for printing or digital distribution.
 
 ---

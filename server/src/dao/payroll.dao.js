@@ -9,6 +9,7 @@ import {
     payslipLines,
     payslipAttendanceSummary,
     employees,
+    departments,
 } from '../db/schema/schema.js';
 import { eq, and, sql } from 'drizzle-orm';
 
@@ -356,4 +357,46 @@ export async function deletePayslipAttendanceSummariesByPeriod(payrollPeriodId, 
             WHERE ${payslips.payrollPeriodId} = ${payrollPeriodId}
         )
     `);
+}
+
+export async function analyzePayroll(orgId, metric, groupBy, periodId) {
+    const metricExprMap = {
+        gross: sql`SUM(${payslips.grossEarnings || payslips.grossPay})`,
+        net: sql`SUM(${payslips.netPay})`,
+        deductions: sql`SUM(${payslips.totalEmployeeDeductions || payslips.totalDeductions})`,
+        unpaid_deduction: sql`SUM(${payslips.unpaidDeduction || payslips.unpaidDeductionAmount})`,
+        employer_contribution: sql`SUM(${payslips.employerContributions || payslips.employerPfAmount})`,
+    };
+    const metricExpr = metricExprMap[metric];
+    if (!metricExpr) throw new Error(`Unknown payroll metric: ${metric}`);
+
+    const groupByMap = {
+        department: { id: departments.id, label: departments.name },
+        employee: {
+            id: employees.id,
+            label: sql`CONCAT(${employees.firstName}, ' ', ${employees.lastName})`,
+        },
+        payroll_period: {
+            id: payrollPeriods.id,
+            label: sql`CONCAT(${payrollPeriods.periodStart}::text, ' to ', ${payrollPeriods.periodEnd}::text)`,
+        },
+    };
+    const { id: groupId, label: groupLabel } = groupByMap[groupBy] || groupByMap.department;
+
+    const filters = [
+        eq(employees.organizationId, orgId),
+        sql`LOWER(${payslips.status}::text) IN ('calculated','reviewed','finalized','paid','review')`,
+    ];
+    if (periodId) filters.push(eq(payslips.payrollPeriodId, periodId));
+
+    return db
+        .select({ groupId, groupLabel, value: metricExpr })
+        .from(payslips)
+        .innerJoin(employees, eq(payslips.employeeId, employees.id))
+        .leftJoin(departments, eq(employees.departmentId, departments.id))
+        .innerJoin(payrollPeriods, eq(payslips.payrollPeriodId, payrollPeriods.id))
+        .where(and(...filters))
+        .groupBy(groupId, groupLabel)
+        .orderBy(sql`3 DESC`)
+        .limit(50);
 }

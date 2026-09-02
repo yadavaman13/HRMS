@@ -32,8 +32,8 @@ export const adminUpdateRoleValidator = [
         .trim()
         .notEmpty()
         .withMessage('Role is required')
-        .isIn(['user', 'admin'])
-        .withMessage('Role must be either user or admin'),
+        .isIn(['admin', 'hr', 'employee'])
+        .withMessage('Role must be admin, hr, or employee'),
     validateRequest,
 ];
 

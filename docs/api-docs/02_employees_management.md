@@ -9,13 +9,13 @@
 | `POST`   | `/api/employees`                                                     | Create Employee Account (Admin)                  | `201`  |
 | `POST`   | `/api/employees`                                                     | Create Employee (Forbidden for Regular Employee) | `403`  |
 | `GET`    | `/api/employees`                                                     | Search & List Employees (Success)                | `200`  |
-| `GET`    | `/api/employees/2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4`                | Get Employee by ID (Success)                     | `200`  |
-| `PATCH`  | `/api/employees/2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4`                | Update Employee Record (Admin)                   | `200`  |
-| `GET`    | `/api/employees/2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4/leave-balances` | Get Employee Leave Balances (Admin)              | `200`  |
-| `POST`   | `/api/employees/2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4/deactivate`     | Deactivate Employee Account (Admin)              | `200`  |
-| `POST`   | `/api/employees/2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4/activate`       | Reactivate Employee Account (Admin)              | `200`  |
-| `POST`   | `/api/employees/2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4/reset-password` | Reset Employee Password (Admin)                  | `200`  |
-| `DELETE` | `/api/employees/2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4`                | Delete Employee Account (Admin)                  | `200`  |
+| `GET`    | `/api/employees/32816e3b-d808-483c-9330-f23a5ed9d83b`                | Get Employee by ID (Success)                     | `200`  |
+| `PATCH`  | `/api/employees/32816e3b-d808-483c-9330-f23a5ed9d83b`                | Update Employee Record (Admin)                   | `200`  |
+| `GET`    | `/api/employees/32816e3b-d808-483c-9330-f23a5ed9d83b/leave-balances` | Get Employee Leave Balances (Admin)              | `200`  |
+| `POST`   | `/api/employees/32816e3b-d808-483c-9330-f23a5ed9d83b/deactivate`     | Deactivate Employee Account (Admin)              | `200`  |
+| `POST`   | `/api/employees/32816e3b-d808-483c-9330-f23a5ed9d83b/activate`       | Reactivate Employee Account (Admin)              | `200`  |
+| `POST`   | `/api/employees/32816e3b-d808-483c-9330-f23a5ed9d83b/reset-password` | Reset Employee Password (Admin)                  | `200`  |
+| `DELETE` | `/api/employees/32816e3b-d808-483c-9330-f23a5ed9d83b`                | Delete Employee Account (Admin)                  | `200`  |
 
 ---
 
@@ -39,7 +39,7 @@
 {
   "firstName": "Alice",
   "lastName": "Smith",
-  "email": "alice_1788085638910@personal.com",
+  "email": "alice_1788110241974@personal.com",
   "phone": "9123456780",
   "joiningDate": "2026-08-01",
   "employmentType": "full_time"
@@ -55,25 +55,25 @@
   "error": null,
   "data": {
     "employee": {
-      "id": "2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4",
-      "employeeCode": "TESTALSM20260033",
+      "id": "32816e3b-d808-483c-9330-f23a5ed9d83b",
+      "employeeCode": "TESTALSM20260114",
       "firstName": "Alice",
       "lastName": "Smith",
       "displayName": "Alice Smith",
-      "workEmail": "alice.smith6@testorg.dayflow.com",
+      "workEmail": "alice.smith17@testorg.dayflow.com",
       "joiningDate": "2026-08-01",
       "employmentStatus": "active",
       "employmentType": "full_time"
     },
     "user": {
-      "id": "7d3f9831-e122-4a24-8cd6-2d53b66d4a47",
-      "email": "alice.smith6@testorg.dayflow.com",
+      "id": "c1eae38e-c790-4904-b077-3cb4191828e8",
+      "email": "alice.smith17@testorg.dayflow.com",
       "role": "employee"
     },
     "credentials": {
-      "loginId": "TESTALSM20260033",
-      "workEmail": "alice.smith6@testorg.dayflow.com",
-      "temporaryPassword": "Rf4C!9LnqwA2"
+      "loginId": "TESTALSM20260114",
+      "workEmail": "alice.smith17@testorg.dayflow.com",
+      "temporaryPassword": "$99MJ6Bb9cjY"
     }
   }
 }
@@ -173,12 +173,12 @@
         "status": "off_day"
       },
       {
-        "id": "2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4",
-        "employeeCode": "TESTALSM20260033",
+        "id": "32816e3b-d808-483c-9330-f23a5ed9d83b",
+        "employeeCode": "TESTALSM20260114",
         "firstName": "Alice",
         "lastName": "Smith",
         "displayName": "Alice Smith",
-        "workEmail": "alice.smith6@testorg.dayflow.com",
+        "workEmail": "alice.smith17@testorg.dayflow.com",
         "joiningDate": "2026-08-01",
         "employmentStatus": "active",
         "departmentId": null,
@@ -200,7 +200,7 @@
 
 ### 4. Get Employee by ID (Success)
 
-- **Endpoint**: `GET /api/employees/2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4`
+- **Endpoint**: `GET /api/employees/32816e3b-d808-483c-9330-f23a5ed9d83b`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -219,14 +219,14 @@
   "error": null,
   "data": {
     "header": {
-      "id": "2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4",
-      "employeeCode": "TESTALSM20260033",
+      "id": "32816e3b-d808-483c-9330-f23a5ed9d83b",
+      "employeeCode": "TESTALSM20260114",
       "firstName": "Alice",
       "lastName": "Smith",
       "displayName": "Alice Smith",
-      "workEmail": "alice.smith6@testorg.dayflow.com",
+      "workEmail": "alice.smith17@testorg.dayflow.com",
       "phone": "9123456780",
-      "userEmail": "alice.smith6@testorg.dayflow.com",
+      "userEmail": "alice.smith17@testorg.dayflow.com",
       "userProfileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg",
       "departmentName": null,
       "jobPositionName": null,
@@ -253,7 +253,7 @@
 
 ### 5. Update Employee Record (Admin)
 
-- **Endpoint**: `PATCH /api/employees/2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4`
+- **Endpoint**: `PATCH /api/employees/32816e3b-d808-483c-9330-f23a5ed9d83b`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -281,9 +281,9 @@
   "error": null,
   "data": {
     "employee": {
-      "id": "2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4",
+      "id": "32816e3b-d808-483c-9330-f23a5ed9d83b",
       "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-      "employeeCode": "TESTALSM20260033",
+      "employeeCode": "TESTALSM20260114",
       "firstName": "Alice",
       "middleName": null,
       "lastName": "Smith",
@@ -291,7 +291,7 @@
       "dateOfBirth": null,
       "gender": null,
       "phone": "9888899999",
-      "workEmail": "alice.smith6@testorg.dayflow.com",
+      "workEmail": "alice.smith17@testorg.dayflow.com",
       "departmentId": null,
       "jobPositionId": null,
       "managerId": null,
@@ -300,9 +300,9 @@
       "terminationDate": null,
       "employmentStatus": "active",
       "employmentType": "full_time",
-      "userId": "7d3f9831-e122-4a24-8cd6-2d53b66d4a47",
-      "createdAt": "2026-08-30T10:27:20.172Z",
-      "updatedAt": "2026-08-30T10:27:29.042Z"
+      "userId": "c1eae38e-c790-4904-b077-3cb4191828e8",
+      "createdAt": "2026-08-30T17:17:23.472Z",
+      "updatedAt": "2026-08-30T17:17:45.862Z"
     }
   }
 }
@@ -314,7 +314,7 @@
 
 ### 6. Get Employee Leave Balances (Admin)
 
-- **Endpoint**: `GET /api/employees/2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4/leave-balances`
+- **Endpoint**: `GET /api/employees/32816e3b-d808-483c-9330-f23a5ed9d83b/leave-balances`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -333,10 +333,10 @@
   "error": null,
   "data": {
     "employee": {
-      "id": "2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4",
+      "id": "32816e3b-d808-483c-9330-f23a5ed9d83b",
       "firstName": "Alice",
       "lastName": "Smith",
-      "employeeCode": "TESTALSM20260033"
+      "employeeCode": "TESTALSM20260114"
     },
     "balances": [
       {
@@ -418,6 +418,182 @@
         "carryForwardDays": 0,
         "netBalance": 12,
         "availableBalance": 12
+      },
+      {
+        "leaveTypeId": "744a13fd-1838-4771-acd9-275285edb589",
+        "code": "CASUAL_1788085737574",
+        "name": "Casual Leave",
+        "isPaid": true,
+        "requiresAllocation": true,
+        "requiresAttachment": false,
+        "unit": "day",
+        "allocatedDays": 12,
+        "usedDays": 0,
+        "pendingDays": 0,
+        "creditedDays": 0,
+        "carryForwardDays": 0,
+        "netBalance": 12,
+        "availableBalance": 12
+      },
+      {
+        "leaveTypeId": "f65f4aa5-28a3-4db5-9f67-0ac999df0c6e",
+        "code": "CASUAL_1788099236806",
+        "name": "Casual Leave",
+        "isPaid": true,
+        "requiresAllocation": true,
+        "requiresAttachment": false,
+        "unit": "day",
+        "allocatedDays": 12,
+        "usedDays": 0,
+        "pendingDays": 0,
+        "creditedDays": 0,
+        "carryForwardDays": 0,
+        "netBalance": 12,
+        "availableBalance": 12
+      },
+      {
+        "leaveTypeId": "b431df60-253a-41a4-a822-946a11ede30e",
+        "code": "CASUAL_1788101953267",
+        "name": "Casual Leave",
+        "isPaid": true,
+        "requiresAllocation": true,
+        "requiresAttachment": false,
+        "unit": "day",
+        "allocatedDays": 12,
+        "usedDays": 0,
+        "pendingDays": 0,
+        "creditedDays": 0,
+        "carryForwardDays": 0,
+        "netBalance": 12,
+        "availableBalance": 12
+      },
+      {
+        "leaveTypeId": "c3de17eb-687b-4b37-9feb-84a981c035ab",
+        "code": "CASUAL_1788102118247",
+        "name": "Casual Leave",
+        "isPaid": true,
+        "requiresAllocation": true,
+        "requiresAttachment": false,
+        "unit": "day",
+        "allocatedDays": 12,
+        "usedDays": 0,
+        "pendingDays": 0,
+        "creditedDays": 0,
+        "carryForwardDays": 0,
+        "netBalance": 12,
+        "availableBalance": 12
+      },
+      {
+        "leaveTypeId": "41c1e56b-57d7-453c-9566-8214b2e155ac",
+        "code": "CASUAL_1788102782922",
+        "name": "Casual Leave",
+        "isPaid": true,
+        "requiresAllocation": true,
+        "requiresAttachment": false,
+        "unit": "day",
+        "allocatedDays": 12,
+        "usedDays": 0,
+        "pendingDays": 0,
+        "creditedDays": 0,
+        "carryForwardDays": 0,
+        "netBalance": 12,
+        "availableBalance": 12
+      },
+      {
+        "leaveTypeId": "1d5c27f2-1e76-414a-9f3a-6251192b6700",
+        "code": "CASUAL_1788103701714",
+        "name": "Casual Leave",
+        "isPaid": true,
+        "requiresAllocation": true,
+        "requiresAttachment": false,
+        "unit": "day",
+        "allocatedDays": 12,
+        "usedDays": 0,
+        "pendingDays": 0,
+        "creditedDays": 0,
+        "carryForwardDays": 0,
+        "netBalance": 12,
+        "availableBalance": 12
+      },
+      {
+        "leaveTypeId": "67033965-e743-4b4f-8a22-e83963669659",
+        "code": "CASUAL_1788104338205",
+        "name": "Casual Leave",
+        "isPaid": true,
+        "requiresAllocation": true,
+        "requiresAttachment": false,
+        "unit": "day",
+        "allocatedDays": 12,
+        "usedDays": 0,
+        "pendingDays": 0,
+        "creditedDays": 0,
+        "carryForwardDays": 0,
+        "netBalance": 12,
+        "availableBalance": 12
+      },
+      {
+        "leaveTypeId": "e59e317a-e99b-4447-8422-e165162090bb",
+        "code": "CASUAL_1788104986171",
+        "name": "Casual Leave",
+        "isPaid": true,
+        "requiresAllocation": true,
+        "requiresAttachment": false,
+        "unit": "day",
+        "allocatedDays": 12,
+        "usedDays": 0,
+        "pendingDays": 0,
+        "creditedDays": 0,
+        "carryForwardDays": 0,
+        "netBalance": 12,
+        "availableBalance": 12
+      },
+      {
+        "leaveTypeId": "031dfa32-ec1d-4e53-9b79-3293238a216b",
+        "code": "CASUAL_1788105822180",
+        "name": "Casual Leave",
+        "isPaid": true,
+        "requiresAllocation": true,
+        "requiresAttachment": false,
+        "unit": "day",
+        "allocatedDays": 12,
+        "usedDays": 0,
+        "pendingDays": 0,
+        "creditedDays": 0,
+        "carryForwardDays": 0,
+        "netBalance": 12,
+        "availableBalance": 12
+      },
+      {
+        "leaveTypeId": "5d906089-6b69-4d04-beaf-f3c98e52204f",
+        "code": "CASUAL_1788106684722",
+        "name": "Casual Leave",
+        "isPaid": true,
+        "requiresAllocation": true,
+        "requiresAttachment": false,
+        "unit": "day",
+        "allocatedDays": 12,
+        "usedDays": 0,
+        "pendingDays": 0,
+        "creditedDays": 0,
+        "carryForwardDays": 0,
+        "netBalance": 12,
+        "availableBalance": 12
+      },
+      {
+        "leaveTypeId": "31d51bf6-2a08-4608-b41a-a0c962da0bb5",
+        "code": "CASUAL_1788107526856",
+        "name": "Casual Leave",
+        "isPaid": true,
+        "requiresAllocation": true,
+        "requiresAttachment": false,
+        "unit": "day",
+        "allocatedDays": 12,
+        "usedDays": 0,
+        "pendingDays": 0,
+        "creditedDays": 0,
+        "carryForwardDays": 0,
+        "netBalance": 12,
+        "availableBalance": 12
       }
     ]
   }
@@ -430,7 +606,7 @@
 
 ### 7. Deactivate Employee Account (Admin)
 
-- **Endpoint**: `POST /api/employees/2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4/deactivate`
+- **Endpoint**: `POST /api/employees/32816e3b-d808-483c-9330-f23a5ed9d83b/deactivate`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -448,8 +624,8 @@
   "success": true,
   "error": null,
   "data": {
-    "employeeId": "2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4",
-    "userId": "7d3f9831-e122-4a24-8cd6-2d53b66d4a47",
+    "employeeId": "32816e3b-d808-483c-9330-f23a5ed9d83b",
+    "userId": "c1eae38e-c790-4904-b077-3cb4191828e8",
     "isActive": false
   }
 }
@@ -461,7 +637,7 @@
 
 ### 8. Reactivate Employee Account (Admin)
 
-- **Endpoint**: `POST /api/employees/2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4/activate`
+- **Endpoint**: `POST /api/employees/32816e3b-d808-483c-9330-f23a5ed9d83b/activate`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -479,8 +655,8 @@
   "success": true,
   "error": null,
   "data": {
-    "employeeId": "2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4",
-    "userId": "7d3f9831-e122-4a24-8cd6-2d53b66d4a47",
+    "employeeId": "32816e3b-d808-483c-9330-f23a5ed9d83b",
+    "userId": "c1eae38e-c790-4904-b077-3cb4191828e8",
     "isActive": true
   }
 }
@@ -492,7 +668,7 @@
 
 ### 9. Reset Employee Password (Admin)
 
-- **Endpoint**: `POST /api/employees/2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4/reset-password`
+- **Endpoint**: `POST /api/employees/32816e3b-d808-483c-9330-f23a5ed9d83b/reset-password`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -510,9 +686,9 @@
   "success": true,
   "error": null,
   "data": {
-    "employeeId": "2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4",
-    "userId": "7d3f9831-e122-4a24-8cd6-2d53b66d4a47",
-    "temporaryPassword": "TPb%&yRYqj4#"
+    "employeeId": "32816e3b-d808-483c-9330-f23a5ed9d83b",
+    "userId": "c1eae38e-c790-4904-b077-3cb4191828e8",
+    "temporaryPassword": "iE^m86bJiXMP"
   }
 }
 ```
@@ -523,7 +699,7 @@
 
 ### 10. Delete Employee Account (Admin)
 
-- **Endpoint**: `DELETE /api/employees/2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4`
+- **Endpoint**: `DELETE /api/employees/32816e3b-d808-483c-9330-f23a5ed9d83b`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -542,10 +718,10 @@
   "error": null,
   "data": {
     "employee": {
-      "id": "2dd44d42-c6ce-44eb-a754-9e9bca3cd7c4",
+      "id": "32816e3b-d808-483c-9330-f23a5ed9d83b",
       "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-      "userId": "7d3f9831-e122-4a24-8cd6-2d53b66d4a47",
-      "employeeCode": "TESTALSM20260033",
+      "userId": "c1eae38e-c790-4904-b077-3cb4191828e8",
+      "employeeCode": "TESTALSM20260114",
       "firstName": "Alice",
       "middleName": null,
       "lastName": "Smith",
@@ -553,7 +729,7 @@
       "dateOfBirth": null,
       "gender": null,
       "phone": "9888899999",
-      "workEmail": "alice.smith6@testorg.dayflow.com",
+      "workEmail": "alice.smith17@testorg.dayflow.com",
       "departmentId": null,
       "jobPositionId": null,
       "managerId": null,
@@ -562,8 +738,8 @@
       "terminationDate": null,
       "employmentStatus": "active",
       "employmentType": "full_time",
-      "createdAt": "2026-08-30T10:27:20.172Z",
-      "updatedAt": "2026-08-30T10:27:29.042Z",
+      "createdAt": "2026-08-30T17:17:23.472Z",
+      "updatedAt": "2026-08-30T17:17:45.862Z",
       "deletedAt": null
     }
   }

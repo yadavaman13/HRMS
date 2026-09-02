@@ -553,3 +553,113 @@ export async function getEmployeeActiveSchedule(employeeId, organizationId, targ
         holiday: holiday || null,
     };
 }
+
+export async function analyzeAttendance(orgId, metric, groupBy, startDate, endDate) {
+    const metricExprMap = {
+        overtime: sql`SUM(${attendanceRecords.overtimeMinutes})`,
+        absenteeism: sql`COUNT(*) FILTER (WHERE LOWER(${attendanceRecords.status}::text) = 'absent')`,
+        late_arrivals: sql`COUNT(*) FILTER (WHERE ${attendanceRecords.lateMinutes} > 0)`,
+        early_checkouts: sql`COUNT(*) FILTER (WHERE ${attendanceRecords.earlyCheckoutMinutes} > 0)`,
+        worked_hours: sql`ROUND(SUM(${attendanceRecords.totalWorkMinutes}) / 60.0, 2)`,
+        attendance: sql`COUNT(*) FILTER (WHERE LOWER(${attendanceRecords.status}::text) = 'present')`,
+    };
+    const metricExpr = metricExprMap[metric];
+    if (!metricExpr) throw new Error(`Unknown metric: ${metric}`);
+
+    const groupByMap = {
+        employee: {
+            id: employees.id,
+            label: sql`CONCAT(${employees.firstName}, ' ', ${employees.lastName})`,
+        },
+        department: { id: departments.id, label: departments.name },
+        location: {
+            id: employees.locationId,
+            label: sql`COALESCE(${employees.locationId}::text, 'No Location')`,
+        },
+    };
+    const { id: groupId, label: groupLabel } = groupByMap[groupBy] || groupByMap.employee;
+
+    return db
+        .select({ groupId, groupLabel, value: metricExpr })
+        .from(attendanceRecords)
+        .innerJoin(employees, eq(attendanceRecords.employeeId, employees.id))
+        .leftJoin(departments, eq(employees.departmentId, departments.id))
+        .where(
+            and(
+                eq(employees.organizationId, orgId),
+                gte(attendanceRecords.attendanceDate, startDate),
+                lte(attendanceRecords.attendanceDate, endDate),
+            ),
+        )
+        .groupBy(groupId, groupLabel)
+        .orderBy(sql`2 DESC`)
+        .limit(50);
+}
+
+export async function getAttendanceAnomalies(orgId, date, empId) {
+    const filters = [
+        eq(employees.organizationId, orgId),
+        eq(attendanceRecords.attendanceDate, date),
+    ];
+    if (empId) filters.push(eq(attendanceRecords.employeeId, empId));
+
+    const records = await db
+        .select({
+            employeeId: attendanceRecords.employeeId,
+            employeeName: sql`CONCAT(${employees.firstName}, ' ', ${employees.lastName})`,
+            status: attendanceRecords.status,
+            lateMinutes: attendanceRecords.lateMinutes,
+            earlyCheckoutMinutes: attendanceRecords.earlyCheckoutMinutes,
+            totalWorkMinutes: attendanceRecords.totalWorkMinutes,
+            scheduledWorkMinutes: attendanceRecords.scheduledWorkMinutes,
+            hasSession: sql`EXISTS (
+                SELECT 1 FROM ${attendanceSessions}
+                WHERE ${attendanceSessions.attendanceRecordId} = ${attendanceRecords.id}
+                  AND ${attendanceSessions.checkOutAt || attendanceSessions.checkOut} IS NOT NULL
+            )`.as('has_session'),
+        })
+        .from(attendanceRecords)
+        .innerJoin(employees, eq(attendanceRecords.employeeId, employees.id))
+        .where(and(...filters));
+
+    const anomalies = [];
+    for (const rec of records) {
+        const normalizedStatus = (rec.status || '').toLowerCase();
+        if (!rec.hasSession && normalizedStatus === 'present')
+            anomalies.push({
+                employeeId: rec.employeeId,
+                employeeName: rec.employeeName,
+                anomalyType: 'missing_checkout',
+                detail: 'Checked in but no checkout recorded',
+            });
+        if (normalizedStatus === 'absent')
+            anomalies.push({
+                employeeId: rec.employeeId,
+                employeeName: rec.employeeName,
+                anomalyType: 'absent_without_leave',
+                detail: 'Absent with no approved leave',
+            });
+        if ((rec.lateMinutes || 0) > 0)
+            anomalies.push({
+                employeeId: rec.employeeId,
+                employeeName: rec.employeeName,
+                anomalyType: 'late_arrival',
+                detail: `${rec.lateMinutes} minutes late`,
+            });
+        if ((rec.earlyCheckoutMinutes || 0) > 0)
+            anomalies.push({
+                employeeId: rec.employeeId,
+                employeeName: rec.employeeName,
+                anomalyType: 'early_checkout',
+                detail: `Left ${rec.earlyCheckoutMinutes} minutes early`,
+            });
+        if ((rec.totalWorkMinutes || 0) > (rec.scheduledWorkMinutes || 0) + 120)
+            anomalies.push({
+                employeeId: rec.employeeId,
+                employeeName: rec.employeeName,
+                anomalyType: 'excessive_duration',
+                detail: `Worked ${Math.round(rec.totalWorkMinutes / 60)}h vs ${Math.round(rec.scheduledWorkMinutes / 60)}h scheduled`,
+            });
+    }
+    return anomalies;
+}

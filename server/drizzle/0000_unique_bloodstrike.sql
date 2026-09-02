@@ -1,3 +1,23 @@
+CREATE TYPE "public"."adjustment_status" AS ENUM('pending', 'approved', 'rejected');--> statement-breakpoint
+CREATE TYPE "public"."attendance_source" AS ENUM('system', 'manual', 'biometric', 'corrected');--> statement-breakpoint
+CREATE TYPE "public"."attendance_status" AS ENUM('present', 'absent', 'half_day', 'leave', 'holiday', 'weekly_off', 'incomplete');--> statement-breakpoint
+CREATE TYPE "public"."document_type" AS ENUM('resume', 'pan_card', 'aadhaar', 'offer_letter', 'medical_certificate', 'certification', 'other');--> statement-breakpoint
+CREATE TYPE "public"."employment_status" AS ENUM('active', 'inactive', 'terminated', 'on_leave', 'probation');--> statement-breakpoint
+CREATE TYPE "public"."employment_type" AS ENUM('full_time', 'part_time', 'contract', 'intern', 'consultant');--> statement-breakpoint
+CREATE TYPE "public"."gender_type" AS ENUM('male', 'female', 'other');--> statement-breakpoint
+CREATE TYPE "public"."leave_half" AS ENUM('none', 'first_half', 'second_half');--> statement-breakpoint
+CREATE TYPE "public"."leave_status" AS ENUM('draft', 'pending', 'approved', 'rejected', 'cancelled');--> statement-breakpoint
+CREATE TYPE "public"."leave_transaction_type" AS ENUM('allocation', 'leave_used', 'leave_cancelled', 'leave_credited', 'carry_forward', 'adjustment', 'expiry');--> statement-breakpoint
+CREATE TYPE "public"."leave_unit" AS ENUM('day', 'half_day', 'hour');--> statement-breakpoint
+CREATE TYPE "public"."marital_status_type" AS ENUM('single', 'married', 'divorced', 'widowed');--> statement-breakpoint
+CREATE TYPE "public"."notification_type" AS ENUM('leave_approved', 'leave_rejected', 'leave_submitted', 'salary_updated', 'payslip_generated', 'payslip_finalized', 'attendance_reminder', 'attendance_corrected', 'password_reset', 'password_changed', 'employee_created', 'employee_terminated', 'general', 'system_alert');--> statement-breakpoint
+CREATE TYPE "public"."payroll_period_status" AS ENUM('draft', 'processing', 'calculated', 'review', 'finalized', 'paid', 'cancelled');--> statement-breakpoint
+CREATE TYPE "public"."payslip_status" AS ENUM('draft', 'processing', 'calculated', 'finalized', 'paid');--> statement-breakpoint
+CREATE TYPE "public"."proficiency_level" AS ENUM('beginner', 'intermediate', 'advanced', 'expert');--> statement-breakpoint
+CREATE TYPE "public"."user_role" AS ENUM('admin', 'hr', 'employee');--> statement-breakpoint
+CREATE TYPE "public"."salary_calculation_type" AS ENUM('fixed', 'percentage_of_wage', 'percentage_of_component', 'residual');--> statement-breakpoint
+CREATE TYPE "public"."salary_component_type" AS ENUM('earning', 'employee_deduction', 'employer_contribution');--> statement-breakpoint
+CREATE TYPE "public"."wage_type" AS ENUM('fixed', 'hourly', 'daily');--> statement-breakpoint
 CREATE TABLE "attendance_adjustments" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"attendance_record_id" uuid NOT NULL,
@@ -60,6 +80,29 @@ CREATE TABLE "certifications" (
 	"expiry_date" date,
 	"certificate_url" text,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "chats" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"user_id" uuid,
+	"guest_id" text,
+	"title" text DEFAULT 'New chat' NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "chunks" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"file_id" uuid,
+	"chat_id" uuid,
+	"rag_file_id" uuid,
+	"text" text NOT NULL,
+	"markdown" text NOT NULL,
+	"source" text,
+	"metadata" jsonb,
+	"document_type" text,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "departments" (
@@ -168,6 +211,28 @@ CREATE TABLE "employees" (
 	CONSTRAINT "employees_user_id_unique" UNIQUE("user_id")
 );
 --> statement-breakpoint
+CREATE TABLE "files" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"file_id" text NOT NULL,
+	"name" text NOT NULL,
+	"size" integer NOT NULL,
+	"file_path" text NOT NULL,
+	"url" text NOT NULL,
+	"file_type" text NOT NULL,
+	"mimetype" text NOT NULL,
+	"thumbnail_url" text,
+	"width" integer,
+	"height" integer,
+	"ai_tags" jsonb,
+	"message_id" uuid NOT NULL,
+	"uploaded_by" uuid,
+	"processing_status" text DEFAULT 'pending' NOT NULL,
+	"rag_status" text DEFAULT 'pending' NOT NULL,
+	"metadata" jsonb,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "holidays" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"organization_id" uuid NOT NULL,
@@ -260,6 +325,15 @@ CREATE TABLE "locations" (
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "messages" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"chat_id" uuid NOT NULL,
+	"content" text NOT NULL,
+	"role" text NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "notifications" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"user_id" uuid NOT NULL,
@@ -291,6 +365,18 @@ CREATE TABLE "organizations" (
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
 	CONSTRAINT "organizations_code_unique" UNIQUE("code")
+);
+--> statement-breakpoint
+CREATE TABLE "payments" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"order_id" text NOT NULL,
+	"payment_id" text,
+	"signature" text,
+	"amount" integer NOT NULL,
+	"currency" text NOT NULL,
+	"status" text DEFAULT 'pending' NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "payroll_periods" (
@@ -376,6 +462,23 @@ CREATE TABLE "payslips" (
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "rag_files" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"file_id" text NOT NULL,
+	"name" text NOT NULL,
+	"size" integer NOT NULL,
+	"file_path" text NOT NULL,
+	"url" text NOT NULL,
+	"file_type" text NOT NULL,
+	"mimetype" text NOT NULL,
+	"uploaded_by" uuid,
+	"processing_status" text DEFAULT 'pending' NOT NULL,
+	"rag_status" text DEFAULT 'pending' NOT NULL,
+	"metadata" jsonb,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "salary_component_definitions" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"organization_id" uuid NOT NULL,
@@ -421,6 +524,29 @@ CREATE TABLE "skills" (
 	"name" varchar(255) NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "users" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"organization_id" uuid NOT NULL,
+	"first_name" text NOT NULL,
+	"last_name" text NOT NULL,
+	"email" text NOT NULL,
+	"password" text NOT NULL,
+	"profile_image" text DEFAULT 'https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg',
+	"role" "user_role" DEFAULT 'employee' NOT NULL,
+	"email_verified" boolean DEFAULT false NOT NULL,
+	"is_active" boolean DEFAULT true NOT NULL,
+	"is_deleted" boolean DEFAULT false NOT NULL,
+	"deleted_at" timestamp with time zone,
+	"last_login_at" timestamp with time zone,
+	"must_change_password" boolean DEFAULT false NOT NULL,
+	"failed_login_attempts" integer DEFAULT 0 NOT NULL,
+	"locked_until" timestamp with time zone,
+	"recovery_expires_at" timestamp with time zone,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
+	CONSTRAINT "users_email_unique" UNIQUE("email")
+);
+--> statement-breakpoint
 CREATE TABLE "work_schedule_days" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"schedule_id" uuid NOT NULL,
@@ -442,12 +568,6 @@ CREATE TABLE "work_schedules" (
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-ALTER TABLE "users" ALTER COLUMN "role" SET DEFAULT 'employee';--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "organization_id" uuid NOT NULL;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "last_login_at" timestamp with time zone;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "must_change_password" boolean DEFAULT false NOT NULL;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "failed_login_attempts" integer DEFAULT 0 NOT NULL;--> statement-breakpoint
-ALTER TABLE "users" ADD COLUMN "locked_until" timestamp with time zone;--> statement-breakpoint
 ALTER TABLE "attendance_adjustments" ADD CONSTRAINT "attendance_adjustments_attendance_record_id_attendance_records_id_fk" FOREIGN KEY ("attendance_record_id") REFERENCES "public"."attendance_records"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "attendance_adjustments" ADD CONSTRAINT "attendance_adjustments_requested_by_users_id_fk" FOREIGN KEY ("requested_by") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "attendance_adjustments" ADD CONSTRAINT "attendance_adjustments_approved_by_users_id_fk" FOREIGN KEY ("approved_by") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
@@ -456,6 +576,10 @@ ALTER TABLE "attendance_sessions" ADD CONSTRAINT "attendance_sessions_attendance
 ALTER TABLE "audit_logs" ADD CONSTRAINT "audit_logs_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "audit_logs" ADD CONSTRAINT "audit_logs_actor_user_id_users_id_fk" FOREIGN KEY ("actor_user_id") REFERENCES "public"."users"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "certifications" ADD CONSTRAINT "certifications_employee_id_employees_id_fk" FOREIGN KEY ("employee_id") REFERENCES "public"."employees"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "chats" ADD CONSTRAINT "chats_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "chunks" ADD CONSTRAINT "chunks_file_id_files_id_fk" FOREIGN KEY ("file_id") REFERENCES "public"."files"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "chunks" ADD CONSTRAINT "chunks_chat_id_chats_id_fk" FOREIGN KEY ("chat_id") REFERENCES "public"."chats"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "chunks" ADD CONSTRAINT "chunks_rag_file_id_rag_files_id_fk" FOREIGN KEY ("rag_file_id") REFERENCES "public"."rag_files"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "departments" ADD CONSTRAINT "departments_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "employee_bank_accounts" ADD CONSTRAINT "employee_bank_accounts_employee_id_employees_id_fk" FOREIGN KEY ("employee_id") REFERENCES "public"."employees"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "employee_code_sequences" ADD CONSTRAINT "employee_code_sequences_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
@@ -473,6 +597,8 @@ ALTER TABLE "employees" ADD CONSTRAINT "employees_department_id_departments_id_f
 ALTER TABLE "employees" ADD CONSTRAINT "employees_job_position_id_job_positions_id_fk" FOREIGN KEY ("job_position_id") REFERENCES "public"."job_positions"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "employees" ADD CONSTRAINT "employees_manager_id_employees_id_fk" FOREIGN KEY ("manager_id") REFERENCES "public"."employees"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "employees" ADD CONSTRAINT "employees_location_id_locations_id_fk" FOREIGN KEY ("location_id") REFERENCES "public"."locations"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "files" ADD CONSTRAINT "files_message_id_messages_id_fk" FOREIGN KEY ("message_id") REFERENCES "public"."messages"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "files" ADD CONSTRAINT "files_uploaded_by_users_id_fk" FOREIGN KEY ("uploaded_by") REFERENCES "public"."users"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "holidays" ADD CONSTRAINT "holidays_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "job_positions" ADD CONSTRAINT "job_positions_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "leave_allocations" ADD CONSTRAINT "leave_allocations_employee_id_employees_id_fk" FOREIGN KEY ("employee_id") REFERENCES "public"."employees"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
@@ -486,6 +612,7 @@ ALTER TABLE "leave_requests" ADD CONSTRAINT "leave_requests_approved_by_users_id
 ALTER TABLE "leave_requests" ADD CONSTRAINT "leave_requests_rejected_by_users_id_fk" FOREIGN KEY ("rejected_by") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "leave_types" ADD CONSTRAINT "leave_types_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "locations" ADD CONSTRAINT "locations_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "messages" ADD CONSTRAINT "messages_chat_id_chats_id_fk" FOREIGN KEY ("chat_id") REFERENCES "public"."chats"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "notifications" ADD CONSTRAINT "notifications_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "payroll_periods" ADD CONSTRAINT "payroll_periods_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "payroll_periods" ADD CONSTRAINT "payroll_periods_created_by_users_id_fk" FOREIGN KEY ("created_by") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
@@ -495,12 +622,14 @@ ALTER TABLE "payslip_lines" ADD CONSTRAINT "payslip_lines_payslip_id_payslips_id
 ALTER TABLE "payslips" ADD CONSTRAINT "payslips_payroll_period_id_payroll_periods_id_fk" FOREIGN KEY ("payroll_period_id") REFERENCES "public"."payroll_periods"("id") ON DELETE restrict ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "payslips" ADD CONSTRAINT "payslips_employee_id_employees_id_fk" FOREIGN KEY ("employee_id") REFERENCES "public"."employees"("id") ON DELETE restrict ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "payslips" ADD CONSTRAINT "payslips_salary_structure_id_salary_structures_id_fk" FOREIGN KEY ("salary_structure_id") REFERENCES "public"."salary_structures"("id") ON DELETE restrict ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "rag_files" ADD CONSTRAINT "rag_files_uploaded_by_users_id_fk" FOREIGN KEY ("uploaded_by") REFERENCES "public"."users"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "salary_component_definitions" ADD CONSTRAINT "salary_component_definitions_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "salary_structure_components" ADD CONSTRAINT "salary_structure_components_salary_structure_id_salary_structures_id_fk" FOREIGN KEY ("salary_structure_id") REFERENCES "public"."salary_structures"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "salary_structure_components" ADD CONSTRAINT "salary_structure_components_component_definition_id_salary_component_definitions_id_fk" FOREIGN KEY ("component_definition_id") REFERENCES "public"."salary_component_definitions"("id") ON DELETE restrict ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "salary_structures" ADD CONSTRAINT "salary_structures_employee_id_employees_id_fk" FOREIGN KEY ("employee_id") REFERENCES "public"."employees"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "salary_structures" ADD CONSTRAINT "salary_structures_created_by_users_id_fk" FOREIGN KEY ("created_by") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "skills" ADD CONSTRAINT "skills_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "users" ADD CONSTRAINT "users_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "work_schedule_days" ADD CONSTRAINT "work_schedule_days_schedule_id_work_schedules_id_fk" FOREIGN KEY ("schedule_id") REFERENCES "public"."work_schedules"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "work_schedules" ADD CONSTRAINT "work_schedules_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 CREATE INDEX "adjustments_record_idx" ON "attendance_adjustments" USING btree ("attendance_record_id");--> statement-breakpoint
@@ -513,6 +642,11 @@ CREATE INDEX "audit_entity_idx" ON "audit_logs" USING btree ("entity_type","enti
 CREATE INDEX "audit_actor_idx" ON "audit_logs" USING btree ("actor_user_id","created_at");--> statement-breakpoint
 CREATE INDEX "audit_org_created_idx" ON "audit_logs" USING btree ("organization_id","created_at");--> statement-breakpoint
 CREATE INDEX "certifications_emp_idx" ON "certifications" USING btree ("employee_id");--> statement-breakpoint
+CREATE INDEX "chats_user_id_idx" ON "chats" USING btree ("user_id");--> statement-breakpoint
+CREATE INDEX "chats_guest_id_idx" ON "chats" USING btree ("guest_id");--> statement-breakpoint
+CREATE INDEX "chunks_file_id_idx" ON "chunks" USING btree ("file_id");--> statement-breakpoint
+CREATE INDEX "chunks_chat_id_idx" ON "chunks" USING btree ("chat_id");--> statement-breakpoint
+CREATE INDEX "chunks_rag_file_id_idx" ON "chunks" USING btree ("rag_file_id");--> statement-breakpoint
 CREATE UNIQUE INDEX "dept_org_code_idx" ON "departments" USING btree ("organization_id","code");--> statement-breakpoint
 CREATE INDEX "departments_org_idx" ON "departments" USING btree ("organization_id");--> statement-breakpoint
 CREATE INDEX "bank_accounts_emp_idx" ON "employee_bank_accounts" USING btree ("employee_id");--> statement-breakpoint
@@ -528,6 +662,8 @@ CREATE INDEX "employees_manager_idx" ON "employees" USING btree ("manager_id");-
 CREATE INDEX "employees_status_idx" ON "employees" USING btree ("organization_id","employment_status");--> statement-breakpoint
 CREATE INDEX "employees_joining_idx" ON "employees" USING btree ("organization_id","joining_date");--> statement-breakpoint
 CREATE INDEX "employees_user_idx" ON "employees" USING btree ("user_id");--> statement-breakpoint
+CREATE INDEX "files_message_id_idx" ON "files" USING btree ("message_id");--> statement-breakpoint
+CREATE INDEX "files_uploaded_by_idx" ON "files" USING btree ("uploaded_by");--> statement-breakpoint
 CREATE UNIQUE INDEX "holidays_org_date_idx" ON "holidays" USING btree ("organization_id","holiday_date");--> statement-breakpoint
 CREATE INDEX "job_positions_org_idx" ON "job_positions" USING btree ("organization_id");--> statement-breakpoint
 CREATE INDEX "leave_allocations_emp_type_idx" ON "leave_allocations" USING btree ("employee_id","leave_type_id");--> statement-breakpoint
@@ -539,9 +675,12 @@ CREATE INDEX "leave_requests_dates_idx" ON "leave_requests" USING btree ("start_
 CREATE INDEX "leave_requests_pending_idx" ON "leave_requests" USING btree ("employee_id") WHERE "leave_requests"."status" = $1;--> statement-breakpoint
 CREATE UNIQUE INDEX "leave_types_org_code_idx" ON "leave_types" USING btree ("organization_id","code");--> statement-breakpoint
 CREATE INDEX "locations_org_idx" ON "locations" USING btree ("organization_id");--> statement-breakpoint
+CREATE INDEX "messages_chat_id_idx" ON "messages" USING btree ("chat_id");--> statement-breakpoint
 CREATE INDEX "notifications_user_unread_idx" ON "notifications" USING btree ("user_id","is_read") WHERE "notifications"."is_read" = $1;--> statement-breakpoint
 CREATE INDEX "notifications_user_created_idx" ON "notifications" USING btree ("user_id","created_at");--> statement-breakpoint
 CREATE INDEX "orgs_code_idx" ON "organizations" USING btree ("code");--> statement-breakpoint
+CREATE INDEX "payments_order_id_idx" ON "payments" USING btree ("order_id");--> statement-breakpoint
+CREATE INDEX "payments_payment_id_idx" ON "payments" USING btree ("payment_id");--> statement-breakpoint
 CREATE UNIQUE INDEX "payroll_period_org_period_idx" ON "payroll_periods" USING btree ("organization_id","period_start","period_end");--> statement-breakpoint
 CREATE INDEX "payroll_periods_org_status_idx" ON "payroll_periods" USING btree ("organization_id","status");--> statement-breakpoint
 CREATE INDEX "payslip_lines_payslip_idx" ON "payslip_lines" USING btree ("payslip_id");--> statement-breakpoint
@@ -554,8 +693,12 @@ CREATE UNIQUE INDEX "structure_component_idx" ON "salary_structure_components" U
 CREATE INDEX "salary_structures_emp_active_idx" ON "salary_structures" USING btree ("employee_id") WHERE "salary_structures"."status" = $1;--> statement-breakpoint
 CREATE INDEX "salary_structures_emp_effective_idx" ON "salary_structures" USING btree ("employee_id","effective_from");--> statement-breakpoint
 CREATE UNIQUE INDEX "skills_org_name_idx" ON "skills" USING btree ("organization_id","name");--> statement-breakpoint
-CREATE UNIQUE INDEX "schedule_day_idx" ON "work_schedule_days" USING btree ("schedule_id","weekday");--> statement-breakpoint
-CREATE INDEX "work_schedules_org_idx" ON "work_schedules" USING btree ("organization_id");--> statement-breakpoint
-ALTER TABLE "users" ADD CONSTRAINT "users_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+CREATE INDEX "users_email_idx" ON "users" USING btree ("email");--> statement-breakpoint
 CREATE INDEX "users_org_idx" ON "users" USING btree ("organization_id");--> statement-breakpoint
-CREATE INDEX "users_org_active_idx" ON "users" USING btree ("organization_id","is_active") WHERE "users"."is_deleted" = $1;
+CREATE INDEX "users_role_idx" ON "users" USING btree ("role");--> statement-breakpoint
+CREATE INDEX "users_is_deleted_idx" ON "users" USING btree ("is_deleted");--> statement-breakpoint
+CREATE INDEX "users_deleted_at_idx" ON "users" USING btree ("deleted_at");--> statement-breakpoint
+CREATE INDEX "users_recovery_expires_at_idx" ON "users" USING btree ("recovery_expires_at");--> statement-breakpoint
+CREATE INDEX "users_org_active_idx" ON "users" USING btree ("organization_id","is_active") WHERE "users"."is_deleted" = $1;--> statement-breakpoint
+CREATE UNIQUE INDEX "schedule_day_idx" ON "work_schedule_days" USING btree ("schedule_id","weekday");--> statement-breakpoint
+CREATE INDEX "work_schedules_org_idx" ON "work_schedules" USING btree ("organization_id");

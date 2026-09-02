@@ -15,16 +15,16 @@
 | `PATCH`  | `/api/profile/me/private-info`                                                                       | Update Private Info (Success)                     | `200`  |
 | `POST`   | `/api/profile/me/documents`                                                                          | Upload Self-Service Document (Success)            | `201`  |
 | `GET`    | `/api/profile/me/documents`                                                                          | List My Documents (Success)                       | `200`  |
-| `DELETE` | `/api/profile/me/documents/13ca2d10-3051-48d1-bd2f-14cc2603b583`                                     | Delete My Document (Success)                      | `200`  |
-| `GET`    | `/api/employees/39376795-fa80-4d76-82de-ce690af01c31/profile`                                        | Get Employee Profile (Admin)                      | `200`  |
-| `PATCH`  | `/api/employees/39376795-fa80-4d76-82de-ce690af01c31/profile`                                        | Update Employee Profile (Admin)                   | `200`  |
-| `GET`    | `/api/employees/39376795-fa80-4d76-82de-ce690af01c31/private-info`                                   | Get Employee Private Info (Admin)                 | `200`  |
-| `PATCH`  | `/api/employees/39376795-fa80-4d76-82de-ce690af01c31/private-info`                                   | Update Employee Private Info (Admin)              | `200`  |
-| `PATCH`  | `/api/employees/39376795-fa80-4d76-82de-ce690af01c31/bank-account`                                   | Update Employee Bank Details (Admin)              | `200`  |
-| `PATCH`  | `/api/employees/39376795-fa80-4d76-82de-ce690af01c31/identifiers`                                    | Update Employee Identifiers (Admin)               | `200`  |
-| `POST`   | `/api/employees/39376795-fa80-4d76-82de-ce690af01c31/documents`                                      | Upload Document for Employee (Admin)              | `201`  |
-| `GET`    | `/api/employees/39376795-fa80-4d76-82de-ce690af01c31/documents`                                      | List Employee Documents (Admin)                   | `200`  |
-| `DELETE` | `/api/employees/39376795-fa80-4d76-82de-ce690af01c31/documents/4706977c-93c5-429d-a139-060e7daaaa23` | Delete Employee Document (Admin)                  | `200`  |
+| `DELETE` | `/api/profile/me/documents/216dcd43-9cf1-41af-9936-7c9d31195053`                                     | Delete My Document (Success)                      | `200`  |
+| `GET`    | `/api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/profile`                                        | Get Employee Profile (Admin)                      | `200`  |
+| `PATCH`  | `/api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/profile`                                        | Update Employee Profile (Admin)                   | `200`  |
+| `GET`    | `/api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/private-info`                                   | Get Employee Private Info (Admin)                 | `200`  |
+| `PATCH`  | `/api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/private-info`                                   | Update Employee Private Info (Admin)              | `200`  |
+| `PATCH`  | `/api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/bank-account`                                   | Update Employee Bank Details (Admin)              | `200`  |
+| `PATCH`  | `/api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/identifiers`                                    | Update Employee Identifiers (Admin)               | `200`  |
+| `POST`   | `/api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/documents`                                      | Upload Document for Employee (Admin)              | `201`  |
+| `GET`    | `/api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/documents`                                      | List Employee Documents (Admin)                   | `200`  |
+| `DELETE` | `/api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/documents/637e65f9-6c24-480e-bb4f-5789ae744d41` | Delete Employee Document (Admin)                  | `200`  |
 
 ---
 
@@ -51,14 +51,14 @@
   "error": null,
   "data": {
     "header": {
-      "id": "39376795-fa80-4d76-82de-ce690af01c31",
-      "employeeCode": "TESTBOJO20260034",
+      "id": "0343b7f2-66ce-42c6-a926-32adfc3a5222",
+      "employeeCode": "TESTBOJO20260115",
       "firstName": "Bob",
       "lastName": "Johnson",
       "displayName": "Bob Johnson",
       "phone": "9888877770",
-      "workEmail": "bob.johnson4@testorg.dayflow.com",
-      "userEmail": "bob.johnson4@testorg.dayflow.com",
+      "workEmail": "bob.johnson15@testorg.dayflow.com",
+      "userEmail": "bob.johnson15@testorg.dayflow.com",
       "userProfileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg",
       "departmentName": null,
       "jobPositionName": null,
@@ -112,9 +112,9 @@
   "error": null,
   "data": {
     "employee": {
-      "id": "39376795-fa80-4d76-82de-ce690af01c31",
+      "id": "0343b7f2-66ce-42c6-a926-32adfc3a5222",
       "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-      "employeeCode": "TESTBOJO20260034",
+      "employeeCode": "TESTBOJO20260115",
       "firstName": "Bob",
       "middleName": null,
       "lastName": "Johnson",
@@ -122,7 +122,7 @@
       "dateOfBirth": null,
       "gender": null,
       "phone": "9999911111",
-      "workEmail": "bob.johnson4@testorg.dayflow.com",
+      "workEmail": "bob.johnson15@testorg.dayflow.com",
       "departmentId": null,
       "jobPositionId": null,
       "managerId": null,
@@ -131,9 +131,9 @@
       "terminationDate": null,
       "employmentStatus": "active",
       "employmentType": "full_time",
-      "userId": "7e674240-6017-498c-b648-a781185f9669",
-      "createdAt": "2026-08-30T10:27:44.497Z",
-      "updatedAt": "2026-08-30T10:27:52.582Z"
+      "userId": "61f0695f-2f05-4902-8867-82a0978b4e22",
+      "createdAt": "2026-08-30T17:18:11.190Z",
+      "updatedAt": "2026-08-30T17:18:50.237Z"
     }
   }
 }
@@ -206,14 +206,14 @@
   "success": true,
   "error": null,
   "data": {
-    "imageUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/avatar_5TDrTWjJn.png",
+    "imageUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/avatar_jW1CouPNL.png",
     "user": {
-      "id": "7e674240-6017-498c-b648-a781185f9669",
+      "id": "61f0695f-2f05-4902-8867-82a0978b4e22",
       "firstName": "Bob",
       "lastName": "Johnson",
-      "email": "bob.johnson4@testorg.dayflow.com",
+      "email": "bob.johnson15@testorg.dayflow.com",
       "role": "employee",
-      "profileImage": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/avatar_5TDrTWjJn.png",
+      "profileImage": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/avatar_jW1CouPNL.png",
       "isActive": true
     }
   }
@@ -246,10 +246,10 @@
   "data": {
     "imageUrl": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg",
     "user": {
-      "id": "7e674240-6017-498c-b648-a781185f9669",
+      "id": "61f0695f-2f05-4902-8867-82a0978b4e22",
       "firstName": "Bob",
       "lastName": "Johnson",
-      "email": "bob.johnson4@testorg.dayflow.com",
+      "email": "bob.johnson15@testorg.dayflow.com",
       "role": "employee",
       "profileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg",
       "isActive": true
@@ -283,7 +283,7 @@
   "error": null,
   "data": {
     "residentialAddress": null,
-    "personalEmail": "bob_1788085662759@personal.com",
+    "personalEmail": "bob_1788110287350@personal.com",
     "nationality": null,
     "maritalStatus": null,
     "emergencyContactName": null,
@@ -330,15 +330,15 @@
   "success": true,
   "error": null,
   "data": {
-    "employeeId": "39376795-fa80-4d76-82de-ce690af01c31",
+    "employeeId": "0343b7f2-66ce-42c6-a926-32adfc3a5222",
     "residentialAddress": "123 Tech Park Road, Bengaluru",
     "personalEmail": null,
     "nationality": null,
     "maritalStatus": null,
     "emergencyContactName": "Jane Johnson",
     "emergencyContactPhone": "9888877771",
-    "createdAt": "2026-08-30T10:27:59.992Z",
-    "updatedAt": "2026-08-30T10:27:59.992Z"
+    "createdAt": "2026-08-30T17:19:05.515Z",
+    "updatedAt": "2026-08-30T17:19:05.515Z"
   }
 }
 ```
@@ -379,15 +379,15 @@
   "error": null,
   "data": {
     "document": {
-      "id": "13ca2d10-3051-48d1-bd2f-14cc2603b583",
-      "employeeId": "39376795-fa80-4d76-82de-ce690af01c31",
+      "id": "216dcd43-9cf1-41af-9936-7c9d31195053",
+      "employeeId": "0343b7f2-66ce-42c6-a926-32adfc3a5222",
       "documentType": "pan_card",
       "fileName": "National Identity Proof",
-      "fileUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/id_proof_k2Pp_jWmA.pdf",
+      "fileUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/id_proof_1snUdSQMw.pdf",
       "mimeType": "application/pdf",
       "fileSize": 33,
-      "uploadedBy": "7e674240-6017-498c-b648-a781185f9669",
-      "createdAt": "2026-08-30T10:28:02.402Z"
+      "uploadedBy": "61f0695f-2f05-4902-8867-82a0978b4e22",
+      "createdAt": "2026-08-30T17:19:09.147Z"
     }
   }
 }
@@ -419,15 +419,15 @@
   "data": {
     "documents": [
       {
-        "id": "13ca2d10-3051-48d1-bd2f-14cc2603b583",
-        "employeeId": "39376795-fa80-4d76-82de-ce690af01c31",
+        "id": "216dcd43-9cf1-41af-9936-7c9d31195053",
+        "employeeId": "0343b7f2-66ce-42c6-a926-32adfc3a5222",
         "documentType": "pan_card",
         "fileName": "National Identity Proof",
-        "fileUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/id_proof_k2Pp_jWmA.pdf",
+        "fileUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/id_proof_1snUdSQMw.pdf",
         "mimeType": "application/pdf",
         "fileSize": 33,
-        "uploadedBy": "7e674240-6017-498c-b648-a781185f9669",
-        "createdAt": "2026-08-30T10:28:02.402Z"
+        "uploadedBy": "61f0695f-2f05-4902-8867-82a0978b4e22",
+        "createdAt": "2026-08-30T17:19:09.147Z"
       }
     ]
   }
@@ -440,7 +440,7 @@
 
 ### 10. Delete My Document (Success)
 
-- **Endpoint**: `DELETE /api/profile/me/documents/13ca2d10-3051-48d1-bd2f-14cc2603b583`
+- **Endpoint**: `DELETE /api/profile/me/documents/216dcd43-9cf1-41af-9936-7c9d31195053`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -466,7 +466,7 @@
 
 ### 11. Get Employee Profile (Admin)
 
-- **Endpoint**: `GET /api/employees/39376795-fa80-4d76-82de-ce690af01c31/profile`
+- **Endpoint**: `GET /api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/profile`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -485,14 +485,14 @@
   "error": null,
   "data": {
     "header": {
-      "id": "39376795-fa80-4d76-82de-ce690af01c31",
-      "employeeCode": "TESTBOJO20260034",
+      "id": "0343b7f2-66ce-42c6-a926-32adfc3a5222",
+      "employeeCode": "TESTBOJO20260115",
       "firstName": "Bob",
       "lastName": "Johnson",
       "displayName": "Bob Johnson",
-      "workEmail": "bob.johnson4@testorg.dayflow.com",
+      "workEmail": "bob.johnson15@testorg.dayflow.com",
       "phone": "9999911111",
-      "userEmail": "bob.johnson4@testorg.dayflow.com",
+      "userEmail": "bob.johnson15@testorg.dayflow.com",
       "userProfileImage": "https://ik.imagekit.io/2bzzjhgkg/defaul_profile_image.jpeg",
       "departmentName": null,
       "jobPositionName": null,
@@ -519,7 +519,7 @@
 
 ### 12. Update Employee Profile (Admin)
 
-- **Endpoint**: `PATCH /api/employees/39376795-fa80-4d76-82de-ce690af01c31/profile`
+- **Endpoint**: `PATCH /api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/profile`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -546,9 +546,9 @@
   "error": null,
   "data": {
     "employee": {
-      "id": "39376795-fa80-4d76-82de-ce690af01c31",
+      "id": "0343b7f2-66ce-42c6-a926-32adfc3a5222",
       "organizationId": "144f96a2-86b3-422d-88b1-9fd2a825e9e1",
-      "employeeCode": "TESTBOJO20260034",
+      "employeeCode": "TESTBOJO20260115",
       "firstName": "Bob",
       "middleName": null,
       "lastName": "Johnson",
@@ -556,7 +556,7 @@
       "dateOfBirth": null,
       "gender": null,
       "phone": "9999911111",
-      "workEmail": "bob.johnson4@testorg.dayflow.com",
+      "workEmail": "bob.johnson15@testorg.dayflow.com",
       "departmentId": null,
       "jobPositionId": null,
       "managerId": null,
@@ -565,9 +565,9 @@
       "terminationDate": null,
       "employmentStatus": "active",
       "employmentType": "full_time",
-      "userId": "7e674240-6017-498c-b648-a781185f9669",
-      "createdAt": "2026-08-30T10:27:44.497Z",
-      "updatedAt": "2026-08-30T10:28:06.912Z"
+      "userId": "61f0695f-2f05-4902-8867-82a0978b4e22",
+      "createdAt": "2026-08-30T17:18:11.190Z",
+      "updatedAt": "2026-08-30T17:19:15.425Z"
     }
   }
 }
@@ -579,7 +579,7 @@
 
 ### 13. Get Employee Private Info (Admin)
 
-- **Endpoint**: `GET /api/employees/39376795-fa80-4d76-82de-ce690af01c31/private-info`
+- **Endpoint**: `GET /api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/private-info`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -617,7 +617,7 @@
 
 ### 14. Update Employee Private Info (Admin)
 
-- **Endpoint**: `PATCH /api/employees/39376795-fa80-4d76-82de-ce690af01c31/private-info`
+- **Endpoint**: `PATCH /api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/private-info`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -644,15 +644,15 @@
   "success": true,
   "error": null,
   "data": {
-    "employeeId": "39376795-fa80-4d76-82de-ce690af01c31",
+    "employeeId": "0343b7f2-66ce-42c6-a926-32adfc3a5222",
     "residentialAddress": null,
     "personalEmail": null,
     "nationality": "Indian",
     "maritalStatus": "single",
     "emergencyContactName": null,
     "emergencyContactPhone": null,
-    "createdAt": "2026-08-30T10:28:09.082Z",
-    "updatedAt": "2026-08-30T10:28:09.082Z"
+    "createdAt": "2026-08-30T17:19:23.366Z",
+    "updatedAt": "2026-08-30T17:19:23.366Z"
   }
 }
 ```
@@ -663,7 +663,7 @@
 
 ### 15. Update Employee Bank Details (Admin)
 
-- **Endpoint**: `PATCH /api/employees/39376795-fa80-4d76-82de-ce690af01c31/bank-account`
+- **Endpoint**: `PATCH /api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/bank-account`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -692,8 +692,8 @@
   "success": true,
   "error": null,
   "data": {
-    "id": "f0c70e89-3bf8-40e3-863b-73729cf2445d",
-    "employeeId": "39376795-fa80-4d76-82de-ce690af01c31",
+    "id": "0408f166-ed8d-4614-8010-b05401e394a5",
+    "employeeId": "0343b7f2-66ce-42c6-a926-32adfc3a5222",
     "accountHolderName": "Bob Johnson",
     "accountNumberEncrypted": {
       "type": "Buffer",
@@ -702,8 +702,8 @@
     "bankName": "HDFC Bank",
     "ifscCode": "HDFC0001234",
     "isPrimary": false,
-    "createdAt": "2026-08-30T10:28:09.922Z",
-    "updatedAt": "2026-08-30T10:28:09.922Z"
+    "createdAt": "2026-08-30T17:19:25.621Z",
+    "updatedAt": "2026-08-30T17:19:25.621Z"
   }
 }
 ```
@@ -714,7 +714,7 @@
 
 ### 16. Update Employee Identifiers (Admin)
 
-- **Endpoint**: `PATCH /api/employees/39376795-fa80-4d76-82de-ce690af01c31/identifiers`
+- **Endpoint**: `PATCH /api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/identifiers`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -742,7 +742,7 @@
   "success": true,
   "error": null,
   "data": {
-    "employeeId": "39376795-fa80-4d76-82de-ce690af01c31",
+    "employeeId": "0343b7f2-66ce-42c6-a926-32adfc3a5222",
     "panEncrypted": {
       "type": "Buffer",
       "data": [65, 66, 67, 68, 69, 49, 50, 51, 52, 70]
@@ -755,8 +755,8 @@
       "type": "Buffer",
       "data": [49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 49, 50]
     },
-    "createdAt": "2026-08-30T10:28:11.122Z",
-    "updatedAt": "2026-08-30T10:28:11.122Z"
+    "createdAt": "2026-08-30T17:19:26.883Z",
+    "updatedAt": "2026-08-30T17:19:26.883Z"
   }
 }
 ```
@@ -767,7 +767,7 @@
 
 ### 17. Upload Document for Employee (Admin)
 
-- **Endpoint**: `POST /api/employees/39376795-fa80-4d76-82de-ce690af01c31/documents`
+- **Endpoint**: `POST /api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/documents`
 - **Expected Status**: `201`
 - **Headers**:
 
@@ -797,15 +797,15 @@
   "error": null,
   "data": {
     "document": {
-      "id": "4706977c-93c5-429d-a139-060e7daaaa23",
-      "employeeId": "39376795-fa80-4d76-82de-ce690af01c31",
+      "id": "637e65f9-6c24-480e-bb4f-5789ae744d41",
+      "employeeId": "0343b7f2-66ce-42c6-a926-32adfc3a5222",
       "documentType": "offer_letter",
       "fileName": "Employment Contract 2026",
-      "fileUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/contract_sjGWJ_NjS.pdf",
+      "fileUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/contract_lnHelWWPK.pdf",
       "mimeType": "application/pdf",
       "fileSize": 39,
-      "uploadedBy": "41c7a1de-5ec7-4eee-b512-2f428658f8fd",
-      "createdAt": "2026-08-30T10:28:13.408Z"
+      "uploadedBy": "61f1c6f0-f93b-47bd-8396-e93f07872298",
+      "createdAt": "2026-08-30T17:19:30.786Z"
     }
   }
 }
@@ -817,7 +817,7 @@
 
 ### 18. List Employee Documents (Admin)
 
-- **Endpoint**: `GET /api/employees/39376795-fa80-4d76-82de-ce690af01c31/documents`
+- **Endpoint**: `GET /api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/documents`
 - **Expected Status**: `200`
 - **Headers**:
 
@@ -837,15 +837,15 @@
   "data": {
     "documents": [
       {
-        "id": "4706977c-93c5-429d-a139-060e7daaaa23",
-        "employeeId": "39376795-fa80-4d76-82de-ce690af01c31",
+        "id": "637e65f9-6c24-480e-bb4f-5789ae744d41",
+        "employeeId": "0343b7f2-66ce-42c6-a926-32adfc3a5222",
         "documentType": "offer_letter",
         "fileName": "Employment Contract 2026",
-        "fileUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/contract_sjGWJ_NjS.pdf",
+        "fileUrl": "https://ik.imagekit.io/2bzzjhgkg/hackathon/images/contract_lnHelWWPK.pdf",
         "mimeType": "application/pdf",
         "fileSize": 39,
-        "uploadedBy": "41c7a1de-5ec7-4eee-b512-2f428658f8fd",
-        "createdAt": "2026-08-30T10:28:13.408Z"
+        "uploadedBy": "61f1c6f0-f93b-47bd-8396-e93f07872298",
+        "createdAt": "2026-08-30T17:19:30.786Z"
       }
     ]
   }
@@ -858,7 +858,7 @@
 
 ### 19. Delete Employee Document (Admin)
 
-- **Endpoint**: `DELETE /api/employees/39376795-fa80-4d76-82de-ce690af01c31/documents/4706977c-93c5-429d-a139-060e7daaaa23`
+- **Endpoint**: `DELETE /api/employees/0343b7f2-66ce-42c6-a926-32adfc3a5222/documents/637e65f9-6c24-480e-bb4f-5789ae744d41`
 - **Expected Status**: `200`
 - **Headers**:
 

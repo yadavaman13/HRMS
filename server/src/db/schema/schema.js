@@ -44,6 +44,7 @@ import {
 } from './payroll.schema.js';
 import { notifications } from './notifications.schema.js';
 import { auditLogs } from './audit.schema.js';
+export * from './enums.js';
 
 export {
     users,
