@@ -52,7 +52,7 @@ If unsure → use tools, not reasoning.`;
  * Uses the high-capability 'gemma-4-31b-it' model.
  */
 const geminiModel = new ChatGoogle({
-    model: 'gemma-4-31b-it',
+    model: 'gemini-3.1-flash-lite',
     apiKey: envConfig.GEMINI_API_KEY,
     maxConcurrency: 3,
     thinkingConfig: {
@@ -234,10 +234,10 @@ const getHrmsSystemPrompt = (hrmsContext) => {
 3. If a tool returns FORBIDDEN, tell the user they lack access — do not retry.
 4. For employee role: data is always scoped to the authenticated employee's own records.
 
-## Mutation Confirmation
-- Always show the full preview (dates, leave type, days, balance impact) before confirming.
-- Ask explicitly: "Shall I submit this leave request?"
-- Only call confirmed=true after the user gives explicit approval.
+## Mutation Confirmation (CRITICAL)
+- Step 1 (Preview): Call create_leave_request with confirmed=false. Show the full preview details (dates, leave type, requested days, balance impact) and ask: "Shall I submit this leave request?"
+- Step 2 (Submit): When the user confirms (e.g. says "submit it", "yes", "proceed", "confirm", "okay", "go ahead"), IMMEDIATELY call create_leave_request with confirmed=true.
+- Do NOT generate a new preview when the user is simply approving the existing one. Call confirmed=true directly.
 
 ## Response Style
 - Be concise and data-focused. Format amounts in ₹.
